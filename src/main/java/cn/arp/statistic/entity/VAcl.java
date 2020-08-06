@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "V_STATISTIC_ACL")
+@Table(name = "V_TREND_ACL")
 public class VAcl {
 	@Id
 	@Column(name = "ID")

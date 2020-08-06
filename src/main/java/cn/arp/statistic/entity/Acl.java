@@ -12,7 +12,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "T_STATISTIC_ACL")
+@Table(name = "T_TREND_ACL")
 public class Acl {
 	@Id
 	@Column(name="ID")

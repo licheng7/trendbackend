@@ -28,7 +28,9 @@ public class AclServiceImpl implements AclService {
 	private AclDAO dao;
 	@Autowired
 	private VAclDAO vdao;
-
+	public AclServiceImpl(){
+		System.out.println("hello");
+	}
 	@Override
 	public List<VAcl> findAcls(String userId) {
 		return dao.findAcls(userId);

@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T_STATISTIC_ORG_AREA")
+@Table(name = "T_TREND_ORG_AREA")
 public class OrgnizationArea {
 	private static final String HEAD_QUARTER = "310111";
 	@Id

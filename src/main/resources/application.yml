@@ -1,8 +1,5 @@
 ---
-spring: 
-  elasticsearch: 
-    rest: 
-      uris: 172.17.0.107:9200
+spring:
   datasource:
     filter:
       slf4j:
@@ -22,10 +19,10 @@ spring:
           allow-multi-queries: true
           multi-statement-allow: true
           minus-allow: true
-    url: jdbc:mysql://172.17.0.104:3306/statistic?characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://172.17.0.104:3306/trend?characterEncoding=utf8&useSSL=false
     driverClassName: com.mysql.jdbc.Driver
-    username: mysql
-    password: mysql
+    username: trendUser
+    password: trendpass
     minIdle: 1
     validationQuery: SELECT 1 FROM DUAL
     initialSize: 1
@@ -51,8 +48,7 @@ spring:
       temp:
         use_jdbc_metadata_defaults: false
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-      hbm2ddl:
-        auto: validate
+      ddl-auto: update
       ejb:
         naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
       format_sql: false
@@ -62,24 +58,12 @@ spring:
 server:
   port: 9000
   servlet:
-    context-path: /statistic
+    context-path: /trend
 login:
   dispatch: http://dispatch.dev.arp.cn
   local: true
-  home: /stc
-  appname: stat
-zabbix_bridge: 
-  api: http://172.17.0.78:9000/zabbix/statistic
-  config: http://172.17.0.78:9000/zabbix/config
+  home: /trend
+  appname: trend
 system:
-   test: true
-data: 
-  elasticsearch: 
-    cluster-name: new-arp
-    cluster-nodes: 172.17.0.107:9200
-cloud:
-   server: http://192.168.60.170:8180/vm-collector/hostmanage
-   url:
-      host: /getHostPerfs?vcIp=192.168.60.160
-      storage: /getDatastorePerfs?vcIp=192.168.60.160
+   test: false
 
