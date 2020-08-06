@@ -1,0 +1,94 @@
+2020年6月2号
+update T_STATISTIC_API_REGISTER set init_type = 'app' where STAT_OID in ('hot_module_application','hot_app_application');
+
+update T_STATISTIC_API_REGISTER set init_type = 'normal' where STAT_OID not in ('hot_module_application','hot_app_application');
+
+2020年6月1日 更新按月抽取数据
+update T_STATISTIC_API_REGISTER set execute_cycle = '00 00 01 1 * ?' where api_sample_time = 'month'
+-----------------V 0.2-------------
+2020年5月25日 初始化api数据
+
+
+insert into T_STATISTIC_API_REGISTER (URL,API,API_SAMPLE_TIME,EXECUTE_CYCLE,RUN,MODULE,STAT_OID,ORGID,APP_KEY,APP_PASSWORD,DESCRIPTION) select URL,'/statistic' API,'day' API_SAMPLE_TIME,'0 0 0 * * ?' EXECUTE_CYCLE,'yes' RUN,'portal' MODULE,'num_email_portal' STAT_OID,ORGID,'test' APP_KEY,'admin' APP_PASSWORD,'邮件发送统计' DESCRIPTION from (select url,orgid from T_STATISTIC_API_REGISTER group by url,orgid) a;
+insert into T_STATISTIC_API_REGISTER (URL,API,API_SAMPLE_TIME,EXECUTE_CYCLE,RUN,MODULE,STAT_OID,ORGID,APP_KEY,APP_PASSWORD,DESCRIPTION) select URL,'/statistic' API,'month' API_SAMPLE_TIME,'0 0 1 1 * ?' EXECUTE_CYCLE,'yes' RUN,'portal' MODULE,'num_email_portal' STAT_OID,ORGID,'test' APP_KEY,'admin' APP_PASSWORD,'邮件发送统计' DESCRIPTION from (select url,orgid from T_STATISTIC_API_REGISTER group by url,orgid) a;
+insert into T_STATISTIC_API_REGISTER (URL,API,API_SAMPLE_TIME,EXECUTE_CYCLE,RUN,MODULE,STAT_OID,ORGID,APP_KEY,APP_PASSWORD,DESCRIPTION) select URL,'/statistic' API,'day' API_SAMPLE_TIME,'0 0 0 * * ?' EXECUTE_CYCLE,'yes' RUN,'portal' MODULE,'num_sms_portal' STAT_OID,ORGID,'test' APP_KEY,'admin' APP_PASSWORD,'短信发送统计' DESCRIPTION from (select url,orgid from T_STATISTIC_API_REGISTER group by url,orgid) a;
+insert into T_STATISTIC_API_REGISTER (URL,API,API_SAMPLE_TIME,EXECUTE_CYCLE,RUN,MODULE,STAT_OID,ORGID,APP_KEY,APP_PASSWORD,DESCRIPTION) select URL,'/statistic' API,'month' API_SAMPLE_TIME,'0 0 1 1 * ?' EXECUTE_CYCLE,'yes' RUN,'portal' MODULE,'num_sms_portal' STAT_OID,ORGID,'test' APP_KEY,'admin' APP_PASSWORD,'短信发送统计' DESCRIPTION from (select url,orgid from T_STATISTIC_API_REGISTER group by url,orgid) a;
+
+
+2020年5月22日
+*增加INIT_TYPE字段，用来区分热点应用和日常业务统计 app--热点应用，normal--日常应用统计
+alter table T_STATISTIC_API_REGISTER add INIT_TYPE varchar(100) not Null;
+
+update T_STATISTIC_API_REGISTER set init_type = 'app' where STAT_OID in ('hot_module_application','hot_app_application');
+
+update T_STATISTIC_API_REGISTER set init_type = 'normal' where STAT_OID not in ('hot_module_application','hot_app_application');
+
+2020年5月14日
+*增加模块应用统计
+CREATE TABLE `T_STATISTIC_APPLICATION_DATA` (
+  `ID` varchar(32) NOT NULL,
+  `ACCESS_TIMES` float DEFAULT NULL,
+  `MENU_LABEL` varchar(500) DEFAULT NULL,
+  `P_MENU_LABEL` varchar(500) DEFAULT NULL,
+  `SYSTEM_TYPE` varchar(100) DEFAULT NULL,
+  `MODULE_NAME` varchar(500) DEFAULT NULL,
+  `ACCESS_DATE` datetime DEFAULT NULL,
+  `ORGID` varchar(50) DEFAULT NULL,
+  `PERIOD` varchar(50) DEFAULT NULL,
+  `STAT_OID` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+初始化api数据
+insert into T_STATISTIC_API_REGISTER (URL,API,API_SAMPLE_TIME,EXECUTE_CYCLE,RUN,MODULE,STAT_OID,ORGID,APP_KEY,APP_PASSWORD,DESCRIPTION) select URL,'/statistic/hotapp/application' API,'day' API_SAMPLE_TIME,'0 0 0 * * ?' EXECUTE_CYCLE,'yes' RUN,'portal' MODULE,'hot_module_application' STAT_OID,ORGID,'test' APP_KEY,'admin' APP_PASSWORD,'热点应用统计' DESCRIPTION from (select url,orgid from T_STATISTIC_API_REGISTER group by url,orgid) a;
+insert into T_STATISTIC_API_REGISTER (URL,API,API_SAMPLE_TIME,EXECUTE_CYCLE,RUN,MODULE,STAT_OID,ORGID,APP_KEY,APP_PASSWORD,DESCRIPTION) select URL,'/statistic/hotapp/application' API,'month' API_SAMPLE_TIME,'0 0 1 1 * ?' EXECUTE_CYCLE,'yes' RUN,'portal' MODULE,'hot_module_application' STAT_OID,ORGID,'test' APP_KEY,'admin' APP_PASSWORD,'热点应用统计' DESCRIPTION from (select url,orgid from T_STATISTIC_API_REGISTER group by url,orgid) a;
+insert into T_STATISTIC_API_REGISTER (URL,API,API_SAMPLE_TIME,EXECUTE_CYCLE,RUN,MODULE,STAT_OID,ORGID,APP_KEY,APP_PASSWORD,DESCRIPTION) select URL,'/statistic/hotapp/application' API,'day' API_SAMPLE_TIME,'0 0 0 * * ?' EXECUTE_CYCLE,'yes' RUN,'portal' MODULE,'hot_app_application' STAT_OID,ORGID,'test' APP_KEY,'admin' APP_PASSWORD,'热点应用统计' DESCRIPTION from (select url,orgid from T_STATISTIC_API_REGISTER group by url,orgid) a;
+insert into T_STATISTIC_API_REGISTER (URL,API,API_SAMPLE_TIME,EXECUTE_CYCLE,RUN,MODULE,STAT_OID,ORGID,APP_KEY,APP_PASSWORD,DESCRIPTION) select URL,'/statistic/hotapp/application' API,'month' API_SAMPLE_TIME,'0 0 1 1 * ?' EXECUTE_CYCLE,'yes' RUN,'portal' MODULE,'hot_app_application' STAT_OID,ORGID,'test' APP_KEY,'admin' APP_PASSWORD,'热点应用统计' DESCRIPTION from (select url,orgid from T_STATISTIC_API_REGISTER group by url,orgid) a;
+
+
+2020年5月12日 xiejj@cnic.cn
+* 增加API维护时，可以对机构名称进行模糊搜索
+drop view V_STATISTIC_API_REGISTER;
+create  VIEW `V_STATISTIC_API_REGISTER` AS 
+select a.* , b.orgName as ORG_NAME from T_STATISTIC_API_REGISTER a , T_STATISTIC_ORG_AREA b where a.orgId=b.orgid;
+
+-----------------V 0.1-------------
+2020年5月6日 xiejj@cnic.cn
+* 增加发文类型统计
+INSERT INTO T_STATISTIC_API_REGISTER (
+	URL,
+	API,
+	API_SAMPLE_TIME,
+	EXECUTE_CYCLE,
+	RUN,
+	MODULE,
+	STAT_OID,
+	ORGID,
+	APP_KEY,
+	APP_PASSWORD
+) SELECT
+	URL,
+	'/statistic' API,
+	'month' API_SAMPLE_TIME,
+	'59 59 23 L * ?' EXECUTE_CYCLE,
+	'yes' RUN,
+	'od' MODULE,
+	'type_count_od' STAT_OID,
+	ORGID,
+	'test' APP_KEY,
+	'admin' APP_PASSWORD
+FROM
+	(
+		SELECT
+			URL,
+			ORGID
+		FROM
+			T_STATISTIC_API_REGISTER
+		GROUP BY
+			ORGID,
+			URL
+	) c;
+ 需重新初始化数据;
+ 
+ * 修改公文fw_year_od统计
+ update T_STATISTIC_API_REGISTER set API_SAMPLE_TIME = 'month',EXECUTE_CYCLE = '59 59 23 L * ?' where STAT_OID='fw_year_od' and API_SAMPLE_TIME='year'
