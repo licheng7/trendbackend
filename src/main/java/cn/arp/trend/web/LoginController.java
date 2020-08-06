@@ -5,7 +5,9 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.slf4j.Log4jLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,7 @@ import cn.vlabs.umt.oauth.UserInfo;
 @RestController
 @RequestMapping("/login")
 public class LoginController extends BaseController{
-	private Logger log = Logger.getLogger(LoginController.class);
+	private Logger log = LoggerFactory.getLogger(LoginController.class);
 	@Autowired
 	private DispatchClient client;
 	@Autowired
@@ -71,6 +73,7 @@ public class LoginController extends BaseController{
 			userInfo.setTrueName("Login by local");
 			auth.saveSession(request, userInfo);
 		}else{
+			log.error("已禁止本地登录，但收到了本地登录请求");
 			throw RestError.internalError("服务器禁止本地登录");
 		}
 	}

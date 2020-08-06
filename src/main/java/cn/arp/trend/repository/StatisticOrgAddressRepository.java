@@ -14,7 +14,7 @@ import cn.arp.trend.entity.StatisticOrgAddress;
 public interface StatisticOrgAddressRepository
 		extends JpaRepository<StatisticOrgAddress, String>, JpaSpecificationExecutor<StatisticOrgAddress> {
 
-	@Query(value = "select new cn.arp.statistic.data.model.DataModel(s.address as name,count(*) as value) from StatisticOrgAddress s group by s.address order by value desc")
+	@Query(value = "select new cn.arp.trend.data.model.DataModel(s.address as name,count(*) as value) from StatisticOrgAddress s group by s.address order by value desc")
 	public List<DataModel> getOrgAddressCount();
 
 }
