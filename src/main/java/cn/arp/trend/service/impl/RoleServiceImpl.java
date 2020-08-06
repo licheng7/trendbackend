@@ -22,6 +22,7 @@ import cn.arp.trend.entity.RoleMember;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.repository.RoleDAO;
 import cn.arp.trend.repository.RoleMemberDAO;
+import cn.arp.trend.service.EventService;
 import cn.arp.trend.service.RoleService;
 import cn.arp.trend.tools.PredicateBuilder;
 
@@ -31,6 +32,8 @@ public class RoleServiceImpl implements RoleService {
 	private RoleDAO dao;
 	@Autowired
 	private RoleMemberDAO members;
+	@Autowired
+	private EventService events;
 
 	@Override
 	public Role create(Role role) {
@@ -42,6 +45,7 @@ public class RoleServiceImpl implements RoleService {
 	public void delete(int roleId) {
 		dao.deleteById(roleId);
 		members.delelteByRoleId(roleId);
+		events.fireEvent("DeleteRole", roleId);
 	}
 
 	@Override
@@ -132,6 +136,7 @@ public class RoleServiceImpl implements RoleService {
 	public void deleteByIds(List<Integer> ids) {
 		dao.deleteByIds(ids);
 		members.delelteByRoleIds(ids);
+		events.fireEvent("DeleteRoles", ids);
 	}
 
 	@Override
