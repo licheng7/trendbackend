@@ -16,5 +16,7 @@ public interface MenuDAO extends JpaRepository<Menu, String>, JpaSpecificationEx
 	@Modifying
 	@Query("delete from Menu where id in ?1")
 	void deleteByIds(List<String> filtered);
+	@Query("from Menu where parentId =?1")
+	List<Menu> findByParentId(String menuId);
 
 }

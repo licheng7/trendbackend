@@ -1,5 +1,6 @@
 package cn.arp.trend.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.arp.trend.auth.RequirePermission;
+import cn.arp.trend.data.model.MenuTo;
 import cn.arp.trend.entity.Menu;
 import cn.arp.trend.service.MenuService;
 
@@ -24,25 +26,30 @@ public class MenuController extends BaseController {
 	private MenuService menus;
 	
 	@PostMapping
-	public Menu create(@RequestBody Menu menu) {
-		return menus.create(menu);
+	public Menu create(@RequestBody MenuTo menu) {
+		return menus.create(menu.toEntity());
 	}
 
+	@GetMapping
+	public List<MenuTo> findAll(){
+		return toMenuToList(menus.findAll());
+	}
 	@PutMapping("/{menuId}")
-	public void update(@PathVariable("menuId") String menuId, @RequestBody Menu menu) {
-		menus.update(menu);
+	public void update(@PathVariable("menuId") String menuId, @RequestBody MenuTo menu) {
+		menus.update(menu.toEntity());
 	}
 
 	@GetMapping("/{menuId}")
 	@RequirePermission
-	public Menu find(String menuId) {
-		return menus.find(menuId);
+	public MenuTo find(String menuId) {
+		return new MenuTo(menus.find(menuId));
 	}
 
 	@PostMapping(params = "m=get")
 	@RequirePermission
-	public List<Menu> find(@RequestBody List<String> menuIds) {
-		return menus.find(menuIds);
+	public List<MenuTo> find(@RequestBody List<String> menuIds) {
+		List<Menu> list = menus.find(menuIds);
+		return toMenuToList(list);
 	}
 
 	@DeleteMapping("/{menuId}")
@@ -57,7 +64,18 @@ public class MenuController extends BaseController {
 	
 	@GetMapping("/{menuId}/children")
 	@RequirePermission
-	public List<Menu> findChildren(@PathVariable("menuId")String menuId){
-		return menus.findChildren(menuId);
+	public List<MenuTo> findChildren(@PathVariable("menuId")String menuId){
+		return toMenuToList(menus.findChildren(menuId));
+	}
+	
+
+	private List<MenuTo> toMenuToList(List<Menu> list) {
+		List<MenuTo> result = new ArrayList<MenuTo>();
+		if (list!=null){
+			for (Menu m:list){
+				result.add(new MenuTo(m));
+			}
+		}
+		return result;
 	}
 }

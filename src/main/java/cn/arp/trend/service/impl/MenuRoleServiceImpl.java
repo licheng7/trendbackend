@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,7 @@ public class MenuRoleServiceImpl implements MenuRoleService {
 	}
 
 	@Override
+	@Transactional
 	public void updateMenuRoleMapping(Integer roleId, List<String> menuIds, String createUser) {
 		dao.deleteByRoleId(roleId);
 		List<MenuRoleRelation> list = new ArrayList<MenuRoleRelation>();

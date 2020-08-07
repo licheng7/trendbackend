@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import cn.arp.trend.entity.Menu;
@@ -44,9 +43,10 @@ public class MenuServiceImpl implements MenuService {
 		menu.setUpdateTime(now);
 		menu.setId(UUIDGenerator.generateId());
 		Optional<Menu> fatherMenu = menuDao.findById(menu.getParentId());
-		if (fatherMenu.isPresent()) {
+		if (!fatherMenu.isPresent()) {
 			throw new IllegalArgumentException("ParentMenu can't be found.");
 		}
+		menu.setMenuLevel(fatherMenu.get().getMenuLevel() + 1);
 		menu.setMenuSeq(fatherMenu.get().getMenuSeq() + "." + menu.getId());
 		return menuDao.save(menu);
 	}
@@ -60,6 +60,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
+	@Transactional
 	public void remove(String id) {
 		if (StringUtils.isNotEmpty(id)) {
 			menuDao.deleteById(id);
@@ -90,9 +91,12 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public List<Menu> findChildren(String menuId) {
 		assert menuId!=null && menuId.length()>0:"父菜单的ID不能为空";
-		Menu m = new Menu()	;
-		m.setParentId(menuId);
-		return menuDao.findAll(Example.of(m));
+		return menuDao.findByParentId(menuId);
+	}
+
+	@Override
+	public List<Menu> findAll() {
+		return menuDao.findAll();
 	}
 
 }

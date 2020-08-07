@@ -50,5 +50,10 @@ public interface MenuService {
 	 * @return
 	 */
 	List<Menu> findChildren(String menuId);
+	/**
+	 * 查找所有菜单项
+	 * @return
+	 */
+	List<Menu> findAll();
 	
 }

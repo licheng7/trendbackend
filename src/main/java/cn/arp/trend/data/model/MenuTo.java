@@ -1,68 +1,35 @@
-package cn.arp.trend.entity;
+package cn.arp.trend.data.model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import cn.arp.trend.entity.Menu;
 
-@Entity
-@Table(name = "T_TREND_MENU")
-/**
- * 菜单实体类： corpOrgId为空，表示是全局的菜单，不为空则是租户对应的菜单，租户只能修改本地的菜单。
- * 
- * @author xiejj@cnic.cn
- *
- */
-public class Menu {
-	@Id
-	@Column(name = "ID", length = 32)
+public class MenuTo {
 	private String id;
 
-	@Column(name = "MENU_URL", length = 2000)
 	private String menuUrl; // 菜单URL
 
-	@Column(name = "MENU_LABEL", length = 200)
 	private String menuLabel; // 菜单显示名称
 
-	@Column(name = "PARENT_ID", length = 32)
 	private String parentId; // 父menu_id，对于没有上级的，写-1
 
-	@Column(name = "ORDER_COLUMN", length = 200)
 	private int orderColumn; // 显示顺序，每一级的排序
 
-	@Column(name = "MENU_SEQ", length = 2000)
 	private String menuSeq; // 序列，格式类似“祖父menu_id.父menu_id.自己menu_id”，有多少父级就记录多少，如
 							// 111.222.333，对于没有父级的，即father_id=-1的，就写自己的
 
-	@Column(name = "memo", length = 200)
 	private String memo; // 备注
 
-	@Column(name = "CREATE_USERID", length = 32)
 	private String createUserId; // 创建人
 
-	@Column(name = "CREATE_TIME")
 	private Date createTime; // 创建时间
 
-	@Column(name = "UPDATE_TIME")
 	private Date updateTime; // 更新时间
 
-	@Column(name = "MENU_LEVEL", length = 32)
 	private int menuLevel; // 级别，从0开始
 	
-	@Lob // 大字段
-	@Basic(fetch = FetchType.LAZY) // 懒加载
-	@Column(name = "IMG", length = 1024 * 1024) // 1G
-	private byte[] img; // 桌面端图标 BLOB
-
-	public static final String PC_ROOT_ID = "0";
-	public static final String MOBILE_ROOT_ID = "1";
-
-	public static final String ROOT = "-1";
+	private String img; // 桌面端图标 BLOB
 
 	public String getId() {
 		return id;
@@ -144,11 +111,11 @@ public class Menu {
 		this.updateTime = updateTime;
 	}
 
-	public byte[] getImg() {
+	public String getImg() {
 		return img;
 	}
 
-	public void setImg(byte[] pcImg) {
+	public void setImg(String pcImg) {
 		this.img = pcImg;
 	}
 	public int getMenuLevel() {
@@ -157,5 +124,47 @@ public class Menu {
 
 	public void setMenuLevel(int menuLevel) {
 		this.menuLevel = menuLevel;
+	}
+	
+	public Menu toEntity(){
+		Menu menu = new Menu();
+		menu.setCreateTime(createTime);
+		menu.setCreateUserId(createUserId);
+		menu.setId(id);
+		try {
+			menu.setImg(img==null?null:img.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			//Do nothing
+		}
+		menu.setMemo(memo);
+		menu.setMenuLabel(menuLabel);
+		menu.setMenuLevel(menuLevel);
+		menu.setMenuSeq(menuSeq);
+		menu.setMenuUrl(menuUrl);
+		menu.setOrderColumn(orderColumn);
+		menu.setParentId(parentId);
+		menu.setUpdateTime(updateTime);
+		return menu;
+	}
+	public MenuTo(){
+		
+	}
+	public MenuTo(Menu menu) {
+		this.setId(menu.getId());
+		this.memo = menu.getMemo();
+		this.menuUrl = menu.getMenuUrl();
+		this.menuLabel = menu.getMenuLabel();
+		this.menuLevel = menu.getMenuLevel();
+		this.parentId = menu.getParentId();
+		this.orderColumn = menu.getOrderColumn();
+		this.menuSeq = menu.getMenuSeq();
+		this.createUserId = menu.getCreateUserId();
+		this.createTime = menu.getCreateTime();
+		this.updateTime = menu.getUpdateTime();
+		try {
+			this.img = menu.getImg() == null ? null : new String(menu.getImg(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 }
