@@ -64,7 +64,6 @@ public class RoleController extends BaseController {
 		t.setId(id);
 		Role r = roleService.findById(id);
 		if (r != null) {
-			checkExist(t);
 			return roleService.update(t);
 		} else {
 			throw RestError.badArgument("请求更新的角色未找到(id=" + id + ")");

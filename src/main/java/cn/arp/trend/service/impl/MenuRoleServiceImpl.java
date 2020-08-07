@@ -44,7 +44,7 @@ public class MenuRoleServiceImpl implements MenuRoleService {
 		events.addListener("DeleteRole", new EventListener() {
 			@Override
 			public void actionPerformed(Object param) {
-				dao.deleteByRoleId((String) param);
+				dao.deleteByRoleId((Integer) param);
 			}
 		});
 		events.addListener("DeleteRoles", new EventListener() {
@@ -57,7 +57,7 @@ public class MenuRoleServiceImpl implements MenuRoleService {
 	}
 
 	@Override
-	public void updateMenuRoleMapping(String roleId, List<String> menuIds, String createUser) {
+	public void updateMenuRoleMapping(Integer roleId, List<String> menuIds, String createUser) {
 		dao.deleteByRoleId(roleId);
 		List<MenuRoleRelation> list = new ArrayList<MenuRoleRelation>();
 		if (menuIds != null) {
@@ -75,8 +75,8 @@ public class MenuRoleServiceImpl implements MenuRoleService {
 	}
 
 	@Override
-	public List<Menu> findRoleMenus(List<String> roleIds) {
-		List<String> filtered = ParamUtils.filterNull(roleIds);
+	public List<Menu> findRoleMenus(List<Integer> roleIds) {
+		List<Integer> filtered = ParamUtils.filterNull(roleIds);
 		if (filtered!=null && filtered.size()>0){
 			return dao.findRoleMenus(filtered);
 		}else{
@@ -85,7 +85,7 @@ public class MenuRoleServiceImpl implements MenuRoleService {
 	}
 
 	@Override
-	public List<String> findRoleMenus(String roleId) {
+	public List<String> findRoleMenus(Integer roleId) {
 		assert roleId!=null : "输入的角色Id不能为空";
 		List<MenuRoleRelation> list = dao.findByRoleId(roleId);
 		ArrayList<String> menuIds = new ArrayList<String>();

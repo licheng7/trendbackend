@@ -22,13 +22,13 @@ public class MenuRoleController {
 	private MenuRoleService menuRoles;
 	
 	@GetMapping
-	public List<String> findAccessibleMenus(@PathVariable("roleId")String roleId){
+	public List<String> findAccessibleMenus(@PathVariable("roleId")Integer roleId){
 		return menuRoles.findRoleMenus(roleId);
 	}
 	
 	@PutMapping
 	@RequirePermission(roles="admin")
-	public void changeAccessibleMenus(@PathVariable("roleId")String roleId, @RequestBody List<String> menuIds){
+	public void changeAccessibleMenus(@PathVariable("roleId")Integer roleId, @RequestBody List<String> menuIds){
 		menuRoles.updateMenuRoleMapping(roleId, menuIds, CurrentSession.getUserId());
 	}
 }

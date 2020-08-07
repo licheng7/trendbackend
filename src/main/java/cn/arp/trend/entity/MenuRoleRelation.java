@@ -18,7 +18,7 @@ public class MenuRoleRelation {
 	private String menuId; // 菜单ID，对应表QY_FUN_MENU的MENU_ID
 
 	@Column(name = "ROLE_ID", length = 32)
-	private String roleId; // 角色ID，对应表QY_ROLE的ROLE_ID
+	private Integer roleId; // 角色ID，对应表QY_ROLE的ROLE_ID
 
 	@Column(name = "CREATE_USERID", length = 32)
 	private String createUserid; // 创建人 ID
@@ -45,11 +45,11 @@ public class MenuRoleRelation {
 		this.menuId = menuId;
 	}
 
-	public String getRoleId() {
+	public Integer getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(String roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
 

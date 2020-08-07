@@ -16,7 +16,7 @@ public interface MenuRoleDAO
 		extends JpaRepository<MenuRoleRelation, String>, JpaSpecificationExecutor<MenuRoleRelation> {
 	@Modifying
 	@Query("delete from MenuRoleRelation where roleId = ?1")
-	void deleteByRoleId(String roleId);
+	void deleteByRoleId(Integer roleId);
 
 	@Modifying
 	@Query("delete from MenuRoleRelation where menuId = ?1")
@@ -31,9 +31,9 @@ public interface MenuRoleDAO
 	void deleteByRoleIds(List<String> param);
 
 	@Query("select m from MenuRoleRelation mr, Menu m where m.id=mr.menuId and mr.roleId in ?1")
-	List<Menu> findRoleMenus(List<String> roleIds);
+	List<Menu> findRoleMenus(List<Integer> roleIds);
 
 	@Query("from MenuRoleRelation where roleId = ?1")
-	List<MenuRoleRelation> findByRoleId(String roleId);
+	List<MenuRoleRelation> findByRoleId(Integer roleId);
 
 }
