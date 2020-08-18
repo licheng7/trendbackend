@@ -82,6 +82,16 @@
 				<TimeBasedTriggeringPolicy />
 			</Policies>
 		</RollingFile>
+		<!--审计日志记录追加器 -->
+		<RollingFile name="auditRollingFile" fileName="./logs/audit/audit.log"
+			filePattern="logs/audit/audit-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout
+				pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %L %M - %msg%xEx%n" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="500 MB" />
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingFile>
 	</appenders>
 
 	<loggers>
@@ -99,6 +109,10 @@
 		</logger>
 		<logger name="druid.sql.Statement" level="debug" additivity="false">
 			<appender-ref ref="druidSqlRollingFile" />
+		</logger>
+		<!-- 审计日志 -->
+		<logger name="cn.arp.trend.auth.LogAspect" level="info" additivity="false">
+			<appender-ref ref="auditRollingFile" />
 		</logger>
 
 		<!--log4j2 自带过滤日志 -->
