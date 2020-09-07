@@ -1,6 +1,7 @@
 package cn.arp.trend.web;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.arp.icas.rest.RestException;
 import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.auth.UserSubject;
+import cn.arp.trend.entity.Menu;
 import cn.arp.trend.error.RestError;
+import cn.arp.trend.repository.MenuMapper;
 import cn.arp.trend.service.AuthenticateService;
 import cn.arp.trend.service.impl.DispatchClient;
 import cn.vlabs.umt.oauth.AccessToken;
@@ -46,6 +49,13 @@ public class LoginController extends BaseController{
 		} catch (IOException e) {
 			throw RestError.internalError("启动登录失败:" + e.getMessage());
 		}
+	}
+	@Autowired
+	private MenuMapper mapper;
+	@GetMapping("/test")
+	public List<Menu> allMenus(){
+		System.out.println("hello");
+		return mapper.queryAll();
 	}
 	
 	@GetMapping("/mine")

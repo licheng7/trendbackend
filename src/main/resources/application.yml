@@ -59,6 +59,9 @@ server:
   port: 9000
   servlet:
     context-path: /trend
+mybatis:
+  mapper-locations: classpath*:mybatis/mapper/*.xml
+  type-alias-package: cn.arp.trend.entity
 login:
   dispatch: http://dispatch.dev.arp.cn
   local: true
