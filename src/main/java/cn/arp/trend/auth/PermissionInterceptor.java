@@ -6,7 +6,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import cn.arp.trend.auth.annotation.AnnotationResolver;
@@ -22,29 +24,29 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		if (handler instanceof HandlerMethod) {
 			CurrentSession.populate(loadSubject(request));
-			try{
-				final HandlerMethod handlerMethod = (HandlerMethod) handler;
-				RequirePermission annotation = resolver.findPermission(handlerMethod.getMethod());
-				if (annotation != null) {
-					if (!authService.hasLogin(request)) {
-						response.sendError(HttpStatus.SC_UNAUTHORIZED, "用户需要登录才能访问系统。");
-						return false;
-					}else{
-						if (annotation.roles() != null && annotation.roles().length > 0) {
-							if (!authService.containAtLeastOneRole(request, annotation.roles())) {
-								response.sendError(HttpStatus.SC_FORBIDDEN, "用户没有对应的角色信息。");
-								return false;
-							}
+			final HandlerMethod handlerMethod = (HandlerMethod) handler;
+			RequirePermission annotation = resolver.findPermission(handlerMethod.getMethod());
+			if (annotation != null) {
+				if (!authService.hasLogin(request)) {
+					response.sendError(HttpStatus.SC_UNAUTHORIZED, "用户需要登录才能访问系统。");
+					return false;
+				}else{
+					if (annotation.roles() != null && annotation.roles().length > 0) {
+						if (!authService.containAtLeastOneRole(request, annotation.roles())) {
+							response.sendError(HttpStatus.SC_FORBIDDEN, "用户没有对应的角色信息。");
+							return false;
 						}
 					}
 				}
-			}finally{
-				CurrentSession.clear();
 			}
 		}
 		return true;
 	}
 	
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			@Nullable ModelAndView modelAndView) throws Exception {
+		CurrentSession.clear();
+	}
 	private UserSubject loadSubject(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		UserSubject subject = (UserSubject) session.getAttribute(ACL_KEY);

@@ -66,6 +66,8 @@ public class LogAspect {
 			} finally {
 				log(audit, argValues, error, (ServletRequestAttributes) ra);
 			}
+		}else{
+			result = pjd.proceed();
 		}
 		return result;
 	}
