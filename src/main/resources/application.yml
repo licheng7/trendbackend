@@ -66,6 +66,8 @@ login:
   dispatch: http://dispatch.dev.arp.cn
   local: true
   home: /trend
+  globalhome: /global
+  domainhome: /domain
   appname: trend
 system:
    test: false

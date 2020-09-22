@@ -3,7 +3,6 @@ package cn.arp.trend.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import cn.arp.trend.entity.Menu;

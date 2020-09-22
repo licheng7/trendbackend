@@ -1,7 +1,6 @@
 package cn.arp.trend.web;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.arp.icas.rest.RestException;
 import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.auth.UserSubject;
-import cn.arp.trend.entity.Menu;
 import cn.arp.trend.error.RestError;
-import cn.arp.trend.repository.MenuMapper;
 import cn.arp.trend.service.AuthenticateService;
 import cn.arp.trend.service.impl.DispatchClient;
 import cn.vlabs.umt.oauth.AccessToken;
@@ -41,21 +38,27 @@ public class LoginController extends BaseController{
 	private boolean localLogin;
 	@Value("${login.home}")
 	private String homeUri;
+	@Value("${login.globalhome}")
+	private String globalHome;
+	@Value("${login.domainhome}")
+	private String domainHome;
 	
-	@GetMapping
-	public void jumpToDispatch(HttpServletRequest request, HttpServletResponse response)  throws RestError{
+	@GetMapping("/global")
+	public void globalLogin(HttpServletRequest request, HttpServletResponse response) throws RestError{
+		jumpToDispatch("global", request, response);
+	}
+	
+	@GetMapping("/manage")
+	public void domainLogin(HttpServletRequest request, HttpServletResponse response) throws RestError{
+		jumpToDispatch("manage", request, response);
+	}
+	private void jumpToDispatch(String loginFrom, HttpServletRequest request, HttpServletResponse response)  throws RestError{
 		try {
+			request.getSession().setAttribute("loginFrom", loginFrom);
 			response.sendRedirect(client.buildUrl());
 		} catch (IOException e) {
 			throw RestError.internalError("启动登录失败:" + e.getMessage());
 		}
-	}
-	@Autowired
-	private MenuMapper mapper;
-	@GetMapping("/test")
-	public List<Menu> allMenus(){
-		System.out.println("hello");
-		return mapper.queryAll();
 	}
 	
 	@GetMapping("/mine")
@@ -94,7 +97,12 @@ public class LoginController extends BaseController{
 			AccessToken token = client.retrieveTokenInfo(code);
 			if (token!=null){
 				auth.saveSession(request, token.getUserInfo());
-				response.sendRedirect(homeUri);
+				String loginFrom =(String) request.getSession().getAttribute("loginFrom");
+				if ("global".equals(loginFrom)){
+					response.sendRedirect(globalHome);
+				}else{
+					response.sendRedirect(homeUri);
+				}
 			}else{
 				throw RestError.internalError(String.format("无法登录系统，用户信息获取失败(code=%s)", code));
 			}
