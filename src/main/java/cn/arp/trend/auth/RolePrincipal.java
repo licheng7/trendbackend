@@ -5,12 +5,14 @@ import java.security.Principal;
 public class RolePrincipal implements Principal {
 	private String description;
 	private String name;
+	private int roleId;
 	
 	public RolePrincipal()	{
 		
 	}
-	public RolePrincipal(String name, String description){
+	public RolePrincipal(int roleId, String name, String description){
 		this.name = name;
+		this.setRoleId(roleId);
 		this.description = description;
 	}
 	public String getDescription() {
@@ -28,6 +30,12 @@ public class RolePrincipal implements Principal {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	public int getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 
 }

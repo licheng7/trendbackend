@@ -12,4 +12,6 @@ import java.lang.annotation.Target;
 public @interface RequirePermission {
 	// 需要的用户角色
 	String[] roles() default {};
+	// 使用访问数据集进行控制
+	boolean dataset() default false;
 }

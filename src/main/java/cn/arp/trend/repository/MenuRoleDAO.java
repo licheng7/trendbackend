@@ -1,6 +1,7 @@
 package cn.arp.trend.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -35,5 +36,8 @@ public interface MenuRoleDAO
 
 	@Query("from MenuRoleRelation where roleId = ?1")
 	List<MenuRoleRelation> findByRoleId(Integer roleId);
+	@Query("select count(mr.menuId) from MenuRoleRelation mr, Menu m"
+			+ " where m.menuUrl in ?2 and mr.roleId in ?1 and mr.menuId =m.id ")
+	int count(List<Integer> roleIds, Set<String> urls);
 
 }

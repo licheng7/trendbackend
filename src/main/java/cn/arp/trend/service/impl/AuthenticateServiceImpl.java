@@ -97,7 +97,7 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 		if (roles != null) {
 			List<RolePrincipal> rolePrincipals = new ArrayList<>();
 			for (Role role : roles) {
-				rolePrincipals.add(new RolePrincipal(role.getName(), role.getDescription()));
+				rolePrincipals.add(new RolePrincipal(role.getId(), role.getName(), role.getDescription()));
 			}
 			subject.setRoles(rolePrincipals);
 		}

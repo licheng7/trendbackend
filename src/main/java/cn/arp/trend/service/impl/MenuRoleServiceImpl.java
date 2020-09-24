@@ -3,6 +3,7 @@ package cn.arp.trend.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
@@ -95,6 +96,11 @@ public class MenuRoleServiceImpl implements MenuRoleService {
 			menuIds.add(m.getMenuId());
 		}
 		return menuIds;
+	}
+
+	@Override
+	public int countCanAccessMenus(List<Integer> roleIds, Set<String> urls) {
+		return dao.count(roleIds, urls);
 	}
 
 }
