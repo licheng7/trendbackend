@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.entity.AuditLog;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.AuditLogService;
@@ -20,6 +21,7 @@ import cn.arp.trend.tools.ResponseBuilder;
 
 @RestController
 @RequestMapping("/auditLogs")
+@RequirePermission(roles="admin")
 public class AuditLogController {
 	@Autowired
 	private AuditLogService logService;
