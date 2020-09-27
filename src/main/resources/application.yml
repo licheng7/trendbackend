@@ -65,7 +65,7 @@ mybatis:
 login:
   dispatch: http://dispatch.dev.arp.cn
   local: true
-  home: /trend
+  home: /index.html
   globalhome: /global
   domainhome: /domain
   appname: trend

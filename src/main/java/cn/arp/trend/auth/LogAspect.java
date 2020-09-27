@@ -17,6 +17,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -26,6 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
+import cn.arp.trend.entity.AuditLog;
+import cn.arp.trend.service.AuditLogService;
+
 @Aspect
 @Component
 public class LogAspect {
@@ -33,9 +37,14 @@ public class LogAspect {
 	static {
 		logger = LoggerFactory.getLogger(LogAspect.class);
 	}
+
 	@Pointcut("execution(public * cn.arp.trend.web.*.*(..))")
-	public void auditLog(){};
-	
+	public void auditLog() {
+	};
+
+	@Autowired
+	private AuditLogService service;
+
 	@Around("auditLog()")
 	public Object aroundMethod(ProceedingJoinPoint pjd) throws Throwable {
 		Object result = null;
@@ -66,7 +75,7 @@ public class LogAspect {
 			} finally {
 				log(audit, argValues, error, (ServletRequestAttributes) ra);
 			}
-		}else{
+		} else {
 			result = pjd.proceed();
 		}
 		return result;
@@ -107,45 +116,48 @@ public class LogAspect {
 		return param.getAnnotation(IgnoreAudit.class) != null;
 	}
 
-	private void addIPAndPort(HttpServletRequest request, List<String> parts) {
+	private void addIPAndPort(HttpServletRequest request, AuditLog log) {
 		if (request.getHeader("ClientIP") != null) {
-			parts.add(request.getHeader("ClientIP"));
+			log.setRemoteIp(request.getHeader("ClientIP"));
 		} else if (request.getHeader("X-Real-IP") != null) {
-			parts.add(request.getHeader("X-Real-IP"));
+			log.setRemoteIp(request.getHeader("X-Real-IP"));
 		} else {
-			parts.add(request.getRemoteAddr());
+			log.setRemoteIp(request.getRemoteAddr());
 		}
 
 		if (request.getHeader("X-Real-PORT") != null) {
-			parts.add(request.getHeader("X-Real-PORT"));
+			log.setRemotePort(Integer.parseInt(request.getHeader("X-Real-PORT")));
 		} else {
-			parts.add("0");
+			log.setRemotePort(0);
 		}
 	}
 
-	private void addUserInfo(List<String> parts) {
+	private void addUserInfo(AuditLog auditLog) {
 		if (CurrentSession.getSubject() != null && CurrentSession.getSubject().getUser() != null) {
-			parts.add(CurrentSession.getUserId());
-			parts.add(CurrentSession.getSubject().getUser().getName());
+			auditLog.setUserId(CurrentSession.getUserId());
+			auditLog.setUserName(CurrentSession.getSubject().getUser().getName());
 		} else {
-			parts.add("Unknown");
-			parts.add("Unknown");
+			auditLog.setUserId("Unknown");
+			auditLog.setUserName("Unknown");
 		}
 	}
 
 	private void log(Audit audit, String argValues, Throwable e, ServletRequestAttributes sra) {
+		AuditLog auditLog = new AuditLog();
+		addUserInfo(auditLog);
+		auditLog.setOperationName(audit.desc());
+		auditLog.setArgs(argValues);
+		auditLog.setHttpStatus(sra.getResponse().getStatus());
+
 		HttpServletRequest request = sra.getRequest();
-		List<String> parts = new ArrayList<String>();
-		addUserInfo(parts);
-		parts.add(audit.desc());
-		parts.add(argValues);
-		parts.add(Integer.toString(sra.getResponse().getStatus()));
-		addIPAndPort(request, parts);
+		addIPAndPort(request, auditLog);
+		auditLog.setSessionId(request.getSession().getId());
 		if (e == null) {
-			logger.info(String.join(" ", parts));
+			logger.info(auditLog.toString());
 		} else {
-			logger.error(String.join(" ", parts), e);
+			logger.error(auditLog.toString(), e);
 		}
+		service.asyncInsert(auditLog);
 	}
 
 	private <T> Stream<T> streamOf(T[] array) {
