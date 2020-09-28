@@ -1,5 +1,8 @@
 package cn.arp.trend.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,8 @@ public class DispatchClient {
 	private RestAPIClient client;
 	@Value("${login.appname}")
 	private String appName;
+	@Value("${login.passportLogout}")
+	private String passportLogout;
 	// 对方的API包里没有默认构造函数，这里添加一个
 	private static class ExtendedArpInfo extends ArpInfo {
 	}
@@ -29,6 +34,14 @@ public class DispatchClient {
 
 	public String buildUrl() {
 		return baseurl + "/login/"+appName;
+	}
+	
+	public String buildLogoutUrl(){
+		try {
+			return passportLogout+URLEncoder.encode(buildUrl(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return passportLogout+buildUrl();
+		}
 	}
 
 	public AccessToken retrieveTokenInfo(String code) throws RestException {

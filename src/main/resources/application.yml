@@ -63,6 +63,7 @@ mybatis:
   mapper-locations: classpath*:mybatis/mapper/*.xml
   type-alias-package: cn.arp.trend.entity
 login:
+  passportLogout: https://passport.escience.cn/logout?WebServerURL=
   dispatch: http://dispatch.dev.arp.cn
   local: true
   home: /index.html
