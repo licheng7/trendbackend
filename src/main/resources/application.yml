@@ -19,10 +19,13 @@ spring:
           allow-multi-queries: true
           multi-statement-allow: true
           minus-allow: true
-    url: jdbc:mysql://172.17.0.104:3306/trend?characterEncoding=utf8&useSSL=false
     driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.17.0.104:3306/trend?characterEncoding=utf8&useSSL=false
     username: trendUser
     password: trendpass
+    #url: jdbc:mysql://117.51.145.89:3306/trend?characterEncoding=utf8&useSSL=false
+    #username: root
+    #password: xxx
     minIdle: 1
     validationQuery: SELECT 1 FROM DUAL
     initialSize: 1

@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * Created with IDEA
@@ -39,9 +41,11 @@ public class ServiceAspect {
         Method currentMethod = this.getCurrentMethod(joinPoint);
         String methodDesc = this.getServiceExecuterDescription(joinPoint, currentMethod);
 
-        log.info("访问{}开始", methodDesc);
+        log.info("访问{}开始,请求参数{}", methodDesc,
+                Arrays.stream(currentMethod.getParameters()).map(item -> item.toString())
+                        .collect(Collectors.toList()));
 
-        DataResult dataResult = null;
+        DataResult dataResult;
         try {
             Object obj = joinPoint.proceed();
             if(null == obj) {

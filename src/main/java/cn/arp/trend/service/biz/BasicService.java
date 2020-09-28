@@ -1,6 +1,8 @@
 package cn.arp.trend.service.biz;
 
+import cn.arp.trend.data.model.DO.AcademicianQueryDO;
 import cn.arp.trend.data.model.DO.OrgInfoQueryDO;
+import cn.arp.trend.data.model.DTO.AcademicianInfoDTO;
 import cn.arp.trend.data.model.DTO.OrgInfoDTO;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public interface BasicService {
 
     OrgInfoDTO orgInfoQuery(OrgInfoQueryDO orgInfoQueryDO);
 
-    List<String> queryYear();
+    List<String> yearQuery();
 
-    //void academician(AcademicianQueryDTO academician);
+    AcademicianInfoDTO academicianQuery(AcademicianQueryDO academicianQueryDO);
 }

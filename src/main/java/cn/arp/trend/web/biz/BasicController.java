@@ -1,10 +1,16 @@
 package cn.arp.trend.web.biz;
 
+import cn.arp.trend.data.model.DO.AcademicianQueryDO;
 import cn.arp.trend.data.model.DO.OrgInfoQueryDO;
+import cn.arp.trend.data.model.DTO.AcademicianInfoDTO;
 import cn.arp.trend.data.model.DTO.OrgInfoDTO;
+import cn.arp.trend.data.model.converter.AcademicianRequestConverter;
+import cn.arp.trend.data.model.converter.FieldsConverter;
 import cn.arp.trend.data.model.converter.OrgAndResearchConverter;
 import cn.arp.trend.data.model.converter.OrgInfoRequestConverter;
+import cn.arp.trend.data.model.request.AcademicianQueryRequest;
 import cn.arp.trend.data.model.request.OrgInfoQueryRequest;
+import cn.arp.trend.data.model.response.AcademicianResponse;
 import cn.arp.trend.data.model.response.MenuResponse;
 import cn.arp.trend.data.model.response.MenuResult;
 import cn.arp.trend.data.model.response.OrgInfoResponse;
@@ -68,8 +74,20 @@ public class BasicController {
     @ApiOperation(value= "获取近十年的年份", notes= "获取近十年的年份，用于时间下拉菜单，供用户选择起止时间")
     @ServiceExecuter(description = "获取近十年的年份")
     @RequestMapping(value = "/year", method = RequestMethod.POST)
-    public DataResult<List<String>> queryYear() {
-        List<String> bizResult = basicService.queryYear();
+    public DataResult<List<String>> yearQuery() {
+        List<String> bizResult = basicService.yearQuery();
         return ResultUtils.wrapSuccess(bizResult);
+    }
+
+    @ApiOperation(value= "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）", notes= "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
+    @ServiceExecuter(description = "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
+    @RequestMapping(value = "/academician", method = RequestMethod.POST)
+    public DataResult<AcademicianResponse> academicianQuery(AcademicianQueryRequest request) {
+        AcademicianQueryDO academicianQueryDO =  AcademicianRequestConverter.INSTANCE.domain2dto
+                (request);
+        AcademicianInfoDTO academicianInfoDTO = basicService.academicianQuery(academicianQueryDO);
+        return ResultUtils.wrapSuccess(
+                new AcademicianResponse(FieldsConverter.INSTANCE.domain2dto(academicianInfoDTO),
+                        academicianInfoDTO.getInstitutions()));
     }
 }
