@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.arp.icas.rest.RestException;
-import cn.arp.trend.auth.RequirePermission;
-import cn.arp.trend.auth.UserSubject;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.AuthenticateService;
 import cn.arp.trend.service.impl.DispatchClient;
@@ -61,13 +59,7 @@ public class LoginController extends BaseController{
 		}
 	}
 	
-	@GetMapping("/mine")
-	@RequirePermission
-	public UserSubject mine(HttpServletRequest request){
-		return auth.loadSubject(request);
-	}
-	
-	@PostMapping("/logout")
+	@GetMapping("/logout")
 	public void logout(HttpServletRequest request) {
 		request.getSession().invalidate();
 	}
