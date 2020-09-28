@@ -60,7 +60,7 @@ server:
   servlet:
     context-path: /trend
 mybatis:
-  mapper-locations: classpath*:mybatis/mapper/*.xml
+  mapper-locations: classpath:cn/arp/trend/repository/*/*.xml
   type-alias-package: cn.arp.trend.entity
 login:
   dispatch: http://dispatch.dev.arp.cn
@@ -71,4 +71,6 @@ login:
   appname: trend
 system:
    test: false
+swagger:
+  enable: true
 
