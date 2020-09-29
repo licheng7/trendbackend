@@ -1,7 +1,5 @@
 package cn.arp.trend.data.model.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.ToString;
 
 import java.util.List;
@@ -12,6 +10,7 @@ import java.util.List;
  * Date:2020/9/28
  * Time:上午11:36
  **/
+@ToString
 public class OrgInfoDTO {
 
     private List<String> fields;
@@ -34,8 +33,14 @@ public class OrgInfoDTO {
         this.institutions = institutions;
     }
 
-    @Data
-    @AllArgsConstructor
+    public OrgInfoDTO() {
+    }
+
+    public OrgInfoDTO(List<String> fields, List<OrgAndResearchDTO> institutions) {
+        this.fields = fields;
+        this.institutions = institutions;
+    }
+
     @ToString
     public static class OrgAndResearchDTO {
 
@@ -66,6 +71,15 @@ public class OrgInfoDTO {
         }
 
         public void setResearchField(String researchField) {
+            this.researchField = researchField;
+        }
+
+        public OrgAndResearchDTO() {
+        }
+
+        public OrgAndResearchDTO(String jgbh, String jgmc, String researchField) {
+            this.jgbh = jgbh;
+            this.jgmc = jgmc;
             this.researchField = researchField;
         }
     }

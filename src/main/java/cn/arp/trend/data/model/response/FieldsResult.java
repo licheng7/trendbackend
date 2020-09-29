@@ -1,6 +1,5 @@
 package cn.arp.trend.data.model.response;
 
-import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -12,7 +11,6 @@ import java.util.List;
  * Date:2020/9/29
  * Time:上午12:52
  **/
-@Data
 @ToString
 public class FieldsResult implements Serializable {
 
@@ -35,6 +33,13 @@ public class FieldsResult implements Serializable {
     }
 
     public void setFieldsGCY(List<String> fieldsGCY) {
+        this.fieldsGCY = fieldsGCY;
+    }
+
+    public FieldsResult() {}
+
+    public FieldsResult(List<String> fieldsZKY, List<String> fieldsGCY) {
+        this.fieldsZKY = fieldsZKY;
         this.fieldsGCY = fieldsGCY;
     }
 }

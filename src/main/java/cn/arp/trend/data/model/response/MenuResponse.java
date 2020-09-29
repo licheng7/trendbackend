@@ -1,6 +1,5 @@
 package cn.arp.trend.data.model.response;
 
-import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -12,7 +11,6 @@ import java.util.List;
  * Date:2020/9/27
  * Time:下午11:41
  **/
-@Data
 @ToString
 public class MenuResponse implements Serializable {
 
@@ -24,6 +22,24 @@ public class MenuResponse implements Serializable {
     int code;
 
     List<MenuResult> menuList;
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public List<MenuResult> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<MenuResult> menuList) {
+        this.menuList = menuList;
+    }
+
+    public MenuResponse() {}
 
     public MenuResponse(int code, List<MenuResult> menuList) {
         this.code = code;

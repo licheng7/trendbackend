@@ -1,6 +1,5 @@
 package cn.arp.trend.data.model.response;
 
-import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -11,7 +10,6 @@ import java.io.Serializable;
  * Date:2020/9/28
  * Time:上午12:51
  **/
-@Data
 @ToString
 public class OrgAndResearchResult implements Serializable {
 

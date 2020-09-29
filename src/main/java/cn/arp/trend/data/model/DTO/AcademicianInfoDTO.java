@@ -1,5 +1,7 @@
 package cn.arp.trend.data.model.DTO;
 
+import lombok.ToString;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
  * Date:2020/9/28
  * Time:下午11:39
  **/
+@ToString
 public class AcademicianInfoDTO {
 
     List<String> institutionsZKY;
@@ -57,6 +60,17 @@ public class AcademicianInfoDTO {
     }
 
     public void setInstitutions(List<String> institutions) {
+        this.institutions = institutions;
+    }
+
+    public AcademicianInfoDTO() {
+    }
+
+    public AcademicianInfoDTO(List<String> institutionsZKY, List<String> institutionsGCY, List<String> fieldsZKY, List<String> fieldsGCY, List<String> institutions) {
+        this.institutionsZKY = institutionsZKY;
+        this.institutionsGCY = institutionsGCY;
+        this.fieldsZKY = fieldsZKY;
+        this.fieldsGCY = fieldsGCY;
         this.institutions = institutions;
     }
 }
