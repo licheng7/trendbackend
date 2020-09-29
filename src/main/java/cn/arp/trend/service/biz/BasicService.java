@@ -3,6 +3,7 @@ package cn.arp.trend.service.biz;
 import cn.arp.trend.data.model.DO.AcademicianQueryDO;
 import cn.arp.trend.data.model.DO.OrgInfoQueryDO;
 import cn.arp.trend.data.model.DTO.AcademicianInfoDTO;
+import cn.arp.trend.data.model.DTO.InternationInfoDTO;
 import cn.arp.trend.data.model.DTO.OrgInfoDTO;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface BasicService {
     List<String> yearQuery();
 
     AcademicianInfoDTO academicianQuery(AcademicianQueryDO academicianQueryDO);
+
+    InternationInfoDTO internationInfoQuery();
 }

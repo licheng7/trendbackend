@@ -3,11 +3,10 @@ package cn.arp.trend.service.biz.impl;
 import cn.arp.trend.data.model.DO.AcademicianQueryDO;
 import cn.arp.trend.data.model.DO.OrgInfoQueryDO;
 import cn.arp.trend.data.model.DTO.AcademicianInfoDTO;
+import cn.arp.trend.data.model.DTO.InternationInfoDTO;
 import cn.arp.trend.data.model.DTO.OrgInfoDTO;
 import cn.arp.trend.entity.biz.RefOrgType;
-import cn.arp.trend.repository.biz.manual.CasAcademicianCaeChinaManualMapper;
-import cn.arp.trend.repository.biz.manual.CasAcademicianChinaManualMapper;
-import cn.arp.trend.repository.biz.manual.RefOrgTypeManualMapper;
+import cn.arp.trend.repository.biz.manual.*;
 import cn.arp.trend.service.biz.BasicService;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
@@ -37,6 +36,12 @@ public class BasicServiceImpl implements BasicService {
 
     @Resource
     private CasAcademicianCaeChinaManualMapper casAcademicianCaeChinaManualMapper;
+
+    @Resource
+    private IcComeManualMapper icComeManualMapper;
+
+    @Resource
+    private IcGoManualMapper icGoManualMapper;
 
     @Override
     public OrgInfoDTO orgInfoQuery(OrgInfoQueryDO orgInfoQueryDO) {
@@ -107,5 +112,71 @@ public class BasicServiceImpl implements BasicService {
         academicianInfoDTO.setInstitutions(distinctInstitutions);
 
         return academicianInfoDTO;
+    }
+
+    @Override
+    public InternationInfoDTO internationInfoQuery() {
+        // step1 country
+        List<String> icComeCountryList = icComeManualMapper.queryCountry();
+        List<String> icGoCountryList = icGoManualMapper.queryCountry();
+        List<String> sortedCountryList = this.doInternationInfoQuery(icComeCountryList, icGoCountryList);
+        // step2 Nntionality
+        List<String> icComeNationalityList = icComeManualMapper.queryNationality();
+        List<String> icGoNationalityList = icGoManualMapper.queryNationality();
+        List<String> sortedNationalityList = this.doInternationInfoQuery(icComeNationalityList, icGoNationalityList);
+        // step3 form
+        List<String> icComeFormList = icComeManualMapper.queryForm();
+        List<String> icGoFormList = icGoManualMapper.queryForm();
+        List<String> sortedFormList = this.doInternationInfoQuery(icComeFormList, icGoFormList);
+        // step4 ageYear
+        List<String> icComeAgeYearList = icComeManualMapper.queryAgeYear();
+        List<String> icGoAgeYearList = icGoManualMapper.queryAgeYear();
+        List<String> sortedAgeYearList = this.doInternationInfoQuery(icComeAgeYearList,
+                icGoAgeYearList, -1);
+        // step5 获取年龄列表
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        Integer currentYear = Integer.valueOf(simpleDateFormat.format(cal.getTime()));
+        List<Integer> ageList = sortedAgeYearList.stream().map(year -> currentYear - Integer.valueOf
+                (year)).collect(Collectors.toList());
+
+        InternationInfoDTO internationInfoDTO = new InternationInfoDTO();
+        internationInfoDTO.setSortedCountryList(sortedCountryList);
+        internationInfoDTO.setSortedNationalityList(sortedNationalityList);
+        internationInfoDTO.setSortedFormList(sortedFormList);
+        internationInfoDTO.setSortedAgeYearList(sortedAgeYearList);
+        internationInfoDTO.setAgeList(ageList);
+        return internationInfoDTO;
+    }
+
+    private List<String> doInternationInfoQuery(List<String> list1, List<String> list2) {
+        return this.doInternationInfoQuery(list1, list2, 1);
+    }
+
+    private List<String> doInternationInfoQuery(List<String> list1, List<String> list2, Integer
+            sortItem) {
+        // step1、合并list
+        List<String> mergeList = Lists.newArrayList();
+        if(null != list1 && !list1.isEmpty()) {
+            mergeList.addAll(list1);
+        }
+        if(null != list2 && !list2.isEmpty()) {
+            mergeList.addAll(list2);
+        }
+        // step2、去重
+        List<String> distinctList = mergeList.stream().distinct().collect(Collectors
+                .toList());
+        // step3、String类型集合排序
+        List<String> sortedList;
+        if(null != sortItem && -1 == sortItem) {
+            sortedList = distinctList.stream().sorted((o1, o2) ->
+                o1.compareToIgnoreCase(o2)).collect(Collectors.toList());
+        }
+        else {
+            sortedList = distinctList.stream().sorted((o1, o2) ->
+                    -1 * o1.compareToIgnoreCase(o2)).collect(Collectors.toList());
+        }
+
+        return sortedList;
     }
 }

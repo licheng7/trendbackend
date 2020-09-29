@@ -3,6 +3,7 @@ package cn.arp.trend.web.biz;
 import cn.arp.trend.data.model.DO.AcademicianQueryDO;
 import cn.arp.trend.data.model.DO.OrgInfoQueryDO;
 import cn.arp.trend.data.model.DTO.AcademicianInfoDTO;
+import cn.arp.trend.data.model.DTO.InternationInfoDTO;
 import cn.arp.trend.data.model.DTO.OrgInfoDTO;
 import cn.arp.trend.data.model.converter.AcademicianRequestConverter;
 import cn.arp.trend.data.model.converter.FieldsConverter;
@@ -10,10 +11,7 @@ import cn.arp.trend.data.model.converter.OrgAndResearchConverter;
 import cn.arp.trend.data.model.converter.OrgInfoRequestConverter;
 import cn.arp.trend.data.model.request.AcademicianQueryRequest;
 import cn.arp.trend.data.model.request.OrgInfoQueryRequest;
-import cn.arp.trend.data.model.response.AcademicianResponse;
-import cn.arp.trend.data.model.response.MenuResponse;
-import cn.arp.trend.data.model.response.MenuResult;
-import cn.arp.trend.data.model.response.OrgInfoResponse;
+import cn.arp.trend.data.model.response.*;
 import cn.arp.trend.data.model.response.common.DataResult;
 import cn.arp.trend.service.biz.BasicService;
 import cn.arp.trend.tools.ResultUtils;
@@ -89,5 +87,21 @@ public class BasicController {
         return ResultUtils.wrapSuccess(
                 new AcademicianResponse(FieldsConverter.INSTANCE.domain2dto(academicianInfoDTO),
                         academicianInfoDTO.getInstitutions()));
+    }
+
+    @ApiOperation(value= "国际合作头部", notes= "国际合作头部")
+    @ServiceExecuter(description = "国际合作头部")
+    @RequestMapping(value = "/internationInfo", method = RequestMethod.POST)
+    public DataResult<InternationInfoResponse> internationInfoQuery() {
+        InternationInfoDTO internationInfoDTO = basicService.internationInfoQuery();
+        return ResultUtils.wrapSuccess(new InternationInfoResponse(
+                internationInfoDTO.getSortedCountryList(),
+                internationInfoDTO.getSortedNationalityList(),
+                internationInfoDTO.getSortedFormList(),
+                internationInfoDTO.getAgeList(),
+                Lists.newArrayList(new SexResult("all", "全部性别"),
+                        new SexResult("man", "男"),
+                        new SexResult("woman", "女"))
+        ));
     }
 }
