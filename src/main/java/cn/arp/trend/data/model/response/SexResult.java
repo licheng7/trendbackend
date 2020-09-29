@@ -1,8 +1,5 @@
 package cn.arp.trend.data.model.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -13,10 +10,7 @@ import java.io.Serializable;
  * Date:2020/9/29
  * Time:上午2:19
  **/
-@Data
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class SexResult implements Serializable {
 
     private static final long serialVersionUID = -8344339157575146784L;
@@ -24,4 +18,28 @@ public class SexResult implements Serializable {
     private String id;
 
     private String name;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public SexResult() {
+    }
+
+    public SexResult(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

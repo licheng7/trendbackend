@@ -1,8 +1,5 @@
 package cn.arp.trend.data.model.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -14,10 +11,7 @@ import java.util.List;
  * Date:2020/9/28
  * Time:上午12:50
  **/
-@Data
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class OrgInfoResponse implements Serializable {
 
     private static final long serialVersionUID = 3127637399912081785L;
@@ -25,4 +19,28 @@ public class OrgInfoResponse implements Serializable {
     private List<String> fields;
 
     private List<OrgAndResearchResult> institutions;
+
+    public List<String> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<String> fields) {
+        this.fields = fields;
+    }
+
+    public List<OrgAndResearchResult> getInstitutions() {
+        return institutions;
+    }
+
+    public void setInstitutions(List<OrgAndResearchResult> institutions) {
+        this.institutions = institutions;
+    }
+
+    public OrgInfoResponse() {
+    }
+
+    public OrgInfoResponse(List<String> fields, List<OrgAndResearchResult> institutions) {
+        this.fields = fields;
+        this.institutions = institutions;
+    }
 }

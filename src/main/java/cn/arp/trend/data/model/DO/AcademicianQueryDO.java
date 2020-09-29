@@ -1,5 +1,7 @@
 package cn.arp.trend.data.model.DO;
 
+import lombok.ToString;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
  * Date:2020/9/28
  * Time:下午11:18
  **/
+@ToString
 public class AcademicianQueryDO {
 
     private List<String> affiliationIds;
@@ -37,6 +40,15 @@ public class AcademicianQueryDO {
     }
 
     public void setFieldNameGcy(List<String> fieldNameGcy) {
+        this.fieldNameGcy = fieldNameGcy;
+    }
+
+    public AcademicianQueryDO() {
+    }
+
+    public AcademicianQueryDO(List<String> affiliationIds, List<String> afieldNameZky, List<String> fieldNameGcy) {
+        this.affiliationIds = affiliationIds;
+        this.afieldNameZky = afieldNameZky;
         this.fieldNameGcy = fieldNameGcy;
     }
 }
