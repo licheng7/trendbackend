@@ -8,7 +8,9 @@ package cn.arp.trend.data.model.exception;
  **/
 public class TrendServerException extends RuntimeException {
 
-    public TrendServerException(Integer errorCode, String errorMsg) {
+	private static final long serialVersionUID = 1L;
+
+	public TrendServerException(Integer errorCode, String errorMsg) {
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
     }
