@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 
 import cn.arp.trend.tools.SpringBeanUtil;
 
-@MapperScan("cn.arp.trend.repository") 
+@MapperScan("cn.arp.trend.repository")
 @SpringBootApplication
 @EnableCaching
 public class TrendApplication {
