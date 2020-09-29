@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.arp.trend.auth.Audit;
 import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.entity.AuditLog;
 import cn.arp.trend.error.RestError;
@@ -26,6 +27,7 @@ public class AuditLogController {
 	@Autowired
 	private AuditLogService logService;
 	@GetMapping
+	@Audit("查看审计日志")
 	public ResponseEntity<List<AuditLog>> list(@RequestParam String q,
 					@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date start,
 					@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  Date end

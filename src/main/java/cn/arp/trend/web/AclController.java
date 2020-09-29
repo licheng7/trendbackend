@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.arp.trend.auth.Audit;
 import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.entity.Acl;
 import cn.arp.trend.entity.VAcl;
@@ -32,6 +33,7 @@ public class AclController extends BaseController {
 	private AclService aclService;
 
 	@PostMapping
+	@Audit("创建所级访问权限")
 	public Acl create(@RequestBody Acl t) throws RestError {
 		checkExist(t);
 		t.setId(-1);
@@ -60,11 +62,13 @@ public class AclController extends BaseController {
 	}
 
 	@DeleteMapping("/{id}")
+	@Audit("删除所级访问权限")
 	public void remove(@PathVariable("id") Integer id) throws RestError {
 		aclService.remove(id);
 	}
 
 	@PostMapping(params = "m=delete")
+	@Audit("批量删除所级访问权限")
 	public void remove(@RequestBody List<Integer> ids) throws RestError {
 		List<Integer> filtered = ParamUtils.filterNull(ids);
 		if (filtered != null && filtered.size() > 0) {
@@ -73,6 +77,7 @@ public class AclController extends BaseController {
 	}
 
 	@PutMapping("/{id}")
+	@Audit("更新所级访问权限")
 	public Acl update(@PathVariable("id") Integer id, @RequestBody Acl t) throws RestError {
 		if (id.equals(t.getId())) {
 			checkExist(t);

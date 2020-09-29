@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.arp.trend.auth.Audit;
 import cn.arp.trend.auth.CurrentSession;
 import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.service.MenuRoleService;
@@ -28,6 +29,7 @@ public class MenuRoleController {
 	
 	@PutMapping
 	@RequirePermission(roles="admin")
+	@Audit("配置角色可访问菜单")
 	public void changeAccessibleMenus(@PathVariable("roleId")Integer roleId, @RequestBody List<String> menuIds){
 		menuRoles.updateMenuRoleMapping(roleId, menuIds, CurrentSession.getUserId());
 	}
