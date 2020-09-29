@@ -26,6 +26,46 @@ public class InternationInfoResponse implements Serializable {
 
     private List<SexResult> sexList;
 
+    public List<String> getCountry() {
+        return country;
+    }
+
+    public void setCountry(List<String> country) {
+        this.country = country;
+    }
+
+    public List<String> getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(List<String> nationality) {
+        this.nationality = nationality;
+    }
+
+    public List<String> getForm() {
+        return form;
+    }
+
+    public void setForm(List<String> form) {
+        this.form = form;
+    }
+
+    public List<Integer> getAgeList() {
+        return ageList;
+    }
+
+    public void setAgeList(List<Integer> ageList) {
+        this.ageList = ageList;
+    }
+
+    public List<SexResult> getSexList() {
+        return sexList;
+    }
+
+    public void setSexList(List<SexResult> sexList) {
+        this.sexList = sexList;
+    }
+
     public InternationInfoResponse() {}
 
     public InternationInfoResponse(List<String> country, List<String> nationality, List<String> form, List<Integer> ageList, List<SexResult> sexList) {
