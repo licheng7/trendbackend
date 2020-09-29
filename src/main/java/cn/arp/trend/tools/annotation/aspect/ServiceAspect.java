@@ -1,9 +1,6 @@
 package cn.arp.trend.tools.annotation.aspect;
 
-import cn.arp.trend.data.model.constant.ExceptionCode;
 import cn.arp.trend.data.model.exception.TrendServerException;
-import cn.arp.trend.data.model.response.common.DataResult;
-import cn.arp.trend.tools.ResultUtils;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -16,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 /**
  * Created with IDEA
@@ -41,33 +36,23 @@ public class ServiceAspect {
         Method currentMethod = this.getCurrentMethod(joinPoint);
         String methodDesc = this.getServiceExecuterDescription(joinPoint, currentMethod);
 
-        log.info("访问{}开始,请求参数{}", methodDesc,
-                Arrays.stream(currentMethod.getParameters()).map(item -> item.toString())
-                        .collect(Collectors.toList()));
+        log.info("访问{}开始", methodDesc);
 
-        DataResult dataResult;
+        Object dataResult;
         try {
-            Object obj = joinPoint.proceed();
-            if(null == obj) {
-                dataResult = ResultUtils.wrapSuccess(new Object());
-            } else {
-                dataResult = (DataResult) obj;
-            }
+            dataResult = joinPoint.proceed();
             log.info("访问{}结束，返回{}", methodDesc, dataResult.toString());
+            return dataResult;
         } catch (TrendServerException tse) {
-            dataResult = ResultUtils.wrapFailure(tse.getErrorCode(), tse.getErrorMsg());
-            log.error("访问{}结束，返回{}，堆栈信息{}", methodDesc, dataResult.toString(), tse);
+            log.error("访问{}结束，堆栈信息{}", methodDesc, tse);
+            throw tse;
         } catch (Exception e) {
-            dataResult = ResultUtils.wrapFailure(ExceptionCode.EXCEPTION.code, "访问[" + methodDesc
-                    + "]服务异常");
-            log.error("访问{}结束，返回{}，堆栈信息{}", methodDesc, dataResult.toString(), e);
+            log.error("访问{}结束，堆栈信息{}", methodDesc, e);
+            throw e;
         } catch (Throwable t) {
-            dataResult = ResultUtils.wrapFailure(ExceptionCode.EXCEPTION.code, "访问[" + methodDesc
-                    + "]服务异常");
-            log.error("访问{}结束，返回{}，堆栈信息{}", methodDesc, dataResult.toString(), t);
+            log.error("访问{}结束，堆栈信息{}", methodDesc, t);
+            throw t;
         }
-
-        return dataResult;
     }
 
     private String getServiceExecuterDescription(ProceedingJoinPoint joinPoint, Method currentMethod) {

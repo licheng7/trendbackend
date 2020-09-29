@@ -170,11 +170,11 @@ public class BasicServiceImpl implements BasicService {
         List<String> sortedList;
         if(null != sortItem && -1 == sortItem) {
             sortedList = distinctList.stream().sorted((o1, o2) ->
-                o1.compareToIgnoreCase(o2)).collect(Collectors.toList());
+                    -1 * o1.compareToIgnoreCase(o2)).collect(Collectors.toList());
         }
         else {
             sortedList = distinctList.stream().sorted((o1, o2) ->
-                    -1 * o1.compareToIgnoreCase(o2)).collect(Collectors.toList());
+                    o1.compareToIgnoreCase(o2)).collect(Collectors.toList());
         }
 
         return sortedList;
