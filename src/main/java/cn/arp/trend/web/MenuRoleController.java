@@ -29,7 +29,7 @@ public class MenuRoleController {
 	
 	@PutMapping
 	@RequirePermission(roles="admin")
-	@Audit("配置角色可访问菜单")
+	@Audit(desc="配置角色可访问菜单")
 	public void changeAccessibleMenus(@PathVariable("roleId")Integer roleId, @RequestBody List<String> menuIds){
 		menuRoles.updateMenuRoleMapping(roleId, menuIds, CurrentSession.getUserId());
 	}

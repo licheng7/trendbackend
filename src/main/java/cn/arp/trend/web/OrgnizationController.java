@@ -69,20 +69,20 @@ public class OrgnizationController extends BaseController {
 
 	@PostMapping
 	@RequirePermission(roles="admin")
-	@Audit("创建研究所信息")
+	@Audit(desc="创建研究所信息")
 	public OrgnizationArea create(@RequestBody OrgnizationArea org) throws RestError {
 		return service.create(org);
 	}
 
 	@PutMapping("/{orgId}")
-	@Audit("更新研究所信息")
+	@Audit(desc="更新研究所信息")
 	public OrgnizationArea update(@PathVariable("orgId") String orgId, @RequestBody OrgnizationArea org) {
 		org.setOrgId(orgId);
 		return service.update(org);
 	}
 
 	@PostMapping(params = "m=delete")
-	@Audit("批量删除研究所信息")
+	@Audit(desc="批量删除研究所信息")
 	public void removeAll(@RequestBody List<String> orgIds) {
 		List<String> filtered = ParamUtils.filterNull(orgIds);
 		if (filtered != null && filtered.size() > 0) {
@@ -91,7 +91,7 @@ public class OrgnizationController extends BaseController {
 	}
 
 	@DeleteMapping("/{orgId}")
-	@Audit("删除研究所信息")
+	@Audit(desc="删除研究所信息")
 	public void remove(@PathVariable("orgId") String orgId) {
 		if (StringUtils.isNotEmpty(orgId)) {
 			service.delete(orgId);

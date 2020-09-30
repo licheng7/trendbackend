@@ -42,25 +42,25 @@ public class RoleMemberController extends BaseController {
 	}
 
 	@PostMapping
-	@Audit("添加角色成员")
+	@Audit(desc="添加角色成员")
 	public void addMembers(@PathVariable("roleId") int roleId, @RequestBody List<String> userIds) throws RestError {
 		roleService.addMembers(roleId, userIds);
 	}
 
 	@DeleteMapping(params="userId")
-	@Audit("删除角色成员")
+	@Audit(desc="删除角色成员")
 	public void removeMemer(@PathVariable("roleId") int roleId, @RequestParam("userId") String userId) {
 		roleService.removeMemeber(roleId, userId);
 	}
 
 	@DeleteMapping
-	@Audit("清空角色成员")
+	@Audit(desc="清空角色成员")
 	public void removeAllmembers(@PathVariable("roleId")int roleId){
 		roleService.removeAllMembers(roleId);
 	}
 	
 	@PostMapping(params = "m=delete")
-	@Audit("批量删除角色成员")
+	@Audit(desc="批量删除角色成员")
 	public void removeMembers(@PathVariable("roleId") int roleId, @RequestBody List<String> userIds) {
 		roleService.removeMembers(roleId, userIds);
 	}

@@ -54,7 +54,7 @@ public class RoleController extends BaseController {
 	}
 
 	@PostMapping
-	@Audit("创建角色")
+	@Audit(desc="创建角色")
 	public Role create(@RequestBody Role t) throws RestError {
 		this.checkExist(t);
 		t.setId(-1);
@@ -62,7 +62,7 @@ public class RoleController extends BaseController {
 	}
 
 	@PutMapping("/{id}")
-	@Audit("更新角色")
+	@Audit(desc="更新角色")
 	public Role update(@PathVariable("id") Integer id, @RequestBody Role t) throws RestError {
 		t.setId(id);
 		Role r = roleService.findById(id);
@@ -81,13 +81,13 @@ public class RoleController extends BaseController {
 	}
 
 	@DeleteMapping("/{id}")
-	@Audit("删除角色")
+	@Audit(desc="删除角色")
 	public void remove(@PathVariable("id") Integer id) throws RestError {
 		roleService.delete(id);
 	}
 
 	@PostMapping(params = "m=delete")
-	@Audit("批量删除角色")
+	@Audit(desc="批量删除角色")
 	public void remove(@RequestBody List<Integer> ids) throws RestError {
 		List<Integer> filtered = ParamUtils.filterNull(ids);
 		if (filtered != null && filtered.size() > 0) {

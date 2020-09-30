@@ -27,7 +27,7 @@ public class MenuController extends BaseController {
 	private MenuService menus;
 	
 	@PostMapping
-	@Audit("创建菜单")
+	@Audit(desc="创建菜单")
 	public Menu create(@RequestBody MenuTo menu) {
 		return menus.create(menu.toEntity());
 	}
@@ -37,7 +37,7 @@ public class MenuController extends BaseController {
 		return toMenuToList(menus.findAll());
 	}
 	@PutMapping("/{menuId}")
-	@Audit("更新菜单")
+	@Audit(desc="更新菜单")
 	public void update(@PathVariable("menuId") String menuId, @RequestBody MenuTo menu) {
 		menus.update(menu.toEntity());
 	}
@@ -56,13 +56,13 @@ public class MenuController extends BaseController {
 	}
 
 	@DeleteMapping("/{menuId}")
-	@Audit("删除菜单")
+	@Audit(desc="删除菜单")
 	public void delete(@PathVariable("menuId") String menuId) {
 		menus.remove(menuId);
 	}
 
 	@PostMapping(params = "m=delete")
-	@Audit("批量删除菜单")
+	@Audit(desc="批量删除菜单")
 	public void delete(@RequestBody List<String> menuIds) {
 		menus.remove(menuIds);
 	}

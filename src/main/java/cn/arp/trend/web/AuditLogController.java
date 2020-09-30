@@ -27,7 +27,7 @@ public class AuditLogController {
 	@Autowired
 	private AuditLogService logService;
 	@GetMapping
-	@Audit("查看审计日志")
+	@Audit(desc="查看审计日志")
 	public ResponseEntity<List<AuditLog>> list(@RequestParam String q,
 					@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date start,
 					@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  Date end
