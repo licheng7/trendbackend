@@ -5,6 +5,7 @@ import cn.arp.trend.data.model.converter.AnalyzeAllConverter;
 import cn.arp.trend.data.model.response.AnalyzeResponse;
 import cn.arp.trend.service.biz.AnalyzeService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
+import cn.arp.trend.web.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ import javax.annotation.Resource;
 @Api(value="analyze",tags={"analyze"})
 @RestController
 @RequestMapping(value = "/analyze")
-public class AnalyzeController {
+public class AnalyzeController extends BaseController {
 
     @Resource
     private AnalyzeService analyzeService;
