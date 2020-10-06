@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.arp.trend.auth.Audit;
 import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.entity.Role;
 import cn.arp.trend.error.RestError;
@@ -53,6 +54,7 @@ public class RoleController extends BaseController {
 	}
 
 	@PostMapping
+	@Audit(desc="创建角色")
 	public Role create(@RequestBody Role t) throws RestError {
 		this.checkExist(t);
 		t.setId(-1);
@@ -60,6 +62,7 @@ public class RoleController extends BaseController {
 	}
 
 	@PutMapping("/{id}")
+	@Audit(desc="更新角色")
 	public Role update(@PathVariable("id") Integer id, @RequestBody Role t) throws RestError {
 		t.setId(id);
 		Role r = roleService.findById(id);
@@ -78,11 +81,13 @@ public class RoleController extends BaseController {
 	}
 
 	@DeleteMapping("/{id}")
+	@Audit(desc="删除角色")
 	public void remove(@PathVariable("id") Integer id) throws RestError {
 		roleService.delete(id);
 	}
 
 	@PostMapping(params = "m=delete")
+	@Audit(desc="批量删除角色")
 	public void remove(@RequestBody List<Integer> ids) throws RestError {
 		List<Integer> filtered = ParamUtils.filterNull(ids);
 		if (filtered != null && filtered.size() > 0) {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.arp.trend.auth.Audit;
 import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.MenuTo;
 import cn.arp.trend.entity.Menu;
@@ -26,6 +27,7 @@ public class MenuController extends BaseController {
 	private MenuService menus;
 	
 	@PostMapping
+	@Audit(desc="创建菜单")
 	public Menu create(@RequestBody MenuTo menu) {
 		return menus.create(menu.toEntity());
 	}
@@ -35,6 +37,7 @@ public class MenuController extends BaseController {
 		return toMenuToList(menus.findAll());
 	}
 	@PutMapping("/{menuId}")
+	@Audit(desc="更新菜单")
 	public void update(@PathVariable("menuId") String menuId, @RequestBody MenuTo menu) {
 		menus.update(menu.toEntity());
 	}
@@ -53,11 +56,13 @@ public class MenuController extends BaseController {
 	}
 
 	@DeleteMapping("/{menuId}")
+	@Audit(desc="删除菜单")
 	public void delete(@PathVariable("menuId") String menuId) {
 		menus.remove(menuId);
 	}
 
 	@PostMapping(params = "m=delete")
+	@Audit(desc="批量删除菜单")
 	public void delete(@RequestBody List<String> menuIds) {
 		menus.remove(menuIds);
 	}

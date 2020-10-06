@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.arp.trend.auth.Audit;
 import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.entity.Acl;
 import cn.arp.trend.entity.OrgnizationArea;
@@ -68,17 +69,20 @@ public class OrgnizationController extends BaseController {
 
 	@PostMapping
 	@RequirePermission(roles="admin")
+	@Audit(desc="创建研究所信息")
 	public OrgnizationArea create(@RequestBody OrgnizationArea org) throws RestError {
 		return service.create(org);
 	}
 
 	@PutMapping("/{orgId}")
+	@Audit(desc="更新研究所信息")
 	public OrgnizationArea update(@PathVariable("orgId") String orgId, @RequestBody OrgnizationArea org) {
 		org.setOrgId(orgId);
 		return service.update(org);
 	}
 
 	@PostMapping(params = "m=delete")
+	@Audit(desc="批量删除研究所信息")
 	public void removeAll(@RequestBody List<String> orgIds) {
 		List<String> filtered = ParamUtils.filterNull(orgIds);
 		if (filtered != null && filtered.size() > 0) {
@@ -87,6 +91,7 @@ public class OrgnizationController extends BaseController {
 	}
 
 	@DeleteMapping("/{orgId}")
+	@Audit(desc="删除研究所信息")
 	public void remove(@PathVariable("orgId") String orgId) {
 		if (StringUtils.isNotEmpty(orgId)) {
 			service.delete(orgId);

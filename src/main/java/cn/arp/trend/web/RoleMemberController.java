@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.arp.trend.auth.Audit;
 import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.entity.RoleMember;
 import cn.arp.trend.error.RestError;
@@ -41,20 +42,25 @@ public class RoleMemberController extends BaseController {
 	}
 
 	@PostMapping
+	@Audit(desc="添加角色成员")
 	public void addMembers(@PathVariable("roleId") int roleId, @RequestBody List<String> userIds) throws RestError {
 		roleService.addMembers(roleId, userIds);
 	}
 
 	@DeleteMapping(params="userId")
+	@Audit(desc="删除角色成员")
 	public void removeMemer(@PathVariable("roleId") int roleId, @RequestParam("userId") String userId) {
 		roleService.removeMemeber(roleId, userId);
 	}
 
 	@DeleteMapping
+	@Audit(desc="清空角色成员")
 	public void removeAllmembers(@PathVariable("roleId")int roleId){
 		roleService.removeAllMembers(roleId);
 	}
+	
 	@PostMapping(params = "m=delete")
+	@Audit(desc="批量删除角色成员")
 	public void removeMembers(@PathVariable("roleId") int roleId, @RequestBody List<String> userIds) {
 		roleService.removeMembers(roleId, userIds);
 	}
