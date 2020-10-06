@@ -29,4 +29,10 @@ public interface RefOrgTypeManualMapper {
      */
     List<RefOrgType> queryOrgAndResearchByAll();
 
+    /**
+     * 中科院各所名称、领域
+     * @return
+     */
+    List<RefOrgType> queryJgmcAndResearchAndSsfy();
+
 }

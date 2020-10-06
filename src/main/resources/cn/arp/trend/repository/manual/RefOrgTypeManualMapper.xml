@@ -15,7 +15,7 @@
     <result column="sljgmc" property="sljgmc" jdbcType="VARCHAR" />
     <result column="ssfy" property="ssfy" jdbcType="VARCHAR" />
     <result column="sssf" property="sssf" jdbcType="VARCHAR" />
-    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <!--<result column="desc" property="desc" jdbcType="VARCHAR" />-->
     <result column="datasource_type" property="datasourceType" jdbcType="VARCHAR" />
   </resultMap>
 
@@ -113,4 +113,13 @@
           convert(jgmc using gbk) ASC
     </select>
 
+    <select id="queryJgmcAndResearchAndSsfy" resultMap="BaseResultMap">
+        select
+          <include refid="Base_Column_List" />
+        from
+          ref_org_type
+        <where>
+            research_field!='NA'
+        </where>
+    </select>
 </mapper>

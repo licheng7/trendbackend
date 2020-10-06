@@ -16,6 +16,7 @@ import cn.arp.trend.service.biz.BasicService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +33,7 @@ import java.util.List;
  * Date:2020/9/27
  * Time:下午11:31
  **/
+@Api(value="basic",tags={"basic"})
 @RestController
 @RequestMapping(value = "/basic")
 public class BasicController extends BaseController {

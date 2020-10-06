@@ -37,7 +37,6 @@ public class SwaggerConfig {
                 .title("态势感知接口文档")  //标题
                 .description("java替换Node后端接口")  //描述
                 .version("1.0")
-                //.termsOfServiceUrl("cn.arp")
                 .build();
     }
 
