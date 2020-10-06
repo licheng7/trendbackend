@@ -21,6 +21,13 @@
     <result column="number_of_team" property="numberOfTeam" jdbcType="INTEGER" />
     <result column="subject" property="subject" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="RankMap" type="cn.arp.trend.entity.biz.Rank">
+    <result column="jgmc" property="jgmc" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="ydyl" property="ydyl" jdbcType="VARCHAR" />
+    <result column="number_of_team" property="numberOfTeam" jdbcType="INTEGER" />
+    <result column="visit_date" property="visitDate" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     <!--
       WARNING - @mbggenerated
@@ -68,5 +75,18 @@
     <where>
       birthday is not null
     </where>
+  </select>
+  
+  <select id="queryRank" resultMap="RankMap">
+    select
+      a.jgmc AS jgmc, country, ydyl, number_of_team, visit_date
+    from
+      ic_go AS a, ref_org_type AS b
+    <where>
+      a.jgmc=b.jgmc
+      and a.country is not NULL
+    </where>
+    ORDER BY
+      visit_date
   </select>
 </mapper>

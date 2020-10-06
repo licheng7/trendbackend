@@ -1,5 +1,6 @@
 package cn.arp.trend.web.biz;
 
+import cn.arp.trend.auth.Audit;
 import cn.arp.trend.data.model.DTO.AnalyzeInfoDTO;
 import cn.arp.trend.data.model.converter.AnalyzeAllConverter;
 import cn.arp.trend.data.model.response.AnalyzeResponse;
@@ -20,7 +21,7 @@ import javax.annotation.Resource;
  * Date:2020/9/29
  * Time:下午3:42
  **/
-@Api(value="analyze",tags={"analyze"})
+@Api(value="analyze",tags={"对应宏观部分analyze.js"})
 @RestController
 @RequestMapping(value = "/analyze")
 public class AnalyzeController extends BaseController {
@@ -31,6 +32,7 @@ public class AnalyzeController extends BaseController {
     @ApiOperation(value= "对应analyze.js的/", notes= "对应analyze.js的/")
     @ServiceExecuter(description = "对应analyze.js的/")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
+    @Audit(desc="对应analyze.js的/")
     public AnalyzeResponse analyzeQuery() {
         AnalyzeInfoDTO analyzeInfo = analyzeService.query();
         AnalyzeResponse response = new AnalyzeResponse();

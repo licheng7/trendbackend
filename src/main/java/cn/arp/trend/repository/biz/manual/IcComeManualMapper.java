@@ -1,5 +1,7 @@
 package cn.arp.trend.repository.biz.manual;
 
+import cn.arp.trend.entity.biz.Rank;
+
 import java.util.List;
 
 /**
@@ -33,4 +35,10 @@ public interface IcComeManualMapper {
      * @return
      */
     List<String> queryAgeYear();
+
+    /**
+     *
+     * @return
+     */
+    List<Rank> queryRank();
 }

@@ -34,7 +34,7 @@ import java.util.List;
  * Date:2020/9/27
  * Time:下午11:31
  **/
-@Api(value="basic",tags={"basic"})
+@Api(value="basic",tags={"对应宏观部分basic.js"})
 @RestController
 @RequestMapping(value = "/basic")
 public class BasicController extends BaseController {
