@@ -1,9 +1,6 @@
 package cn.arp.trend.repository.biz.manual;
 
-import cn.arp.trend.entity.biz.Country;
-import cn.arp.trend.entity.biz.GoAndComeLink;
-import cn.arp.trend.entity.biz.Rank;
-import cn.arp.trend.entity.biz.Unit;
+import cn.arp.trend.entity.biz.*;
 
 import java.util.List;
 
@@ -62,4 +59,16 @@ public interface IcComeManualMapper {
      * @return
      */
     List<GoAndComeLink> queryComeLink();
+
+    /**
+     *
+     * @return
+     */
+    List<String> queryDistinctCountry();
+
+    /**
+     *
+     * @return
+     */
+    List<CountryAndNationality> queryCountryAndNationality();
 }

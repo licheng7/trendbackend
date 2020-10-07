@@ -2,10 +2,7 @@ package cn.arp.trend.service.biz.impl;
 
 import cn.arp.trend.data.model.DTO.*;
 import cn.arp.trend.data.model.converter.GoAndComeLinkConverter;
-import cn.arp.trend.entity.biz.Country;
-import cn.arp.trend.entity.biz.GoAndComeLink;
-import cn.arp.trend.entity.biz.Rank;
-import cn.arp.trend.entity.biz.Unit;
+import cn.arp.trend.entity.biz.*;
 import cn.arp.trend.repository.biz.manual.IcComeManualMapper;
 import cn.arp.trend.repository.biz.manual.IcGoManualMapper;
 import cn.arp.trend.service.biz.CollaborationService;
@@ -174,5 +171,49 @@ public class CollaborationServiceImpl implements CollaborationService {
         }
 
         return new LinksInfoDTO(timeList, Lists.newArrayList(goToByTimeObjMap.values()));
+    }
+
+    @Override
+    public Map<String, Map<String, Integer>> countryNumQuery() {
+        List<String> distinctCountryList = icComeManualMapper.queryDistinctCountry();
+        List<CountryAndNationality> goCountryAndNationalityList = icGoManualMapper
+                .queryCountryAndNationality();
+        List<CountryAndNationality> comeCountryAndNationalityList = icComeManualMapper
+                .queryCountryAndNationality();
+
+        Map<String, Map<String, Integer>> result = Maps.newHashMap();
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(new Date(2012 - 1900, 1,1));
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.setTime(new Date(2016 - 1900, 12,31));
+        while(startCalendar.before(endCalendar)) {
+            startCalendar.add(Calendar.MONTH, 1);
+            String time = simpleDateFormat.format(startCalendar.getTime());
+
+            Map<String, Integer> countryMap = Maps.newHashMap();
+            for(String country : distinctCountryList) {
+                countryMap.put(country, 0);
+            }
+            result.put(time, countryMap);
+        }
+
+        List<CountryAndNationality> allCountryAndNationalityList = Lists.newArrayList();
+        allCountryAndNationalityList.addAll(goCountryAndNationalityList);
+        allCountryAndNationalityList.addAll(comeCountryAndNationalityList);
+
+        for(CountryAndNationality countryAndNationality : allCountryAndNationalityList) {
+            String date = countryAndNationality.getDate();
+            String country = countryAndNationality.getCountry();
+            String nationality = countryAndNationality.getNationality();
+            if(result.containsKey(date)) {
+                Map<String, Integer> countryMap = result.get(date);
+                if(countryMap.containsKey(country) & countryMap.containsKey(nationality)) {
+                    countryMap.put(country, countryMap.get(country) == null ? 0 : countryMap.get(country) + 1);
+                    countryMap.put(nationality, countryMap.get(nationality) == null ? 0 : countryMap.get(nationality) + 1);
+                }
+            }
+        }
+
+        return result;
     }
 }

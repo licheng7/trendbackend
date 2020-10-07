@@ -5,6 +5,7 @@ import cn.arp.trend.data.model.DTO.LinksInfoDTO;
 import cn.arp.trend.data.model.DTO.Rank2InfoDTO;
 import cn.arp.trend.data.model.DTO.RankInfoDTO;
 import cn.arp.trend.data.model.converter.RankInfoConverter;
+import cn.arp.trend.data.model.response.CountryNumResponse;
 import cn.arp.trend.data.model.response.LinksInfoReponse;
 import cn.arp.trend.data.model.response.Rank2InfoResponse;
 import cn.arp.trend.data.model.response.RankInfoResponse;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * 对应Node代码中collaboration.js
@@ -62,5 +64,14 @@ public class CollaborationController extends BaseController {
     public LinksInfoReponse linksQuery() {
         LinksInfoDTO linksInfo = collaborationService.linksQuery();
         return new LinksInfoReponse(linksInfo.getTimeList(), linksInfo.getTimeListObj());
+    }
+
+    @ApiOperation(value= "国家列表(对应collaboration.js的/getCountryNum)", notes= "国家列表(对应collaboration.js的/getCountryNum)")
+    @ServiceExecuter(description = "国家列表(对应collaboration.js的/getCountryNum)")
+    @RequestMapping(value = "/getCountryNum", method = RequestMethod.POST)
+    @Audit(desc="国家列表(对应collaboration.js的/getCountryNum)")
+    public CountryNumResponse countryNumQuery() {
+        Map<String, Map<String, Integer>> result = collaborationService.countryNumQuery();
+        return new CountryNumResponse(result);
     }
 }
