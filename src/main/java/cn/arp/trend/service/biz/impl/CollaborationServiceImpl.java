@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -85,6 +86,20 @@ public class CollaborationServiceImpl implements CollaborationService {
                     unit.getNum()
             ));
         }
+        Map<String, List<GotoUnitDTO>> gotoUnitMap = gotoUnitList.stream().collect(
+                Collectors.groupingBy(obj -> obj.getName()));
+        List<GotoUnitDTO> distinctGotoUnitList = Lists.newArrayList();
+        for(String key : gotoUnitMap.keySet()) {
+            List<GotoUnitDTO> gotoUnitByKeyList = gotoUnitMap.get(key);
+            int _goNum = 0;
+            int _comeNum = 0;
+            for(GotoUnitDTO gotoUnit : gotoUnitByKeyList) {
+                _goNum = _goNum + (gotoUnit.getGoNum() == null ? 0 : gotoUnit.getGoNum());
+                _comeNum = _comeNum + (gotoUnit.getComeNum() == null ? 0 : gotoUnit.getComeNum());
+            }
+            GotoUnitDTO newGotoUnitDTO = new GotoUnitDTO(key, _goNum, _comeNum);
+            distinctGotoUnitList.add(newGotoUnitDTO);
+        }
 
         List<GotoCountryDTO> gotoCountryList = Lists.newArrayList();
         for(Country country : goCountryList) {
@@ -101,7 +116,21 @@ public class CollaborationServiceImpl implements CollaborationService {
                     country.getNum()
             ));
         }
+        Map<String, List<GotoCountryDTO>> gotoCountryMap = gotoCountryList.stream().collect(
+                Collectors.groupingBy(obj -> obj.getName()));
+        List<GotoCountryDTO> distinctGotoCountryList = Lists.newArrayList();
+        for(String key : gotoCountryMap.keySet()) {
+            List<GotoCountryDTO> gotoCountryByKeyList = gotoCountryMap.get(key);
+            int _goNum = 0;
+            int _comeNum = 0;
+            for(GotoCountryDTO gotoCountry : gotoCountryByKeyList) {
+                _goNum = _goNum + (gotoCountry.getGoNum() == null ? 0 : gotoCountry.getGoNum());
+                _comeNum = _comeNum + (gotoCountry.getComeNum() == null ? 0 : gotoCountry.getComeNum());
+            }
+            GotoCountryDTO newGotoCountryDTO = new GotoCountryDTO(key, _goNum, _comeNum);
+            distinctGotoCountryList.add(newGotoCountryDTO);
+        }
 
-        return new Rank2InfoDTO(gotoUnitList, gotoCountryList);
+        return new Rank2InfoDTO(distinctGotoUnitList, distinctGotoCountryList);
     }
 }
