@@ -1,19 +1,22 @@
 package cn.arp.trend.service.biz.impl;
 
-import cn.arp.trend.data.model.DTO.GotoCountryDTO;
-import cn.arp.trend.data.model.DTO.GotoUnitDTO;
-import cn.arp.trend.data.model.DTO.Rank2InfoDTO;
-import cn.arp.trend.data.model.DTO.RankInfoDTO;
+import cn.arp.trend.data.model.DTO.*;
+import cn.arp.trend.data.model.converter.GoAndComeLinkConverter;
 import cn.arp.trend.entity.biz.Country;
+import cn.arp.trend.entity.biz.GoAndComeLink;
 import cn.arp.trend.entity.biz.Rank;
 import cn.arp.trend.entity.biz.Unit;
 import cn.arp.trend.repository.biz.manual.IcComeManualMapper;
 import cn.arp.trend.repository.biz.manual.IcGoManualMapper;
 import cn.arp.trend.service.biz.CollaborationService;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,6 +29,8 @@ import java.util.stream.Collectors;
  **/
 @Service
 public class CollaborationServiceImpl implements CollaborationService {
+
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy-MM");
 
     @Resource
     private IcGoManualMapper icGoManualMapper;
@@ -132,5 +137,42 @@ public class CollaborationServiceImpl implements CollaborationService {
         }
 
         return new Rank2InfoDTO(distinctGotoUnitList, distinctGotoCountryList);
+    }
+
+    @Override
+    public LinksInfoDTO linksQuery() {
+        // 先初始化时间列表
+        List<String> timeList = Lists.newArrayList();
+        Map<String, GoToByTimeObjDTO> goToByTimeObjMap = Maps.newHashMap();
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(new Date(2012 - 1900, 1,1));
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.setTime(new Date(2016 - 1900, 12,31));
+        while(startCalendar.before(endCalendar)) {
+            startCalendar.add(Calendar.MONTH, 1);
+            String time = simpleDateFormat.format(startCalendar.getTime());
+            timeList.add(time);
+            goToByTimeObjMap.put(time, new GoToByTimeObjDTO(time, null, null));
+        }
+
+        // 填充查询结果
+        List<GoAndComeLink> goLinks = icGoManualMapper.queryGoLink();
+        List<GoAndComeLink> comeLinks = icComeManualMapper.queryComeLink();
+        for(GoAndComeLink goAndComeLink : goLinks) {
+            String time = goAndComeLink.getDate();
+            if(goToByTimeObjMap.containsKey(time)) {
+                goToByTimeObjMap.get(time).setTo(
+                        GoAndComeLinkConverter.INSTANCE.domain2dto(goAndComeLink));
+            }
+        }
+        for(GoAndComeLink goAndComeLink : comeLinks) {
+            String time = goAndComeLink.getDate();
+            if(goToByTimeObjMap.containsKey(time)) {
+                goToByTimeObjMap.get(time).setCome(
+                        GoAndComeLinkConverter.INSTANCE.domain2dto(goAndComeLink));
+            }
+        }
+
+        return new LinksInfoDTO(timeList, Lists.newArrayList(goToByTimeObjMap.values()));
     }
 }

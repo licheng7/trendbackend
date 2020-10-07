@@ -36,6 +36,12 @@
     <result column="country" property="country" jdbcType="VARCHAR" />
     <result column="num" property="num" jdbcType="INTEGER" />
   </resultMap>
+  <resultMap id="GoAndComeLinkMap" type="cn.arp.trend.entity.biz.GoAndComeLink">
+    <result column="visit_date" property="date" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+  </resultMap>
 
   <sql id="Base_Column_List" >
     <!--
@@ -123,5 +129,21 @@
       country
     ORDER BY
       num DESC
+  </select>
+
+  <select id="queryGoLink" resultMap="GoAndComeLinkMap">
+    SELECT
+      ANY_VALUE(LEFT(a.visit_date, 7)) AS visit_date,
+      SUM(a.number_of_team) AS num,
+      ANY_VALUE(a.country) AS country,
+      ANY_VALUE(LEFT(b.ssfy, 2)) AS city
+    FROM
+      ic_go AS a,ref_org_type AS b
+    <where>
+      a.country is not null
+      AND a.jgbh=b.jgbh
+    </where>
+    GROUP BY
+      LEFT(a.visit_date, 7), a.country, b.ssfy
   </select>
 </mapper>
