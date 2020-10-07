@@ -28,6 +28,14 @@
     <result column="number_of_team" property="numberOfTeam" jdbcType="INTEGER" />
     <result column="visit_date" property="visitDate" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="UnitMap" type="cn.arp.trend.entity.biz.Unit">
+    <result column="jgmc" property="jgmc" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="CountryMap" type="cn.arp.trend.entity.biz.Country">
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+  </resultMap>
   <sql id="Base_Column_List" >
     <!--
       WARNING - @mbggenerated
@@ -88,5 +96,33 @@
     </where>
     ORDER BY
       visit_date
+  </select>
+
+  <select id="queryComeUnit" resultMap="UnitMap">
+    select
+      a.jgmc AS jgmc, COUNT(*) AS num
+    from
+      ic_come AS a, ref_org_type AS B
+    <where>
+      a.jgmc = B.jgmc
+    </where>
+    GROUP BY
+      jgmc
+    ORDER BY
+      num DESC
+  </select>
+
+  <select id="queryComeCountry" resultMap="CountryMap">
+    select
+      a.country AS country, COUNT(*) AS num
+    from
+      ic_come AS a, ref_org_type AS B
+    <where>
+      a.jgmc =B.jgmc AND a.country is not NULL
+    </where>
+    GROUP BY
+      country
+    ORDER BY
+      num DESC
   </select>
 </mapper>

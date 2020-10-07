@@ -1,5 +1,6 @@
 package cn.arp.trend.service.biz;
 
+import cn.arp.trend.data.model.DTO.Rank2InfoDTO;
 import cn.arp.trend.data.model.DTO.RankInfoDTO;
 
 /**
@@ -11,4 +12,6 @@ import cn.arp.trend.data.model.DTO.RankInfoDTO;
 public interface CollaborationService {
 
     RankInfoDTO rankQuery();
+
+    Rank2InfoDTO rankQuery2();
 }

@@ -1,6 +1,8 @@
 package cn.arp.trend.repository.biz.manual;
 
+import cn.arp.trend.entity.biz.Country;
 import cn.arp.trend.entity.biz.Rank;
+import cn.arp.trend.entity.biz.Unit;
 
 import java.util.List;
 
@@ -41,4 +43,16 @@ public interface IcComeManualMapper {
      * @return
      */
     List<Rank> queryRank();
+
+    /**
+     *
+     * @return
+     */
+    List<Unit> queryComeUnit();
+
+    /**
+     *
+     * @return
+     */
+    List<Country> queryComeCountry();
 }

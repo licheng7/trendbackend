@@ -82,7 +82,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 
         /**
          * TODO
-         * 这里因为方法太多，做一步优化，利用guava future
+         * 这里因为方法太多，做一步优化，利用guava future + AQS
          * 做多线程的并行处理，因为数据库设计成这样，大表方式处理暂时不可能，多线程的坏处是限制了不能做大并发量查询，有机会最好重构掉吧
          */
         List<ListenableFuture> fetureList = Lists.newArrayList();
