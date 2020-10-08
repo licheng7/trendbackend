@@ -363,10 +363,13 @@ public class CollaborationServiceImpl implements CollaborationService {
             }
         }
 
-        goCountryObjMap.entrySet().stream().sorted
-                (Collections.reverseOrder(Map.Entry.comparingByValue()));
+        Map<String, Integer> sortedGoCountryObjMap = Maps.newHashMap();
 
-        int top10 = goCountryObjMap.size() < 10 ? goCountryObjMap.size() : 10;
+        goCountryObjMap.entrySet().stream().sorted
+                (Collections.reverseOrder(Map.Entry.comparingByValue())).forEach(obj ->
+                sortedGoCountryObjMap.put(obj.getKey(), obj.getValue()));
+
+        int top10 = sortedGoCountryObjMap.size() < 10 ? sortedGoCountryObjMap.size() : 10;
 
         Map<String, Map<String, Integer>> topTenCountryMap = Maps.newHashMap();
 
@@ -377,7 +380,7 @@ public class CollaborationServiceImpl implements CollaborationService {
         }
 
         List<String> topTenCountryName = Lists.newArrayList();
-        for(String country : goCountryObjMap.keySet()) {
+        for(String country : sortedGoCountryObjMap.keySet()) {
             if(country == null) {
                 continue;
             }
@@ -407,9 +410,11 @@ public class CollaborationServiceImpl implements CollaborationService {
         goAnalyseInfo.setCountryObjList(goCountryObjList);
         goAnalyseInfo.setFieldObjList(fieldObjMap);
         goAnalyseInfo.setFormObjList(formObjMap);
+        Map<String, Integer> sortedAffiliationObjMap = Maps.newHashMap();
         affiliationObjMap.entrySet().stream().sorted
-                (Collections.reverseOrder(Map.Entry.comparingByValue()));
-        goAnalyseInfo.setAffiliationObjList(affiliationObjMap);
+                (Collections.reverseOrder(Map.Entry.comparingByValue())).forEach(obj ->
+                sortedAffiliationObjMap.put(obj.getKey(), obj.getValue()));
+        goAnalyseInfo.setAffiliationObjList(sortedAffiliationObjMap);
         goAnalyseInfo.setYearNumList(yearMap);
         goAnalyseInfo.setAgeNumList(ageNumMap);
         goAnalyseInfo.setAgelist(newAgelist);
@@ -571,8 +576,11 @@ public class CollaborationServiceImpl implements CollaborationService {
             }
         }
 
+        Map<String, Integer> sortedComeCountryObjMap = Maps.newHashMap();
+
         comeCountryObjMap.entrySet().stream().sorted
-                (Collections.reverseOrder(Map.Entry.comparingByValue()));
+                (Collections.reverseOrder(Map.Entry.comparingByValue())).forEach(obj ->
+                sortedComeCountryObjMap.put(obj.getKey(), obj.getValue()));
 
         int top10 = comeCountryObjMap.size() < 10 ? comeCountryObjMap.size() : 10;
 
@@ -585,7 +593,7 @@ public class CollaborationServiceImpl implements CollaborationService {
         }
 
         List<String> topTenCountryName = Lists.newArrayList();
-        for(String country : comeCountryObjMap.keySet()) {
+        for(String country : sortedComeCountryObjMap.keySet()) {
             if(country == null) {
                 continue;
             }
@@ -615,9 +623,11 @@ public class CollaborationServiceImpl implements CollaborationService {
         comeAnalyseInfo.setCountryObjList(goCountryObjList);
         comeAnalyseInfo.setFieldObjList(fieldObjMap);
         comeAnalyseInfo.setFormObjList(formObjMap);
+        Map<String, Integer> sortedAffiliationObjMap = Maps.newHashMap();
         affiliationObjMap.entrySet().stream().sorted
-                (Collections.reverseOrder(Map.Entry.comparingByValue()));
-        comeAnalyseInfo.setAffiliationObjList(affiliationObjMap);
+                (Collections.reverseOrder(Map.Entry.comparingByValue())).forEach(obj ->
+                sortedAffiliationObjMap.put(obj.getKey(), obj.getValue()));
+        comeAnalyseInfo.setAffiliationObjList(sortedAffiliationObjMap);
         comeAnalyseInfo.setYearNumList(yearMap);
         comeAnalyseInfo.setAgeNumList(ageNumMap);
         comeAnalyseInfo.setAgelist(newAgelist);

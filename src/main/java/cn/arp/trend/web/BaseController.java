@@ -21,6 +21,7 @@ public abstract class BaseController {
 			StringBuffer sb = new StringBuffer();
 			for (ObjectError error : bindingResult.getAllErrors()) {
 				sb.append(error.getDefaultMessage());
+				sb.append(";");
 			}
 			throw RestError.badArgument(sb.toString());
 		}
