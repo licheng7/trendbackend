@@ -47,6 +47,17 @@
     <result column="country" property="country" jdbcType="VARCHAR" />
     <result column="nationality" property="country" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="GoAnalyseMap" type="cn.arp.trend.entity.biz.GoAnalyse">
+    <result column="jgmc" property="jgmc" jdbcType="VARCHAR" />
+    <result column="field" property="field" jdbcType="VARCHAR" />
+    <result column="visit_date" property="date" jdbcType="VARCHAR" />
+    <result column="form" property="form" jdbcType="VARCHAR" />
+    <result column="team_num" property="teamNum" jdbcType="INTEGER" />
+    <result column="year_old" property="yearOld" jdbcType="INTEGER" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="ydyl" property="ydyl" jdbcType="VARCHAR" />
+  </resultMap>
 
   <sql id="Base_Column_List" >
     <!--
@@ -162,5 +173,84 @@
     WHERE
       a.country is not null
       AND a.nationality is not null
+  </select>
+
+  <select id="queryGoAnalyse" parameterType="cn.arp.trend.data.model.DO.GoAnalyseQueryDO" resultMap="GoAnalyseMap">
+    select
+      ANY_VALUE(a.jgmc) as jgmc,
+      ANY_VALUE(a.field) as field,
+      ANY_VALUE(LEFT(a.visit_date, 4)) AS visit_date,
+      ANY_VALUE(a.form) as form,
+      ANY_VALUE(a.number_of_team) as team_num,
+      TIMESTAMPDIFF(YEAR, birthday, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%S')) AS year_old,
+      ANY_VALUE(LEFT(b.ssfy, 2)) as city,
+      ANY_VALUE(a.country) as country,
+      ANY_VALUE(a.ydyl) as ydyl
+    FROM
+      ic_go AS a,
+      ref_org_type AS b
+    <where>
+      a.jgbh = b.jgbh
+      AND <![CDATA[date_add(birthday, interval #{request.startAge} year) <= now()]]>
+      AND <![CDATA[date_add(birthday, interval #{request.endAge} year) >= now()]]>
+      AND <![CDATA[ANY_VALUE(LEFT(a.visit_date, 4)) >= #{request.startYear}]]>
+      AND <![CDATA[ANY_VALUE(LEFT(a.visit_date, 4)) <= #{request.endYear}]]>
+      <choose>
+        <when test="request.fieldName != null">
+          AND a.field in (
+          <foreach collection="request.fieldName" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND a.field is not null and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="request.form != null">
+          AND a.form in (
+          <foreach collection="request.form" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND a.form is not null
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="request.affiliationId != null">
+          AND a.jgbh in (
+          <foreach collection="request.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND a.jgbh is not null
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="request.nationality != null">
+          AND a.nationality in (
+          <foreach collection="request.nationality" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND a.nationality is not null
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="request.sex != null">
+          AND a.gender = #{request.sex}
+        </when>
+        <otherwise>
+          AND a.gender is not null
+        </otherwise>
+      </choose>
+    </where>
   </select>
 </mapper>

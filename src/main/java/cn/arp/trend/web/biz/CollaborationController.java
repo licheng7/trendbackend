@@ -1,24 +1,29 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.data.model.DO.GoAnalyseQueryDO;
+import cn.arp.trend.data.model.DTO.GoAnalyseInfoDTO;
 import cn.arp.trend.data.model.DTO.LinksInfoDTO;
 import cn.arp.trend.data.model.DTO.Rank2InfoDTO;
 import cn.arp.trend.data.model.DTO.RankInfoDTO;
+import cn.arp.trend.data.model.converter.GoAnalyseInfoConverter;
+import cn.arp.trend.data.model.converter.GoAnalyseRequestConverter;
 import cn.arp.trend.data.model.converter.RankInfoConverter;
-import cn.arp.trend.data.model.response.CountryNumResponse;
-import cn.arp.trend.data.model.response.LinksInfoReponse;
-import cn.arp.trend.data.model.response.Rank2InfoResponse;
-import cn.arp.trend.data.model.response.RankInfoResponse;
+import cn.arp.trend.data.model.request.GoAnalyseRequest;
+import cn.arp.trend.data.model.response.*;
+import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.CollaborationService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.Map;
 
 /**
@@ -32,6 +37,7 @@ import java.util.Map;
 @Api(value="collaboration",tags={"对应宏观部分collaboration.js"})
 @RestController
 @RequestMapping(value = "/collaboration")
+@Validated
 public class CollaborationController extends BaseController {
 
     @Resource
@@ -73,5 +79,15 @@ public class CollaborationController extends BaseController {
     public CountryNumResponse countryNumQuery() {
         Map<String, Map<String, Integer>> result = collaborationService.countryNumQuery();
         return new CountryNumResponse(result);
+    }
+
+    @ApiOperation(value= "对应collaboration.js的/goAnalyse", notes= "对应collaboration.js的/goAnalyse")
+    @ServiceExecuter(description = "对应collaboration.js的/goAnalyse")
+    @RequestMapping(value = "/goAnalyse", method = RequestMethod.POST)
+    @Audit(desc="对应collaboration.js的/goAnalyse")
+    public GoAnalyseResponse goAnalyseQuery(@Valid GoAnalyseRequest request) throws RestError {
+        GoAnalyseQueryDO goAnalyseQueryDO = GoAnalyseRequestConverter.INSTANCE.domain2dto(request);
+        GoAnalyseInfoDTO goAnalyseInfo = collaborationService.goAnalyseQuery(goAnalyseQueryDO);
+        return GoAnalyseInfoConverter.INSTANCE.domain2dto(goAnalyseInfo);
     }
 }

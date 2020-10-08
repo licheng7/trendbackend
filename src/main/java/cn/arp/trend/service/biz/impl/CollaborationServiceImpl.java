@@ -1,5 +1,6 @@
 package cn.arp.trend.service.biz.impl;
 
+import cn.arp.trend.data.model.DO.GoAnalyseQueryDO;
 import cn.arp.trend.data.model.DTO.*;
 import cn.arp.trend.data.model.converter.GoAndComeLinkConverter;
 import cn.arp.trend.entity.biz.*;
@@ -12,10 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -215,5 +213,208 @@ public class CollaborationServiceImpl implements CollaborationService {
         }
 
         return result;
+    }
+
+    @Override
+    public GoAnalyseInfoDTO goAnalyseQuery(GoAnalyseQueryDO goAnalyseQuery) {
+        List<GoAnalyse> goAnalyseList = icGoManualMapper.queryGoAnalyse(goAnalyseQuery);
+
+        List<String> yearlist = Lists.newArrayList();
+        int startYear = Integer.valueOf(goAnalyseQuery.getStartYear());
+        int endYear = Integer.valueOf(goAnalyseQuery.getEndYear());
+        while(startYear <= endYear) {
+            yearlist.add(String.valueOf(startYear));
+            startYear ++;
+        }
+
+        List<Integer> agelist = Lists.newArrayList();
+        List<String> newAgelist = Lists.newArrayList();
+        int startAge = goAnalyseQuery.getStartAge();
+        int endAge = goAnalyseQuery.getEndAge();
+        while (startAge <= endAge) {
+            agelist.add(startAge);
+            newAgelist.add(String.valueOf(startAge));
+            startAge ++;
+        }
+
+        int goCountryPeopleNum = goAnalyseList.size();
+
+        List<String> goCountryList = goAnalyseList.stream().map(
+                obj -> obj.getCountry()).distinct().collect(Collectors.toList());
+
+        List<String> countryList = goCountryList;
+
+        List<String> goydylCountryList = goAnalyseList.stream()
+                .filter(obj -> obj.getYdyl().equals("Y"))
+                .map(obj -> obj.getCountry()).collect(Collectors.toList());
+
+        int goydylCountryPeopleNum = goydylCountryList.size();
+
+        List<String> distinctGoydylCountryList = goydylCountryList.stream()
+                .distinct().collect(Collectors.toList());
+
+        List<String> fieldList = goAnalyseList.stream().map(obj -> obj.getField())
+                .distinct().collect(Collectors.toList());
+
+        List<String> formList = goAnalyseList.stream().map(obj -> obj.getForm())
+                .distinct().collect(Collectors.toList());
+
+        List<String> affiliationList = goAnalyseList.stream().map(obj -> obj.getJgmc())
+                .distinct().collect(Collectors.toList());
+
+        List<String> cityList = goAnalyseList.stream().map(obj -> obj.getCity())
+                .distinct().collect(Collectors.toList());
+
+        countryList.add("中国");
+
+        List<String> goCountryObjList = goAnalyseList.stream().map(obj -> obj.getCity())
+                .distinct().collect(Collectors.toList());
+
+        Map<String, Integer> goCountryObjMap = Maps.newHashMap();
+        for(String country : goCountryList) {
+            goCountryObjMap.put(country, 0);
+        }
+
+        Map<String, Integer> fieldObjMap = Maps.newHashMap();
+        for(String field : fieldList) {
+            fieldObjMap.put(field, 0);
+        }
+
+        Map<String, Integer> formObjMap = Maps.newHashMap();
+        for(String form : formList) {
+            fieldObjMap.put(form, 0);
+        }
+
+        Map<String, Integer> affiliationObjMap = Maps.newHashMap();
+        for(String affiliation : affiliationList) {
+            affiliationObjMap.put(affiliation, 0);
+        }
+
+        Map<String, Integer> countryNumberObjectMap = Maps.newHashMap();
+        for(String country : countryList) {
+            countryNumberObjectMap.put(country, 0);
+        }
+
+        Map<Integer, Integer> ageNumMap = Maps.newHashMap();
+        for(Integer age : agelist) {
+            ageNumMap.put(age, 0);
+        }
+
+        Map<String, Integer> yearMap = Maps.newHashMap();
+        for(String year : yearlist) {
+            yearMap.put(year, 0);
+        }
+
+        Map<String, List<String>> cityAndCountryObjMap = Maps.newHashMap();
+        for(String city : cityList) {
+            cityAndCountryObjMap.put(city, Lists.newArrayList());
+        }
+
+        for(GoAnalyse goAnalyse : goAnalyseList) {
+            if(goCountryObjMap.containsKey(goAnalyse.getCountry())) {
+                goCountryObjMap.put(goAnalyse.getCountry(), goCountryObjMap.get(goAnalyse
+                        .getCountry()) + 1);
+            }
+            if(fieldObjMap.containsKey(goAnalyse.getField())) {
+                fieldObjMap.put(goAnalyse.getField(), fieldObjMap.get(goAnalyse.getField()) + 1);
+            }
+            if(formObjMap.containsKey(goAnalyse.getForm())) {
+                formObjMap.put(goAnalyse.getForm(), formObjMap.get(goAnalyse.getForm()) + 1);
+            }
+            if(affiliationObjMap.containsKey(goAnalyse.getJgmc())) {
+                affiliationObjMap.put(goAnalyse.getJgmc(), affiliationObjMap.get(goAnalyse.getJgmc()) + 1);
+            }
+            if(countryNumberObjectMap.containsKey(goAnalyse.getCountry())) {
+                countryNumberObjectMap.put(goAnalyse.getCountry(), countryNumberObjectMap.get(goAnalyse.getCountry()) + 1);
+            }
+            countryNumberObjectMap.put("中国", countryNumberObjectMap.get("中国") + 1);
+            if(ageNumMap.containsKey(goAnalyse.getYearOld())) {
+                ageNumMap.put(goAnalyse.getYearOld(), ageNumMap.get(goAnalyse.getYearOld()) + 1);
+            }
+            if(yearMap.containsKey(goAnalyse.getDate())) {
+                int date = Integer.valueOf(goAnalyse.getDate());
+                yearMap.put(goAnalyse.getDate(),
+                        yearMap.get(date) == null ? 0 : yearMap.get(date) + 1);
+            }
+            if(cityAndCountryObjMap.containsKey(goAnalyse.getCity())) {
+                cityAndCountryObjMap.get(goAnalyse.getCity()).add(goAnalyse.getCountry());
+            }
+        }
+
+        List<TempObjDTO> tempObjList = Lists.newArrayList();
+
+        for(String city : cityAndCountryObjMap.keySet()) {
+            List<String> countylist = cityAndCountryObjMap.get(city);
+            Map<String, Integer> tempCountryMap = Maps.newHashMap();
+            for(String country : countylist) {
+                if(tempCountryMap.containsKey(country)) {
+                    tempCountryMap.put(country, tempCountryMap.get(country) + 1);
+                }
+                else {
+                    tempCountryMap.put(country, 1);
+                }
+            }
+            for(String country : tempCountryMap.keySet()) {
+                tempObjList.add(new TempObjDTO(city, country, tempCountryMap.get(country)));
+            }
+        }
+
+        goCountryObjMap.entrySet().stream().sorted
+                (Collections.reverseOrder(Map.Entry.comparingByValue()));
+
+        int top10 = goCountryObjMap.size() < 10 ? goCountryObjMap.size() : 10;
+
+        Map<String, Map<String, Integer>> topTenCountryMap = Maps.newHashMap();
+
+        Iterator iterator = goCountryObjMap.entrySet().iterator();
+
+        Map<String, Integer> tempYearMap = Maps.newHashMap();
+
+        for(String year : yearlist) {
+            tempYearMap.put(year, 0);
+        }
+
+        List<String> topTenCountryName = Lists.newArrayList();
+        for(String country : goCountryObjMap.keySet()) {
+            topTenCountryMap.put(country, tempYearMap);
+            topTenCountryName.add(country);
+            top10 --;
+            if(top10 == 0) {
+                break;
+            }
+        }
+
+        for(GoAnalyse goAnalyse : goAnalyseList) {
+            if(topTenCountryMap.containsKey(goAnalyse.getCountry())) {
+                Map<String, Integer> countryCount = topTenCountryMap.get(goAnalyse.getCountry());
+                if(countryCount.containsKey(goAnalyse.getDate())) {
+                    countryCount.put(goAnalyse.getDate(), countryCount.get(goAnalyse.getDate()) +
+                            1);
+                }
+            }
+        }
+
+        GoAnalyseInfoDTO goAnalyseInfo = new GoAnalyseInfoDTO();
+        goAnalyseInfo.setCountryNum(goCountryList.size());
+        goAnalyseInfo.setCountryPeopleNum(goCountryPeopleNum);
+        goAnalyseInfo.setYdylCountryNum(distinctGoydylCountryList.size());
+        goAnalyseInfo.setYdylCountryPeopleNum(goydylCountryPeopleNum);
+        goAnalyseInfo.setCountryObjList(goCountryObjList);
+        goAnalyseInfo.setFieldObjList(fieldObjMap);
+        goAnalyseInfo.setFormObjList(formObjMap);
+        affiliationObjMap.entrySet().stream().sorted
+                (Collections.reverseOrder(Map.Entry.comparingByValue()));
+        goAnalyseInfo.setAffiliationObjList(affiliationObjMap);
+        goAnalyseInfo.setYearNumList(yearMap);
+        goAnalyseInfo.setAgeNumList(ageNumMap);
+        goAnalyseInfo.setAgelist(newAgelist);
+        goAnalyseInfo.setYearList(yearlist);
+        goAnalyseInfo.setCountryNumberObject(countryNumberObjectMap);
+        goAnalyseInfo.setTopTenCountryName(topTenCountryName);
+        goAnalyseInfo.setTopTenCountryList(topTenCountryMap);
+        goAnalyseInfo.setCityAndCountryMapList(tempObjList);
+        goAnalyseInfo.setCityList(cityList);
+
+        return goAnalyseInfo;
     }
 }

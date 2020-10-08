@@ -1,5 +1,7 @@
 package cn.arp.trend.service.biz;
 
+import cn.arp.trend.data.model.DO.GoAnalyseQueryDO;
+import cn.arp.trend.data.model.DTO.GoAnalyseInfoDTO;
 import cn.arp.trend.data.model.DTO.LinksInfoDTO;
 import cn.arp.trend.data.model.DTO.Rank2InfoDTO;
 import cn.arp.trend.data.model.DTO.RankInfoDTO;
@@ -21,4 +23,6 @@ public interface CollaborationService {
     LinksInfoDTO linksQuery();
 
     Map<String, Map<String, Integer>> countryNumQuery();
+
+    GoAnalyseInfoDTO goAnalyseQuery(GoAnalyseQueryDO goAnalyseQuery);
 }
