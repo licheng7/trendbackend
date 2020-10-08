@@ -14,9 +14,9 @@ import java.util.Map;
  * Time:下午12:23
  **/
 @ToString
-public class GoAnalyseResponse implements Serializable {
+public class ComeAnalyseResponse implements Serializable{
 
-    private static final long serialVersionUID = -70897076165410036L;
+    private static final long serialVersionUID = -5271723399710091607L;
 
     private int countryNum;
 

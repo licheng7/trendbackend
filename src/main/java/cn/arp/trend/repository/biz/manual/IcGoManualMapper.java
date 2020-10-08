@@ -73,5 +73,5 @@ public interface IcGoManualMapper {
      * @param request
      * @return
      */
-    List<GoAnalyse> queryGoAnalyse(@Param("request") GoAnalyseQueryDO request);
+    List<GoAndComeAnalyse> queryGoAnalyse(@Param("request") GoAnalyseQueryDO request);
 }

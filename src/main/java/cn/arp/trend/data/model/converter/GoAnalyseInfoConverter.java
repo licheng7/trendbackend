@@ -24,5 +24,5 @@ public interface GoAnalyseInfoConverter {
     })
     GoAnalyseResponse domain2dto(GoAnalyseInfoDTO goAnalyseInfo);
 
-    List<GoAnalyseResponse> domain2dto(List<GoAnalyseInfoDTO> goAnalyseInfo);
+    List<GoAnalyseResponse> domain2dto(List<GoAnalyseInfoDTO> goAnalyseInfoList);
 }

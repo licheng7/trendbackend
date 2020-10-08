@@ -6,7 +6,7 @@ package cn.arp.trend.entity.biz;
  * Date:2020/10/8
  * Time:下午1:26
  **/
-public class GoAnalyse {
+public class GoAndComeAnalyse {
 
     private String jgmc;
 

@@ -1,6 +1,8 @@
 package cn.arp.trend.repository.biz.manual;
 
+import cn.arp.trend.data.model.DO.ComeAnalyseQueryDO;
 import cn.arp.trend.entity.biz.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -71,4 +73,11 @@ public interface IcComeManualMapper {
      * @return
      */
     List<CountryAndNationality> queryCountryAndNationality();
+
+    /**
+     *
+     * @param request
+     * @return
+     */
+    List<GoAndComeAnalyse> queryComeAnalyse(@Param("request") ComeAnalyseQueryDO request);
 }

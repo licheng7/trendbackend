@@ -47,7 +47,7 @@
     <result column="country" property="country" jdbcType="VARCHAR" />
     <result column="nationality" property="country" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="GoAnalyseMap" type="cn.arp.trend.entity.biz.GoAnalyse">
+  <resultMap id="GoAndComeAnalyseMap" type="cn.arp.trend.entity.biz.GoAndComeAnalyse">
     <result column="jgmc" property="jgmc" jdbcType="VARCHAR" />
     <result column="field" property="field" jdbcType="VARCHAR" />
     <result column="visit_date" property="date" jdbcType="VARCHAR" />
@@ -175,7 +175,7 @@
       AND a.nationality is not null
   </select>
 
-  <select id="queryGoAnalyse" parameterType="cn.arp.trend.data.model.DO.GoAnalyseQueryDO" resultMap="GoAnalyseMap">
+  <select id="queryGoAnalyse" parameterType="cn.arp.trend.data.model.DO.GoAnalyseQueryDO" resultMap="GoAndComeAnalyseMap">
     select
       ANY_VALUE(a.jgmc) as jgmc,
       ANY_VALUE(a.field) as field,

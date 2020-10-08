@@ -24,5 +24,5 @@ public interface GoAnalyseRequestConverter {
     })
     GoAnalyseQueryDO domain2dto(GoAnalyseRequest goAnalyseRequest);
 
-    List<GoAnalyseQueryDO> domain2dto(List<GoAnalyseRequest> goAnalyseRequest);
+    List<GoAnalyseQueryDO> domain2dto(List<GoAnalyseRequest> goAnalyseRequests);
 }

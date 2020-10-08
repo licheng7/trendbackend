@@ -1,9 +1,5 @@
-package cn.arp.trend.data.model.response;
+package cn.arp.trend.data.model.DTO;
 
-import cn.arp.trend.data.model.DTO.TempObjDTO;
-import lombok.ToString;
-
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -11,12 +7,9 @@ import java.util.Map;
  * Created with IDEA
  * author:licheng
  * Date:2020/10/8
- * Time:下午12:23
+ * Time:下午1:46
  **/
-@ToString
-public class GoAnalyseResponse implements Serializable {
-
-    private static final long serialVersionUID = -70897076165410036L;
+public class ComeAnalyseInfoDTO {
 
     private int countryNum;
 

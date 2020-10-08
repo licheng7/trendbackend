@@ -1,14 +1,11 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.data.model.DO.ComeAnalyseQueryDO;
 import cn.arp.trend.data.model.DO.GoAnalyseQueryDO;
-import cn.arp.trend.data.model.DTO.GoAnalyseInfoDTO;
-import cn.arp.trend.data.model.DTO.LinksInfoDTO;
-import cn.arp.trend.data.model.DTO.Rank2InfoDTO;
-import cn.arp.trend.data.model.DTO.RankInfoDTO;
-import cn.arp.trend.data.model.converter.GoAnalyseInfoConverter;
-import cn.arp.trend.data.model.converter.GoAnalyseRequestConverter;
-import cn.arp.trend.data.model.converter.RankInfoConverter;
+import cn.arp.trend.data.model.DTO.*;
+import cn.arp.trend.data.model.converter.*;
+import cn.arp.trend.data.model.request.ComeAnalyseRequest;
 import cn.arp.trend.data.model.request.GoAnalyseRequest;
 import cn.arp.trend.data.model.response.*;
 import cn.arp.trend.error.RestError;
@@ -89,5 +86,17 @@ public class CollaborationController extends BaseController {
         GoAnalyseQueryDO goAnalyseQueryDO = GoAnalyseRequestConverter.INSTANCE.domain2dto(request);
         GoAnalyseInfoDTO goAnalyseInfo = collaborationService.goAnalyseQuery(goAnalyseQueryDO);
         return GoAnalyseInfoConverter.INSTANCE.domain2dto(goAnalyseInfo);
+    }
+
+    @ApiOperation(value= "对应collaboration.js的/comeAnalyse", notes= "对应collaboration.js的/comeAnalyse")
+    @ServiceExecuter(description = "对应collaboration.js的/comeAnalyse")
+    @RequestMapping(value = "/comeAnalyse", method = RequestMethod.POST)
+    @Audit(desc="对应collaboration.js的/comeAnalyse")
+    public ComeAnalyseResponse comeAnalyseQuery(@Valid ComeAnalyseRequest request) throws RestError {
+        ComeAnalyseQueryDO comeAnalyseQueryDO = ComeAnalyseRequestConverter.INSTANCE.domain2dto
+                (request);
+        ComeAnalyseInfoDTO comeAnalyseInfo = collaborationService.comeAnalyseQuery
+                (comeAnalyseQueryDO);
+        return ComeAnalyseInfoConverter.INSTANCE.domain2dto(comeAnalyseInfo);
     }
 }
