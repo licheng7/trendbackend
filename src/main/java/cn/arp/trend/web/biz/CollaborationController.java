@@ -14,13 +14,13 @@ import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.Map;
 
 /**
@@ -82,7 +82,8 @@ public class CollaborationController extends BaseController {
     @ServiceExecuter(description = "对应collaboration.js的/goAnalyse")
     @RequestMapping(value = "/goAnalyse", method = RequestMethod.POST)
     @Audit(desc="对应collaboration.js的/goAnalyse")
-    public GoAnalyseResponse goAnalyseQuery(@Valid GoAnalyseRequest request) throws RestError {
+    public GoAnalyseResponse goAnalyseQuery(@Validated GoAnalyseRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
         GoAnalyseQueryDO goAnalyseQueryDO = GoAnalyseRequestConverter.INSTANCE.domain2dto(request);
         GoAnalyseInfoDTO goAnalyseInfo = collaborationService.goAnalyseQuery(goAnalyseQueryDO);
         return GoAnalyseInfoConverter.INSTANCE.domain2dto(goAnalyseInfo);
@@ -92,7 +93,8 @@ public class CollaborationController extends BaseController {
     @ServiceExecuter(description = "对应collaboration.js的/comeAnalyse")
     @RequestMapping(value = "/comeAnalyse", method = RequestMethod.POST)
     @Audit(desc="对应collaboration.js的/comeAnalyse")
-    public ComeAnalyseResponse comeAnalyseQuery(@Valid ComeAnalyseRequest request) throws RestError {
+    public ComeAnalyseResponse comeAnalyseQuery(@Validated ComeAnalyseRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
         ComeAnalyseQueryDO comeAnalyseQueryDO = ComeAnalyseRequestConverter.INSTANCE.domain2dto
                 (request);
         ComeAnalyseInfoDTO comeAnalyseInfo = collaborationService.comeAnalyseQuery

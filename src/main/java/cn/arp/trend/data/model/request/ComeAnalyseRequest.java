@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.ToString;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -25,22 +25,28 @@ public class ComeAnalyseRequest implements Serializable {
 
     @ApiParam("startYear")
     @JsonProperty("start_year")
-    @NotNull(message = "startYear不能为空")
+    @NotBlank(message = "startYear不能为空")
+    @Pattern(regexp = "^([1-2]\\d{3})$", message = "startYear格式不正确")
     private String startYear;
 
     @ApiParam("endYear")
     @JsonProperty("end_year")
-    @NotNull(message = "endYear不能为空")
+    @NotBlank(message = "endYear不能为空")
+    @Pattern(regexp = "^([1-2]\\d{3})$", message = "endYear格式不正确")
     private String endYear;
 
     @ApiParam("startAge")
     @JsonProperty("start_age")
     @NotNull(message = "startAge不能为空")
+    @Min(value = 0, message = "startAge不能小于0")
+    @Max(value = 200, message = "startAge过大")
     private Integer startAge;
 
     @ApiParam("endAge")
     @JsonProperty("end_age")
     @NotNull(message = "endAge不能为空")
+    @Min(value = 0, message = "endAge不能小于0")
+    @Max(value = 200, message = "endAge过大")
     private Integer endAge;
 
     @ApiParam("sex")
