@@ -63,7 +63,7 @@ server:
   servlet:
     context-path: /trend
 mybatis:
-  mapper-locations: classpath:cn/arp/trend/repository/*/*.xml
+  mapper-locations: classpath:cn/arp/trend/repository/biz/*/*.xml
   type-alias-package: cn.arp.trend.entity
 login:
   passportLogout: https://passport.escience.cn/logout?WebServerURL=

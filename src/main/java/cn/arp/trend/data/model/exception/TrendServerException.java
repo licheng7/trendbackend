@@ -1,11 +1,14 @@
 package cn.arp.trend.data.model.exception;
 
+import lombok.ToString;
+
 /**
  * Created with IDEA
  * author:licheng
  * Date:2020/9/20
  * Time:下午8:31
  **/
+@ToString
 public class TrendServerException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;

@@ -29,7 +29,7 @@
         </javaModelGenerator>
         <!-- 生成映射文件的包名和位置-->
         <sqlMapGenerator targetPackage="auto"
-                         targetProject="src/main/resources/cn/arp/trend/repository">
+                         targetProject="src/main/resources/cn/arp/trend/repository/biz">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置-->
@@ -109,8 +109,13 @@
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="cas_pxx_jfbj"
-               domainObjectName="casPxxJfbj"
+        <!--<table tableName="cas_pxx_jfbj"
+               domainObjectName="CasPxxJfbj"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <table tableName="cas_pxx_czbk"
+               domainObjectName="CasPxxCzbk"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>

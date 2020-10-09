@@ -1,6 +1,7 @@
 package cn.arp.trend.tools.annotation.aspect;
 
 import cn.arp.trend.data.model.exception.TrendServerException;
+import cn.arp.trend.error.RestError;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -41,18 +42,32 @@ public class ServiceAspect {
         Object dataResult;
         try {
             dataResult = joinPoint.proceed();
-            log.info("访问{}结束，返回{}", methodDesc, dataResult.toString());
+            log.info("访问{}结束", methodDesc);
+            log.debug("{}接口返回结果：{}", methodDesc, dataResult.toString());
             return dataResult;
         } catch (TrendServerException tse) {
             log.error("访问{}结束，堆栈信息{}", methodDesc, tse);
-            throw tse;
+            throw RestError.internalError(tse.toString());
         } catch (Exception e) {
             log.error("访问{}结束，堆栈信息{}", methodDesc, e);
-            throw e;
+            throw RestError.internalError(this.buildErrMsg(e));
         } catch (Throwable t) {
             log.error("访问{}结束，堆栈信息{}", methodDesc, t);
-            throw t;
+            throw RestError.internalError(this.buildErrMsg(t));
         }
+    }
+
+    private String buildErrMsg(Throwable t) {
+        StringBuilder sb = new StringBuilder("异常信息:");
+        StackTraceElement[] trace = t.getStackTrace();
+        for (StackTraceElement s : trace) {
+            sb.append(s + "\\r\\n");
+        }
+        sb.append("\\n\\t");
+        sb.append("------------------------------------堆栈信息------------------------------------");
+        sb.append("\\n\\t");
+        sb.append(t.getMessage());
+        return sb.toString();
     }
 
     private String getServiceExecuterDescription(ProceedingJoinPoint joinPoint, Method currentMethod) {

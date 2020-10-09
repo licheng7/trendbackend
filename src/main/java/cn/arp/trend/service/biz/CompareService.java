@@ -1,5 +1,7 @@
 package cn.arp.trend.service.biz;
 
+import cn.arp.trend.data.model.DTO.FacilityInfoDTO;
+import cn.arp.trend.data.model.DTO.FinanceInfoDTO;
 import cn.arp.trend.data.model.DTO.FundsInfoDTO;
 
 /**
@@ -11,4 +13,8 @@ import cn.arp.trend.data.model.DTO.FundsInfoDTO;
 public interface CompareService {
 
     FundsInfoDTO fundsQuery(String startYear, String endYear);
+
+    FinanceInfoDTO financeQuery(String startYear, String endYear);
+
+    FacilityInfoDTO facilityQuery(String startYear, String endYear);
 }

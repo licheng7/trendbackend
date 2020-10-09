@@ -1,8 +1,11 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.data.model.DTO.FinanceInfoDTO;
 import cn.arp.trend.data.model.DTO.FundsInfoDTO;
+import cn.arp.trend.data.model.request.FinanceRequest;
 import cn.arp.trend.data.model.request.FundsRequest;
+import cn.arp.trend.data.model.response.FinanceResponse;
 import cn.arp.trend.data.model.response.FundsResponse;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.CompareService;
@@ -43,5 +46,17 @@ public class CompareController extends BaseController {
         FundsInfoDTO fundsInfo = compareService.fundsQuery(request.getStartYear(), request
                 .getEndYear());
         return new FundsResponse(fundsInfo.getYear(), fundsInfo.getDetail(), fundsInfo.getUpdateTime());
+    }
+
+    @ApiOperation(value= "科研投入-财政拨款", notes= "科研投入-财政拨款")
+    @ServiceExecuter(description = "科研投入-财政拨款")
+    @RequestMapping(value = "/finance", method = RequestMethod.POST)
+    @Audit(desc="科研投入-财政拨款")
+    public FinanceResponse financeQuery(@Validated FinanceRequest request, BindingResult
+            bindingResult) throws RestError {
+        validData(bindingResult);
+        FinanceInfoDTO financeInfo = compareService.financeQuery(request.getStartYear(), request
+                .getEndYear());
+        return new FinanceResponse(financeInfo.getYear(), financeInfo.getDetail(), financeInfo.getUpdateTime());
     }
 }

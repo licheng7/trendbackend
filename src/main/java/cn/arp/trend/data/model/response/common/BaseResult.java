@@ -1,7 +1,6 @@
 package cn.arp.trend.data.model.response.common;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -23,7 +22,7 @@ public class BaseResult implements Serializable {
      *  取值 true 则业务响应字段data被赋值
      *  取值 false 则错误描述字段errorCode、errorMsg被赋值
      */
-    @ApiModelProperty(name = "success", value = "标记接口调用是否成功：取值 true 则业务响应字段data被赋值；取值 false 则错误描述字段errorCode、errorMsg被赋值")
+    /*@ApiModelProperty(name = "success", value = "标记接口调用是否成功：取值 true 则业务响应字段data被赋值；取值 false 则错误描述字段errorCode、errorMsg被赋值")*/
     private boolean success;
 
     public boolean isSuccess() {
