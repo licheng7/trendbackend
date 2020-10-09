@@ -20,7 +20,7 @@ public class AcademicianQueryRequest implements Serializable {
 
     private static final long serialVersionUID = -6536218052575197273L;
 
-    @ApiParam("affiliationIds")
+    @ApiParam(value = "affiliationIds")
     @JsonProperty("affiliation_id")
     private List<String> affiliationIds;
 

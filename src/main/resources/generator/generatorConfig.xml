@@ -114,8 +114,13 @@
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="cas_pxx_czbk"
+        <!--<table tableName="cas_pxx_czbk"
                domainObjectName="CasPxxCzbk"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <table tableName="cas_pxx_jcpt_cdsys_xw_px_lw_kxj_fmj_jbj"
+               domainObjectName="CasPxxJcptCdsysXwPxLwKxjFmjJbj"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>

@@ -23,26 +23,26 @@ public class ComeAnalyseRequest implements Serializable {
 
     private static final long serialVersionUID = 1066821712156029036L;
 
-    @ApiParam("startYear")
+    @ApiParam(name = "startYear", example = "2010")
     @JsonProperty("start_year")
     @NotBlank(message = "startYear不能为空")
     @Pattern(regexp = "^([1-2]\\d{3})$", message = "startYear格式不正确")
     private String startYear;
 
-    @ApiParam("endYear")
+    @ApiParam(name = "endYear", example = "2019")
     @JsonProperty("end_year")
     @NotBlank(message = "endYear不能为空")
     @Pattern(regexp = "^([1-2]\\d{3})$", message = "endYear格式不正确")
     private String endYear;
 
-    @ApiParam("startAge")
+    @ApiParam(name = "startAge", example = "35")
     @JsonProperty("start_age")
     @NotNull(message = "startAge不能为空")
     @Min(value = 0, message = "startAge不能小于0")
     @Max(value = 200, message = "startAge过大")
     private Integer startAge;
 
-    @ApiParam("endAge")
+    @ApiParam(name = "endAge", example = "90")
     @JsonProperty("end_age")
     @NotNull(message = "endAge不能为空")
     @Min(value = 0, message = "endAge不能小于0")

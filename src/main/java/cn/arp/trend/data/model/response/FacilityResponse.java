@@ -1,23 +1,26 @@
-package cn.arp.trend.data.model.DTO;
+package cn.arp.trend.data.model.response;
 
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created with IDEA
  * author:licheng
  * Date:2020/10/9
- * Time:上午9:59
+ * Time:下午6:56
  **/
 @ToString
-public class FacilityInfoDTO {
+public class FacilityResponse implements Serializable {
+
+    private static final long serialVersionUID = 1884761190553249526L;
 
     private List<String> yearList;
 
-    private List<MapResultDTO> platformList;
+    private List<MapResult> platformList;
 
-    private List<MapResultDTO> keylabList;
+    private List<MapResult> keylabList;
 
     private String updateTimeBas;
 
@@ -31,19 +34,19 @@ public class FacilityInfoDTO {
         this.yearList = yearList;
     }
 
-    public List<MapResultDTO> getPlatformList() {
+    public List<MapResult> getPlatformList() {
         return platformList;
     }
 
-    public void setPlatformList(List<MapResultDTO> platformList) {
+    public void setPlatformList(List<MapResult> platformList) {
         this.platformList = platformList;
     }
 
-    public List<MapResultDTO> getKeylabList() {
+    public List<MapResult> getKeylabList() {
         return keylabList;
     }
 
-    public void setKeylabList(List<MapResultDTO> keylabList) {
+    public void setKeylabList(List<MapResult> keylabList) {
         this.keylabList = keylabList;
     }
 
@@ -63,10 +66,10 @@ public class FacilityInfoDTO {
         this.updateTimeLab = updateTimeLab;
     }
 
-    public FacilityInfoDTO() {
+    public FacilityResponse() {
     }
 
-    public FacilityInfoDTO(List<String> yearList, List<MapResultDTO> platformList, List<MapResultDTO> keylabList, String updateTimeBas, String updateTimeLab) {
+    public FacilityResponse(List<String> yearList, List<MapResult> platformList, List<MapResult> keylabList, String updateTimeBas, String updateTimeLab) {
         this.yearList = yearList;
         this.platformList = platformList;
         this.keylabList = keylabList;

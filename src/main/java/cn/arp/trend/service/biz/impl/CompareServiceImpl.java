@@ -3,9 +3,12 @@ package cn.arp.trend.service.biz.impl;
 import cn.arp.trend.data.model.DTO.FacilityInfoDTO;
 import cn.arp.trend.data.model.DTO.FinanceInfoDTO;
 import cn.arp.trend.data.model.DTO.FundsInfoDTO;
+import cn.arp.trend.data.model.DTO.MapResultDTO;
 import cn.arp.trend.entity.biz.CasPxxCzbk;
+import cn.arp.trend.entity.biz.CasPxxJcptCdsysXwPxLwKxjFmjJbj;
 import cn.arp.trend.entity.biz.CasPxxJfbj;
 import cn.arp.trend.repository.biz.manual.CasPxxCzbkManualMapper;
+import cn.arp.trend.repository.biz.manual.CasPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper;
 import cn.arp.trend.repository.biz.manual.CasPxxJfbjManualMapper;
 import cn.arp.trend.service.biz.CompareService;
 import com.google.common.collect.Lists;
@@ -31,6 +34,9 @@ public class CompareServiceImpl implements CompareService {
 
     @Resource
     private CasPxxCzbkManualMapper casPxxCzbkManualMapper;
+
+    @Resource
+    private CasPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper casPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper;
 
     @Override
     public FundsInfoDTO fundsQuery(String startYear, String endYear) {
@@ -81,9 +87,67 @@ public class CompareServiceImpl implements CompareService {
     }
 
     @Override
-    public FacilityInfoDTO facilityQuery(String startYear, String endYear) {
+    public FacilityInfoDTO facilityQuery() {
 
-        return null;
+        List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> casPxxJcptCdsysXwPxLwKxjFmjJbjList =
+            casPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper.queryFacility();
+
+        List<String> yearList = casPxxJcptCdsysXwPxLwKxjFmjJbjList.stream().filter(obj -> obj.getDate() != null).map
+                (CasPxxJcptCdsysXwPxLwKxjFmjJbj::getDate).distinct().collect(Collectors.toList());
+
+        List<String> nameList = casPxxJcptCdsysXwPxLwKxjFmjJbjList.stream().filter(obj -> obj.getName() != null).map
+                (CasPxxJcptCdsysXwPxLwKxjFmjJbj::getName).distinct().collect(Collectors.toList());
+
+        Map<String, Map<String, Double>> totalPlatform = Maps.newHashMap();
+        Map<String, Map<String, Double>> totalKeylab = Maps.newHashMap();
+        nameList.stream().forEach(str -> {
+            totalPlatform.put(str, this.initYearMap(yearList));
+            totalKeylab.put(str, this.initYearMap(yearList));
+        });
+
+        for(CasPxxJcptCdsysXwPxLwKxjFmjJbj casPxxJcptCdsysXwPxLwKxjFmjJbj :
+                casPxxJcptCdsysXwPxLwKxjFmjJbjList) {
+            if(casPxxJcptCdsysXwPxLwKxjFmjJbj.getType().equals("国家基础平台")) {
+                Map<String, Double> _map = totalPlatform.get(casPxxJcptCdsysXwPxLwKxjFmjJbj
+                        .getName());
+                _map.put(casPxxJcptCdsysXwPxLwKxjFmjJbj.getDate(), casPxxJcptCdsysXwPxLwKxjFmjJbj
+                        .getCount());
+            } else if(casPxxJcptCdsysXwPxLwKxjFmjJbj.getType().equals("国家重点实验室")) {
+                Map<String, Double> _map = totalKeylab.get(casPxxJcptCdsysXwPxLwKxjFmjJbj
+                        .getName());
+                _map.put(casPxxJcptCdsysXwPxLwKxjFmjJbj.getDate(), casPxxJcptCdsysXwPxLwKxjFmjJbj
+                        .getCount());
+            }
+        }
+
+        List<MapResultDTO> platformList = Lists.newArrayList();
+        for(String name : totalPlatform.keySet()) {
+            if(name.equals("中科院") || name.equals("C9高校")) {
+                List<Double> countList = Lists.newArrayList();
+                Map<String, Double> map = totalPlatform.get(name);
+                map.entrySet().stream().forEach(obj -> countList.add(obj.getValue()));
+                platformList.add(new MapResultDTO<String, List<Double>>(
+                        name.equals("中科院") ? "中国科学院" : "中科院", countList));
+            }
+        }
+
+        List<MapResultDTO> keylabList = Lists.newArrayList();
+        for(String name : totalKeylab.keySet()) {
+            if(name.equals("中国科学院") || name.equals("C9高校")) {
+                List<Double> countList = Lists.newArrayList();
+                Map<String, Double> map = totalKeylab.get(name);
+                map.entrySet().stream().forEach(obj -> countList.add(obj.getValue()));
+                keylabList.add(new MapResultDTO<String, List<Double>>(name, countList));
+            }
+        }
+
+        return new FacilityInfoDTO(yearList, platformList, keylabList, "2019年10月", "2019年10月");
+    }
+
+    private Map<String, Double> initYearMap(List<String> yearList) {
+        Map<String, Double> yearMap = Maps.newHashMap();
+        yearList.stream().forEach(str -> yearMap.put(str, 0D));
+        return yearMap;
     }
 
     private List<String> buildYearlist(String startYear, String endYear) {

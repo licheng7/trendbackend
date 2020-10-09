@@ -16,5 +16,5 @@ public interface CompareService {
 
     FinanceInfoDTO financeQuery(String startYear, String endYear);
 
-    FacilityInfoDTO facilityQuery(String startYear, String endYear);
+    FacilityInfoDTO facilityQuery();
 }

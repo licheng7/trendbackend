@@ -1,10 +1,13 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.data.model.DTO.FacilityInfoDTO;
 import cn.arp.trend.data.model.DTO.FinanceInfoDTO;
 import cn.arp.trend.data.model.DTO.FundsInfoDTO;
+import cn.arp.trend.data.model.converter.MapResultConverter;
 import cn.arp.trend.data.model.request.FinanceRequest;
 import cn.arp.trend.data.model.request.FundsRequest;
+import cn.arp.trend.data.model.response.FacilityResponse;
 import cn.arp.trend.data.model.response.FinanceResponse;
 import cn.arp.trend.data.model.response.FundsResponse;
 import cn.arp.trend.error.RestError;
@@ -58,5 +61,19 @@ public class CompareController extends BaseController {
         FinanceInfoDTO financeInfo = compareService.financeQuery(request.getStartYear(), request
                 .getEndYear());
         return new FinanceResponse(financeInfo.getYear(), financeInfo.getDetail(), financeInfo.getUpdateTime());
+    }
+
+    @ApiOperation(value= "科研投入-国家科研设施", notes= "科研投入-国家科研设施")
+    @ServiceExecuter(description = "科研投入-国家科研设施")
+    @RequestMapping(value = "/facility", method = RequestMethod.POST)
+    @Audit(desc="科研投入-国家科研设施")
+    public FacilityResponse facilityQuery() {
+        FacilityInfoDTO facilityInfo = compareService.facilityQuery();
+        MapResultConverter mapResultConverter = MapResultConverter.INSTANCE;
+        return new FacilityResponse(facilityInfo.getYearList(),
+                mapResultConverter.domain2dto(facilityInfo.getPlatformList()),
+                mapResultConverter.domain2dto(facilityInfo.getKeylabList()),
+                facilityInfo.getUpdateTimeBas(),
+                facilityInfo.getUpdateTimeLab());
     }
 }
