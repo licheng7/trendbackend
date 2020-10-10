@@ -130,6 +130,7 @@ public class LiteMenu {
 		this.memo = m.getMemo();
 		this.menuLabel = m.getMenuLabel();
 		this.menuLevel = m.getMenuLevel();
+		this.menuUrl = m.getMenuUrl();
 		this.orderColumn = m.getOrderColumn();
 		this.parentId = m.getParentId();
 		this.updateTime = m.getUpdateTime();
