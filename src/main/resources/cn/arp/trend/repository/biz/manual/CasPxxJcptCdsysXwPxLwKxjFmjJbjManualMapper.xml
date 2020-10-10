@@ -35,4 +35,18 @@
       type='国家重点实验室'
     </where>
   </select>
+
+  <select id="queryPaper" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+      name, date, count
+    from
+      cas_pxx_jcpt_cdsys_xw_px_lw_kxj_fmj_jbj
+    <where>
+      type='ESI论文'
+      AND
+      <![CDATA[LEFT(date,4) >= #{startYear}]]>
+      AND
+      <![CDATA[LEFT(date,4) <= #{endYear}]]>
+    </where>
+  </select>
 </mapper>

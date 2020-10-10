@@ -2,15 +2,13 @@ package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
 import cn.arp.trend.data.model.DO.ProjectQueryDO;
-import cn.arp.trend.data.model.DTO.FacilityInfoDTO;
-import cn.arp.trend.data.model.DTO.FinanceInfoDTO;
-import cn.arp.trend.data.model.DTO.FundsInfoDTO;
-import cn.arp.trend.data.model.DTO.ProjectInfoDTO;
+import cn.arp.trend.data.model.DTO.*;
 import cn.arp.trend.data.model.converter.MapResultConverter;
 import cn.arp.trend.data.model.converter.ProjectInfoConverter;
 import cn.arp.trend.data.model.converter.ProjectQueryConverter;
 import cn.arp.trend.data.model.request.FinanceRequest;
 import cn.arp.trend.data.model.request.FundsRequest;
+import cn.arp.trend.data.model.request.PaperRequest;
 import cn.arp.trend.data.model.request.ProjectQueryRequest;
 import cn.arp.trend.data.model.response.*;
 import cn.arp.trend.error.RestError;
@@ -80,6 +78,22 @@ public class CompareController extends BaseController {
                 mapResultConverter.domain2dto(facilityInfo.getKeylabList()),
                 facilityInfo.getUpdateTimeBas(),
                 facilityInfo.getUpdateTimeLab());
+    }
+
+    @ApiOperation(value= "科研产出-论文发表情况", notes= "科研产出-论文发表情况")
+    @ServiceExecuter(description = "科研产出-论文发表情况")
+    @RequestMapping(value = "/paper", method = RequestMethod.POST)
+    @Audit(desc="科研产出-论文发表情况")
+    public PaperResponse paperQuery(PaperRequest request, BindingResult
+            bindingResult) throws RestError{
+        validData(bindingResult);
+        PaperInfoDTO paperInfo = compareService.paperQuery(request.getStartYear(), request
+                .getEndYear());
+        MapResultConverter mapResultConverter = MapResultConverter.INSTANCE;
+        return new PaperResponse(paperInfo.getYear(),
+                mapResultConverter.domain2dto(paperInfo.getDetail()),
+                paperInfo.getPaperUpdateTimeLw(),
+                paperInfo.getPaperUpdateTimeGby());
     }
 
     @ApiOperation(value= "科研投入-项目", notes= "科研投入-项目")

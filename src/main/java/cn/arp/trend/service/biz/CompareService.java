@@ -1,10 +1,7 @@
 package cn.arp.trend.service.biz;
 
 import cn.arp.trend.data.model.DO.ProjectQueryDO;
-import cn.arp.trend.data.model.DTO.FacilityInfoDTO;
-import cn.arp.trend.data.model.DTO.FinanceInfoDTO;
-import cn.arp.trend.data.model.DTO.FundsInfoDTO;
-import cn.arp.trend.data.model.DTO.ProjectInfoDTO;
+import cn.arp.trend.data.model.DTO.*;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -19,6 +16,8 @@ public interface CompareService {
     FundsInfoDTO fundsQuery(String startYear, String endYear);
 
     FinanceInfoDTO financeQuery(String startYear, String endYear);
+
+    PaperInfoDTO paperQuery(String startYear, String endYear);
 
     FacilityInfoDTO facilityQuery();
 

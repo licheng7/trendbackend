@@ -100,6 +100,50 @@ public class CompareServiceImpl implements CompareService {
     }
 
     @Override
+    public PaperInfoDTO paperQuery(String startYear, String endYear) {
+
+        List<String> yearlist = this.buildYearlist(startYear, endYear);
+
+        List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> paperResultList =
+                casPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper.queryPaper(startYear, endYear);
+
+        List<String> nameList = paperResultList.stream().filter(obj -> obj.getName() != null).map
+                (CasPxxJcptCdsysXwPxLwKxjFmjJbj::getName).distinct().collect(Collectors.toList());
+
+        Map<String, Map<String, Double>> detail = this.initDetail(nameList, yearlist);
+
+        for(CasPxxJcptCdsysXwPxLwKxjFmjJbj paper : paperResultList) {
+            if(detail.containsKey(paper.getName())) {
+                Map<String, Double> _paper = detail.get(paper.getName());
+                if(_paper.containsKey(paper.getDate())) {
+                    _paper.put(paper.getDate(), paper.getCount());
+                }
+            }
+        }
+
+        PaperInfoDTO paperInfo = new PaperInfoDTO();
+        paperInfo.setYear(yearlist);
+        paperInfo.setPaperUpdateTimeLw("2019年10月");
+        paperInfo.setPaperUpdateTimeGby("2019年10月");
+
+        List<MapResultDTO> detailList = Lists.newArrayList();
+        detail.entrySet().stream().forEach(obj -> detailList.add(new MapResultDTO(obj.getKey(),
+                obj.getValue())));
+
+        List<MapResultDTO> newDetailList = Lists.newArrayList();
+        newDetailList.add(detailList.get(4));
+        newDetailList.add(detailList.get(0));
+        newDetailList.add(detailList.get(1));
+        newDetailList.add(detailList.get(2));
+        newDetailList.add(detailList.get(3));
+        newDetailList.add(detailList.get(5));
+
+        paperInfo.setDetail(newDetailList);
+
+        return paperInfo;
+    }
+
+    @Override
     public FacilityInfoDTO facilityQuery() {
 
         List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> casPxxJcptCdsysXwPxLwKxjFmjJbjList =
@@ -220,7 +264,7 @@ public class CompareServiceImpl implements CompareService {
         return projectInfo;
     }
 
-    public void initProjectInfoDTO(ProjectInfoDTO projectInfo) {
+    private void initProjectInfoDTO(ProjectInfoDTO projectInfo) {
         projectInfo.setNsfcProject(Lists.newArrayList());
         projectInfo.setNsfcFunds(Lists.newArrayList());
     }
