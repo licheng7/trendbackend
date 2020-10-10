@@ -1,21 +1,23 @@
 package cn.arp.trend.service.biz.impl;
 
-import cn.arp.trend.data.model.DTO.FacilityInfoDTO;
-import cn.arp.trend.data.model.DTO.FinanceInfoDTO;
-import cn.arp.trend.data.model.DTO.FundsInfoDTO;
-import cn.arp.trend.data.model.DTO.MapResultDTO;
+import cn.arp.trend.data.model.DO.ProjectQueryDO;
+import cn.arp.trend.data.model.DTO.*;
 import cn.arp.trend.entity.biz.CasPxxCzbk;
 import cn.arp.trend.entity.biz.CasPxxJcptCdsysXwPxLwKxjFmjJbj;
 import cn.arp.trend.entity.biz.CasPxxJfbj;
-import cn.arp.trend.repository.biz.manual.CasPxxCzbkManualMapper;
-import cn.arp.trend.repository.biz.manual.CasPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper;
-import cn.arp.trend.repository.biz.manual.CasPxxJfbjManualMapper;
+import cn.arp.trend.entity.biz.CompareProjectObj;
+import cn.arp.trend.repository.biz.manual.*;
 import cn.arp.trend.service.biz.CompareService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,6 +31,8 @@ import java.util.stream.Collectors;
 @Service
 public class CompareServiceImpl implements CompareService {
 
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy");
+
     @Resource
     private CasPxxJfbjManualMapper casPxxJfbjManualMapper;
 
@@ -37,6 +41,15 @@ public class CompareServiceImpl implements CompareService {
 
     @Resource
     private CasPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper casPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper;
+
+    @Resource
+    private StatNsfcProjectManualMapper statNsfcProjectManualMapper;
+
+    @Resource
+    private StatMostProjectManualMapper statMostProjectManualMapper;
+
+    @Resource
+    private StatXdzxManualMapper statXdzxManualMapper;
 
     @Override
     public FundsInfoDTO fundsQuery(String startYear, String endYear) {
@@ -142,6 +155,136 @@ public class CompareServiceImpl implements CompareService {
         }
 
         return new FacilityInfoDTO(yearList, platformList, keylabList, "2019年10月", "2019年10月");
+    }
+
+    @Override
+    public ProjectInfoDTO projectQuery(ProjectQueryDO projectQuery) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        ProjectInfoDTO projectInfo = new ProjectInfoDTO();
+        this.initProjectInfoDTO(projectInfo);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.YEAR, -1);
+        String endYearStr = simpleDateFormat.format(calendar.getTime());
+        calendar.add(Calendar.YEAR, -4);
+        String startYearStr = simpleDateFormat.format(calendar.getTime());
+
+        int startYearInt = Integer.valueOf(startYearStr);
+        int endYearInt = Integer.valueOf(endYearStr);
+
+        projectQuery.setStartYear(startYearInt);
+        projectQuery.setEndYear(endYearInt);
+
+        List<String> yearListStr = Lists.newArrayList();
+        List<Integer> yearListInt = Lists.newArrayList();
+        Map<String, ProjectInfoDTO.OrderDTO> orderMap = Maps.newHashMap();
+        for(int year = startYearInt; year <= endYearInt; year ++) {
+            yearListInt.add(year);
+            yearListStr.add(String.valueOf(year));
+            orderMap.put(String.valueOf(year), projectInfo.new OrderDTO(
+                    new MapResultDTO(), new MapResultDTO(), new MapResultDTO()));
+        }
+
+        List<CompareProjectObj> nsfcProjectList = statNsfcProjectManualMapper.queryProject
+                (projectQuery);
+        if(!nsfcProjectList.isEmpty()) {
+            this.doProjectQuery(yearListStr, orderMap, nsfcProjectList, projectInfo, ProjectInfoDTO
+                    .OrderDTO.class.getMethod("getNsfc"));
+        }
+
+        List<CompareProjectObj> mostProjectList = statMostProjectManualMapper.queryProject
+                (projectQuery);
+        if(!mostProjectList.isEmpty()) {
+            this.doProjectQuery(yearListStr, orderMap, mostProjectList, projectInfo, ProjectInfoDTO
+                    .OrderDTO.class.getMethod("getStd"));
+        }
+
+        List<CompareProjectObj> xdzxProjectList = statXdzxManualMapper.queryProject(projectQuery);
+        if(!xdzxProjectList.isEmpty()) {
+            this.doProjectQuery(yearListStr, orderMap, xdzxProjectList, projectInfo, ProjectInfoDTO
+                    .OrderDTO.class.getMethod("getXd"));
+        }
+
+        projectInfo.setNsfcUpdateTime("2019年10月");
+        projectInfo.setStdUpdateTime("2019年10月");
+        projectInfo.setXdUpdateTime("2019年10月");
+        projectInfo.setCategory(Lists.newArrayList("项目", "经费"));
+
+        List<ProjectInfoDTO.OrderDTO> orderList = Lists.newArrayList();
+        orderMap.entrySet().stream().forEach(obj -> orderList.add(obj.getValue()));
+        projectInfo.setOrder(orderList);
+
+        projectInfo.setYear(yearListStr);
+
+        return projectInfo;
+    }
+
+    public void initProjectInfoDTO(ProjectInfoDTO projectInfo) {
+        projectInfo.setNsfcProject(Lists.newArrayList());
+        projectInfo.setNsfcFunds(Lists.newArrayList());
+    }
+
+    private void doProjectQuery(List<String> yearListStr, Map<String, ProjectInfoDTO.OrderDTO>
+            orderMap, List<CompareProjectObj> bizDateList, ProjectInfoDTO projectInfo, Method
+            method) throws InvocationTargetException, IllegalAccessException {
+
+        Triple<Map, Map, Map> triple = this.initCalculateParam(yearListStr, bizDateList);
+        Map<String, Long> xmList = triple.getLeft();
+        Map<String, Double> jfList = triple.getMiddle();
+        Map<String, CompareProjectObj> recordList = triple.getRight();
+
+        projectInfo.setNsfcNew(xmList.get(yearListStr.get(yearListStr.size()-1)));
+
+        for(String year : xmList.keySet()) {
+            projectInfo.getNsfcProject().add(xmList.get(year).toString());
+            projectInfo.setNsfcCumulation(projectInfo.getNsfcCumulation() + xmList.get(year));
+        }
+
+        for(String year : jfList.keySet()) {
+            projectInfo.getNsfcFunds().add(jfList.get(year).toString());
+        }
+
+        for(String year : recordList.keySet()) {
+            /*orderMap.get(year).getNsfc().setName(Lists.newArrayList(recordList.get(year).getJgmc
+                    ()));
+            orderMap.get(year).getNsfc().setValue(Lists.newArrayList(recordList.get(year).getXm()));*/
+
+            ProjectInfoDTO.OrderDTO order = orderMap.get(year);
+            MapResultDTO<List<String>, List<Long>> map = (MapResultDTO<List<String>, List<Long>>) method.invoke(order);
+            if(null != recordList.get(year)) {
+                map.setName(Lists.newArrayList(recordList.get(year).getJgmc()));
+                map.setValue(Lists.newArrayList(recordList.get(year).getXm()));
+            }
+        }
+    }
+
+    private Triple<Map, Map, Map> initCalculateParam(List<String> yearListStr, List<CompareProjectObj> bizDateList) {
+
+        Map<String, Long> xmList = Maps.newHashMap();   // 每年的项目数
+        Map<String, Double> jfList = Maps.newHashMap();   // 每年的经费数
+        Map<String, CompareProjectObj> recordList = Maps.newHashMap();   // 每年的记录数
+
+        yearListStr.forEach(
+                obj -> {
+                    xmList.put(obj, 0L);
+                    jfList.put(obj, 0D);
+                    recordList.put(obj, null);
+                }
+        );
+
+        bizDateList.forEach(
+                obj -> {
+                    if(yearListStr.contains(obj.getNf())) {
+                        String year = obj.getNf();
+                        xmList.put(year, xmList.get(year) + obj.getXm());
+                        jfList.put(year, jfList.get(year) + obj.getJf());
+                        recordList.put(year, obj);
+                    }
+                }
+        );
+
+        return Triple.of(xmList, jfList, recordList);
     }
 
     private Map<String, Double> initYearMap(List<String> yearList) {

@@ -1,19 +1,23 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.data.model.DO.ProjectQueryDO;
 import cn.arp.trend.data.model.DTO.FacilityInfoDTO;
 import cn.arp.trend.data.model.DTO.FinanceInfoDTO;
 import cn.arp.trend.data.model.DTO.FundsInfoDTO;
+import cn.arp.trend.data.model.DTO.ProjectInfoDTO;
 import cn.arp.trend.data.model.converter.MapResultConverter;
+import cn.arp.trend.data.model.converter.ProjectInfoConverter;
+import cn.arp.trend.data.model.converter.ProjectQueryConverter;
 import cn.arp.trend.data.model.request.FinanceRequest;
 import cn.arp.trend.data.model.request.FundsRequest;
-import cn.arp.trend.data.model.response.FacilityResponse;
-import cn.arp.trend.data.model.response.FinanceResponse;
-import cn.arp.trend.data.model.response.FundsResponse;
+import cn.arp.trend.data.model.request.ProjectQueryRequest;
+import cn.arp.trend.data.model.response.*;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.CompareService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 对应Node代码中compare.js
@@ -75,5 +80,25 @@ public class CompareController extends BaseController {
                 mapResultConverter.domain2dto(facilityInfo.getKeylabList()),
                 facilityInfo.getUpdateTimeBas(),
                 facilityInfo.getUpdateTimeLab());
+    }
+
+    @ApiOperation(value= "科研投入-项目", notes= "科研投入-项目")
+    @ServiceExecuter(description = "科研投入-项目")
+    @RequestMapping(value = "/project", method = RequestMethod.POST)
+    @Audit(desc="科研投入-项目")
+    public ProjectResponse projectQuery(ProjectQueryRequest request) throws Exception {
+        ProjectQueryDO projectQuery = ProjectQueryConverter.INSTANCE.domain2dto(request);
+        ProjectInfoDTO projectInfo = compareService.projectQuery(projectQuery);
+        ProjectResponse response = ProjectInfoConverter.INSTANCE.domain2dto(projectInfo);
+        List<ProjectOrderResult> order = Lists.newArrayList();
+        for(ProjectInfoDTO.OrderDTO orderDTO : projectInfo.getOrder()) {
+            order.add(new ProjectOrderResult(
+                    MapResultConverter.INSTANCE.domain2dto(orderDTO.getNsfc()),
+                    MapResultConverter.INSTANCE.domain2dto(orderDTO.getStd()),
+                    MapResultConverter.INSTANCE.domain2dto(orderDTO.getXd())
+            ));
+        }
+        response.setOrder(order);
+        return response;
     }
 }
