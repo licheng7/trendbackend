@@ -81,7 +81,7 @@ public class CompareController extends BaseController {
     @ServiceExecuter(description = "科研产出-论文发表情况")
     @RequestMapping(value = "/paper", method = RequestMethod.POST)
     @Audit(desc="科研产出-论文发表情况")
-    public PaperResponse paperQuery(PaperRequest request, BindingResult
+    public PaperResponse paperQuery(@Validated PaperRequest request, BindingResult
             bindingResult) throws RestError{
         validData(bindingResult);
         PaperInfoDTO paperInfo = compareService.paperQuery(request.getStartYear(), request
@@ -97,7 +97,9 @@ public class CompareController extends BaseController {
     @ServiceExecuter(description = "科研投入-项目")
     @RequestMapping(value = "/project", method = RequestMethod.POST)
     @Audit(desc="科研投入-项目")
-    public ProjectResponse projectQuery(ProjectQueryRequest request) throws Exception {
+    public ProjectResponse projectQuery(@Validated ProjectQueryRequest request, BindingResult
+            bindingResult) throws Exception {
+        validData(bindingResult);
         ProjectQueryDO projectQuery = ProjectQueryConverter.INSTANCE.domain2dto(request);
         ProjectInfoDTO projectInfo = compareService.projectQuery(projectQuery);
         ProjectResponse response = ProjectInfoConverter.INSTANCE.domain2dto(projectInfo);
@@ -117,7 +119,7 @@ public class CompareController extends BaseController {
     @ServiceExecuter(description = "科研产出-论文 高被引科学家")
     @RequestMapping(value = "/scientist", method = RequestMethod.POST)
     @Audit(desc="科研产出-论文 高被引科学家")
-    public ScientistResponse scientistQuery(ScientistRequest request, BindingResult
+    public ScientistResponse scientistQuery(@Validated ScientistRequest request, BindingResult
             bindingResult) throws RestError{
         validData(bindingResult);
         ScientistInfoDTO scientistInfo = compareService.scientistQuery(request.getStartYear(),
