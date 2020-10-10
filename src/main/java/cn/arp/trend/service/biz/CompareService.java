@@ -19,6 +19,8 @@ public interface CompareService {
 
     PaperInfoDTO paperQuery(String startYear, String endYear);
 
+    ScientistInfoDTO scientistQuery(String startYear, String endYear);
+
     FacilityInfoDTO facilityQuery();
 
     ProjectInfoDTO projectQuery(ProjectQueryDO projectQuery) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;

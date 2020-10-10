@@ -6,10 +6,7 @@ import cn.arp.trend.data.model.DTO.*;
 import cn.arp.trend.data.model.converter.MapResultConverter;
 import cn.arp.trend.data.model.converter.ProjectInfoConverter;
 import cn.arp.trend.data.model.converter.ProjectQueryConverter;
-import cn.arp.trend.data.model.request.FinanceRequest;
-import cn.arp.trend.data.model.request.FundsRequest;
-import cn.arp.trend.data.model.request.PaperRequest;
-import cn.arp.trend.data.model.request.ProjectQueryRequest;
+import cn.arp.trend.data.model.request.*;
 import cn.arp.trend.data.model.response.*;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.CompareService;
@@ -113,6 +110,30 @@ public class CompareController extends BaseController {
             ));
         }
         response.setOrder(order);
+        return response;
+    }
+
+    @ApiOperation(value= "科研产出-论文 高被引科学家", notes= "科研产出-论文 高被引科学家")
+    @ServiceExecuter(description = "科研产出-论文 高被引科学家")
+    @RequestMapping(value = "/scientist", method = RequestMethod.POST)
+    @Audit(desc="科研产出-论文 高被引科学家")
+    public ScientistResponse scientistQuery(ScientistRequest request, BindingResult
+            bindingResult) throws RestError{
+        validData(bindingResult);
+        ScientistInfoDTO scientistInfo = compareService.scientistQuery(request.getStartYear(),
+                request.getEndYear());
+        ScientistResponse response = new ScientistResponse();
+        response.setYear(scientistInfo.getYear());
+        List<MapResult<String, List<Integer>>> domestic = Lists.newArrayList();
+        for(MapResultDTO<String, List<Integer>> obj : scientistInfo.getDomestic()) {
+            domestic.add(MapResultConverter.INSTANCE.domain2dto(obj));
+        }
+        response.setDomestic(domestic);
+        List<MapResult<String, List<Integer>>> newWorldlist = Lists.newArrayList();
+        for(MapResultDTO<String, List<Integer>> obj : scientistInfo.getNewWorldlist()) {
+            newWorldlist.add(MapResultConverter.INSTANCE.domain2dto(obj));
+        }
+        response.setNewWorldlist(newWorldlist);
         return response;
     }
 }

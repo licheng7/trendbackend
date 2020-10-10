@@ -119,10 +119,15 @@
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="cas_pxx_jcpt_cdsys_xw_px_lw_kxj_fmj_jbj"
+        <!--<table tableName="cas_pxx_jcpt_cdsys_xw_px_lw_kxj_fmj_jbj"
                domainObjectName="CasPxxJcptCdsysXwPxLwKxjFmjJbj"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="stat_hcauthors_count"
+               domainObjectName="StatHcauthorsCount"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
     </context>
 </generatorConfiguration>

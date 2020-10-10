@@ -2,10 +2,7 @@ package cn.arp.trend.service.biz.impl;
 
 import cn.arp.trend.data.model.DO.ProjectQueryDO;
 import cn.arp.trend.data.model.DTO.*;
-import cn.arp.trend.entity.biz.CasPxxCzbk;
-import cn.arp.trend.entity.biz.CasPxxJcptCdsysXwPxLwKxjFmjJbj;
-import cn.arp.trend.entity.biz.CasPxxJfbj;
-import cn.arp.trend.entity.biz.CompareProjectObj;
+import cn.arp.trend.entity.biz.*;
 import cn.arp.trend.repository.biz.manual.*;
 import cn.arp.trend.service.biz.CompareService;
 import com.google.common.collect.Lists;
@@ -50,6 +47,9 @@ public class CompareServiceImpl implements CompareService {
 
     @Resource
     private StatXdzxManualMapper statXdzxManualMapper;
+
+    @Resource
+    private StatHcauthorsCountManualMapper statHcauthorsCountManualMapper;
 
     @Override
     public FundsInfoDTO fundsQuery(String startYear, String endYear) {
@@ -104,13 +104,15 @@ public class CompareServiceImpl implements CompareService {
 
         List<String> yearlist = this.buildYearlist(startYear, endYear);
 
+        List<String> newYearlist = yearlist.stream().map(str -> str+"年").collect(Collectors.toList());
+
         List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> paperResultList =
                 casPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper.queryPaper(startYear, endYear);
 
         List<String> nameList = paperResultList.stream().filter(obj -> obj.getName() != null).map
                 (CasPxxJcptCdsysXwPxLwKxjFmjJbj::getName).distinct().collect(Collectors.toList());
 
-        Map<String, Map<String, Double>> detail = this.initDetail(nameList, yearlist);
+        Map<String, Map<String, Double>> detail = this.initDetail(nameList, newYearlist);
 
         for(CasPxxJcptCdsysXwPxLwKxjFmjJbj paper : paperResultList) {
             if(detail.containsKey(paper.getName())) {
@@ -122,7 +124,7 @@ public class CompareServiceImpl implements CompareService {
         }
 
         PaperInfoDTO paperInfo = new PaperInfoDTO();
-        paperInfo.setYear(yearlist);
+        paperInfo.setYear(newYearlist);
         paperInfo.setPaperUpdateTimeLw("2019年10月");
         paperInfo.setPaperUpdateTimeGby("2019年10月");
 
@@ -141,6 +143,103 @@ public class CompareServiceImpl implements CompareService {
         paperInfo.setDetail(newDetailList);
 
         return paperInfo;
+    }
+
+    @Override
+    public ScientistInfoDTO scientistQuery(String startYear, String endYear) {
+
+        List<String> yearlist = this.buildYearlist(startYear, endYear);
+
+        List<String> nameList = Lists.newArrayList("中国科学院", "C9高校", "中国农业科学院", "中国医学科学院", "中国林业科学院", "国家海洋局", "其他");
+        List<String> listC9 = Lists.newArrayList("清华大学", "浙江大学", "北京大学", "复旦大学", "中国科技大学", "上海交通大学", "南京大学", "西安交通大学", "哈尔滨工业大学");
+
+        Map<String, Map<String, MapResultDTO<String, Integer>>> detail = this.initDetail2(nameList, yearlist,
+                Integer.class, 0);
+        List<StatHcauthorsCount> resultList = statHcauthorsCountManualMapper
+                .queryScientist1(startYear, endYear);
+        for(StatHcauthorsCount statHcauthorsCount : resultList) {
+            String key;
+            if(detail.containsKey(statHcauthorsCount.getInstitutionCh())) {
+                key = statHcauthorsCount.getInstitutionCh();
+            } else {
+                if(-1 != listC9.indexOf(statHcauthorsCount.getInstitutionCh())) {
+                    key = "C9高校";
+                } else {
+                    key = "其他";
+                }
+            }
+            Map<String, MapResultDTO<String, Integer>> map = detail.get(key);
+            if(map.containsKey(statHcauthorsCount.getNf())) {
+                map.get(statHcauthorsCount.getNf()).setValue(map.get(statHcauthorsCount.getNf()).getValue() +
+                        statHcauthorsCount.getTotal());
+            }
+        }
+
+
+        List<StatHcauthorsCount> resultWorld = statHcauthorsCountManualMapper
+                .queryScientist2(startYear, endYear);
+        List<String> countryName = resultWorld.stream().map(obj -> obj.getCountryCh()).distinct().collect
+                (Collectors.toList());
+        Map<String, Map<String, MapResultDTO<String, Integer>>> worldtotal = this.initDetail2(countryName, yearlist,
+                Integer.class, 0);
+        for(StatHcauthorsCount statHcauthorsCount : resultWorld) {
+            if(worldtotal.containsKey(statHcauthorsCount.getCountryCh())) {
+                Map<String, MapResultDTO<String, Integer>> map = worldtotal.get(statHcauthorsCount
+                        .getCountryCh());
+                if(map.containsKey(statHcauthorsCount.getNf())) {
+                    map.get(statHcauthorsCount.getNf()).setValue(map.get(statHcauthorsCount.getNf()).getValue() +
+                            statHcauthorsCount.getTotal());
+                }
+            }
+        }
+
+
+        List<Map<String, Object>> totalFive = statHcauthorsCountManualMapper
+                .queryScientist3(startYear, endYear);
+        List<String> totalFiveName = Lists.newArrayList();
+        totalFive.stream().forEach(obj -> totalFiveName.add((String)obj.get("country_ch")));
+        List<MapResultDTO<String, Integer>> otherList = Lists.newArrayList();
+        List<MapResultDTO<String, List<MapResultDTO<String, Integer>>>> newWorldlist = Lists.newArrayList();
+        for(String key : worldtotal.keySet()) {
+            if(totalFiveName.indexOf(key) != -1) {
+                for(String year : yearlist) {
+                    otherList.add(new MapResultDTO<String, Integer>(year, worldtotal.get(key).get(year)
+                            .getValue()));
+                }
+            } else {
+                List<MapResultDTO<String, Integer>> list = Lists.newArrayList();
+                worldtotal.get(key).entrySet().stream().forEach(obj -> list.add(obj.getValue()));
+                newWorldlist.add(new MapResultDTO(key, list));
+            }
+        }
+        newWorldlist.add(new MapResultDTO("其他", otherList));
+
+
+        /*List<Map<String, Object>> newFive = statHcauthorsCountManualMapper
+                .queryScientist4(startYear, endYear);*/
+
+        ScientistInfoDTO scientistInfo = new ScientistInfoDTO();
+        scientistInfo.setYear(yearlist);
+        List<MapResultDTO<String, List<Integer>>> domestic = Lists.newArrayList();
+        detail.entrySet().stream().forEach(obj -> {
+            String key = obj.getKey();
+            List<Integer> value = Lists.newArrayList();
+            obj.getValue().entrySet().stream().forEach(map -> value.add(map.getValue().getValue()));
+            domestic.add(new MapResultDTO<String, List<Integer>>(key, value));
+        });
+        scientistInfo.setDomestic(domestic);
+
+        List<MapResultDTO<String, List<Integer>>> _newWorldlist = Lists.newArrayList();
+        newWorldlist.stream().forEach(obj -> {
+            String key = obj.getName();
+            List<Integer> list = Lists.newArrayList();
+            List<MapResultDTO<String, Integer>> value = obj.getValue();
+            value.stream().forEach(obj2 -> list.add(obj2.getValue()));
+            _newWorldlist.add(new MapResultDTO<String, List<Integer>>(key, list));
+        });
+        scientistInfo.setNewWorldlist(_newWorldlist);
+
+        return scientistInfo;
     }
 
     @Override
@@ -356,6 +455,19 @@ public class CompareServiceImpl implements CompareService {
                 _funds.put(year, 0D);
             }
             detail.put(name.equals("中科院") ? "中国科学院" : name, _funds);
+        }
+        return detail;
+    }
+
+    private <V> Map<String, Map<String, MapResultDTO<String, V>>> initDetail2(
+            List<String> nameList, List<String> yearlist, Class<V> v, V defaultValue) {
+        Map<String, Map<String, MapResultDTO<String, V>>> detail = Maps.newHashMap();
+        for(String name : nameList) {
+            Map<String, MapResultDTO<String, V>> map = Maps.newHashMap();
+            for(String year : yearlist) {
+                map.put(year, new MapResultDTO(year, defaultValue));
+            }
+            detail.put(name, map);
         }
         return detail;
     }
