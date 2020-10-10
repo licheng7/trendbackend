@@ -31,7 +31,7 @@ public interface MenuRoleDAO
 	@Query("delete from MenuRoleRelation where roleId in ?1")
 	void deleteByRoleIds(List<String> param);
 
-	@Query("select m from MenuRoleRelation mr, Menu m where m.id=mr.menuId and mr.roleId in ?1")
+	@Query("select distinct m from MenuRoleRelation mr, Menu m where m.id=mr.menuId and mr.roleId in ?1")
 	List<Menu> findRoleMenus(List<Integer> roleIds);
 
 	@Query("from MenuRoleRelation where roleId = ?1")
