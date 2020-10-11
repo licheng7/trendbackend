@@ -301,6 +301,75 @@ public class CompareServiceImpl implements CompareService {
     }
 
     @Override
+    public DevelopmentInfoDTO developmentQuery() {
+
+        List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> queryResult1 =
+                casPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper.queryDevelopment1();
+
+        List<String> institution = queryResult1.stream().map(obj -> obj.getName()).distinct()
+                .collect(Collectors.toList());
+
+        List<Double> zrkx = Lists.newArrayList();
+        List<Double> jsfm = Lists.newArrayList();
+        List<Double> jsjb = Lists.newArrayList();
+
+        queryResult1.stream().forEach(obj -> {
+            if(obj.getType().equals("自然科学奖")) {
+                zrkx.add(obj.getCount());
+            } else if(obj.getType().equals("技术发明奖")) {
+                jsfm.add(obj.getCount());
+            } else if(obj.getType().equals("技术进步奖")) {
+                jsjb.add(obj.getCount());
+            }
+        });
+
+        List<MapResultDTO<String, Double>> kj = Lists.newArrayList();
+        List<MapResultDTO<String, Double>> kx = Lists.newArrayList();
+
+        List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> queryResult2 =
+                casPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper.queryDevelopment2();
+
+        queryResult2.stream().forEach(obj -> {
+                if(obj.getType().equals("新闻")) {
+                    kj.add(new MapResultDTO<String, Double>(obj.getName(), obj.getCount()));
+                } else {
+                    kx.add(new MapResultDTO<String, Double>(obj.getName(), obj.getCount()));
+                }
+            }
+        );
+
+        List<MapResultDTO> newkj = Lists.newArrayList();
+        newkj.add(kj.get(4));
+        newkj.add(kj.get(0));
+        newkj.add(kj.get(1));
+        newkj.add(kj.get(2));
+        newkj.add(kj.get(3));
+        newkj.add(kj.get(5));
+
+        List<MapResultDTO> newkx = Lists.newArrayList();
+        newkx.add(kx.get(4));
+        newkx.add(kx.get(0));
+        newkx.add(kx.get(1));
+        newkx.add(kx.get(2));
+        newkx.add(kx.get(3));
+        newkx.add(kx.get(5));
+
+        DevelopmentInfoDTO developmentInfo = new DevelopmentInfoDTO();
+        developmentInfo.setInstitution(institution);
+        developmentInfo.setZrkx(zrkx);
+        developmentInfo.setJsfm(jsfm);
+        developmentInfo.setJsjb(jsjb);
+        developmentInfo.setNewkj(newkj);
+        developmentInfo.setNewkx(newkx);
+        developmentInfo.setJsfmUpdateTime("2019年10月");
+        developmentInfo.setZrkxUpdateTime("2019年10月");
+        developmentInfo.setJsjbUpdateTime("2019年10月");
+        developmentInfo.setKyyxUpdateTime("2019年10月");
+
+        return developmentInfo;
+    }
+
+    @Override
     public ProjectInfoDTO projectQuery(ProjectQueryDO projectQuery) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         ProjectInfoDTO projectInfo = new ProjectInfoDTO();

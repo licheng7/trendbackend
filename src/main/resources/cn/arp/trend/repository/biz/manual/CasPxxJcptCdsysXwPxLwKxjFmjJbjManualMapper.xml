@@ -49,4 +49,29 @@
       <![CDATA[LEFT(date,4) <= #{endYear}]]>
     </where>
   </select>
+
+  <select id="queryDevelopment1" resultMap="BaseResultMap">
+    select
+      name, date, count, type
+    from
+      cas_pxx_jcpt_cdsys_xw_px_lw_kxj_fmj_jbj
+    WHERE
+      type='自然科学奖' OR
+      type='技术发明奖' OR
+      type='技术进步奖'
+    ORDER BY
+      name
+  </select>
+
+  <select id="queryDevelopment2" resultMap="BaseResultMap">
+    SELECT
+      name, count, type
+    FROM
+      cas_pxx_jcpt_cdsys_xw_px_lw_kxj_fmj_jbj
+    WHERE
+      type='新闻' OR
+      type='评选'
+    ORDER BY
+      name
+  </select>
 </mapper>

@@ -3,6 +3,7 @@ package cn.arp.trend.web.biz;
 import cn.arp.trend.auth.Audit;
 import cn.arp.trend.data.model.DO.ProjectQueryDO;
 import cn.arp.trend.data.model.DTO.*;
+import cn.arp.trend.data.model.converter.DevelopmentInfoConverter;
 import cn.arp.trend.data.model.converter.MapResultConverter;
 import cn.arp.trend.data.model.converter.ProjectInfoConverter;
 import cn.arp.trend.data.model.converter.ProjectQueryConverter;
@@ -136,6 +137,19 @@ public class CompareController extends BaseController {
             newWorldlist.add(MapResultConverter.INSTANCE.domain2dto(obj));
         }
         response.setNewWorldlist(newWorldlist);
+        return response;
+    }
+
+    @ApiOperation(value= "科研发展-科研影响-评选", notes= "科研发展-科研影响-评选")
+    @ServiceExecuter(description = "科研发展-科研影响-评选")
+    @RequestMapping(value = "/development", method = RequestMethod.POST)
+    @Audit(desc="科研发展-科研影响-评选")
+    public DevelopmentResponse developmentQuery() {
+        DevelopmentInfoDTO developmentInfo = compareService.developmentQuery();
+        DevelopmentResponse response = DevelopmentInfoConverter.INSTANCE.domain2dto
+                (developmentInfo);
+        response.setNewkj(MapResultConverter.INSTANCE.domain2dto(developmentInfo.getNewkj()));
+        response.setNewkx(MapResultConverter.INSTANCE.domain2dto(developmentInfo.getNewkx()));
         return response;
     }
 }

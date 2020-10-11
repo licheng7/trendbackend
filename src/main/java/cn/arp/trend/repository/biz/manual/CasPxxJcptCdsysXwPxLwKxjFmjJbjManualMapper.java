@@ -27,4 +27,16 @@ public interface CasPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper {
      */
     List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> queryPaper(@Param("startYear") String startYear, @Param("endYear") String
             endYear);
+
+    /**
+     *
+     * @return
+     */
+    List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> queryDevelopment1();
+
+    /**
+     *
+     * @return
+     */
+    List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> queryDevelopment2();
 }
