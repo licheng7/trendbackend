@@ -76,6 +76,18 @@ public class CompareServiceImpl implements CompareService {
             }
         }
 
+        /*List<MapResultDTO> detailList = Lists.newArrayList();
+        detail.entrySet().stream().forEach(obj ->
+                {
+                    Map<String, Double> map = obj.getValue();
+                    map.entrySet().stream().forEach(m ->
+                            {
+                                detailList.add(new MapResultDTO(m.getKey(), m.getValue()));
+                            }
+                    );
+                }
+        );*/
+
         return new FundsInfoDTO(yearlist, detail, "2019年10月");
     }
 

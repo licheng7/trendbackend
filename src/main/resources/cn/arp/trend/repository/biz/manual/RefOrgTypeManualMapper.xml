@@ -52,7 +52,7 @@
               <foreach collection="orgInfoQuery.fieldNames" item="item" index="index" separator=",">
                 #{item}
               </foreach>
-              ) and
+              )
             </when>
             <otherwise>
               research_field is not null and research_field!='NA'
