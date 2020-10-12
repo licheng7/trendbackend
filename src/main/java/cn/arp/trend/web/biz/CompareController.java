@@ -3,10 +3,7 @@ package cn.arp.trend.web.biz;
 import cn.arp.trend.auth.Audit;
 import cn.arp.trend.data.model.DO.ProjectQueryDO;
 import cn.arp.trend.data.model.DTO.*;
-import cn.arp.trend.data.model.converter.DevelopmentInfoConverter;
-import cn.arp.trend.data.model.converter.MapResultConverter;
-import cn.arp.trend.data.model.converter.ProjectInfoConverter;
-import cn.arp.trend.data.model.converter.ProjectQueryConverter;
+import cn.arp.trend.data.model.converter.*;
 import cn.arp.trend.data.model.request.*;
 import cn.arp.trend.data.model.response.*;
 import cn.arp.trend.error.RestError;
@@ -18,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,7 +43,8 @@ public class CompareController extends BaseController {
     @ServiceExecuter(description = "科研投入-总经费")
     @RequestMapping(value = "/funds", method = RequestMethod.POST)
     @Audit(desc="科研投入-总经费")
-    public FundsResponse fundsQuery(@Validated FundsRequest request, BindingResult bindingResult) throws RestError {
+    public FundsResponse fundsQuery(@RequestBody @Validated FundsRequest request, BindingResult
+            bindingResult) throws RestError {
         validData(bindingResult);
         FundsInfoDTO fundsInfo = compareService.fundsQuery(request.getStartYear(), request
                 .getEndYear());
@@ -56,7 +55,8 @@ public class CompareController extends BaseController {
     @ServiceExecuter(description = "科研投入-财政拨款")
     @RequestMapping(value = "/finance", method = RequestMethod.POST)
     @Audit(desc="科研投入-财政拨款")
-    public FinanceResponse financeQuery(@Validated FinanceRequest request, BindingResult
+    public FinanceResponse financeQuery(@RequestBody @Validated FinanceRequest request,
+                                        BindingResult
             bindingResult) throws RestError {
         validData(bindingResult);
         FinanceInfoDTO financeInfo = compareService.financeQuery(request.getStartYear(), request
@@ -82,7 +82,7 @@ public class CompareController extends BaseController {
     @ServiceExecuter(description = "科研产出-论文发表情况")
     @RequestMapping(value = "/paper", method = RequestMethod.POST)
     @Audit(desc="科研产出-论文发表情况")
-    public PaperResponse paperQuery(@Validated PaperRequest request, BindingResult
+    public PaperResponse paperQuery(@RequestBody @Validated PaperRequest request, BindingResult
             bindingResult) throws RestError{
         validData(bindingResult);
         PaperInfoDTO paperInfo = compareService.paperQuery(request.getStartYear(), request
@@ -98,7 +98,8 @@ public class CompareController extends BaseController {
     @ServiceExecuter(description = "科研投入-项目")
     @RequestMapping(value = "/project", method = RequestMethod.POST)
     @Audit(desc="科研投入-项目")
-    public ProjectResponse projectQuery(@Validated ProjectQueryRequest request, BindingResult
+    public ProjectResponse projectQuery(@RequestBody @Validated ProjectQueryRequest request,
+                                        BindingResult
             bindingResult) throws Exception {
         validData(bindingResult);
         ProjectQueryDO projectQuery = ProjectQueryConverter.INSTANCE.domain2dto(request);
@@ -120,7 +121,8 @@ public class CompareController extends BaseController {
     @ServiceExecuter(description = "科研产出-论文 高被引科学家")
     @RequestMapping(value = "/scientist", method = RequestMethod.POST)
     @Audit(desc="科研产出-论文 高被引科学家")
-    public ScientistResponse scientistQuery(@Validated ScientistRequest request, BindingResult
+    public ScientistResponse scientistQuery(@RequestBody @Validated ScientistRequest request,
+                                            BindingResult
             bindingResult) throws RestError{
         validData(bindingResult);
         ScientistInfoDTO scientistInfo = compareService.scientistQuery(request.getStartYear(),
@@ -151,5 +153,14 @@ public class CompareController extends BaseController {
         response.setNewkj(MapResultConverter.INSTANCE.domain2dto(developmentInfo.getNewkj()));
         response.setNewkx(MapResultConverter.INSTANCE.domain2dto(developmentInfo.getNewkx()));
         return response;
+    }
+
+    @ApiOperation(value= "科研发展-科研影响-国家奖", notes= "科研发展-科研影响-国家奖")
+    @ServiceExecuter(description = "科研发展-科研影响-国家奖")
+    @RequestMapping(value = "/nationalAward", method = RequestMethod.POST)
+    @Audit(desc="科研发展-科研影响-国家奖")
+    public NationalAwardResponse nationalAwardQuery() {
+        NationalAwardInfoDTO developmentInfo = compareService.nationalAwardQuery();
+        return NationalAwardInfoConverter.INSTANCE.domain2dto(developmentInfo);
     }
 }

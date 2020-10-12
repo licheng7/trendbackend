@@ -25,5 +25,7 @@ public interface CompareService {
 
     DevelopmentInfoDTO developmentQuery();
 
+    NationalAwardInfoDTO nationalAwardQuery();
+
     ProjectInfoDTO projectQuery(ProjectQueryDO projectQuery) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;
 }

@@ -19,6 +19,7 @@ import cn.arp.trend.web.BaseController;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,7 +64,7 @@ public class BasicController extends BaseController {
     @ServiceExecuter(description = "查询单位信息、领域信息")
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @Audit(desc="查询单位信息、领域信息")
-    public OrgInfoResponse orgQuery(OrgInfoQueryRequest request) {
+    public OrgInfoResponse orgQuery(@RequestBody OrgInfoQueryRequest request) {
         OrgInfoQueryDO orgInfoQueryDO = OrgInfoRequestConverter.INSTANCE.domain2dto(request);
         OrgInfoDTO bizResult = basicService.orgInfoQuery(orgInfoQueryDO);
         List<String> fields = bizResult.getFields();
@@ -85,7 +86,7 @@ public class BasicController extends BaseController {
     @ServiceExecuter(description = "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
     @RequestMapping(value = "/academician", method = RequestMethod.POST)
     @Audit(desc="获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
-    public AcademicianResponse academicianQuery(AcademicianQueryRequest request) {
+    public AcademicianResponse academicianQuery(@RequestBody AcademicianQueryRequest request) {
         AcademicianQueryDO academicianQueryDO =  AcademicianRequestConverter.INSTANCE.domain2dto
                 (request);
         AcademicianInfoDTO academicianInfoDTO = basicService.academicianQuery(academicianQueryDO);

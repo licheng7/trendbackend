@@ -16,6 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -82,7 +83,8 @@ public class CollaborationController extends BaseController {
     @ServiceExecuter(description = "对应collaboration.js的/goAnalyse")
     @RequestMapping(value = "/goAnalyse", method = RequestMethod.POST)
     @Audit(desc="对应collaboration.js的/goAnalyse")
-    public GoAnalyseResponse goAnalyseQuery(@Validated GoAnalyseRequest request, BindingResult bindingResult) throws RestError {
+    public GoAnalyseResponse goAnalyseQuery(@RequestBody @Validated GoAnalyseRequest request,
+                                            BindingResult bindingResult) throws RestError {
         validData(bindingResult);
         GoAnalyseQueryDO goAnalyseQueryDO = GoAnalyseRequestConverter.INSTANCE.domain2dto(request);
         GoAnalyseInfoDTO goAnalyseInfo = collaborationService.goAnalyseQuery(goAnalyseQueryDO);
@@ -93,7 +95,8 @@ public class CollaborationController extends BaseController {
     @ServiceExecuter(description = "对应collaboration.js的/comeAnalyse")
     @RequestMapping(value = "/comeAnalyse", method = RequestMethod.POST)
     @Audit(desc="对应collaboration.js的/comeAnalyse")
-    public ComeAnalyseResponse comeAnalyseQuery(@Validated ComeAnalyseRequest request, BindingResult bindingResult) throws RestError {
+    public ComeAnalyseResponse comeAnalyseQuery(@RequestBody @Validated ComeAnalyseRequest
+                                                            request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
         ComeAnalyseQueryDO comeAnalyseQueryDO = ComeAnalyseRequestConverter.INSTANCE.domain2dto
                 (request);

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -50,6 +51,9 @@ public class CompareServiceImpl implements CompareService {
 
     @Resource
     private StatHcauthorsCountManualMapper statHcauthorsCountManualMapper;
+
+    @Resource
+    private StatChinaAward10yearFinalCountManualMapper statChinaAward10yearFinalCountManualMapper;
 
     @Override
     public FundsInfoDTO fundsQuery(String startYear, String endYear) {
@@ -367,6 +371,88 @@ public class CompareServiceImpl implements CompareService {
         developmentInfo.setKyyxUpdateTime("2019年10月");
 
         return developmentInfo;
+    }
+
+    @Override
+    public NationalAwardInfoDTO nationalAwardQuery() {
+
+        List<Map<String, Object>> queryResult1 = statChinaAward10yearFinalCountManualMapper
+                .queryNationalAward1();
+
+        List<Map<String, Object>> queryResult2 = statChinaAward10yearFinalCountManualMapper
+                .queryNationalAward2();
+
+        List<String> institution = Lists.newArrayList();
+        queryResult1.stream().forEach(
+                obj -> {
+                    if(obj.get("jgmc") != null) {
+                        institution.add((String) obj.get("jgmc"));
+                    }
+                }
+        );
+        List<String> distinctInstitution = institution.stream().map(str -> str).distinct().collect
+                (Collectors.toList());
+
+        List<Long> zrkx = Lists.newArrayList();
+        List<Long> jsfm = Lists.newArrayList();
+        List<Long> jsjb = Lists.newArrayList();
+
+        for(int i = 0; i < distinctInstitution.size(); i++) {
+            zrkx.add(0L);
+            jsfm.add(0L);
+            jsjb.add(0L);
+        }
+
+        queryResult1.stream().forEach(
+                obj -> {
+                    if(obj.get("jgmc") != null) {
+                        String jgmc = (String) obj.get("jgmc");
+                        int index = distinctInstitution.indexOf(jgmc);
+                        if(index != -1) {
+                            if(obj.get("jxlb") != null) {
+                                String jxlb = (String) obj.get("jxlb");
+                                if (jxlb.equals("国家自然科学奖")) {
+                                    zrkx.set(index, ((BigDecimal) obj.get("num")).longValue());
+                                } else if (jxlb.equals("国家技术发明奖")) {
+                                    jsfm.set(index, ((BigDecimal) obj.get("num")).longValue());
+                                } else if (jxlb.equals("国家科学技术进步奖")) {
+                                    jsjb.set(index, ((BigDecimal) obj.get("num")).longValue());
+                                }
+                            }
+                        }
+                    }
+                }
+        );
+
+        institution.add("中国科学院");
+
+        queryResult2.stream().forEach(
+                obj -> {
+                    if(obj.get("jxlb") != null) {
+                        String jxlb = (String) obj.get("jxlb");
+                        if(jxlb.equals("国家自然科学奖")) {
+                            zrkx.add(((BigDecimal) obj.get("num")).longValue());
+                        } else if (jxlb.equals("国家技术发明奖")) {
+                            jsfm.add(((BigDecimal) obj.get("num")).longValue());
+                        } else if (jxlb.equals("国家科学技术进步奖")) {
+                            jsjb.add(((BigDecimal) obj.get("num")).longValue());
+                        }
+                    }
+                }
+        );
+
+        NationalAwardInfoDTO nationalAwardInfo = new NationalAwardInfoDTO();
+        nationalAwardInfo.setInstitution(institution);
+        nationalAwardInfo.setZrkx(zrkx);
+        nationalAwardInfo.setJsfm(jsfm);
+        nationalAwardInfo.setJsjb(jsjb);
+        nationalAwardInfo.setResultArray(Lists.newArrayList(queryResult1, queryResult2));
+        nationalAwardInfo.setZrkxUpdateTime("2019年10月");
+        nationalAwardInfo.setJsfmUpdateTime("2019年10月");
+        nationalAwardInfo.setJsjbUpdateTime("2019年10月");
+        nationalAwardInfo.setKyyxUpdateTime("2019年10月");
+
+        return nationalAwardInfo;
     }
 
     @Override

@@ -4,6 +4,7 @@ import cn.arp.trend.entity.biz.StatChinaAward10yearFinalCount;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StatChinaAward10yearFinalCountManualMapper {
     /**
@@ -30,4 +31,16 @@ public interface StatChinaAward10yearFinalCountManualMapper {
      */
     List<StatChinaAward10yearFinalCount> queryByHjnf(@Param("startYear") String startYear,
                              @Param("endYear") String endYear);
+
+    /**
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryNationalAward1();
+
+    /**
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryNationalAward2();
 }
