@@ -129,13 +129,18 @@
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="cas_academician_foreign"
+        <!--<table tableName="cas_academician_foreign"
                domainObjectName="CasAcademicianForeign"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="cas_academician_cae_foreign"
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="cas_academician_cae_foreign"
                domainObjectName="CasAcademicianCaeForeign"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <table tableName="update_frequency"
+               domainObjectName="UpdateFrequency"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>

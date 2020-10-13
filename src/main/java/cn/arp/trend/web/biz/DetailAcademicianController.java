@@ -1,20 +1,26 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.data.model.DO.DACompareQueryDO;
 import cn.arp.trend.data.model.DTO.ForeignInfoDTO;
+import cn.arp.trend.data.model.request.CompareRequest;
 import cn.arp.trend.data.model.request.ForeignRequest;
+import cn.arp.trend.data.model.response.CompareResponse;
 import cn.arp.trend.data.model.response.ForeignResponse;
+import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.DetailAcademicianService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created with IDEA
@@ -37,5 +43,19 @@ public class DetailAcademicianController extends BaseController {
     public ForeignResponse foreignQuery(@RequestBody ForeignRequest request) {
         ForeignInfoDTO foreignInfo = detailAcademicianService.foreignQuery(request.getAffiliation());
         return new ForeignResponse(foreignInfo.getTopCountry());
+    }
+
+    @ApiOperation(value= "detailAcademician.js对应的/", notes= "detailAcademician.js对应的/")
+    @ServiceExecuter(description = "detailAcademician.js对应的/")
+    @RequestMapping(value = "/compare", method = RequestMethod.POST)
+    @Audit(desc="detailAcademician.js对应的/")
+    public CompareResponse compareQuery(@RequestBody CompareRequest request, BindingResult
+            bindingResult) throws RestError {
+        validData(bindingResult);
+        DACompareQueryDO query = new DACompareQueryDO();
+        query.setAffiliation(request.getAffiliation());
+        List<Object> result = detailAcademicianService.compareQuery(query);
+        // 这玩意实在太复杂懒得做DTO转换了
+        return new CompareResponse(result);
     }
 }
