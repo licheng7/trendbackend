@@ -2,9 +2,13 @@ package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
 import cn.arp.trend.data.model.DO.DoctoralSupervisorQueryDO;
+import cn.arp.trend.data.model.DO.MasterSupervisorQueryDO;
 import cn.arp.trend.data.model.DTO.DoctoralSupervisorInfoDTO;
+import cn.arp.trend.data.model.DTO.MasterSupervisorInfoDTO;
 import cn.arp.trend.data.model.request.DoctoralSupervisorRequest;
+import cn.arp.trend.data.model.request.MasterSupervisorRequest;
 import cn.arp.trend.data.model.response.DoctoralSupervisorResponse;
+import cn.arp.trend.data.model.response.MasterSupervisorResponse;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.DetailMentorService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
@@ -45,8 +49,24 @@ public class DetailMentorController extends BaseController {
         DoctoralSupervisorQueryDO query = new DoctoralSupervisorQueryDO(
                 request.getEndYear(), request.getAffiliationId(), request.getFieldName());
         DoctoralSupervisorInfoDTO doctoralSupervisorInfo = detailMentorService
-                .doctoralupervisorQuery(query);
+                .doctoralSupervisorQuery(query);
         return new DoctoralSupervisorResponse(doctoralSupervisorInfo.getDistributionAge(),
                 doctoralSupervisorInfo.getDistributionField());
+    }
+
+    @ApiOperation(value= "硕导", notes= "硕导")
+    @ServiceExecuter(description = "硕导")
+    @RequestMapping(value = "/distribution/m", method = RequestMethod.POST)
+    @Audit(desc="硕导")
+    public MasterSupervisorResponse masterSupervisorQuery(
+            @RequestBody @Validated MasterSupervisorRequest request,
+            BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        MasterSupervisorQueryDO query = new MasterSupervisorQueryDO(
+                request.getEndYear(), request.getAffiliationId(), request.getFieldName());
+        MasterSupervisorInfoDTO masterSupervisorInfo = detailMentorService
+                .masterSupervisorQuery(query);
+        return new MasterSupervisorResponse(masterSupervisorInfo.getDistributionAge(),
+                masterSupervisorInfo.getDistributionField());
     }
 }
