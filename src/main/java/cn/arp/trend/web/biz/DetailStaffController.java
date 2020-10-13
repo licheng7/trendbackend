@@ -52,4 +52,22 @@ public class DetailStaffController extends BaseController {
         );
         return response;
     }
+
+    /*@ApiOperation(value= "学历分布【新】", notes= "学历分布【新】")
+    @ServiceExecuter(description = "学历分布【新】")
+    @RequestMapping(value = "/childLevelDistribution", method = RequestMethod.POST)
+    @Audit(desc="学历分布【新】")
+    public AgeDistributionResponse childLevelDistributionQuery(
+            @RequestBody @Validated AgeDistributionRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        AgeDistributionQueryDO query = new AgeDistributionQueryDO(
+                request.getEndYear(), request.getAffiliationId());
+        AgeDistributionInfoDTO ageDistributionInfo = detailStaffService.ageDistributionQuery(query);
+        AgeDistributionResponse response = new AgeDistributionResponse(
+                ageDistributionInfo.getUpdateTime(),
+                MapResultConverter.INSTANCE.domain2dto(ageDistributionInfo.getDetail()),
+                ageDistributionInfo.getResultList()
+        );
+        return response;
+    }*/
 }
