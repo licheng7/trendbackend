@@ -34,4 +34,45 @@
     order by
       nf ASC
   </select>
+
+  <select id="trend4DoctoralSupervisor" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.TrendDoctoralSupervisorQueryDO">
+    SELECT
+      a.nf AS year,
+      SUM(a.bdrs) AS mentor_number,
+      SUM(a.bsrs) AS student_number
+    FROM
+      stat_teacher_student AS a,
+      ref_org_type AS b
+    <where>
+      a.jgbh=b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.fieldName != null">
+          AND b.research_field in (
+          <foreach collection="query.fieldName" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationId != null">
+          AND b.JGBH in (
+          <foreach collection="query.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND b.JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+  </select>
 </mapper>

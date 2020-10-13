@@ -76,18 +76,6 @@ public class CompareServiceImpl implements CompareService {
             }
         }
 
-        /*List<MapResultDTO> detailList = Lists.newArrayList();
-        detail.entrySet().stream().forEach(obj ->
-                {
-                    Map<String, Double> map = obj.getValue();
-                    map.entrySet().stream().forEach(m ->
-                            {
-                                detailList.add(new MapResultDTO(m.getKey(), m.getValue()));
-                            }
-                    );
-                }
-        );*/
-
         return new FundsInfoDTO(yearlist, detail, "2019年10月");
     }
 
@@ -556,10 +544,6 @@ public class CompareServiceImpl implements CompareService {
         }
 
         for(String year : recordList.keySet()) {
-            /*orderMap.get(year).getNsfc().setName(Lists.newArrayList(recordList.get(year).getJgmc
-                    ()));
-            orderMap.get(year).getNsfc().setValue(Lists.newArrayList(recordList.get(year).getXm()));*/
-
             ProjectInfoDTO.OrderDTO order = orderMap.get(year);
             MapResultDTO<List<String>, List<Long>> map = (MapResultDTO<List<String>, List<Long>>) method.invoke(order);
             if(null != recordList.get(year)) {
