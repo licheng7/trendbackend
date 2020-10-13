@@ -139,8 +139,13 @@
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="update_frequency"
+        <!--<table tableName="update_frequency"
                domainObjectName="UpdateFrequency"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <table tableName="stat_arp_staff_age"
+               domainObjectName="StatArpStaffAge"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
