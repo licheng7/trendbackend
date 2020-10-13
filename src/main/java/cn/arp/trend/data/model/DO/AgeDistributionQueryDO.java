@@ -10,27 +10,15 @@ import java.util.List;
  **/
 public class AgeDistributionQueryDO {
 
-    private int startYear;
-
-    private int endYear;
+    private String endYear;
 
     private List<String> affiliationId;
 
-    private List<String> fieldName;
-
-    public int getStartYear() {
-        return startYear;
-    }
-
-    public void setStartYear(int startYear) {
-        this.startYear = startYear;
-    }
-
-    public int getEndYear() {
+    public String getEndYear() {
         return endYear;
     }
 
-    public void setEndYear(int endYear) {
+    public void setEndYear(String endYear) {
         this.endYear = endYear;
     }
 
@@ -42,11 +30,11 @@ public class AgeDistributionQueryDO {
         this.affiliationId = affiliationId;
     }
 
-    public List<String> getFieldName() {
-        return fieldName;
+    public AgeDistributionQueryDO(String endYear, List<String> affiliationId) {
+        this.endYear = endYear;
+        this.affiliationId = affiliationId;
     }
 
-    public void setFieldName(List<String> fieldName) {
-        this.fieldName = fieldName;
+    public AgeDistributionQueryDO() {
     }
 }
