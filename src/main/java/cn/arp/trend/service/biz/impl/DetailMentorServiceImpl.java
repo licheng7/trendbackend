@@ -1,7 +1,9 @@
 package cn.arp.trend.service.biz.impl;
 
+import cn.arp.trend.data.model.DO.AllSupervisorQueryDO;
 import cn.arp.trend.data.model.DO.DoctoralSupervisorQueryDO;
 import cn.arp.trend.data.model.DO.MasterSupervisorQueryDO;
+import cn.arp.trend.data.model.DTO.AllSupervisorInfoDTO;
 import cn.arp.trend.data.model.DTO.DoctoralSupervisorInfoDTO;
 import cn.arp.trend.data.model.DTO.MasterSupervisorInfoDTO;
 import cn.arp.trend.repository.biz.manual.CasEduFTeacherInfoManualMapper;
@@ -97,6 +99,43 @@ public class DetailMentorServiceImpl implements DetailMentorService {
         });
 
         MasterSupervisorInfoDTO result = new MasterSupervisorInfoDTO();
+        result.setDistributionAge(distributionAge);
+        result.setDistributionField(distributionField);
+
+        return result;
+    }
+
+    @Override
+    public AllSupervisorInfoDTO allSupervisorQuery(AllSupervisorQueryDO query) {
+        List<Map<String, Object>> distributionAgeList = casEduFTeacherInfoManualMapper
+                .distributionAge4AllSupervisor(query);
+
+        List<Map> distributionAge = Lists.newArrayList();
+
+        distributionAgeList.stream().forEach(map -> {
+            int age = ((Number) map.get("age")).intValue();
+            int number = (Integer) map.get("number");
+            Map<String, Object> _map = Maps.newHashMap();
+            _map.put("age", age);
+            _map.put("number", number);
+            distributionAge.add(_map);
+        });
+
+        List<Map<String, Object>> distributionFieldList = casEduFTeacherInfoManualMapper
+                .distributionField4AllSupervisor(query);
+
+        List<Map> distributionField = Lists.newArrayList();
+
+        distributionFieldList.stream().forEach(map -> {
+            String field = (String) map.get("field");
+            int number = (Integer) map.get("number");
+            Map<String, Object> _map = Maps.newHashMap();
+            _map.put("field", field);
+            _map.put("number", number);
+            distributionField.add(_map);
+        });
+
+        AllSupervisorInfoDTO result = new AllSupervisorInfoDTO();
         result.setDistributionAge(distributionAge);
         result.setDistributionField(distributionField);
 

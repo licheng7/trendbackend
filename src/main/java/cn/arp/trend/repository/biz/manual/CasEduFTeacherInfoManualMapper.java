@@ -1,5 +1,6 @@
 package cn.arp.trend.repository.biz.manual;
 
+import cn.arp.trend.data.model.DO.AllSupervisorQueryDO;
 import cn.arp.trend.data.model.DO.DoctoralSupervisorQueryDO;
 import cn.arp.trend.data.model.DO.MasterSupervisorQueryDO;
 import org.apache.ibatis.annotations.Param;
@@ -36,4 +37,18 @@ public interface CasEduFTeacherInfoManualMapper {
      * @return
      */
     List<Map<String, Object>> distributionField4MasterSupervisor(@Param("query") MasterSupervisorQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> distributionAge4AllSupervisor(@Param("query") AllSupervisorQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> distributionField4AllSupervisor(@Param("query") AllSupervisorQueryDO query);
 }

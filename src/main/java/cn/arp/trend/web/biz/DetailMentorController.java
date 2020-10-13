@@ -1,12 +1,16 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.data.model.DO.AllSupervisorQueryDO;
 import cn.arp.trend.data.model.DO.DoctoralSupervisorQueryDO;
 import cn.arp.trend.data.model.DO.MasterSupervisorQueryDO;
+import cn.arp.trend.data.model.DTO.AllSupervisorInfoDTO;
 import cn.arp.trend.data.model.DTO.DoctoralSupervisorInfoDTO;
 import cn.arp.trend.data.model.DTO.MasterSupervisorInfoDTO;
+import cn.arp.trend.data.model.request.AllSupervisorRequest;
 import cn.arp.trend.data.model.request.DoctoralSupervisorRequest;
 import cn.arp.trend.data.model.request.MasterSupervisorRequest;
+import cn.arp.trend.data.model.response.AllSupervisorResponse;
 import cn.arp.trend.data.model.response.DoctoralSupervisorResponse;
 import cn.arp.trend.data.model.response.MasterSupervisorResponse;
 import cn.arp.trend.error.RestError;
@@ -68,5 +72,21 @@ public class DetailMentorController extends BaseController {
                 .masterSupervisorQuery(query);
         return new MasterSupervisorResponse(masterSupervisorInfo.getDistributionAge(),
                 masterSupervisorInfo.getDistributionField());
+    }
+
+    @ApiOperation(value= "导师", notes= "导师")
+    @ServiceExecuter(description = "导师")
+    @RequestMapping(value = "/distribution/all", method = RequestMethod.POST)
+    @Audit(desc="导师")
+    public AllSupervisorResponse allSupervisorQuery(
+            @RequestBody @Validated AllSupervisorRequest request,
+            BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        AllSupervisorQueryDO query = new AllSupervisorQueryDO(
+                request.getEndYear(), request.getAffiliationId(), request.getFieldName());
+        AllSupervisorInfoDTO allSupervisorInfo = detailMentorService
+                .allSupervisorQuery(query);
+        return new AllSupervisorResponse(allSupervisorInfo.getDistributionAge(),
+                allSupervisorInfo.getDistributionField());
     }
 }

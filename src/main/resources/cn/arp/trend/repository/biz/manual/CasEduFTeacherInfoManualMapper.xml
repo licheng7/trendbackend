@@ -212,4 +212,91 @@
     GROUP BY
       research_field
   </select>
+
+  <select id="distributionAge4AllSupervisor" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AllSupervisorQueryDO">
+    SELECT
+      TIMESTAMPDIFF(YEAR, birthday, now()) AS age,
+      COUNT(a.staff_id) AS number
+    FROM
+      cas_edu_f_teacher_info AS a,
+      ref_org_type AS b
+    <where>
+      a.Mentor_unit_name=b.jgmc
+      AND status="正常"
+      AND birthday is not null
+      AND first_time_advisor is not NULL
+      AND <![CDATA[LEFT(enroll_time, 4) <= #{query.endYear}]]>
+      <choose>
+        <when test="query.fieldName != null">
+          AND research_field in (
+          <foreach collection="query.fieldName" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationId != null">
+          AND b.JGBH in (
+          <foreach collection="query.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND b.JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+    GROUP BY
+    TIMESTAMPDIFF(YEAR, birthday, now())
+  </select>
+
+  <select id="distributionField4AllSupervisor" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AllSupervisorQueryDO">
+    SELECT
+    research_field AS field,
+    COUNT(a.staff_id) AS number
+    FROM
+    cas_edu_f_teacher_info AS a,
+    ref_org_type AS b
+    <where>
+      a.Mentor_unit_name=b.jgmc
+      AND status="正常"
+      AND birthday is not null
+      AND first_time_advisor is not NULL
+      AND <![CDATA[LEFT(enroll_time, 4) <= #{query.endYear}]]>
+      <choose>
+        <when test="query.fieldName != null">
+          AND research_field in (
+          <foreach collection="query.fieldName" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationId != null">
+          AND b.JGBH in (
+          <foreach collection="query.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND b.JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+    GROUP BY
+    research_field
+  </select>
 </mapper>
