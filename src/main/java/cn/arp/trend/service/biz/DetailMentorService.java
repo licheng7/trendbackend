@@ -1,13 +1,7 @@
 package cn.arp.trend.service.biz;
 
-import cn.arp.trend.data.model.DO.AllSupervisorQueryDO;
-import cn.arp.trend.data.model.DO.DoctoralSupervisorQueryDO;
-import cn.arp.trend.data.model.DO.MasterSupervisorQueryDO;
-import cn.arp.trend.data.model.DO.TrendDoctoralSupervisorQueryDO;
-import cn.arp.trend.data.model.DTO.AllSupervisorInfoDTO;
-import cn.arp.trend.data.model.DTO.DoctoralSupervisorInfoDTO;
-import cn.arp.trend.data.model.DTO.MasterSupervisorInfoDTO;
-import cn.arp.trend.data.model.DTO.TrendDoctoralSupervisorInfoDTO;
+import cn.arp.trend.data.model.DO.*;
+import cn.arp.trend.data.model.DTO.*;
 
 /**
  * Created with IDEA
@@ -24,4 +18,10 @@ public interface DetailMentorService {
     AllSupervisorInfoDTO allSupervisorQuery(AllSupervisorQueryDO query);
 
     TrendDoctoralSupervisorInfoDTO trendDoctoralSupervisorQuery(TrendDoctoralSupervisorQueryDO query);
+
+    TrendMasterSupervisorInfoDTO trendMasterSupervisorQuery(TrendMasterSupervisorQueryDO query);
+
+    TrendAllInfoDTO trendAllQuery(TrendAllQueryDO query);
+
+    MentorDetailInfoDTO detailQuery(MentorDetailQueryDO query);
 }

@@ -20,6 +20,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 
 /**
+ * TODO 这个类是对并发查询的支持，后面可以借助这个类处理多个sql并发查询的情况，会提升效率
+ *
  * Created with IDEA
  * author:licheng
  * Date:2020/10/14

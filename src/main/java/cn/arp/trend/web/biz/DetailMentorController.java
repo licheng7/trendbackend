@@ -1,18 +1,9 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
-import cn.arp.trend.data.model.DO.AllSupervisorQueryDO;
-import cn.arp.trend.data.model.DO.DoctoralSupervisorQueryDO;
-import cn.arp.trend.data.model.DO.MasterSupervisorQueryDO;
-import cn.arp.trend.data.model.DO.TrendDoctoralSupervisorQueryDO;
-import cn.arp.trend.data.model.DTO.AllSupervisorInfoDTO;
-import cn.arp.trend.data.model.DTO.DoctoralSupervisorInfoDTO;
-import cn.arp.trend.data.model.DTO.MasterSupervisorInfoDTO;
-import cn.arp.trend.data.model.DTO.TrendDoctoralSupervisorInfoDTO;
-import cn.arp.trend.data.model.request.AllSupervisorRequest;
-import cn.arp.trend.data.model.request.DoctoralSupervisorRequest;
-import cn.arp.trend.data.model.request.MasterSupervisorRequest;
-import cn.arp.trend.data.model.request.TrendDoctoralSupervisorRequest;
+import cn.arp.trend.data.model.DO.*;
+import cn.arp.trend.data.model.DTO.*;
+import cn.arp.trend.data.model.request.*;
 import cn.arp.trend.data.model.response.*;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.DetailMentorService;
@@ -107,19 +98,49 @@ public class DetailMentorController extends BaseController {
         return new TrendDoctoralSupervisorResponse(trendDoctoralSupervisorInfo.getResult());
     }
 
-    /*@ApiOperation(value= "硕导", notes= "硕导")
+    @ApiOperation(value= "硕导", notes= "硕导")
     @ServiceExecuter(description = "硕导")
     @RequestMapping(value = "/trend/m", method = RequestMethod.POST)
     @Audit(desc="硕导")
     public TrendMasterSupervisorResponse trendMasterSupervisorQuery(
-            @RequestBody @Validated TrendDoctoralSupervisorRequest request,
+            @RequestBody @Validated TrendMasterSupervisorRequest request,
             BindingResult bindingResult) throws RestError {
         validData(bindingResult);
-        TrendDoctoralSupervisorQueryDO query = new TrendDoctoralSupervisorQueryDO(
+        TrendMasterSupervisorQueryDO query = new TrendMasterSupervisorQueryDO(
                 request.getStartYear(), request.getEndYear(),
                 request.getAffiliationId(), request.getFieldName());
-        TrendDoctoralSupervisorInfoDTO trendDoctoralSupervisorInfo = detailMentorService
-                .trendDoctoralSupervisorQuery(query);
-        return new TrendDoctoralSupervisorResponse(trendDoctoralSupervisorInfo.getResult());
-    }*/
+        TrendMasterSupervisorInfoDTO trendDoctoralSupervisorInfo = detailMentorService
+                .trendMasterSupervisorQuery(query);
+        return new TrendMasterSupervisorResponse(trendDoctoralSupervisorInfo.getResult());
+    }
+
+    @ApiOperation(value= "导师", notes= "导师")
+    @ServiceExecuter(description = "导师")
+    @RequestMapping(value = "/trend/all", method = RequestMethod.POST)
+    @Audit(desc="导师")
+    public TrendAllResponse trendMasterSupervisorQuery(
+            @RequestBody @Validated TrendAllRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        TrendAllQueryDO query = new TrendAllQueryDO(
+                request.getStartYear(), request.getEndYear(),
+                request.getAffiliationId(), request.getFieldName());
+        TrendAllInfoDTO trendAllInfo = detailMentorService
+                .trendAllQuery(query);
+        return new TrendAllResponse(trendAllInfo.getResult());
+    }
+
+    @ApiOperation(value= "中间的详情列表", notes= "中间的详情列表")
+    @ServiceExecuter(description = "导师")
+    @RequestMapping(value = "/detail", method = RequestMethod.POST)
+    @Audit(desc="导师")
+    public MentorDetailResponse trendMasterSupervisorQuery(
+            @RequestBody @Validated MentorDetailRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        MentorDetailQueryDO query = new MentorDetailQueryDO(
+                request.getStartYear(), request.getEndYear(),
+                request.getAffiliationId(), request.getFieldName());
+        MentorDetailInfoDTO mentorDetailInfo = detailMentorService
+                .detailQuery(query);
+        return new MentorDetailResponse(mentorDetailInfo.getData());
+    }
 }
