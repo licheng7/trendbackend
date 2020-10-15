@@ -53,28 +53,30 @@
     FROM
       cas_academician_china
     <where>
+      1 = 1
       <choose>
         <when test="academicianQuery.affiliationIds != null">
-          gzdw_gf1 in (
+          AND gzdw_gf1 in (
           <foreach collection="academicianQuery.affiliationIds" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) AND
+          )
         </when>
         <otherwise>
-          gzdw_gf1 is not null AND
+          AND gzdw_gf1 is not null
         </otherwise>
       </choose>
       <choose>
         <when test="academicianQuery.afieldNameZky != null">
-          xuebu in (
+          AND xuebu in (
           <foreach collection="academicianQuery.afieldNameZky" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) and
+          )
         </when>
         <otherwise>
-          xuebu is not null and xuebu!='NA'
+          AND xuebu is not null
+          and xuebu!='NA'
         </otherwise>
       </choose>
     </where>
@@ -89,28 +91,30 @@
     FROM
       cas_academician_china
     <where>
+      1 = 1
       <choose>
         <when test="academicianQuery.affiliationIds != null">
-          gzdw_gf1 in (
+          AND gzdw_gf1 in (
           <foreach collection="academicianQuery.affiliationIds" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) AND
+          )
         </when>
         <otherwise>
-          gzdw_gf1 is not null AND
+          AND gzdw_gf1 is not null
         </otherwise>
       </choose>
       <choose>
         <when test="academicianQuery.afieldNameZky != null">
-          xuebu in (
+          AND xuebu in (
           <foreach collection="academicianQuery.afieldNameZky" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) and
+          )
         </when>
         <otherwise>
-          xuebu is not null and xuebu!='NA'
+          AND xuebu is not null
+          and xuebu!='NA'
         </otherwise>
       </choose>
     </where>

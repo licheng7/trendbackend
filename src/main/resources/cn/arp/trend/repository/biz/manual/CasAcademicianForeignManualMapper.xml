@@ -45,7 +45,8 @@
   <select id="queryForeign" parameterType="cn.arp.trend.data.model.DO.ForeignQueryDO"
           resultType="java.util.HashMap">
     SELECT
-    ANY_VALUE(guoji) AS guoji, COUNT(guoji) AS rs
+      ANY_VALUE(guoji) AS guoji,
+      COUNT(guoji) AS rs
     FROM
       (
       SELECT
@@ -97,4 +98,21 @@
     ORDER BY
       rs DESC
   </select>
+
+  <!--<select id="queryAcademician1" resultType="java.lang.String">
+    SELECT
+      DISTINCT IFNULL(xuebu, "未知") AS xuebu
+    FROM (
+      SELECT
+        DISTINCT xuebu
+      FROM
+        cas_academician_foreign
+      UNION ALL
+      SELECT
+        DISTINCT xuebu
+      FROM
+        cas_academician_china
+    ) AS a
+  </select>-->
+
 </mapper>

@@ -16,14 +16,14 @@ public class FundsInfoDTO {
 
     private List<String> year;
 
-    private Map<String, Map<String, Double>> detail;
+    private List<Map<String, Object>> detail;
 
     private String updateTime;
 
     public FundsInfoDTO() {
     }
 
-    public FundsInfoDTO(List<String> year, Map<String, Map<String, Double>> detail, String updateTime) {
+    public FundsInfoDTO(List<String> year, List<Map<String, Object>> detail, String updateTime) {
         this.year = year;
         this.detail = detail;
         this.updateTime = updateTime;
@@ -37,19 +37,19 @@ public class FundsInfoDTO {
         this.year = year;
     }
 
+    public List<Map<String, Object>> getDetail() {
+        return detail;
+    }
+
+    public void setDetail(List<Map<String, Object>> detail) {
+        this.detail = detail;
+    }
+
     public String getUpdateTime() {
         return updateTime;
     }
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public Map<String, Map<String, Double>> getDetail() {
-        return detail;
-    }
-
-    public void setDetail(Map<String, Map<String, Double>> detail) {
-        this.detail = detail;
     }
 }

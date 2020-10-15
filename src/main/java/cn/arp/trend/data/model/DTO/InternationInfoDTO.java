@@ -3,6 +3,7 @@ package cn.arp.trend.data.model.DTO;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -13,38 +14,49 @@ import java.util.List;
 @ToString
 public class InternationInfoDTO {
 
-    private List<String> sortedCountryList;
+    private List<Map<String, String>> country;
 
-    private List<String> sortedNationalityList;
+    private List<Map<String, String>> nationality;
 
-    private List<String> sortedFormList;
+    private List<Map<String, String>> form;
 
     private List<String> sortedAgeYearList;
 
     private List<Integer> ageList;
 
-    public List<String> getSortedCountryList() {
-        return sortedCountryList;
+    public InternationInfoDTO(List<Map<String, String>> country, List<Map<String, String>> nationality, List<Map<String, String>> form, List<String> sortedAgeYearList, List<Integer> ageList) {
+        this.country = country;
+        this.nationality = nationality;
+        this.form = form;
+        this.sortedAgeYearList = sortedAgeYearList;
+        this.ageList = ageList;
     }
 
-    public void setSortedCountryList(List<String> sortedCountryList) {
-        this.sortedCountryList = sortedCountryList;
+    public InternationInfoDTO() {
     }
 
-    public List<String> getSortedNationalityList() {
-        return sortedNationalityList;
+    public List<Map<String, String>> getCountry() {
+        return country;
     }
 
-    public void setSortedNationalityList(List<String> sortedNationalityList) {
-        this.sortedNationalityList = sortedNationalityList;
+    public void setCountry(List<Map<String, String>> country) {
+        this.country = country;
     }
 
-    public List<String> getSortedFormList() {
-        return sortedFormList;
+    public List<Map<String, String>> getNationality() {
+        return nationality;
     }
 
-    public void setSortedFormList(List<String> sortedFormList) {
-        this.sortedFormList = sortedFormList;
+    public void setNationality(List<Map<String, String>> nationality) {
+        this.nationality = nationality;
+    }
+
+    public List<Map<String, String>> getForm() {
+        return form;
+    }
+
+    public void setForm(List<Map<String, String>> form) {
+        this.form = form;
     }
 
     public List<String> getSortedAgeYearList() {
@@ -60,17 +72,6 @@ public class InternationInfoDTO {
     }
 
     public void setAgeList(List<Integer> ageList) {
-        this.ageList = ageList;
-    }
-
-    public InternationInfoDTO() {
-    }
-
-    public InternationInfoDTO(List<String> sortedCountryList, List<String> sortedNationalityList, List<String> sortedFormList, List<String> sortedAgeYearList, List<Integer> ageList) {
-        this.sortedCountryList = sortedCountryList;
-        this.sortedNationalityList = sortedNationalityList;
-        this.sortedFormList = sortedFormList;
-        this.sortedAgeYearList = sortedAgeYearList;
         this.ageList = ageList;
     }
 }

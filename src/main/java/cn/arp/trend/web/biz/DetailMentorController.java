@@ -13,10 +13,7 @@ import cn.arp.trend.data.model.request.AllSupervisorRequest;
 import cn.arp.trend.data.model.request.DoctoralSupervisorRequest;
 import cn.arp.trend.data.model.request.MasterSupervisorRequest;
 import cn.arp.trend.data.model.request.TrendDoctoralSupervisorRequest;
-import cn.arp.trend.data.model.response.AllSupervisorResponse;
-import cn.arp.trend.data.model.response.DoctoralSupervisorResponse;
-import cn.arp.trend.data.model.response.MasterSupervisorResponse;
-import cn.arp.trend.data.model.response.TrendDoctoralSupervisorResponse;
+import cn.arp.trend.data.model.response.*;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.DetailMentorService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
@@ -98,7 +95,7 @@ public class DetailMentorController extends BaseController {
     @ServiceExecuter(description = "导师")
     @RequestMapping(value = "/trend/d", method = RequestMethod.POST)
     @Audit(desc="导师")
-    public TrendDoctoralSupervisorResponse trendDoctoralupervisorQuery(
+    public TrendDoctoralSupervisorResponse trendDoctoralSupervisorQuery(
             @RequestBody @Validated TrendDoctoralSupervisorRequest request,
             BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -109,4 +106,20 @@ public class DetailMentorController extends BaseController {
                 .trendDoctoralSupervisorQuery(query);
         return new TrendDoctoralSupervisorResponse(trendDoctoralSupervisorInfo.getResult());
     }
+
+    /*@ApiOperation(value= "硕导", notes= "硕导")
+    @ServiceExecuter(description = "硕导")
+    @RequestMapping(value = "/trend/m", method = RequestMethod.POST)
+    @Audit(desc="硕导")
+    public TrendMasterSupervisorResponse trendMasterSupervisorQuery(
+            @RequestBody @Validated TrendDoctoralSupervisorRequest request,
+            BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        TrendDoctoralSupervisorQueryDO query = new TrendDoctoralSupervisorQueryDO(
+                request.getStartYear(), request.getEndYear(),
+                request.getAffiliationId(), request.getFieldName());
+        TrendDoctoralSupervisorInfoDTO trendDoctoralSupervisorInfo = detailMentorService
+                .trendDoctoralSupervisorQuery(query);
+        return new TrendDoctoralSupervisorResponse(trendDoctoralSupervisorInfo.getResult());
+    }*/
 }

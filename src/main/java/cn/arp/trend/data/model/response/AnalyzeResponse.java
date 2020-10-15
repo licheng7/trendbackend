@@ -4,6 +4,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -16,31 +17,31 @@ public class AnalyzeResponse implements Serializable {
 
     private static final long serialVersionUID = -5769768276312224992L;
 
-    private List<AnalyzeAllResult> all;
+    Map<String, String> fieldMap;
 
-    private List<String> fieldMap;
+    List<List<Object>> all;
 
     public AnalyzeResponse() {
     }
 
-    public AnalyzeResponse(List<AnalyzeAllResult> all, List<String> fieldMap) {
-        this.all = all;
+    public AnalyzeResponse(Map<String, String> fieldMap, List<List<Object>> all) {
         this.fieldMap = fieldMap;
-    }
-
-    public List<AnalyzeAllResult> getAll() {
-        return all;
-    }
-
-    public void setAll(List<AnalyzeAllResult> all) {
         this.all = all;
     }
 
-    public List<String> getFieldMap() {
+    public Map<String, String> getFieldMap() {
         return fieldMap;
     }
 
-    public void setFieldMap(List<String> fieldMap) {
+    public void setFieldMap(Map<String, String> fieldMap) {
         this.fieldMap = fieldMap;
+    }
+
+    public List<List<Object>> getAll() {
+        return all;
+    }
+
+    public void setAll(List<List<Object>> all) {
+        this.all = all;
     }
 }

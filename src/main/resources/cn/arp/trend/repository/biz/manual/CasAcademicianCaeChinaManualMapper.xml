@@ -52,33 +52,34 @@
     FROM
       cas_academician_cae_china
     <where>
+      1 = 1
       <choose>
         <when test="academicianQuery.affiliationIds != null">
-          gzdw_gf1 in (
+          AND gzdw_gf1 in (
           <foreach collection="academicianQuery.affiliationIds" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) AND
+          )
         </when>
         <otherwise>
-          gzdw_gf1 is not null AND
+          AND gzdw_gf1 is not null
         </otherwise>
       </choose>
       <choose>
         <when test="academicianQuery.fieldNameGcy != null">
-          xuebu in (
+          AND xuebu in (
           <foreach collection="academicianQuery.fieldNameGcy" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) and
+          )
         </when>
         <otherwise>
-          xuebu is not null and xuebu!='NA'
+          AND xuebu is not null and xuebu!='NA'
         </otherwise>
       </choose>
     </where>
     ORDER BY
-    convert(gzdw_gf1 using gbk) ASC
+      convert(gzdw_gf1 using gbk) ASC
   </select>
 
   <select id="queryFieldsGCY" resultType="java.lang.String"
@@ -88,28 +89,30 @@
     FROM
       cas_academician_cae_china
     <where>
+      1 = 1
       <choose>
         <when test="academicianQuery.affiliationIds != null">
-          gzdw_gf1 in (
+          AND gzdw_gf1 in (
           <foreach collection="academicianQuery.affiliationIds" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) AND
+          )
         </when>
         <otherwise>
-          gzdw_gf1 is not null AND
+          AND gzdw_gf1 is not null
         </otherwise>
       </choose>
       <choose>
         <when test="academicianQuery.fieldNameGcy != null">
-          xuebu in (
+          AND xuebu in (
           <foreach collection="academicianQuery.fieldNameGcy" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) and
+          )
         </when>
         <otherwise>
-          xuebu is not null and xuebu!='NA'
+          AND xuebu is not null
+          and xuebu!='NA'
         </otherwise>
       </choose>
     </where>
@@ -128,4 +131,20 @@
     order by
       gzdw_gf1 asc
   </select>
+
+  <!--<select id="queryAcademician2" resultType="java.lang.String">
+    SELECT
+      DISTINCT IFNULL(xuebu,"未知") AS xuebu
+    FROM (
+      SELECT
+        DISTINCT xuebu
+      FROM
+        cas_academician_cae_china
+      UNION ALL
+      SELECT
+        DISTINCT xuebu
+      FROM
+        cas_academician_cae_foreign
+    ) AS a
+  </select>-->
 </mapper>

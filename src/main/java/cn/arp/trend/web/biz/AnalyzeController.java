@@ -2,7 +2,6 @@ package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
 import cn.arp.trend.data.model.DTO.AnalyzeInfoDTO;
-import cn.arp.trend.data.model.converter.AnalyzeAllConverter;
 import cn.arp.trend.data.model.response.AnalyzeResponse;
 import cn.arp.trend.service.biz.AnalyzeService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
@@ -36,7 +35,7 @@ public class AnalyzeController extends BaseController {
     public AnalyzeResponse analyzeQuery() {
         AnalyzeInfoDTO analyzeInfo = analyzeService.query();
         AnalyzeResponse response = new AnalyzeResponse();
-        response.setAll(AnalyzeAllConverter.INSTANCE.domain2dto(analyzeInfo.getAll()));
+        response.setAll(analyzeInfo.getAll());
         response.setFieldMap(analyzeInfo.getFieldMap());
         return response;
     }

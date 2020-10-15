@@ -76,7 +76,21 @@ public class CompareServiceImpl implements CompareService {
             }
         }
 
-        return new FundsInfoDTO(yearlist, detail, "2019年10月");
+        List<Map<String, Object>> result = Lists.newArrayList();
+        detail.entrySet().stream().forEach(map -> {
+            Map<String, Object> bizMap = Maps.newHashMap();
+            bizMap.put("name", map.getKey());
+            Map<String, Double> value = map.getValue();
+            List<Double> list = Lists.newArrayList();
+            yearlist.stream().forEach(year -> {
+                Double fund = value.get(year);
+                list.add(fund);
+            });
+            bizMap.put("value", list);
+            result.add(bizMap);
+        });
+
+        return new FundsInfoDTO(yearlist, result, "2019年10月");
     }
 
     @Override
@@ -100,7 +114,21 @@ public class CompareServiceImpl implements CompareService {
             }
         }
 
-        return new FinanceInfoDTO(yearlist, detail, "2019年10月");
+        List<Map<String, Object>> result = Lists.newArrayList();
+        detail.entrySet().stream().forEach(map -> {
+            Map<String, Object> bizMap = Maps.newHashMap();
+            bizMap.put("name", map.getKey());
+            Map<String, Double> value = map.getValue();
+            List<Double> list = Lists.newArrayList();
+            yearlist.stream().forEach(year -> {
+                Double fund = value.get(year);
+                list.add(fund);
+            });
+            bizMap.put("value", list);
+            result.add(bizMap);
+        });
+
+        return new FinanceInfoDTO(yearlist, result, "2019年10月");
     }
 
     @Override

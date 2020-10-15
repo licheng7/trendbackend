@@ -7,8 +7,6 @@ import cn.arp.trend.data.model.DTO.AcademicianInfoDTO;
 import cn.arp.trend.data.model.DTO.InternationInfoDTO;
 import cn.arp.trend.data.model.DTO.OrgInfoDTO;
 import cn.arp.trend.data.model.converter.AcademicianRequestConverter;
-import cn.arp.trend.data.model.converter.FieldsConverter;
-import cn.arp.trend.data.model.converter.OrgAndResearchConverter;
 import cn.arp.trend.data.model.converter.OrgInfoRequestConverter;
 import cn.arp.trend.data.model.request.AcademicianQueryRequest;
 import cn.arp.trend.data.model.request.OrgInfoQueryRequest;
@@ -65,12 +63,10 @@ public class BasicController extends BaseController {
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @Audit(desc="查询单位信息、领域信息")
     public OrgInfoResponse orgQuery(@RequestBody OrgInfoQueryRequest request) {
-        OrgInfoQueryDO orgInfoQueryDO = OrgInfoRequestConverter.INSTANCE.domain2dto(request);
-        OrgInfoDTO bizResult = basicService.orgInfoQuery(orgInfoQueryDO);
-        List<String> fields = bizResult.getFields();
-        List<OrgInfoDTO.OrgAndResearchDTO> institutions = bizResult.getInstitutions();
-        return new OrgInfoResponse(fields,
-                OrgAndResearchConverter.INSTANCE.domain2dto(institutions));
+        OrgInfoQueryDO orgInfoQuery = OrgInfoRequestConverter.INSTANCE.domain2dto(request);
+        OrgInfoDTO bizResult = basicService.orgInfoQuery(orgInfoQuery);
+        return new OrgInfoResponse(
+                bizResult.getInstitutions(), bizResult.getFields());
     }
 
     @ApiOperation(value= "获取近十年的年份", notes= "获取近十年的年份，用于时间下拉菜单，供用户选择起止时间")
@@ -87,11 +83,11 @@ public class BasicController extends BaseController {
     @RequestMapping(value = "/academician", method = RequestMethod.POST)
     @Audit(desc="获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
     public AcademicianResponse academicianQuery(@RequestBody AcademicianQueryRequest request) {
-        AcademicianQueryDO academicianQueryDO =  AcademicianRequestConverter.INSTANCE.domain2dto
-                (request);
-        AcademicianInfoDTO academicianInfoDTO = basicService.academicianQuery(academicianQueryDO);
-        return new AcademicianResponse(FieldsConverter.INSTANCE.domain2dto(academicianInfoDTO),
-                academicianInfoDTO.getInstitutions());
+        AcademicianQueryDO academicianQuery =
+                AcademicianRequestConverter.INSTANCE.domain2dto(request);
+        AcademicianInfoDTO academicianInfo = basicService.academicianQuery(academicianQuery);
+        return new AcademicianResponse(
+                academicianInfo.getFields(), academicianInfo.getInstitutions());
     }
 
     @ApiOperation(value= "国际合作头部", notes= "国际合作头部")
@@ -101,11 +97,12 @@ public class BasicController extends BaseController {
     public InternationInfoResponse internationInfoQuery() {
         InternationInfoDTO internationInfoDTO = basicService.internationInfoQuery();
         return new InternationInfoResponse(
-                internationInfoDTO.getSortedCountryList(),
-                internationInfoDTO.getSortedNationalityList(),
-                internationInfoDTO.getSortedFormList(),
+                internationInfoDTO.getCountry(),
+                internationInfoDTO.getNationality(),
+                internationInfoDTO.getForm(),
                 internationInfoDTO.getAgeList(),
-                Lists.newArrayList(new SexResult("all", "全部性别"),
+                Lists.newArrayList(
+                        new SexResult("all", "全部性别"),
                         new SexResult("man", "男"),
                         new SexResult("woman", "女"))
         );
