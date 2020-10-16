@@ -510,7 +510,9 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
             yearListInt.add(year);
             yearListStr.add(String.valueOf(year));
             orderMap.put(String.valueOf(year), projectInfo.new OrderDTO(
-                    new MapResultDTO(), new MapResultDTO(), new MapResultDTO()));
+                    new MapResultDTO(Lists.newArrayList(), Lists.newArrayList()),
+                    new MapResultDTO(Lists.newArrayList(), Lists.newArrayList()),
+                    new MapResultDTO(Lists.newArrayList(), Lists.newArrayList())));
         }
 
         List<CompareProjectObj> nsfcProjectList = statNsfcProjectManualMapper.queryProject
