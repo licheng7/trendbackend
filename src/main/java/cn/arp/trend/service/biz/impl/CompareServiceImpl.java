@@ -5,6 +5,7 @@ import cn.arp.trend.data.model.DTO.*;
 import cn.arp.trend.entity.biz.*;
 import cn.arp.trend.repository.biz.manual.*;
 import cn.arp.trend.service.biz.CompareService;
+import cn.arp.trend.service.biz.common.AbstructServiceHelper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.tuple.Triple;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
  * Time:上午12:26
  **/
 @Service
-public class CompareServiceImpl implements CompareService {
+public class CompareServiceImpl extends AbstructServiceHelper implements CompareService {
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy");
 
@@ -613,17 +614,6 @@ public class CompareServiceImpl implements CompareService {
         Map<String, Double> yearMap = Maps.newHashMap();
         yearList.stream().forEach(str -> yearMap.put(str, 0D));
         return yearMap;
-    }
-
-    private List<String> buildYearlist(String startYear, String endYear) {
-        List<String> yearlist = Lists.newArrayList();
-        int _startYear = Integer.valueOf(startYear);
-        int _endYear = Integer.valueOf(endYear);
-        while(_startYear <= _endYear) {
-            yearlist.add(String.valueOf(_startYear));
-            _startYear ++;
-        }
-        return yearlist;
     }
 
     private Map<String, Map<String, Double>> initDetail(List<String> nameList, List<String> yearlist) {

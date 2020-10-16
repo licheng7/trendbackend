@@ -5,6 +5,7 @@ import cn.arp.trend.data.model.DTO.*;
 import cn.arp.trend.repository.biz.manual.CasEduFTeacherInfoManualMapper;
 import cn.arp.trend.repository.biz.manual.StatTeacherStudentManualMapper;
 import cn.arp.trend.service.biz.DetailMentorService;
+import cn.arp.trend.service.biz.common.AbstructServiceHelper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  * Time:下午10:43
  **/
 @Service
-public class DetailMentorServiceImpl implements DetailMentorService {
+public class DetailMentorServiceImpl extends AbstructServiceHelper implements DetailMentorService {
 
     @Resource
     private CasEduFTeacherInfoManualMapper casEduFTeacherInfoManualMapper;
@@ -415,21 +416,10 @@ public class DetailMentorServiceImpl implements DetailMentorService {
             data.add(chart);
         }
 
-        data.stream().sorted((m1, m2) -> ((int) m1.get("order_mentor")) - ((int) m2.get
-                ("order_mentor"))).collect(Collectors.toList());
+        data.stream().sorted(
+                (m1, m2) -> (int) m1.get("order_mentor") - (int) m2.get("order_mentor")
+        ).collect(Collectors.toList());
 
         return new MentorDetailInfoDTO(data);
     }
-
-    private List<String> buildYearlist(String startYear, String endYear) {
-        List<String> yearlist = Lists.newArrayList();
-        int _startYear = Integer.valueOf(startYear);
-        int _endYear = Integer.valueOf(endYear);
-        while(_startYear <= _endYear) {
-            yearlist.add(String.valueOf(_startYear));
-            _startYear ++;
-        }
-        return yearlist;
-    }
-
 }

@@ -2,10 +2,14 @@ package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
 import cn.arp.trend.data.model.DO.AgeDistributionQueryDO;
+import cn.arp.trend.data.model.DO.ChildLevelDistributionQueryDO;
 import cn.arp.trend.data.model.DTO.AgeDistributionInfoDTO;
+import cn.arp.trend.data.model.DTO.ChildLevelDistributionInfoDTO;
 import cn.arp.trend.data.model.converter.MapResultConverter;
 import cn.arp.trend.data.model.request.AgeDistributionRequest;
+import cn.arp.trend.data.model.request.ChildLevelDistributionRequest;
 import cn.arp.trend.data.model.response.AgeDistributionResponse;
+import cn.arp.trend.data.model.response.ChildLevelDistributionResponse;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.DetailStaffService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
@@ -53,21 +57,22 @@ public class DetailStaffController extends BaseController {
         return response;
     }
 
-    /*@ApiOperation(value= "学历分布【新】", notes= "学历分布【新】")
+    @ApiOperation(value= "学历分布【新】", notes= "学历分布【新】")
     @ServiceExecuter(description = "学历分布【新】")
     @RequestMapping(value = "/childLevelDistribution", method = RequestMethod.POST)
     @Audit(desc="学历分布【新】")
-    public AgeDistributionResponse childLevelDistributionQuery(
-            @RequestBody @Validated AgeDistributionRequest request, BindingResult bindingResult) throws RestError {
+    public ChildLevelDistributionResponse childLevelDistributionQuery(
+            @RequestBody @Validated ChildLevelDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
-        AgeDistributionQueryDO query = new AgeDistributionQueryDO(
+        ChildLevelDistributionQueryDO query = new ChildLevelDistributionQueryDO(
                 request.getEndYear(), request.getAffiliationId());
-        AgeDistributionInfoDTO ageDistributionInfo = detailStaffService.ageDistributionQuery(query);
-        AgeDistributionResponse response = new AgeDistributionResponse(
-                ageDistributionInfo.getUpdateTime(),
-                MapResultConverter.INSTANCE.domain2dto(ageDistributionInfo.getDetail()),
-                ageDistributionInfo.getResultList()
+        ChildLevelDistributionInfoDTO childLevelDistributionInfo = detailStaffService
+                .childLevelDistributionQuery(query);
+        ChildLevelDistributionResponse response = new ChildLevelDistributionResponse(
+                childLevelDistributionInfo.getUpdateTime(),
+                childLevelDistributionInfo.getTotal(),
+                childLevelDistributionInfo.getTotalNum()
         );
         return response;
-    }*/
+    }
 }
