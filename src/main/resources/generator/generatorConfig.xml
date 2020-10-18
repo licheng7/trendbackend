@@ -149,15 +149,40 @@
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="stat_arp_staff_education"
+        <!--<table tableName="stat_arp_staff_education"
                domainObjectName="StatArpStaffEducation"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+               selectByExampleQueryId="false"></table>-->
         <!--<table tableName="cas_edu_f_teacher_info"
                domainObjectName="CasEduFTeacherInfo"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="stat_arp_staff_duty"
+               domainObjectName="StatArpStaffDuty"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="stat_arp_staff"
+               domainObjectName="StatArpStaff"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="stat_arp_staff_tech_level"
+               domainObjectName="StatArpStaffTechLevel"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="stat_arp_staff_promotion"
+               domainObjectName="StatArpStaffPromotion"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <table tableName="stat_arp_fin_asset"
+               domainObjectName="StatArpFinAsset"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>

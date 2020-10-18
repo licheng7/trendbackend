@@ -1,18 +1,18 @@
-package cn.arp.trend.data.model.response;
+package cn.arp.trend.data.model.DTO;
 
-import java.io.Serializable;
+import lombok.ToString;
+
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created with IDEA
  * author:licheng
- * Date:2020/10/13
- * Time:下午9:02
+ * Date:2020/10/12
+ * Time:上午1:07
  **/
-public class OverviewResponse implements Serializable {
-
-    private static final long serialVersionUID = -6880710850280864142L;
+@ToString
+public class OverviewInfoDTO {
 
     private double asset;
 
@@ -102,5 +102,20 @@ public class OverviewResponse implements Serializable {
 
     public void setIncomeDistribution(List<Map<String, Object>> incomeDistribution) {
         this.incomeDistribution = incomeDistribution;
+    }
+
+    public OverviewInfoDTO(double asset, double income, double outcome, double deposit, String assetUnit, String incomeUnit, String outcomeUnit, String depositUnit, List<Map<String, Object>> incomeDistribution) {
+        this.asset = asset;
+        this.income = income;
+        this.outcome = outcome;
+        this.deposit = deposit;
+        this.assetUnit = assetUnit;
+        this.incomeUnit = incomeUnit;
+        this.outcomeUnit = outcomeUnit;
+        this.depositUnit = depositUnit;
+        this.incomeDistribution = incomeDistribution;
+    }
+
+    public OverviewInfoDTO() {
     }
 }

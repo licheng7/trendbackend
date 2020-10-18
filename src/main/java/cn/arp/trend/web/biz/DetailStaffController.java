@@ -1,15 +1,12 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
-import cn.arp.trend.data.model.DO.AgeDistributionQueryDO;
-import cn.arp.trend.data.model.DO.ChildLevelDistributionQueryDO;
-import cn.arp.trend.data.model.DTO.AgeDistributionInfoDTO;
-import cn.arp.trend.data.model.DTO.ChildLevelDistributionInfoDTO;
+import cn.arp.trend.data.model.DO.*;
+import cn.arp.trend.data.model.DTO.*;
+import cn.arp.trend.data.model.converter.IncreaseTrendDetailConverter;
 import cn.arp.trend.data.model.converter.MapResultConverter;
-import cn.arp.trend.data.model.request.AgeDistributionRequest;
-import cn.arp.trend.data.model.request.ChildLevelDistributionRequest;
-import cn.arp.trend.data.model.response.AgeDistributionResponse;
-import cn.arp.trend.data.model.response.ChildLevelDistributionResponse;
+import cn.arp.trend.data.model.request.*;
+import cn.arp.trend.data.model.response.*;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.DetailStaffService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
@@ -74,5 +71,93 @@ public class DetailStaffController extends BaseController {
                 childLevelDistributionInfo.getTotalNum()
         );
         return response;
+    }
+
+    @ApiOperation(value= "在职职工人员增长趋势【新】", notes= "在职职工人员增长趋势【新】")
+    @ServiceExecuter(description = "在职职工人员增长趋势【新】")
+    @RequestMapping(value = "/increaseTrend", method = RequestMethod.POST)
+    @Audit(desc="在职职工人员增长趋势【新】")
+    public IncreaseTrendResponse increaseTrendQuery(
+            @RequestBody @Validated IncreaseTrendRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        IncreaseTrendQueryDO query = new IncreaseTrendQueryDO(
+                request.getStartYear(), request.getEndYear(), request.getAffiliationId());
+        IncreaseTrendInfoDTO increaseTrendInfo = detailStaffService.increaseTrendQuery(query);
+        IncreaseTrendResponse response = new IncreaseTrendResponse();
+        response.setYear(increaseTrendInfo.getYear());
+        response.setUpdateTime(increaseTrendInfo.getUpdateTime());
+        response.setDetail(IncreaseTrendDetailConverter.INSTANCE.domain2dto(increaseTrendInfo.getDetail()));
+        return response;
+    }
+
+    @ApiOperation(value= "人员类型整体分布【新】", notes= "人员类型整体分布【新】")
+    @ServiceExecuter(description = "人员类型整体分布【新】")
+    @RequestMapping(value = "/personTypeDistribution", method = RequestMethod.POST)
+    @Audit(desc="人员类型整体分布【新】")
+    public PersonTypeDistributionResponse personTypeDistributionQuery(
+            @RequestBody @Validated PersonTypeDistributionRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        PersonTypeDistributionQueryDO query = new PersonTypeDistributionQueryDO(
+                request.getStartYear(), request.getEndYear(), request.getAffiliationId());
+        PersonTypeDistributionInfoDTO personTypeDistributionInfo = detailStaffService
+                .personTypeDistributionQuery(query);
+        return new PersonTypeDistributionResponse(personTypeDistributionInfo.getDetail(),
+                personTypeDistributionInfo.getUpdateTime(), personTypeDistributionInfo.getResultArray());
+    }
+
+    /*@ApiOperation(value= "在职职工岗位分布【新】", notes= "在职职工岗位分布【新】")
+    @ServiceExecuter(description = "在职职工岗位分布【新】")
+    @RequestMapping(value = "/postDistribution", method = RequestMethod.POST)
+    @Audit(desc="在职职工岗位分布【新】")
+    public PostDistributionResponse postDistributionQuery(
+            @RequestBody @Validated PostDistributionRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        PostDistributionQueryDO query = new PostDistributionQueryDO(
+                request.getStartYear(), request.getEndYear(), request.getAffiliationId(), request
+                .getFieldName());
+        PostDistributionInfoDTO postDistributionInfo = detailStaffService
+                .postDistributionQuery(query);
+        return new PostDistributionResponse();
+    }*/
+
+    @ApiOperation(value= "专业技术人员职称分布【新】", notes= "专业技术人员职称分布【新】")
+    @ServiceExecuter(description = "专业技术人员职称分布【新】")
+    @RequestMapping(value = "/positionDistribution", method = RequestMethod.POST)
+    @Audit(desc="专业技术人员职称分布【新】")
+    public PositionDistributionResponse positionDistributionQuery(
+            @RequestBody @Validated PositionDistributionRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        PositionDistributionQueryDO query = new PositionDistributionQueryDO(
+                request.getEndYear(), request.getAffiliationId());
+        PositionDistributionInfoDTO positionDistributionInfo = detailStaffService
+                .positionDistributionQuery(query);
+        return new PositionDistributionResponse(positionDistributionInfo.getDetail(),
+                positionDistributionInfo.getUpdateTime());
+    }
+
+    @ApiOperation(value= "博士学历所占比例排名【新】", notes= "博士学历所占比例排名【新】")
+    @ServiceExecuter(description = "博士学历所占比例排名【新】")
+    @RequestMapping(value = "/drRank", method = RequestMethod.POST)
+    @Audit(desc="博士学历所占比例排名【新】")
+    public DrRankResponse drRankQuery(
+            @RequestBody @Validated DrRankRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        DrRankQueryDO query = new DrRankQueryDO(
+                request.getEndYear(), request.getAffiliationId());
+        DrRankInfoDTO drRankInfo = detailStaffService.drRankQuery(query);
+        return new DrRankResponse(drRankInfo.getDetail(), drRankInfo.getUpdateTime());
+    }
+
+    @ApiOperation(value= "岗位晋升分析【新】", notes= "岗位晋升分析【新】")
+    @ServiceExecuter(description = "岗位晋升分析【新】")
+    @RequestMapping(value = "/postAnalyze", method = RequestMethod.POST)
+    @Audit(desc="岗位晋升分析【新】")
+    public PostAnalyzeResponse postAnalyzeQuery(
+            @RequestBody @Validated PostAnalyzeRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        PostAnalyzeQueryDO query = new PostAnalyzeQueryDO(
+                request.getEndYear(), request.getAffiliationId(), request.getPositionValue());
+        PostAnalyzeInfoDTO postAnalyzeInfo = detailStaffService.postAnalyzeQuery(query);
+        return new PostAnalyzeResponse(postAnalyzeInfo.getDetail(), postAnalyzeInfo.getUpdateTime());
     }
 }

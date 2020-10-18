@@ -45,4 +45,27 @@
     GROUP BY
       xl
   </select>
+
+  <select id="queryDrRank" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.DrRankQueryDO">
+    SELECT
+      ANY_VALUE(jgmc) AS jgmc,
+      SUM(rs) AS rs
+    FROM
+      stat_arp_staff_education
+    <where>
+      xl="博士研究生"
+      AND <![CDATA[nf = #{query.endYear}]]>
+      <choose>
+        <when test="query.affiliationId != null">
+          AND JGBH in (
+          <foreach collection="query.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+      </choose>
+    </where>
+    GROUP BY jgmc
+  </select>
 </mapper>
