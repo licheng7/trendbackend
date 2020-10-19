@@ -105,7 +105,7 @@ public class DetailStaffController extends BaseController {
                 personTypeDistributionInfo.getUpdateTime(), personTypeDistributionInfo.getResultArray());
     }
 
-    /*@ApiOperation(value= "在职职工岗位分布【新】", notes= "在职职工岗位分布【新】")
+    @ApiOperation(value= "在职职工岗位分布【新】", notes= "在职职工岗位分布【新】")
     @ServiceExecuter(description = "在职职工岗位分布【新】")
     @RequestMapping(value = "/postDistribution", method = RequestMethod.POST)
     @Audit(desc="在职职工岗位分布【新】")
@@ -113,12 +113,12 @@ public class DetailStaffController extends BaseController {
             @RequestBody @Validated PostDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
         PostDistributionQueryDO query = new PostDistributionQueryDO(
-                request.getStartYear(), request.getEndYear(), request.getAffiliationId(), request
-                .getFieldName());
+                request.getEndYear(), request.getAffiliationId());
         PostDistributionInfoDTO postDistributionInfo = detailStaffService
                 .postDistributionQuery(query);
-        return new PostDistributionResponse();
-    }*/
+        return new PostDistributionResponse(postDistributionInfo.getDetail(),
+                postDistributionInfo.getUpdateTime());
+    }
 
     @ApiOperation(value= "专业技术人员职称分布【新】", notes= "专业技术人员职称分布【新】")
     @ServiceExecuter(description = "专业技术人员职称分布【新】")

@@ -3,6 +3,7 @@ package cn.arp.trend.data.model.response;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -15,5 +16,31 @@ public class PostDistributionResponse implements Serializable {
 
     private static final long serialVersionUID = -2950932750550952186L;
 
+    private Map<String, Object> detail;
 
+    private String updateTime;
+
+    public PostDistributionResponse() {
+    }
+
+    public PostDistributionResponse(Map<String, Object> detail, String updateTime) {
+        this.detail = detail;
+        this.updateTime = updateTime;
+    }
+
+    public Map<String, Object> getDetail() {
+        return detail;
+    }
+
+    public void setDetail(Map<String, Object> detail) {
+        this.detail = detail;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
 }

@@ -15,32 +15,31 @@ import java.util.List;
  * Created with IDEA
  * author:licheng
  * Date:2020/10/8
- * Time:下午11:29
+ * Time:下午8:20
  **/
 @ToString
-@ApiModel(value="IncreaseTrendRequest", description="detailStaff.js的/increaseTrend请求参数")
+@ApiModel(value="ExecutionTrendRequest", description="detailAsset.js的/execution_trend请求参数")
 @Validated
-public class PostDistributionRequest implements Serializable {
+public class ExecutionTrendRequest implements Serializable {
 
-    private static final long serialVersionUID = -2484807406496233562L;
+    private static final long serialVersionUID = 8272739627610382426L;
 
-    @ApiParam(name = "endYear", example = "2019")
-    @JsonProperty("end_year")
-    @NotBlank(message = "endYear不能为空")
-    @Pattern(regexp = "^([1-2]\\d{3})$", message = "endYear格式不正确")
-    private String endYear;
+    @ApiParam(name = "year", example = "2010")
+    @JsonProperty("year")
+    @NotBlank(message = "year不能为空")
+    @Pattern(regexp = "^([1-2]\\d{3})$", message = "year格式不正确")
+    private String year;
 
     @ApiParam("affiliationId")
     @JsonProperty("affiliation_id")
     private List<String> affiliationId;
 
-
-    public String getEndYear() {
-        return endYear;
+    public String getYear() {
+        return year;
     }
 
-    public void setEndYear(String endYear) {
-        this.endYear = endYear;
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public List<String> getAffiliationId() {

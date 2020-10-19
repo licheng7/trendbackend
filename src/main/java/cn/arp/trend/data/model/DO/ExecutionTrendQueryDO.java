@@ -5,21 +5,21 @@ import java.util.List;
 /**
  * Created with IDEA
  * author:licheng
- * Date:2020/10/13
- * Time:下午11:08
+ * Date:2020/10/12
+ * Time:上午1:05
  **/
-public class PostDistributionQueryDO {
+public class ExecutionTrendQueryDO {
 
-    private String endYear;
+    private String year;
 
     private List<String> affiliationId;
 
-    public String getEndYear() {
-        return endYear;
+    public String getYear() {
+        return year;
     }
 
-    public void setEndYear(String endYear) {
-        this.endYear = endYear;
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public List<String> getAffiliationId() {
@@ -30,12 +30,11 @@ public class PostDistributionQueryDO {
         this.affiliationId = affiliationId;
     }
 
-
-    public PostDistributionQueryDO(String endYear, List<String> affiliationId) {
-        this.endYear = endYear;
+    public ExecutionTrendQueryDO(String year, List<String> affiliationId) {
+        this.year = year;
         this.affiliationId = affiliationId;
     }
 
-    public PostDistributionQueryDO() {
+    public ExecutionTrendQueryDO() {
     }
 }

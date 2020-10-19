@@ -42,6 +42,9 @@ public class DetailStaffServiceImpl extends AbstructServiceHelper implements Det
     @Resource
     private StatArpStaffPromotionManualMapper statArpStaffPromotionManualMapper;
 
+    @Resource
+    private StatArpStaffPostManualMapper statArpStaffPostManualMapper;
+
     @Override
     public AgeDistributionInfoDTO ageDistributionQuery(AgeDistributionQueryDO query) {
         List<Map<String, Object>> queryResult =
@@ -155,7 +158,48 @@ public class DetailStaffServiceImpl extends AbstructServiceHelper implements Det
 
     @Override
     public PostDistributionInfoDTO postDistributionQuery(PostDistributionQueryDO query) {
-        return null;
+
+        List<Map<String, Object>> queryResult
+                = statArpStaffPostManualMapper.queryPostDistribution(query);
+
+        int KYRYRS = 0;
+        int GLRYRS = 0;
+        int ZCRYRS = 0;
+        int QTRYRS = 0;
+
+        if(queryResult.get(0) != null) {
+            Map<String, Object> map = queryResult.get(0);
+            KYRYRS = ((Number) map.get("ky")).intValue();
+            GLRYRS = ((Number) map.get("gl")).intValue();
+            ZCRYRS = ((Number) map.get("zc")).intValue();
+            QTRYRS = ((Number) map.get("qt")).intValue();
+        }
+
+        int allTotal = KYRYRS + GLRYRS + ZCRYRS + QTRYRS;
+
+        Map<String, Object> detail = Maps.newHashMap();
+
+        Map<String, Object> QTRSMap = Maps.newHashMap();
+        QTRSMap.put("name", "科研人员");
+        QTRSMap.put("value", KYRYRS);
+
+        Map<String, Object> ZJRSMap = Maps.newHashMap();
+        ZJRSMap.put("name", "管理人员");
+        ZJRSMap.put("value", GLRYRS);
+
+        Map<String, Object> FGRSMap = Maps.newHashMap();
+        FGRSMap.put("name", "支撑人员");
+        FGRSMap.put("value", ZCRYRS);
+
+        Map<String, Object> GJRSMap = Maps.newHashMap();
+        GJRSMap.put("name", "其他人员");
+        GJRSMap.put("value", QTRYRS);
+
+        List<Map<String, Object>> disList = Lists.newArrayList(QTRSMap, ZJRSMap, FGRSMap, GJRSMap);
+        detail.put("allTotal", allTotal);
+        detail.put("disList", disList);
+
+        return new PostDistributionInfoDTO(detail, "2019年10月");
     }
 
     @Override
