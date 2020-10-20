@@ -194,10 +194,15 @@
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="stat_arp_staff_post"
+        <!--<table tableName="stat_arp_staff_post"
                domainObjectName="StatArpStaffPost"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="stat_nsfc_project"
+               domainObjectName="StatNsfcProject"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
     </context>
 </generatorConfiguration>

@@ -1,11 +1,12 @@
 package cn.arp.trend.repository.biz.manual;
 
 import cn.arp.trend.data.model.DO.ProjectQueryDO;
-import cn.arp.trend.entity.biz.StatMostProject;
 import cn.arp.trend.entity.biz.CompareProjectObj;
+import cn.arp.trend.entity.biz.StatMostProject;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StatMostProjectManualMapper {
 
@@ -20,8 +21,29 @@ public interface StatMostProjectManualMapper {
 
     /**
      *
-     * @param projectQuery
+     * @param query
      * @return
      */
-    List<CompareProjectObj> queryProject(@Param("query") ProjectQueryDO projectQuery);
+    List<CompareProjectObj> queryProject(@Param("query") ProjectQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryKjb1(@Param("query") ProjectQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryKjb2(@Param("query") ProjectQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryKjb3(@Param("query") ProjectQueryDO query);
 }

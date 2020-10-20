@@ -12,7 +12,6 @@ import java.util.Map;
  * Date:2020/10/6
  * Time:下午10:31
  **/
-@Data
 @ToString
 public class AnalyzeInfoDTO {
 

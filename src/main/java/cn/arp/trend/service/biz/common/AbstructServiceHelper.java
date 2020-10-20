@@ -25,4 +25,15 @@ public class AbstructServiceHelper {
         }
         return yearlist;
     }
+
+    public List<String> buildYearlist(int startYear, int endYear) {
+        List<String> yearlist = Lists.newArrayList();
+        int _startYear = startYear;
+        int _endYear = endYear;
+        while(_startYear <= _endYear) {
+            yearlist.add(String.valueOf(_startYear));
+            _startYear ++;
+        }
+        return yearlist;
+    }
 }

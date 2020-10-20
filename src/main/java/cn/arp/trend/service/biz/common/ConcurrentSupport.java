@@ -6,7 +6,6 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import lombok.Data;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,19 +86,78 @@ public class ConcurrentSupport extends ApplicationObjectSupport {
     }
 
 
-    @Data
     public class Task<T>{
         private String taskName;
+
         private Callable<T> executable;
+
         private Consumer<T> callback;
+
         private ListenableFuture<List> lf;
+
+        public String getTaskName() {
+            return taskName;
+        }
+
+        public void setTaskName(String taskName) {
+            this.taskName = taskName;
+        }
+
+        public Callable<T> getExecutable() {
+            return executable;
+        }
+
+        public void setExecutable(Callable<T> executable) {
+            this.executable = executable;
+        }
+
+        public Consumer<T> getCallback() {
+            return callback;
+        }
+
+        public void setCallback(Consumer<T> callback) {
+            this.callback = callback;
+        }
+
+        public ListenableFuture<List> getLf() {
+            return lf;
+        }
+
+        public void setLf(ListenableFuture<List> lf) {
+            this.lf = lf;
+        }
     }
 
-    @Data
     public class ConcurrentSupportContext{
         private Map<String, Task> taskMap;
+
         private List<ListenableFuture> fetureList;
+
         private CountDownLatch latch;
+
+        public Map<String, Task> getTaskMap() {
+            return taskMap;
+        }
+
+        public void setTaskMap(Map<String, Task> taskMap) {
+            this.taskMap = taskMap;
+        }
+
+        public List<ListenableFuture> getFetureList() {
+            return fetureList;
+        }
+
+        public void setFetureList(List<ListenableFuture> fetureList) {
+            this.fetureList = fetureList;
+        }
+
+        public CountDownLatch getLatch() {
+            return latch;
+        }
+
+        public void setLatch(CountDownLatch latch) {
+            this.latch = latch;
+        }
 
         private ConcurrentSupportContext() {
             taskMap = Maps.newHashMap();

@@ -94,8 +94,8 @@ public class DetailAssetServiceImpl implements DetailAssetService {
             detailOriginal = statArpFinIncomeManualMapper.queryAssetDetail1(query);
             fieldDis = statArpFinIncomeManualMapper.queryAssetDetail1(query);
         } else {
-            detailOriginal = statArpFinIncomeManualMapper.queryAssetDetail1(query);
-            fieldDis = statArpFinIncomeManualMapper.queryAssetDetail1(query);
+            detailOriginal = statArpFinIncomeManualMapper.queryAssetDetail3(query);
+            fieldDis = statArpFinIncomeManualMapper.queryAssetDetail4(query);
         }
 
         List<Map<String, Object>> detail = Lists.newArrayList();

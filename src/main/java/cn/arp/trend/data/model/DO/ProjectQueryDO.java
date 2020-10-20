@@ -49,4 +49,15 @@ public class ProjectQueryDO {
     public void setEndYear(int endYear) {
         this.endYear = endYear;
     }
+
+    public ProjectQueryDO(int startYear, int endYear, List<String> affiliationIds, List<String>
+            fieldNames) {
+        this.startYear = startYear;
+        this.endYear = endYear;
+        this.affiliationIds = affiliationIds;
+        this.fieldNames = fieldNames;
+    }
+
+    public ProjectQueryDO() {
+    }
 }

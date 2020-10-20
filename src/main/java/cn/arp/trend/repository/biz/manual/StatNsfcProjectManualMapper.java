@@ -1,11 +1,12 @@
 package cn.arp.trend.repository.biz.manual;
 
 import cn.arp.trend.data.model.DO.ProjectQueryDO;
-import cn.arp.trend.entity.biz.StatNsfcProject;
 import cn.arp.trend.entity.biz.CompareProjectObj;
+import cn.arp.trend.entity.biz.StatNsfcProject;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StatNsfcProjectManualMapper {
 
@@ -24,4 +25,32 @@ public interface StatNsfcProjectManualMapper {
      * @return
      */
     List<CompareProjectObj> queryProject(@Param("query") ProjectQueryDO projectQuery);
+
+    /**
+     *
+     * @param projectQuery
+     * @return
+     */
+    List<Map<String, Object>> queryNsfc1(@Param("query") ProjectQueryDO projectQuery);
+
+    /**
+     *
+     * @param projectQuery
+     * @return
+     */
+    List<Map<String, Object>> queryNsfc2(@Param("query") ProjectQueryDO projectQuery);
+
+    /**
+     *
+     * @param projectQuery
+     * @return
+     */
+    List<Map<String, Object>> queryNsfc3(@Param("query") ProjectQueryDO projectQuery);
+
+    /**
+     *
+     * @param projectQuery
+     * @return
+     */
+    List<Map<String, Object>> queryNsfc4(@Param("query") ProjectQueryDO projectQuery);
 }
