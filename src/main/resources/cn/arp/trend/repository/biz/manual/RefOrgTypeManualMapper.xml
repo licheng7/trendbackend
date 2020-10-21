@@ -34,28 +34,30 @@
         from
           ref_org_type
         <where>
+            1 = 1
           <choose>
             <when test="orgInfoQuery.affiliationIds != null">
-              JGBH in (
+              AND JGBH in (
                 <foreach collection="orgInfoQuery.affiliationIds" item="item" index="index" separator=",">
                   #{item}
                 </foreach>
-              ) and
+              )
             </when>
             <otherwise>
-              JGBH is not null AND
+              AND JGBH is not null
             </otherwise>
           </choose>
           <choose>
             <when test="orgInfoQuery.fieldNames != null">
-              research_field in (
+              AND research_field in (
               <foreach collection="orgInfoQuery.fieldNames" item="item" index="index" separator=",">
                 #{item}
               </foreach>
-              ) and
+              )
             </when>
             <otherwise>
-              research_field is not null and research_field!='NA'
+              AND research_field is not null
+              AND research_field!='NA'
             </otherwise>
           </choose>
         </where>
@@ -70,28 +72,30 @@
         from
           ref_org_type
         <where>
+            1 = 1
             <choose>
                 <when test="orgInfoQuery.affiliationIds != null">
-                    JGBH in (
+                    AND JGBH in (
                     <foreach collection="orgInfoQuery.affiliationIds" item="item" index="index" separator=",">
                         #{item}
                     </foreach>
-                    ) and
+                    )
                 </when>
                 <otherwise>
-                    JGBH is not null AND
+                    AND JGBH is not null
                 </otherwise>
             </choose>
             <choose>
                 <when test="orgInfoQuery.fieldNames != null">
-                    research_field in (
+                    AND research_field in (
                     <foreach collection="orgInfoQuery.fieldNames" item="item" index="index" separator=",">
                         #{item}
                     </foreach>
-                    ) and
+                    )
                 </when>
                 <otherwise>
-                    research_field is not null and research_field!='NA'
+                    AND research_field is not null
+                    AND research_field!='NA'
                 </otherwise>
             </choose>
         </where>

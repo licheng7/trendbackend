@@ -7,6 +7,7 @@ import cn.arp.trend.entity.biz.*;
 import cn.arp.trend.repository.biz.manual.*;
 import cn.arp.trend.service.biz.AnalyzeService;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
@@ -92,52 +94,52 @@ public class AnalyzeServiceImpl implements AnalyzeService {
         // 1、获取单位信息
         ListenableFuture<List<RefOrgType>> afTask = listeningExecutorService.submit(
                 () -> { return refOrgTypeManualMapper.queryJgmcAndResearchAndSsfy();
-        });
+                });
         // 2、统计导师人数
         ListenableFuture<List<StatTeacherStudent>> eduTask = listeningExecutorService.submit(
                 () -> { return statTeacherStudentManualMapper.queryByNf(startYear, endYear);
-        });
+                });
         // 3、统计各单位百人数量
         ListenableFuture<List<StatCasTalentsProgram>> talent100Task = listeningExecutorService.submit(
                 () -> { return statCasTalentsProgramManualMapper.queryBySslyAndNfAndLx(startYear, endYear);
-        });
+                });
         // 4、统计各单位专利数量
         ListenableFuture<List<StatPatent>> patentTask = listeningExecutorService.submit(
                 () -> { return statPatentManualMapper.queryByNf(startYear, endYear);
-        });
+                });
         // 5、统计各单位论文数量
         ListenableFuture<List<StatCasPaper>> paperTask = listeningExecutorService.submit(
                 () -> { return statCasPaperManualMapper.queryByNf(startYear, endYear);
-        });
+                });
         // 6、List<StatNsfcProject> nsfcList = statNsfcProjectManualMapper.queryByNf(startYear, endYear);
         ListenableFuture<List<StatNsfcProject>> nsfcTask = listeningExecutorService.submit(
                 () -> { return statNsfcProjectManualMapper.queryByNf(startYear, endYear);
-        });
+                });
         // 7、List<StatMostProject> kjbList = satMostProjectManualMapper.queryByNf(startYear, endYear);
         ListenableFuture<List<StatMostProject>> kjbTask = listeningExecutorService.submit(
                 () -> { return satMostProjectManualMapper.queryByNf(startYear, endYear);
-        });
+                });
         // 8、List<StatXdzx> xdList = statXdzxManualMapper.queryByNf(startYear, endYear);
         ListenableFuture<List<StatXdzx>> xdTask = listeningExecutorService.submit(
                 () -> { return statXdzxManualMapper.queryByNf(startYear, endYear);
-        });
+                });
         // 9、各单位总收入 List<Funds> fundsList = casNo1IrcPm14ManualMapper.queryFunds(startYear,
         // endYear);
         ListenableFuture<List<Funds>> financeTask = listeningExecutorService.submit(
                 () -> { return casNo1IrcPm14ManualMapper.queryFunds(startYear, endYear);
-        });
+                });
         // 10、各单位院士 List<CasAcademicianChina> casList = casAcademicianChinaManualMapper.queryByDxnf(endYear);
         ListenableFuture<List<CasAcademicianChina>> casTask = listeningExecutorService.submit(
                 () -> { return casAcademicianChinaManualMapper.queryByDxnf(endYear);
-        });
+                });
         // 11、List<CasAcademicianCaeChina> caeList = casAcademicianCaeChinaManualMapper.queryByDxnf(endYear);
         ListenableFuture<List<CasAcademicianCaeChina>> caeTask = listeningExecutorService.submit(
                 () -> { return casAcademicianCaeChinaManualMapper.queryByDxnf(endYear);
-        });
+                });
         // 12、List<StatChinaAward10yearFinalCount> awardList = statChinaAward10yearFinalCountManualMapper.queryByHjnf(startYear, endYear);
         ListenableFuture<List<StatChinaAward10yearFinalCount>> awardTask = listeningExecutorService.submit(
                 () -> { return statChinaAward10yearFinalCountManualMapper.queryByHjnf(startYear, endYear);
-        });
+                });
 
         fetureList.add(afTask);
         fetureList.add(eduTask);
@@ -219,7 +221,9 @@ public class AnalyzeServiceImpl implements AnalyzeService {
             analyzeAllResult.setIndex(index);
 
             String jgmc = intermediateResult.getAfByJgmcMap().get(key).getJgmc();
+            String field = intermediateResult.getAfByJgmcMap().get(key).getResearchField();
             analyzeAllResult.setFaf(jgmc);
+            analyzeAllResult.setField(field);
 
             if(intermediateResult.getEduByJgmcMap().containsKey(jgmc)) {
                 StatTeacherStudent edu = intermediateResult.getEduByJgmcMap().get(jgmc);
@@ -289,12 +293,40 @@ public class AnalyzeServiceImpl implements AnalyzeService {
             index ++;
         }
 
+        /*List<String> fField = analyzeAllResultList.stream().map(obj -> obj.getField()).distinct()
+                .collect(Collectors.toList());*/
         List<String> distinctResearchField = intermediateResult.getAfList().stream().map(i -> i
                 .getResearchField()).distinct().collect(Collectors.toList());
 
+
+        List<List<Object>> newAnalyzeAllResultList = Lists.newArrayList();
+        analyzeAllResultList.stream().forEach(obj -> {
+            List<Object> list = Lists.newArrayList();
+            list.add(obj.getTalent100());
+            list.add(obj.getPatent());
+            list.add(obj.getPaper());
+            list.add(obj.getProjectTotal());
+            list.add(obj.getFinance());
+            list.add(obj.getAcadenician());
+            list.add(obj.getAward());
+            list.add(distinctResearchField.indexOf(obj.getField()));
+            list.add(obj.getFaf());
+            list.add(obj.getMentor());
+            list.add(obj.getConcurrent());
+            list.add(obj.getIndex());
+            newAnalyzeAllResultList.add(list);
+        });
+
+        Map<String, String> fieldMap = Maps.newHashMap();
+        int idx = 0;
+        for(String str : distinctResearchField) {
+            fieldMap.put(String.valueOf(idx), str);
+            idx ++;
+        }
+
         AnalyzeInfoDTO analyzeInfo = new AnalyzeInfoDTO();
-        analyzeInfo.setAll(analyzeAllResultList);
-        analyzeInfo.setFieldMap(distinctResearchField);
+        analyzeInfo.setAll(newAnalyzeAllResultList);
+        analyzeInfo.setFieldMap(fieldMap);
 
         return analyzeInfo;
     }

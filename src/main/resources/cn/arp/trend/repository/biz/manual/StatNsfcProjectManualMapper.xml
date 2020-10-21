@@ -14,6 +14,13 @@
     <result column="xzxm_zjf" property="xzxmZjf" jdbcType="DOUBLE" />
     <result column="datasource_type" property="datasourceType" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="ProjectResultMap" type="cn.arp.trend.entity.biz.CompareProjectObj">
+    <result column="nf" property="nf" jdbcType="VARCHAR" />
+    <result column="jgbh" property="jgbh" jdbcType="VARCHAR" />
+    <result column="jgmc" property="jgmc" jdbcType="VARCHAR" />
+    <result column="xm" property="xm" jdbcType="BIGINT" />
+    <result column="jf" property="jf" jdbcType="DOUBLE" />
+  </resultMap>
   <sql id="Base_Column_List" >
     <!--
       WARNING - @mbggenerated
@@ -33,5 +40,206 @@
     </where>
     order by
       jgmc asc, nf asc
+  </select>
+  
+  <select id="queryProject" resultMap="ProjectResultMap"
+          parameterType="cn.arp.trend.data.model.DO.ProjectQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf,
+      ANY_VALUE(jgbh) AS jgbh,
+      ANY_VALUE(r.jgmc) AS jgmc,
+      SUM(xzxms) AS xm,
+      ROUND(SUM(xzxm_zjf),2) AS jf
+    FROM
+      stat_nsfc_project as a,
+      ref_org_type as r
+    <where>
+      a.jgmc = r.jgmc
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.affiliationIds != null">
+          AND jgbh in (
+          <foreach collection="query.affiliationIds" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND jgbh IS NOT NULL AND jgbh != ''
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.fieldNames != null">
+          AND research_field in (
+          <foreach collection="query.fieldNames" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field IS NOT NULL AND research_field != 'NA'
+        </otherwise>
+      </choose>
+    </where>
+    GROUP BY
+      nf, jgbh, jgmc
+    ORDER BY
+      nf
+  </select>
+
+  <select id="queryNsfc1" resultMap="ProjectResultMap"
+          parameterType="cn.arp.trend.data.model.DO.ProjectQueryDO">
+    SELECT
+      a.jgmc,
+      a.nf,
+      a.xzxms,
+      a.xzxm_zjf,
+      b.jgbh,
+      b.research_field,
+      b.ssfy
+    FROM
+      stat_nsfc_project AS a,
+      ref_org_type AS b
+    <where>
+      a.jgmc = b.jgmc
+      <choose>
+        <when test="query.fieldNames != null">
+          AND research_field in (
+          <foreach collection="query.fieldNames" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationIds != null">
+          AND JGBH in (
+          <foreach collection="query.affiliationIds" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+  </select>
+
+  <select id="queryNsfc2" resultMap="ProjectResultMap"
+          parameterType="cn.arp.trend.data.model.DO.ProjectQueryDO">
+    SELECT
+      nf AS year,
+      SUM(xzxms) AS xzxms
+    FROM
+      stat_nsfc_project AS a,
+      ref_org_type AS b
+    <where>
+      a.jgmc = b.jgmc
+      <choose>
+        <when test="query.fieldNames != null">
+          AND research_field in (
+          <foreach collection="query.fieldNames" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationIds != null">
+          AND JGBH in (
+          <foreach collection="query.affiliationIds" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+    GROUP BY year
+  </select>
+
+  <select id="queryNsfc3" resultMap="ProjectResultMap"
+          parameterType="cn.arp.trend.data.model.DO.ProjectQueryDO">
+    SELECT
+      nf AS year,
+      ROUND(SUM(xzxm_zjf), 2) xzzjf
+    FROM
+      stat_nsfc_project AS a, ref_org_type AS b
+    <where>
+      a.jgmc = b.jgmc
+      <choose>
+        <when test="query.fieldNames != null">
+          AND research_field in (
+          <foreach collection="query.fieldNames" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationIds != null">
+          AND JGBH in (
+          <foreach collection="query.affiliationIds" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+    GROUP BY year
+  </select>
+
+  <select id="queryNsfc4" resultMap="ProjectResultMap"
+          parameterType="cn.arp.trend.data.model.DO.ProjectQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf,
+      SUM(xm) AS xm,
+      ROUND(SUM(jf)/10000,2) AS jf
+    FROM
+      stat_arp_project
+    <where>
+      <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.affiliationIds != null">
+          AND JGBH in (
+          <foreach collection="query.affiliationIds" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+      AND lx=0
+    </where>
+    GROUP BY nf
+    ORDER BY nf
   </select>
 </mapper>

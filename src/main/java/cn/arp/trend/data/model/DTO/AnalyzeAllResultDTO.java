@@ -43,6 +43,8 @@ public class AnalyzeAllResultDTO {
 
     private long award;
 
+    private String field;
+
     public int getIndex() {
         return index;
     }
@@ -171,7 +173,18 @@ public class AnalyzeAllResultDTO {
         this.award = award;
     }
 
-    public AnalyzeAllResultDTO(int index, String faf, int mentor, int concurrent, int talent100, long patent, int paper, long projectTotal, long projectNsfc, long projectKjb, long projectXd, double finance, int acadenician, int cas, int cae, long award) {
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public AnalyzeAllResultDTO(int index, String faf, int mentor, int concurrent, int talent100,
+                               long patent, int paper, long projectTotal, long projectNsfc, long
+                                       projectKjb, long projectXd, double finance, int
+                                       acadenician, int cas, int cae, long award, String field) {
         this.index = index;
         this.faf = faf;
         this.mentor = mentor;
@@ -188,6 +201,7 @@ public class AnalyzeAllResultDTO {
         this.cas = cas;
         this.cae = cae;
         this.award = award;
+        this.field = field;
     }
 
     public AnalyzeAllResultDTO() {

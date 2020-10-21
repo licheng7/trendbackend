@@ -34,4 +34,217 @@
     order by
       nf ASC
   </select>
+
+  <select id="trend4DoctoralSupervisor" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.TrendDoctoralSupervisorQueryDO">
+    SELECT
+      a.nf AS year,
+      SUM(a.bdrs) AS mentor_number,
+      SUM(a.bsrs) AS student_number
+    FROM
+      stat_teacher_student AS a,
+      ref_org_type AS b
+    <where>
+      a.jgbh=b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.fieldName != null">
+          AND b.research_field in (
+          <foreach collection="query.fieldName" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationId != null">
+          AND b.JGBH in (
+          <foreach collection="query.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND b.JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+  </select>
+
+  <select id="trend4MasterSupervisor" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.TrendMasterSupervisorQueryDO">
+    SELECT
+      a.nf AS year,
+      SUM(a.sdrs) AS mentor_number,
+      SUM(a.ssrs) AS student_number
+    FROM
+      stat_teacher_student AS a,
+      ref_org_type AS b
+    <where>
+      a.jgbh=b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.fieldName != null">
+          AND b.research_field in (
+          <foreach collection="query.fieldName" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationId != null">
+          AND b.JGBH in (
+          <foreach collection="query.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND b.JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+  </select>
+
+  <select id="trend4All1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.TrendAllQueryDO">
+    SELECT
+      a.nf AS year,
+      SUM(a.bdrs) AS mentor_number,
+      SUM(a.bsrs) AS student_number
+    FROM
+      stat_teacher_student AS a,
+      ref_org_type AS b
+    <where>
+      a.jgbh=b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.fieldName != null">
+          AND b.research_field in (
+          <foreach collection="query.fieldName" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationId != null">
+          AND b.JGBH in (
+          <foreach collection="query.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND b.JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+  </select>
+
+  <select id="trend4All2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.TrendAllQueryDO">
+    SELECT
+      a.nf AS year,
+      SUM(a.sdrs) AS mentor_number,
+      SUM(a.ssrs) AS student_number
+    FROM
+      stat_teacher_student AS a,
+      ref_org_type AS b
+    <where>
+      a.jgbh=b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.fieldName != null">
+          AND b.research_field in (
+          <foreach collection="query.fieldName" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationId != null">
+          AND b.JGBH in (
+          <foreach collection="query.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND b.JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+  </select>
+
+  <select id="mentorDetail" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.MentorDetailQueryDO">
+    SELECT
+      ANY_VALUE(a.nf) AS year,
+      ANY_VALUE(a.jgbh) AS id,
+      ANY_VALUE(a.jgmc) AS affiliation,
+      SUM(a.bdrs) AS bd,
+      SUM(a.bsrs) AS bs,
+      SUM(sdrs) AS sd,
+      SUM(ssrs) AS ss
+    FROM
+      stat_teacher_student AS a,
+      ref_org_type AS b
+    <where>
+      a.jgbh=b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.fieldName != null">
+          AND b.research_field in (
+          <foreach collection="query.fieldName" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationId != null">
+          AND b.JGBH in (
+          <foreach collection="query.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND b.JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+    GROUP BY
+      a.nf, a.jgmc
+    ORDER BY
+      a.jgmc, a.nf
+  </select>
 </mapper>

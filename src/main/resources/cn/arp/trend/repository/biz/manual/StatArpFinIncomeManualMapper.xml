@@ -43,4 +43,215 @@
     order by
       jgbh ASC, nf ASC
   </select>
+
+  <select id="queryAssetDetail1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AssetDetailQueryDO">
+    SELECT
+      a.jgbh,
+      a.jgmc,
+      d.research_field,
+      a.income,
+      b.outcome,
+      c.rs
+    FROM (
+      SELECT
+        jgbh,
+        jgmc,
+        ROUND(srhj/10000,2) AS income
+      FROM
+        stat_arp_fin_income
+      <where>
+        nf = #{query.year}
+      </where>
+    ) AS a,
+    (
+      SELECT
+        jgbh,
+        jgmc,
+        ROUND(zchj/10000,2) AS outcome
+      FROM
+        stat_arp_fin_expand
+      <where>
+        nf = #{query.year}
+      </where>
+    ) AS b,
+    (
+      SELECT
+        jgbh,
+        jgmc,
+        zs AS rs
+      FROM
+        stat_arp_staff_duty
+      <where>
+        nf = #{query.year}
+      </where>
+    ) AS c,
+    ref_org_type AS d
+    <where>
+      a.jgbh=b.jgbh
+      AND b.jgbh=c.jgbh
+      AND c.jgbh=d.jgbh
+      <choose>
+        <when test="query.affiliationId != null">
+          AND a.JGBH in (
+          <foreach collection="query.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND a.JGBH is not null
+        </otherwise>
+      </choose>
+      AND research_field IS NOT NULL
+      AND research_field != "NA"
+      AND rs!=0
+    </where>
+    ORDER BY jgbh
+  </select>
+
+  <select id="queryAssetDetail2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AssetDetailQueryDO">
+    SELECT
+      ANY_VALUE(research_field) AS research_field,
+      SUM(income) AS income,
+      SUM(outcome) AS outcome
+    FROM (
+      SELECT
+        jgbh,
+        jgmc,
+        ROUND(srhj/10000,2) AS income
+      FROM
+        stat_arp_fin_income
+      <where>
+        nf = #{query.year}
+      </where>
+    ) AS a,
+    (
+      SELECT
+        jgbh,
+        jgmc,
+        ROUND(zchj/10000,2) AS outcome
+      FROM
+        stat_arp_fin_expand
+      <where>
+        nf = #{query.year}
+      </where>
+    ) AS b,
+    (
+      SELECT
+        jgbh,
+        jgmc,
+        zs AS rs
+      FROM
+        stat_arp_staff_duty
+      <where>
+        nf = #{query.year}
+      </where>
+    ) AS c,
+    ref_org_type AS d
+    <where>
+      a.jgbh=b.jgbh
+      AND b.jgbh=c.jgbh
+      AND c.jgbh=d.jgbh
+      <choose>
+        <when test="query.affiliationId != null">
+          AND a.JGBH in (
+          <foreach collection="query.affiliationId" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND a.JGBH is not null
+        </otherwise>
+      </choose>
+      AND research_field IS NOT NULL
+      AND research_field != "NA"
+      AND rs!=0
+    </where>
+    GROUP BY research_field
+    ORDER BY jgbh
+  </select>
+
+  <select id="queryAssetDetail3" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AssetDetailQueryDO">
+    SELECT
+      c.jgbh,
+      c.jgmc,
+      c.research_field,
+      a.income,
+      b.outcome,
+      b.rs
+    FROM (
+      SELECT
+        JGBH,
+        ROUND(SRJE/10000,2) AS income
+      FROM
+        cas_no1_irc_pm_14
+      <where>
+        LEFT(YEAR, 4) = #{query.year}
+      </where>
+    ) AS a,
+    (
+      SELECT
+        JGBH,
+        ROUND(ZCJE/10000,2) AS outcome,
+        ZGZS AS rs
+      FROM
+        cas_no1_irc_pm_15
+      <where>
+        LEFT(YEAR, 4) = #{query.year}
+      </where>
+    ) AS b,
+    ref_org_type AS c
+    <where>
+      a.JGBH=b.JGBH
+      AND b.JGBH=c.jgbh
+      AND c.${sql_affiliation}
+      AND research_field IS NOT NULL
+      AND research_field != "NA"
+      AND rs!=0
+    </where>
+    ORDER BY JGBH
+  </select>
+
+  <select id="queryAssetDetail4" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AssetDetailQueryDO">
+    SELECT
+      ANY_VALUE(research_field) AS research_field,
+      SUM(income) AS income,
+      SUM(outcome) AS outcome
+    FROM (
+      SELECT
+        JGBH,
+        ROUND(SRJE/10000,2) AS income
+        FROM
+          cas_no1_irc_pm_14
+        <where>
+          LEFT(YEAR, 4) = #{query.year}
+        </where>
+    ) AS a,
+    (
+      SELECT
+        JGBH,
+        ROUND(ZCJE/10000,2) AS outcome,
+        ZGZS AS rs
+      FROM
+        cas_no1_irc_pm_15
+      <where>
+        LEFT(YEAR, 4) = #{query.year}
+      </where>
+    ) AS b,
+    ref_org_type AS c
+    <where>
+      a.JGBH=b.JGBH
+      AND b.JGBH=c.jgbh
+      AND c.${sql_affiliation}
+      AND research_field IS NOT NULL
+      AND research_field != "NA"
+      AND rs!=0
+    </where>
+    GROUP BY research_field
+  </select>
 </mapper>

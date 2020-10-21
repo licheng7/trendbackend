@@ -1,6 +1,7 @@
 package cn.arp.trend.repository.biz.manual;
 
 import cn.arp.trend.entity.biz.CasPxxJcptCdsysXwPxLwKxjFmjJbj;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,4 +18,25 @@ public interface CasPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper {
      * @return
      */
     List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> queryFacility();
+
+    /**
+     *
+     * @param startYear
+     * @param endYear
+     * @return
+     */
+    List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> queryPaper(@Param("startYear") String startYear, @Param("endYear") String
+            endYear);
+
+    /**
+     *
+     * @return
+     */
+    List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> queryDevelopment1();
+
+    /**
+     *
+     * @return
+     */
+    List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> queryDevelopment2();
 }

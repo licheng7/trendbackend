@@ -53,28 +53,30 @@
     FROM
       cas_academician_china
     <where>
+      1 = 1
       <choose>
         <when test="academicianQuery.affiliationIds != null">
-          gzdw_gf1 in (
+          AND gzdw_gf1 in (
           <foreach collection="academicianQuery.affiliationIds" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) AND
+          )
         </when>
         <otherwise>
-          gzdw_gf1 is not null AND
+          AND gzdw_gf1 is not null
         </otherwise>
       </choose>
       <choose>
         <when test="academicianQuery.afieldNameZky != null">
-          xuebu in (
+          AND xuebu in (
           <foreach collection="academicianQuery.afieldNameZky" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) and
+          )
         </when>
         <otherwise>
-          xuebu is not null and xuebu!='NA'
+          AND xuebu is not null
+          and xuebu!='NA'
         </otherwise>
       </choose>
     </where>
@@ -89,28 +91,30 @@
     FROM
       cas_academician_china
     <where>
+      1 = 1
       <choose>
         <when test="academicianQuery.affiliationIds != null">
-          gzdw_gf1 in (
+          AND gzdw_gf1 in (
           <foreach collection="academicianQuery.affiliationIds" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) AND
+          )
         </when>
         <otherwise>
-          gzdw_gf1 is not null AND
+          AND gzdw_gf1 is not null
         </otherwise>
       </choose>
       <choose>
         <when test="academicianQuery.afieldNameZky != null">
-          xuebu in (
+          AND xuebu in (
           <foreach collection="academicianQuery.afieldNameZky" item="item" index="index" separator=",">
             #{item}
           </foreach>
-          ) and
+          )
         </when>
         <otherwise>
-          xuebu is not null and xuebu!='NA'
+          AND xuebu is not null
+          and xuebu!='NA'
         </otherwise>
       </choose>
     </where>
@@ -128,5 +132,122 @@
     </where>
     order by
       gzdw_gf1 asc
+  </select>
+
+  <select id="queryCompareAll" resultType="java.util.HashMap">
+    SELECT
+      "中科院院士" AS category,
+      xuebu,
+      dxnf,
+      csnf,
+      age,
+      IFNULL(IF(jgmc IS NOT NULL, "中国科学院" ,gzdw_gf1), "未知") AS institution
+    FROM (
+      SELECT
+        xuebu,
+        dxnf,
+        LEFT(csny,4) AS csnf,
+        YEAR(now())-LEFT(csny,4) AS age,
+        gzdw_gf1
+      FROM
+        cas_academician_china
+      <where>
+        qssj IS NULL AND csny IS NOT NULL
+      </where>
+    ) AS a
+    LEFT JOIN
+      ref_org_type AS b ON a.gzdw_gf1 = b.jgmc
+    UNION ALL
+    SELECT
+      "工程院院士" AS category,
+      xuebu,
+      dxnf,
+      csnf,
+      age,
+      IFNULL(IF(jgmc IS NOT NULL, "中国科学院" ,gzdw_gf1), "未知") AS institution
+    FROM (
+      SELECT
+        xuebu,
+        dxnf,
+        LEFT(csny,4) AS csnf,
+        YEAR(now())-LEFT(csny,4) AS age, gzdw_gf1
+      FROM
+        cas_academician_cae_china
+      <where>
+        qssj IS NULL AND csny IS NOT NULL
+      </where>
+    ) AS a
+    LEFT JOIN
+      ref_org_type AS b ON a.gzdw_gf1 = b.jgmc
+  </select>
+
+  <select id="queryCompareUnit" parameterType="cn.arp.trend.data.model.DO.DACompareQueryDO"
+          resultType="java.util.HashMap">
+    SELECT
+      category,
+      xuebu,
+      dxnf,
+      csnf,
+      age,
+      institution
+    FROM (
+      SELECT
+        "中科院院士" AS category,
+        xuebu,
+        dxnf,
+        csnf,
+        age,
+        IFNULL(IF(jgmc IS NOT NULL, "中国科学院" ,gzdw_gf1), "未知") AS institution
+      FROM (
+        SELECT
+          xuebu,
+          dxnf,
+          LEFT(csny,4) AS csnf,
+          YEAR(now())-LEFT(csny,4) AS age,
+          gzdw_gf1
+        FROM
+          cas_academician_china
+        <where>
+          qssj IS NULL AND csny IS NOT NULL
+        </where>
+      ) AS a
+      LEFT JOIN ref_org_type AS b ON a.gzdw_gf1 = b.jgmc
+      UNION ALL
+      SELECT
+        "工程院院士" AS category,
+        xuebu,
+        dxnf,
+        csnf,
+        age,
+        IFNULL(IF(jgmc IS NOT NULL, "中国科学院" ,gzdw_gf1), "未知") AS institution
+      FROM (
+        SELECT
+          xuebu,
+          dxnf,
+          LEFT(csny,4) AS csnf,
+          YEAR(now())-LEFT(csny,4) AS age,
+          gzdw_gf1
+        FROM
+          cas_academician_cae_china
+        <where>
+          qssj IS NULL AND csny IS NOT NULL
+        </where>
+      ) AS a
+      LEFT JOIN ref_org_type AS b ON a.gzdw_gf1 = b.jgmc
+    ) AS tmp
+    <where>
+      <choose>
+        <when test="query.affiliation != null">
+          institution IN (
+          <foreach collection="query.affiliation" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          institution IN ()
+        </otherwise>
+      </choose>
+    </where>
   </select>
 </mapper>

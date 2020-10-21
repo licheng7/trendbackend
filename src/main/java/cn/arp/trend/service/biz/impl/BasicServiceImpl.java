@@ -8,13 +8,15 @@ import cn.arp.trend.data.model.DTO.OrgInfoDTO;
 import cn.arp.trend.entity.biz.RefOrgType;
 import cn.arp.trend.repository.biz.manual.*;
 import cn.arp.trend.service.biz.BasicService;
+import cn.arp.trend.service.biz.common.AbstructServiceHelper;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -24,9 +26,7 @@ import java.util.stream.Collectors;
  * Time:上午11:43
  **/
 @Service
-public class BasicServiceImpl implements BasicService {
-
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy");
+public class BasicServiceImpl extends AbstructServiceHelper implements BasicService {
 
     @Resource
     private RefOrgTypeManualMapper refOrgTypeManualMapper;
@@ -44,21 +44,32 @@ public class BasicServiceImpl implements BasicService {
     private IcGoManualMapper icGoManualMapper;
 
     @Override
-    public OrgInfoDTO orgInfoQuery(OrgInfoQueryDO orgInfoQueryDO) {
-        // List<RefOrgType> list1 = refOrgTypeManualMapper.queryOrgByJGBHAndResearch(orgInfoQuery);
-        List<String> list2 = refOrgTypeManualMapper.queryResearchByJGBHAndResearch(orgInfoQueryDO);
-        List<RefOrgType> list3 = refOrgTypeManualMapper.queryOrgAndResearchByAll();
+    public OrgInfoDTO orgInfoQuery(OrgInfoQueryDO orgInfoQuery) {
+        /*List<RefOrgType> queryResult1 =
+                refOrgTypeManualMapper.queryOrgByJGBHAndResearch(orgInfoQuery);*/
+        List<String> queryResult2 =
+                refOrgTypeManualMapper.queryResearchByJGBHAndResearch(orgInfoQuery);
+        List<RefOrgType> queryResult3 =
+                refOrgTypeManualMapper.queryOrgAndResearchByAll();
 
-        List<OrgInfoDTO.OrgAndResearchDTO> data = Lists.newArrayList();
-        for(RefOrgType refOrgType : list3) {
-            data.add(new OrgInfoDTO.OrgAndResearchDTO(
-                    refOrgType.getJgbh(), refOrgType.getJgmc(), refOrgType.getResearchField()));
-        }
+        List<Map<String, Object>> institutions = Lists.newArrayList();
+        queryResult3.stream().forEach(obj -> {
+            Map<String, Object> map = Maps.newHashMap();
+            map.put("jgbh", obj.getJgbh());
+            map.put("jgmc", obj.getJgmc());
+            map.put("research_field", obj.getResearchField());
+            institutions.add(map);
+        });
 
-        OrgInfoDTO result = new OrgInfoDTO();
-        result.setFields(list2);
-        result.setInstitutions(data);
-        return result;
+        List<Map<String, Object>> fields = Lists.newArrayList();
+        queryResult2.stream().forEach(str -> {
+            Map<String, Object> map = Maps.newHashMap();
+            map.put("id", "");
+            map.put("field", str);
+            fields.add(map);
+        });
+
+        return new OrgInfoDTO(institutions, fields);
     }
 
     @Override
@@ -77,23 +88,35 @@ public class BasicServiceImpl implements BasicService {
     }
 
     @Override
-    public AcademicianInfoDTO academicianQuery(AcademicianQueryDO academicianQueryDO) {
-        List<String> institutionsZKY = casAcademicianChinaManualMapper.queryInstitutionsZKY
-                (academicianQueryDO);
-        List<String> institutionsGCY = casAcademicianCaeChinaManualMapper
-                .queryInstitutionsGCY(academicianQueryDO);
-        List<String> fieldsZKY = casAcademicianChinaManualMapper.queryFieldsZKY
-                (academicianQueryDO);
-        List<String> fieldsGCY = casAcademicianCaeChinaManualMapper
-                .queryFieldsGCY(academicianQueryDO);
-        AcademicianInfoDTO academicianInfoDTO = new AcademicianInfoDTO();
-        academicianInfoDTO.setFieldsZKY(fieldsZKY);
-        academicianInfoDTO.setFieldsGCY(fieldsGCY);
-        academicianInfoDTO.setInstitutionsZKY(institutionsZKY);
-        academicianInfoDTO.setInstitutionsGCY(institutionsGCY);
+    public AcademicianInfoDTO academicianQuery(AcademicianQueryDO academicianQuery) {
+        List<String> institutionsZKY =
+                casAcademicianChinaManualMapper.queryInstitutionsZKY(academicianQuery);
+        List<String> institutionsGCY =
+                casAcademicianCaeChinaManualMapper.queryInstitutionsGCY(academicianQuery);
+        List<String> fieldsZKY =
+                casAcademicianChinaManualMapper.queryFieldsZKY(academicianQuery);
+        List<String> fieldsGCY =
+                casAcademicianCaeChinaManualMapper.queryFieldsGCY(academicianQuery);
+
+        List<Map<String, String>> fieldsZKYMap = Lists.newArrayList();
+        fieldsZKY.stream().forEach(str -> {
+            Map<String, String> map = Maps.newHashMap();
+            map.put("field", str);
+            fieldsZKYMap.add(map);
+        });
+
+        List<Map<String, String>> fieldsGCYMap = Lists.newArrayList();
+        fieldsGCY.stream().forEach(str -> {
+            Map<String, String> map = Maps.newHashMap();
+            map.put("field", str);
+            fieldsGCYMap.add(map);
+        });
+
+        Map<String, List<Map<String, String>>> fields = Maps.newHashMap();
+        fields.put("fieldsZKY", fieldsZKYMap);
+        fields.put("fieldsGCY", fieldsGCYMap);
 
         List<String> institutions = Lists.newArrayList();
-
         if(null != institutionsZKY && !institutionsZKY.isEmpty()) {
             institutions.addAll(institutionsZKY);
         }
@@ -102,15 +125,22 @@ public class BasicServiceImpl implements BasicService {
         }
 
         // 去除左右两边的空格
-        List<String> trimInstitutions = institutions.stream().map(item -> item.trim()).collect(Collectors
-                .toList());
+        List<String> trimInstitutions =
+                institutions.stream().map(item -> item.trim()).collect(Collectors.toList());
 
         // 去重
-        List<String> distinctInstitutions = trimInstitutions.stream().distinct().collect(Collectors
-                .toList());
+        List<String> distinctInstitutions =
+                trimInstitutions.stream().distinct().collect(Collectors.toList());
+        List<Map<String, String>> institutionsNew = Lists.newArrayList();
+        distinctInstitutions.stream().forEach(str -> {
+            Map<String, String> map = Maps.newHashMap();
+            map.put("institution", str);
+            institutionsNew.add(map);
+        });
 
-        academicianInfoDTO.setInstitutions(distinctInstitutions);
-
+        AcademicianInfoDTO academicianInfoDTO = new AcademicianInfoDTO();
+        academicianInfoDTO.setFields(fields);
+        academicianInfoDTO.setInstitutions(institutionsNew);
         return academicianInfoDTO;
     }
 
@@ -140,10 +170,31 @@ public class BasicServiceImpl implements BasicService {
         List<Integer> ageList = sortedAgeYearList.stream().map(year -> currentYear - Integer.valueOf
                 (year)).collect(Collectors.toList());
 
+        List<Map<String, String>> sortedCountryMap = Lists.newArrayList();
+        sortedCountryList.stream().forEach(str -> {
+            Map<String, String> map = Maps.newHashMap();
+            map.put("country", str);
+            sortedCountryMap.add(map);
+        });
+
+        List<Map<String, String>> sortedNationalityMap = Lists.newArrayList();
+        sortedNationalityList.stream().forEach(str -> {
+            Map<String, String> map = Maps.newHashMap();
+            map.put("nationality", str);
+            sortedNationalityMap.add(map);
+        });
+
+        List<Map<String, String>> sortedFormMap = Lists.newArrayList();
+        sortedFormList.stream().forEach(str -> {
+            Map<String, String> map = Maps.newHashMap();
+            map.put("form", str);
+            sortedFormMap.add(map);
+        });
+
         InternationInfoDTO internationInfoDTO = new InternationInfoDTO();
-        internationInfoDTO.setSortedCountryList(sortedCountryList);
-        internationInfoDTO.setSortedNationalityList(sortedNationalityList);
-        internationInfoDTO.setSortedFormList(sortedFormList);
+        internationInfoDTO.setCountry(sortedCountryMap);
+        internationInfoDTO.setNationality(sortedNationalityMap);
+        internationInfoDTO.setForm(sortedFormMap);
         internationInfoDTO.setSortedAgeYearList(sortedAgeYearList);
         internationInfoDTO.setAgeList(ageList);
         return internationInfoDTO;
@@ -153,8 +204,8 @@ public class BasicServiceImpl implements BasicService {
         return this.doInternationInfoQuery(list1, list2, 1);
     }
 
-    private List<String> doInternationInfoQuery(List<String> list1, List<String> list2, Integer
-            sortItem) {
+    private List<String> doInternationInfoQuery(
+            List<String> list1, List<String> list2, Integer sortItem) {
         // step1、合并list
         List<String> mergeList = Lists.newArrayList();
         if(null != list1 && !list1.isEmpty()) {

@@ -3,6 +3,7 @@ package cn.arp.trend.data.model.DTO;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -13,74 +14,31 @@ import java.util.List;
 @ToString
 public class OrgInfoDTO {
 
-    private List<String> fields;
+    private List<Map<String, Object>> institutions;
 
-    private List<OrgAndResearchDTO> institutions;
+    private List<Map<String, Object>> fields;
 
-    public List<String> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<String> fields) {
-        this.fields = fields;
-    }
-
-    public List<OrgAndResearchDTO> getInstitutions() {
+    public List<Map<String, Object>> getInstitutions() {
         return institutions;
     }
 
-    public void setInstitutions(List<OrgAndResearchDTO> institutions) {
+    public void setInstitutions(List<Map<String, Object>> institutions) {
         this.institutions = institutions;
+    }
+
+    public List<Map<String, Object>> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<Map<String, Object>> fields) {
+        this.fields = fields;
     }
 
     public OrgInfoDTO() {
     }
 
-    public OrgInfoDTO(List<String> fields, List<OrgAndResearchDTO> institutions) {
-        this.fields = fields;
+    public OrgInfoDTO(List<Map<String, Object>> institutions, List<Map<String, Object>> fields) {
         this.institutions = institutions;
-    }
-
-    @ToString
-    public static class OrgAndResearchDTO {
-
-        private String jgbh;
-
-        private String jgmc;
-
-        private String researchField;
-
-        public String getJgbh() {
-            return jgbh;
-        }
-
-        public void setJgbh(String jgbh) {
-            this.jgbh = jgbh;
-        }
-
-        public String getJgmc() {
-            return jgmc;
-        }
-
-        public void setJgmc(String jgmc) {
-            this.jgmc = jgmc;
-        }
-
-        public String getResearchField() {
-            return researchField;
-        }
-
-        public void setResearchField(String researchField) {
-            this.researchField = researchField;
-        }
-
-        public OrgAndResearchDTO() {
-        }
-
-        public OrgAndResearchDTO(String jgbh, String jgmc, String researchField) {
-            this.jgbh = jgbh;
-            this.jgmc = jgmc;
-            this.researchField = researchField;
-        }
+        this.fields = fields;
     }
 }

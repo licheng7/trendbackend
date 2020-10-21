@@ -47,12 +47,15 @@ public class ServiceAspect {
             return dataResult;
         } catch (TrendServerException tse) {
             log.error("访问{}结束，堆栈信息{}", methodDesc, tse);
+            tse.printStackTrace();
             throw RestError.internalError(tse.toString());
         } catch (Exception e) {
             log.error("访问{}结束，堆栈信息{}", methodDesc, e);
+            e.printStackTrace();
             throw RestError.internalError(this.buildErrMsg(e));
         } catch (Throwable t) {
             log.error("访问{}结束，堆栈信息{}", methodDesc, t);
+            t.printStackTrace();
             throw RestError.internalError(this.buildErrMsg(t));
         }
     }
@@ -61,7 +64,7 @@ public class ServiceAspect {
         StringBuilder sb = new StringBuilder("异常信息:");
         StackTraceElement[] trace = t.getStackTrace();
         for (StackTraceElement s : trace) {
-            sb.append(s + "\\r\\n");
+            sb.append(s + "\\n");
         }
         sb.append("\\n\\t");
         sb.append("------------------------------------堆栈信息------------------------------------");

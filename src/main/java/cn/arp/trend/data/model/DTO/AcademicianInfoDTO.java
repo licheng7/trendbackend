@@ -3,6 +3,7 @@ package cn.arp.trend.data.model.DTO;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -13,64 +14,31 @@ import java.util.List;
 @ToString
 public class AcademicianInfoDTO {
 
-    List<String> institutionsZKY;
+    private Map<String, List<Map<String, String>>> fields;
 
-    List<String> institutionsGCY;
-
-    List<String> fieldsZKY;
-
-    List<String> fieldsGCY;
-
-    List<String> institutions;
-
-    public List<String> getInstitutionsZKY() {
-        return institutionsZKY;
-    }
-
-    public void setInstitutionsZKY(List<String> institutionsZKY) {
-        this.institutionsZKY = institutionsZKY;
-    }
-
-    public List<String> getInstitutionsGCY() {
-        return institutionsGCY;
-    }
-
-    public void setInstitutionsGCY(List<String> institutionsGCY) {
-        this.institutionsGCY = institutionsGCY;
-    }
-
-    public List<String> getFieldsZKY() {
-        return fieldsZKY;
-    }
-
-    public void setFieldsZKY(List<String> fieldsZKY) {
-        this.fieldsZKY = fieldsZKY;
-    }
-
-    public List<String> getFieldsGCY() {
-        return fieldsGCY;
-    }
-
-    public void setFieldsGCY(List<String> fieldsGCY) {
-        this.fieldsGCY = fieldsGCY;
-    }
-
-    public List<String> getInstitutions() {
-        return institutions;
-    }
-
-    public void setInstitutions(List<String> institutions) {
-        this.institutions = institutions;
-    }
+    private List<Map<String, String>> institutions;
 
     public AcademicianInfoDTO() {
     }
 
-    public AcademicianInfoDTO(List<String> institutionsZKY, List<String> institutionsGCY, List<String> fieldsZKY, List<String> fieldsGCY, List<String> institutions) {
-        this.institutionsZKY = institutionsZKY;
-        this.institutionsGCY = institutionsGCY;
-        this.fieldsZKY = fieldsZKY;
-        this.fieldsGCY = fieldsGCY;
+    public AcademicianInfoDTO(Map<String, List<Map<String, String>>> fields, List<Map<String, String>> institutions) {
+        this.fields = fields;
+        this.institutions = institutions;
+    }
+
+    public Map<String, List<Map<String, String>>> getFields() {
+        return fields;
+    }
+
+    public void setFields(Map<String, List<Map<String, String>>> fields) {
+        this.fields = fields;
+    }
+
+    public List<Map<String, String>> getInstitutions() {
+        return institutions;
+    }
+
+    public void setInstitutions(List<Map<String, String>> institutions) {
         this.institutions = institutions;
     }
 }

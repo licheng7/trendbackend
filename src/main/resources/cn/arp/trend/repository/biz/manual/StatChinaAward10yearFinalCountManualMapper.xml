@@ -36,4 +36,34 @@
     order by
       first_wcdw asc, hjnf asc
   </select>
+
+  <select id="queryNationalAward1" resultType="java.util.HashMap">
+    SELECT
+      ANY_VALUE(jxlb) AS jxlb,
+      ANY_VALUE(first_wcdw) AS jgmc,
+      SUM(num) AS num
+    FROM
+      stat_china_award_10year_final_count
+    <where>
+      jxlb in ("国家自然科学奖", "国家技术发明奖", "国家科学技术进步奖")
+      AND first_wcdw in ("上海交通大学", "中国科学技术大学",
+      "中国科学院", "北京大学", "南京大学", "哈尔滨工业大学", "复旦大学", "浙江大学", "清华大学", "西安交通大学")
+    </where>
+    GROUP BY
+      jxlb, first_wcdw
+  </select>
+
+  <select id="queryNationalAward2" resultType="java.util.HashMap">
+    SELECT
+      ANY_VALUE(jxlb) AS jxlb,
+      SUM(num) AS num
+    FROM
+      stat_china_award_10year_final_count
+    <where>
+      jxlb in ("国家自然科学奖", "国家技术发明奖", "国家科学技术进步奖")
+      AND first_wcdw in (SELECT jgmc FROM ref_org_type)
+    </where>
+    GROUP BY
+      jxlb
+  </select>
 </mapper>

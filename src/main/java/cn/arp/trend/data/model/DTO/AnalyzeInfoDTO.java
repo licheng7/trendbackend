@@ -1,8 +1,10 @@
 package cn.arp.trend.data.model.DTO;
 
+import lombok.Data;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -13,31 +15,31 @@ import java.util.List;
 @ToString
 public class AnalyzeInfoDTO {
 
-    List<String> fieldMap;
+    Map<String, String> fieldMap;
 
-    List<AnalyzeAllResultDTO> all;
+    List<List<Object>> all;
 
     public AnalyzeInfoDTO() {
     }
 
-    public AnalyzeInfoDTO(List<String> fieldMap, List<AnalyzeAllResultDTO> all) {
+    public AnalyzeInfoDTO(Map<String, String> fieldMap, List<List<Object>> all) {
         this.fieldMap = fieldMap;
         this.all = all;
     }
 
-    public List<String> getFieldMap() {
+    public Map<String, String> getFieldMap() {
         return fieldMap;
     }
 
-    public void setFieldMap(List<String> fieldMap) {
+    public void setFieldMap(Map<String, String> fieldMap) {
         this.fieldMap = fieldMap;
     }
 
-    public List<AnalyzeAllResultDTO> getAll() {
+    public List<List<Object>> getAll() {
         return all;
     }
 
-    public void setAll(List<AnalyzeAllResultDTO> all) {
+    public void setAll(List<List<Object>> all) {
         this.all = all;
     }
 }

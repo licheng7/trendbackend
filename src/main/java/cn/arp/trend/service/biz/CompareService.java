@@ -1,8 +1,9 @@
 package cn.arp.trend.service.biz;
 
-import cn.arp.trend.data.model.DTO.FacilityInfoDTO;
-import cn.arp.trend.data.model.DTO.FinanceInfoDTO;
-import cn.arp.trend.data.model.DTO.FundsInfoDTO;
+import cn.arp.trend.data.model.DO.ProjectQueryDO;
+import cn.arp.trend.data.model.DTO.*;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created with IDEA
@@ -16,5 +17,15 @@ public interface CompareService {
 
     FinanceInfoDTO financeQuery(String startYear, String endYear);
 
+    PaperInfoDTO paperQuery(String startYear, String endYear);
+
+    ScientistInfoDTO scientistQuery(String startYear, String endYear);
+
     FacilityInfoDTO facilityQuery();
+
+    DevelopmentInfoDTO developmentQuery();
+
+    NationalAwardInfoDTO nationalAwardQuery();
+
+    ProjectInfoDTO projectQuery(ProjectQueryDO projectQuery) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;
 }
