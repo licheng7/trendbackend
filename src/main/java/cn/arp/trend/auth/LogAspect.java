@@ -121,8 +121,10 @@ public class LogAspect {
 			log.setRemoteIp(request.getHeader("ClientIP"));
 		} else if (request.getHeader("X-Real-IP") != null) {
 			log.setRemoteIp(request.getHeader("X-Real-IP"));
+			log.setInternalIp(request.getHeader("X-Real-IP"));
 		} else {
 			log.setRemoteIp(request.getRemoteAddr());
+			log.setInternalIp(request.getRemoteAddr());
 		}
 
 		if (request.getHeader("X-Real-PORT") != null) {
