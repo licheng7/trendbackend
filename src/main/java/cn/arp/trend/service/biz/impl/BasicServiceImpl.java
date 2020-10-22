@@ -55,9 +55,9 @@ public class BasicServiceImpl extends AbstructServiceHelper implements BasicServ
         List<Map<String, Object>> institutions = Lists.newArrayList();
         queryResult3.stream().forEach(obj -> {
             Map<String, Object> map = Maps.newHashMap();
-            map.put("jgbh", obj.getJgbh());
-            map.put("jgmc", obj.getJgmc());
-            map.put("research_field", obj.getResearchField());
+            map.put("id", obj.getJgbh());
+            map.put("institution", obj.getJgmc());
+            map.put("affiliation_field", obj.getResearchField());
             institutions.add(map);
         });
 
