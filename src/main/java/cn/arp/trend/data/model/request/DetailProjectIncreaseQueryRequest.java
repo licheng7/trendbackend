@@ -6,8 +6,6 @@ import io.swagger.annotations.ApiParam;
 import lombok.ToString;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,23 +16,11 @@ import java.util.List;
  * Time:下午9:17
  **/
 @ToString
-@ApiModel(value="DetailProjectNsfcQueryRequest", description="detailProject.js的/nsfc请求参数")
+@ApiModel(value="DetailProjectIncreaseQueryRequest", description="detailProject.js的/increase请求参数")
 @Validated
-public class DetailProjectNsfcQueryRequest implements Serializable {
+public class DetailProjectIncreaseQueryRequest implements Serializable {
 
     private static final long serialVersionUID = -1479890721140834646L;
-
-    @ApiParam(name = "start_year", example = "2010")
-    @JsonProperty("start_year")
-    @NotBlank(message = "startYear不能为空")
-    @Pattern(regexp = "^([1-2]\\d{3})$", message = "startYear格式不正确")
-    private String startYear;
-
-    @ApiParam(name = "end_year", example = "2019")
-    @JsonProperty("end_year")
-    @NotBlank(message = "endYear不能为空")
-    @Pattern(regexp = "^([1-2]\\d{3})$", message = "endYear格式不正确")
-    private String endYear;
 
     @ApiParam(value = "affiliation_id")
     @JsonProperty("affiliation_id")
@@ -60,19 +46,4 @@ public class DetailProjectNsfcQueryRequest implements Serializable {
         this.fieldNames = fieldNames;
     }
 
-    public String getStartYear() {
-        return startYear;
-    }
-
-    public void setStartYear(String startYear) {
-        this.startYear = startYear;
-    }
-
-    public String getEndYear() {
-        return endYear;
-    }
-
-    public void setEndYear(String endYear) {
-        this.endYear = endYear;
-    }
 }

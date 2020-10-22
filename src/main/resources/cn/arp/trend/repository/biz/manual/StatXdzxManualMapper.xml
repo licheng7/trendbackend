@@ -91,4 +91,169 @@
     ORDER BY
       nf
   </select>
+
+  <select id="queryXd1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.ProjectQueryDO">
+    SELECT
+      a.jgmc,
+      a.nf,
+      a.xzxms,
+      a.xzxm_zjf,
+      b.jgbh,
+      b.research_field,
+      b.ssfy
+    FROM
+      stat_xdzx AS a,
+      ref_org_type AS b
+    <where>
+      a.jgmc = b.jgmc
+      <choose>
+        <when test="query.fieldNames != null">
+          AND research_field in (
+          <foreach collection="query.fieldNames" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationIds != null">
+          AND JGBH in (
+          <foreach collection="query.affiliationIds" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+  </select>
+
+  <select id="queryXd2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.ProjectQueryDO">
+    SELECT
+      nf AS year,
+      SUM(xzxms) AS xzxms
+    FROM
+    stat_xdzx AS a,
+    ref_org_type AS b
+    <where>
+      a.jgmc = b.jgmc
+      <choose>
+        <when test="query.fieldNames != null">
+          AND research_field in (
+          <foreach collection="query.fieldNames" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationIds != null">
+          AND JGBH in (
+          <foreach collection="query.affiliationIds" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+    GROUP BY year
+  </select>
+
+  <select id="queryXd3" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.ProjectQueryDO">
+    SELECT
+      nf AS year,
+      ROUND(SUM(xzxm_zjf), 2) xzzjf
+    FROM
+      stat_xdzx AS a,
+      ref_org_type AS b
+    <where>
+      a.jgmc = b.jgmc
+      <choose>
+        <when test="query.fieldNames != null">
+          AND research_field in (
+          <foreach collection="query.fieldNames" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationIds != null">
+          AND JGBH in (
+          <foreach collection="query.affiliationIds" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+    GROUP BY year
+  </select>
+
+  <select id="queryIncrease3" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.ProjectQueryDO">
+    SELECT
+      SUM(xzxms) AS xzxms,
+      ROUND(SUM(xzxm_zjf), 2) AS xzzjf
+    FROM
+      stat_xdzx AS a,
+      ref_org_type AS b
+    <where>
+      a.jgmc = b.jgmc
+      <choose>
+        <when test="query.fieldNames != null">
+          AND research_field in (
+          <foreach collection="query.fieldNames" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliationIds != null">
+          AND JGBH in (
+          <foreach collection="query.affiliationIds" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+  </select>
 </mapper>

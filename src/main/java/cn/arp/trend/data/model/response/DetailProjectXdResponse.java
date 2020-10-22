@@ -14,7 +14,7 @@ import java.util.Map;
  * Time:下午11:04
  **/
 @ToString
-public class DetailProjectNsfcResponse implements Serializable {
+public class DetailProjectXdResponse implements Serializable {
 
     private static final long serialVersionUID = -5769768276312224992L;
 
@@ -38,12 +38,6 @@ public class DetailProjectNsfcResponse implements Serializable {
 
     @JsonProperty("rank_funds")
     private List<Map<String, Object>> rankFunds;
-
-    @JsonProperty("nsfcLineChartMoney")
-    private List<Object> nsfcLineChartMoney;
-
-    @JsonProperty("nsfcLineChartObg")
-    private List<Object> nsfcLineChartObg;
 
     @JsonProperty("updateTime")
     private String updateTime;
@@ -99,20 +93,12 @@ public class DetailProjectNsfcResponse implements Serializable {
         this.rankNumber = rankNumber;
     }
 
-    public List<Object> getNsfcLineChartMoney() {
-        return nsfcLineChartMoney;
+    public List<Map<String, Object>> getRankFunds() {
+        return rankFunds;
     }
 
-    public void setNsfcLineChartMoney(List<Object> nsfcLineChartMoney) {
-        this.nsfcLineChartMoney = nsfcLineChartMoney;
-    }
-
-    public List<Object> getNsfcLineChartObg() {
-        return nsfcLineChartObg;
-    }
-
-    public void setNsfcLineChartObg(List<Object> nsfcLineChartObg) {
-        this.nsfcLineChartObg = nsfcLineChartObg;
+    public void setRankFunds(List<Map<String, Object>> rankFunds) {
+        this.rankFunds = rankFunds;
     }
 
     public String getUpdateTime() {
@@ -121,14 +107,6 @@ public class DetailProjectNsfcResponse implements Serializable {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public List<Map<String, Object>> getRankFunds() {
-        return rankFunds;
-    }
-
-    public void setRankFunds(List<Map<String, Object>> rankFunds) {
-        this.rankFunds = rankFunds;
     }
 
     public String getFundsUnit() {

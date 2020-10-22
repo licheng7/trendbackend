@@ -53,4 +53,11 @@ public interface StatNsfcProjectManualMapper {
      * @return
      */
     List<Map<String, Object>> queryNsfc4(@Param("query") ProjectQueryDO projectQuery);
+
+    /**
+     *
+     * @param projectQuery
+     * @return
+     */
+    List<Map<String, Object>> queryIncrease1(@Param("query") ProjectQueryDO projectQuery);
 }

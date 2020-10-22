@@ -1,5 +1,6 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -16,10 +17,13 @@ public class FacilityResponse implements Serializable {
 
     private static final long serialVersionUID = 1884761190553249526L;
 
+    @JsonProperty("year")
     private List<String> yearList;
 
+    @JsonProperty("platform")
     private List<MapResult> platformList;
 
+    @JsonProperty("keylab")
     private List<MapResult> keylabList;
 
     private String updateTimeBas;

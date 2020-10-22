@@ -1,8 +1,7 @@
 package cn.arp.trend.service.biz;
 
 import cn.arp.trend.data.model.DO.ProjectQueryDO;
-import cn.arp.trend.data.model.DTO.DetailProjectKjbInfoDTO;
-import cn.arp.trend.data.model.DTO.DetailProjectNsfcInfoDTO;
+import cn.arp.trend.data.model.DTO.*;
 
 /**
  * Created with IDEA
@@ -15,4 +14,14 @@ public interface DetailProjectService {
     DetailProjectNsfcInfoDTO nsfcQuery(ProjectQueryDO query);
 
     DetailProjectKjbInfoDTO kjbQuery(ProjectQueryDO query);
+
+    DetailProjectXdInfoDTO xdQuery(ProjectQueryDO query);
+
+    DetailProjectIncreaseInfoDTO increaseQuery(ProjectQueryDO query);
+
+    DetailProjectNsfcRelationInfoDTO nsfcRelationQuery(ProjectQueryDO query);
+
+    DetailProjectKjbRelationInfoDTO kjbRelationQuery(ProjectQueryDO query);
+
+    DetailProjectXdRelationInfoDTO xdRelationQuery(ProjectQueryDO query);
 }

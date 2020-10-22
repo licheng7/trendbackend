@@ -316,7 +316,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
                 Map<String, Double> map = totalPlatform.get(name);
                 map.entrySet().stream().forEach(obj -> countList.add(obj.getValue()));
                 platformList.add(new MapResultDTO<String, List<Double>>(
-                        name.equals("中科院") ? "中国科学院" : "中科院", countList));
+                        name.equals("中科院") ? "中国科学院" : name, countList));
             }
         }
 
@@ -427,9 +427,9 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         List<Long> jsjb = Lists.newArrayList();
 
         for(int i = 0; i < distinctInstitution.size(); i++) {
-            zrkx.add(0L);
-            jsfm.add(0L);
-            jsjb.add(0L);
+            zrkx.add(null);
+            jsfm.add(null);
+            jsjb.add(null);
         }
 
         queryResult1.stream().forEach(
@@ -454,6 +454,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         );
 
         institution.add("中国科学院");
+        distinctInstitution.add("中国科学院");
 
         queryResult2.stream().forEach(
                 obj -> {
@@ -471,7 +472,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         );
 
         NationalAwardInfoDTO nationalAwardInfo = new NationalAwardInfoDTO();
-        nationalAwardInfo.setInstitution(institution);
+        nationalAwardInfo.setInstitution(distinctInstitution);
         nationalAwardInfo.setZrkx(zrkx);
         nationalAwardInfo.setJsfm(jsfm);
         nationalAwardInfo.setJsjb(jsjb);
@@ -515,8 +516,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
                     new MapResultDTO(Lists.newArrayList(), Lists.newArrayList())));
         }
 
-        List<CompareProjectObj> nsfcProjectList = statNsfcProjectManualMapper.queryProject
-                (projectQuery);
+        List<CompareProjectObj> nsfcProjectList = statNsfcProjectManualMapper.queryProject(projectQuery);
         if(!nsfcProjectList.isEmpty()) {
             this.doProjectQuery(yearListStr, orderMap, nsfcProjectList, projectInfo, ProjectInfoDTO
                     .OrderDTO.class.getMethod("getNsfc"));
@@ -623,7 +623,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         for(String name : nameList) {
             Map<String, Double> _funds = Maps.newHashMap();
             for(String year : yearlist) {
-                _funds.put(year, 0D);
+                _funds.put(year, null);
             }
             detail.put(name.equals("中科院") ? "中国科学院" : name, _funds);
         }

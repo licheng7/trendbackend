@@ -1,5 +1,6 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -17,22 +18,31 @@ public class DetailProjectKjbResponse implements Serializable {
 
     private static final long serialVersionUID = -5769768276312224992L;
 
+    @JsonProperty("year")
     private List<String> year;
 
+    @JsonProperty("trend_number")
     private List<Object> trendNumber;
 
+    @JsonProperty("trend_funds")
     private List<Object> trendFunds;
 
+    @JsonProperty("field_number")
     private List<Map<String, Object>> fieldNumber;
 
+    @JsonProperty("field_funds")
     private List<Map<String, Object>> fieldFunds;
 
+    @JsonProperty("rank_number")
     private List<Map<String, Object>> rankNumber;
 
+    @JsonProperty("rank_funds")
     private List<Map<String, Object>> rankFunds;
 
+    @JsonProperty("updateTime")
     private String updateTime;
 
+    @JsonProperty("funds_unit")
     private String fundsUnit;
 
     public List<String> getYear() {

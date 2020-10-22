@@ -24,24 +24,24 @@ public class DetailProjectKjbQueryRequest implements Serializable {
 
     private static final long serialVersionUID = -1479890721140834646L;
 
-    @ApiParam(name = "startYear", example = "2010")
+    @ApiParam(name = "start_year", example = "2010")
     @JsonProperty("start_year")
     @NotBlank(message = "startYear不能为空")
     @Pattern(regexp = "^([1-2]\\d{3})$", message = "startYear格式不正确")
     private String startYear;
 
-    @ApiParam(name = "endYear", example = "2019")
+    @ApiParam(name = "end_year", example = "2019")
     @JsonProperty("end_year")
     @NotBlank(message = "endYear不能为空")
     @Pattern(regexp = "^([1-2]\\d{3})$", message = "endYear格式不正确")
     private String endYear;
 
-    @ApiParam(value = "affiliationIds")
-    @JsonProperty("affiliation")
+    @ApiParam(value = "affiliation_id")
+    @JsonProperty("affiliation_id")
     private List<String> affiliationIds;
 
-    @ApiParam("fieldName")
-    @JsonProperty("field")
+    @ApiParam("field_name")
+    @JsonProperty("field_name")
     private List<String> fieldNames;
 
     public List<String> getAffiliationIds() {

@@ -1,5 +1,6 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class ScientistResponse implements Serializable {
 
     private List<MapResult<String, List<Integer>>> domestic;
 
+    @JsonProperty("world")
     private List<MapResult<String, List<Integer>>> newWorldlist;
 
     public List<String> getYear() {

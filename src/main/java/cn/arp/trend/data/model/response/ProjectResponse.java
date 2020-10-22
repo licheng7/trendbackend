@@ -1,5 +1,6 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -20,28 +21,40 @@ public class ProjectResponse implements Serializable {
 
     private List<String> year;
 
+    @JsonProperty("nsfc_cumulation")
     private long nsfcCumulation;
 
+    @JsonProperty("nsfc_new")
     private long nsfcNew;
 
+    @JsonProperty("nsfc_project")
     private List<String> nsfcProject;
 
+    @JsonProperty("nsfc_funds")
     private List<String> nsfcFunds;
 
+    @JsonProperty("std_cumulation")
     private String stdCumulation;
 
+    @JsonProperty("std_new")
     private String stdNew;
 
+    @JsonProperty("std_project")
     private String stdProject;
 
+    @JsonProperty("std_funds")
     private String stdFunds;
 
+    @JsonProperty("xd_cumulation")
     private String xdCumulation;
 
+    @JsonProperty("xd_new")
     private String xdNew;
 
+    @JsonProperty("xd_project")
     private String xdProject;
 
+    @JsonProperty("xd_funds")
     private String xdFunds;
 
     private List<ProjectOrderResult> order;

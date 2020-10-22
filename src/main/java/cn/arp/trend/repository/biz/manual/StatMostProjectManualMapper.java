@@ -46,4 +46,11 @@ public interface StatMostProjectManualMapper {
      * @return
      */
     List<Map<String, Object>> queryKjb3(@Param("query") ProjectQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryIncrease2(@Param("query") ProjectQueryDO query);
 }

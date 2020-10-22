@@ -1,5 +1,6 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -25,6 +26,7 @@ public class NationalAwardResponse implements Serializable {
 
     private List<Long> jsjb;
 
+    @JsonProperty("result_array")
     private List<List<Map<String, Object>>> resultArray;
 
     private String zrkxUpdateTime;
