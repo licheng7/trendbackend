@@ -33,4 +33,50 @@
     order by
     jgmc asc, nf asc
   </select>
+
+  <select id="querySci1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.DetailPaperQueryDO">
+    SELECT
+      *
+    FROM
+      stat_cas_paper AS a,
+      ref_org_type as b
+    <where>
+      a.jgmc=b.jgmc
+      AND <![CDATA[a.nf >= #{startYear}]]>
+      AND <![CDATA[a.nf <= #{endYear}]]>
+      <choose>
+        <when test="query.field != null">
+          AND research_field in (
+          <foreach collection="query.field" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+      </choose>
+    </where>
+  </select>
+
+  <select id="querySci2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.DetailPaperQueryDO">
+    SELECT
+      *
+    FROM
+      stat_arp_paper_sci AS a,
+      ref_org_type as b
+    <where>
+      a.jgmc=b.jgmc
+      AND <![CDATA[a.nf >= #{startYear}]]>
+      AND <![CDATA[a.nf <= #{endYear}]]>
+      <choose>
+        <when test="query.field != null">
+          AND research_field in (
+          <foreach collection="query.field" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+      </choose>
+    </where>
+  </select>
 </mapper>

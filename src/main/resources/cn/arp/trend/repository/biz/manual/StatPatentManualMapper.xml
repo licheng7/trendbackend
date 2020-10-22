@@ -37,4 +37,42 @@
     order by
       jgmc asc, nf asc
   </select>
+
+  <select id="queryZKYPCTPatent1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.ZKYPCTPatentQueryDO">
+    select
+      *
+    from
+      stat_patent
+    <where>
+      <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      AND zllx=#{query.subDataType}
+      <choose>
+        <when test="query.fields != null">
+          AND ssly in (
+          <foreach collection="query.fields" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND jgmc IS NOT NULL
+          and ssly!="" and ssly is not null and ssly!="NA"
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliation != null">
+          AND jgmc in (
+          <foreach collection="query.affiliation" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+      </choose>
+    </where>
+    order by
+      jgmc asc,
+      nf asc
+  </select>
 </mapper>

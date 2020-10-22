@@ -29,7 +29,7 @@ import javax.annotation.Resource;
  **/
 @Api(value="detailProject",tags={"对应宏观部分detailProject.js"})
 @RestController
-@RequestMapping(value = "/detailProject")
+@RequestMapping(value = "/detail/project")
 public class DetailProjectController extends BaseController {
 
     @Resource
