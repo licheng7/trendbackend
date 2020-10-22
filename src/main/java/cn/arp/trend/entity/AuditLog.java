@@ -21,6 +21,8 @@ public class AuditLog {
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Column(name = "INTERNAL_IP", length = 255)
+	private String internalIp;
 	@Column(name = "OCCUR_TIME")
 	private Date occurTime = new Date();
 	@Column(name = "OP_NAME", length = 255)
@@ -29,24 +31,29 @@ public class AuditLog {
 	private String remoteIp;
 	@Column(name = "REMOTE_PORT")
 	private int remotePort;
-	@Column(name = "USER_ID", length = 255)
-	private String userId;
 
-	@Column(name = "USER_NAME", length = 255)
-	private String userName;
 	@Column(name = "SESSIONID")
 	private String sessionId;
+
+	@Column(name = "USER_ID", length = 255)
+	private String userId;
+	
+	@Column(name = "USER_NAME", length = 255)
+	private String userName;
 
 	public String getArgs() {
 		return args;
 	}
-
 	public int getHttpStatus() {
 		return httpStatus;
 	}
 
 	public int getId() {
 		return id;
+	}
+
+	public String getInternalIp() {
+		return internalIp;
 	}
 
 	public Date getOccurTime() {
@@ -63,6 +70,10 @@ public class AuditLog {
 
 	public int getRemotePort() {
 		return remotePort;
+	}
+
+	public String getSessionId() {
+		return sessionId;
 	}
 
 	public String getUserId() {
@@ -85,6 +96,10 @@ public class AuditLog {
 		this.id = id;
 	}
 
+	public void setInternalIp(String internalIp) {
+		this.internalIp = internalIp;
+	}
+
 	public void setOccurTime(Date occurTime) {
 		this.occurTime = occurTime;
 	}
@@ -99,6 +114,10 @@ public class AuditLog {
 
 	public void setRemotePort(int remotePort) {
 		this.remotePort = remotePort;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 
 	public void setUserId(String userId) {
@@ -119,15 +138,8 @@ public class AuditLog {
 		parts.add(remoteIp);
 		parts.add(Integer.toString(remotePort));
 		parts.add(sessionId);
+		parts.add(internalIp);
 		return String.join(" ", parts);
-	}
-
-	public String getSessionId() {
-		return sessionId;
-	}
-
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
 	}
 
 }
