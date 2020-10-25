@@ -35,7 +35,7 @@
   </select>
 
   <select id="querySci1" resultType="java.util.HashMap"
-          parameterType="cn.arp.trend.data.model.DO.DetailPaperQueryDO">
+          parameterType="cn.arp.trend.data.model.DO.PaperSciQueryDO">
     SELECT
       *
     FROM
@@ -43,12 +43,25 @@
       ref_org_type as b
     <where>
       a.jgmc=b.jgmc
-      AND <![CDATA[a.nf >= #{startYear}]]>
-      AND <![CDATA[a.nf <= #{endYear}]]>
+      AND <![CDATA[a.nf >= #{query.startYear}]]>
+      AND <![CDATA[a.nf <= #{query.endYear}]]>
       <choose>
-        <when test="query.field != null">
+        <when test="query.fields != null">
           AND research_field in (
-          <foreach collection="query.field" item="item" index="index" separator=",">
+          <foreach collection="query.fields" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliation != null">
+          AND jgmc in (
+          <foreach collection="query.affiliation" item="item" index="index" separator=",">
             #{item}
           </foreach>
           )
@@ -58,7 +71,7 @@
   </select>
 
   <select id="querySci2" resultType="java.util.HashMap"
-          parameterType="cn.arp.trend.data.model.DO.DetailPaperQueryDO">
+          parameterType="cn.arp.trend.data.model.DO.PaperSciQueryDO">
     SELECT
       *
     FROM
@@ -66,12 +79,25 @@
       ref_org_type as b
     <where>
       a.jgmc=b.jgmc
-      AND <![CDATA[a.nf >= #{startYear}]]>
-      AND <![CDATA[a.nf <= #{endYear}]]>
+      AND <![CDATA[a.nf >= #{query.startYear}]]>
+      AND <![CDATA[a.nf <= #{query.endYear}]]>
       <choose>
-        <when test="query.field != null">
+        <when test="query.fields != null">
           AND research_field in (
-          <foreach collection="query.field" item="item" index="index" separator=",">
+          <foreach collection="query.fields" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND research_field is not null
+          and research_field!='NA'
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliation != null">
+          AND jgmc in (
+          <foreach collection="query.affiliation" item="item" index="index" separator=",">
             #{item}
           </foreach>
           )

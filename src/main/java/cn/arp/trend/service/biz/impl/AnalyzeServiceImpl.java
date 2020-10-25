@@ -250,7 +250,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 
             if(intermediateResult.getPaperByJgmcMap().containsKey(jgmc)) {
                 StatCasPaper paper = intermediateResult.getPaperByJgmcMap().get(jgmc);
-                analyzeAllResult.setPatent(paper == null ? 0 : paper.getLws());
+                analyzeAllResult.setPaper(paper == null ? 0 : paper.getLws());
             }
 
             if(intermediateResult.getNsfcByJgmcMap().containsKey(jgmc)) {
@@ -284,8 +284,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
             }
 
             if(intermediateResult.getAwardByFirstWcdwMap().containsKey(jgmc)) {
-                StatChinaAward10yearFinalCount award = intermediateResult.getAwardByFirstWcdwMap()
-                        .get(jgmc);
+                StatChinaAward10yearFinalCount award = intermediateResult.getAwardByFirstWcdwMap().get(jgmc);
                 analyzeAllResult.setAward(award == null ? 0 : award.getNum());
             }
 
@@ -305,7 +304,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
             list.add(obj.getTalent100());
             list.add(obj.getPatent());
             list.add(obj.getPaper());
-            list.add(obj.getProjectTotal());
+            list.add(obj.getProjectNsfc() + obj.getProjectKjb() + obj.getProjectXd());
             list.add(obj.getFinance());
             list.add(obj.getAcadenician());
             list.add(obj.getAward());

@@ -1,6 +1,8 @@
 package cn.arp.trend.service.biz;
 
-import cn.arp.trend.data.model.DO.DetailPaperQueryDO;
+import cn.arp.trend.data.model.DO.PaperHCAuthorsQueryDO;
+import cn.arp.trend.data.model.DO.PaperSciQueryDO;
+import cn.arp.trend.data.model.DTO.PaperHCAuthorsInfoDTO;
 import cn.arp.trend.data.model.DTO.PaperSciInfoDTO;
 
 /**
@@ -11,5 +13,7 @@ import cn.arp.trend.data.model.DTO.PaperSciInfoDTO;
  **/
 public interface DetailPaperService {
 
-    PaperSciInfoDTO paperSciQuery(DetailPaperQueryDO query);
+    PaperSciInfoDTO paperSciQuery(PaperSciQueryDO query);
+
+    PaperHCAuthorsInfoDTO hCAuthorsQuery(PaperHCAuthorsQueryDO query);
 }

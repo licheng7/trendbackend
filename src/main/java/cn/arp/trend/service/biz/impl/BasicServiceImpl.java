@@ -141,6 +141,7 @@ public class BasicServiceImpl extends AbstructServiceHelper implements BasicServ
         AcademicianInfoDTO academicianInfoDTO = new AcademicianInfoDTO();
         academicianInfoDTO.setFields(fields);
         academicianInfoDTO.setInstitutions(institutionsNew);
+        academicianInfoDTO.setResultArray(Lists.newArrayList());
         return academicianInfoDTO;
     }
 

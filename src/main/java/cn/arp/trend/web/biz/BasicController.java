@@ -41,6 +41,10 @@ public class BasicController extends BaseController {
     @Resource
     private BasicService basicService;
 
+    /**
+     * 查询菜单
+     * @return
+     */
     @ApiOperation(value= "查询菜单", notes= "无参查询菜单")
     @ServiceExecuter(description = "查询菜单")
     @RequestMapping(value = "/nav", method = RequestMethod.POST)
@@ -58,6 +62,12 @@ public class BasicController extends BaseController {
         return menuResponse;
     }
 
+    /**
+     * 查询单位信息、领域信息
+     * 结果已核对
+     * @param request
+     * @return
+     */
     @ApiOperation(value= "查询单位信息、领域信息", notes= "查询单位信息、领域信息")
     @ServiceExecuter(description = "查询单位信息、领域信息")
     @RequestMapping(value = "/info", method = RequestMethod.POST)
@@ -69,6 +79,10 @@ public class BasicController extends BaseController {
                 bizResult.getInstitutions(), bizResult.getFields());
     }
 
+    /**
+     * 获取近十年的年份
+     * @return
+     */
     @ApiOperation(value= "获取近十年的年份", notes= "获取近十年的年份，用于时间下拉菜单，供用户选择起止时间")
     @ServiceExecuter(description = "获取近十年的年份")
     @RequestMapping(value = "/year", method = RequestMethod.POST)
@@ -78,6 +92,11 @@ public class BasicController extends BaseController {
         return bizResult;
     }
 
+    /**
+     * 获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）
+     * @param request
+     * @return
+     */
     @ApiOperation(value= "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）", notes= "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
     @ServiceExecuter(description = "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
     @RequestMapping(value = "/academician", method = RequestMethod.POST)

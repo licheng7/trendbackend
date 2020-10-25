@@ -18,12 +18,23 @@ public class AcademicianInfoDTO {
 
     private List<Map<String, String>> institutions;
 
+    private List<List> resultArray;
+
     public AcademicianInfoDTO() {
     }
 
-    public AcademicianInfoDTO(Map<String, List<Map<String, String>>> fields, List<Map<String, String>> institutions) {
+    public AcademicianInfoDTO(Map<String, List<Map<String, String>>> fields, List<Map<String, String>> institutions, List<List> resultArray) {
         this.fields = fields;
         this.institutions = institutions;
+        this.resultArray = resultArray;
+    }
+
+    public List<List> getResultArray() {
+        return resultArray;
+    }
+
+    public void setResultArray(List<List> resultArray) {
+        this.resultArray = resultArray;
     }
 
     public Map<String, List<Map<String, String>>> getFields() {

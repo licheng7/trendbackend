@@ -1,5 +1,6 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ public class AnalyzeResponse implements Serializable {
 
     private static final long serialVersionUID = -5769768276312224992L;
 
+    @JsonProperty("field_map")
     Map<String, String> fieldMap;
 
     List<List<Object>> all;

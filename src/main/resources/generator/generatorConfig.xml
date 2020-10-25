@@ -204,8 +204,33 @@
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="stat_patent_new"
+        <!--<table tableName="stat_patent_new"
                domainObjectName="StatPatentNew"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="stat_hcauthors_count"
+               domainObjectName="StatHcauthorsCount"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="stat_cas_staff_qianzaiyearcount_bydanwei"-->
+               <!--domainObjectName="StatCasStaffQianzaiyearcountBydanwei"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="temp_cas_staff_for_rencaicount"
+               domainObjectName="TempCasStaffForRencaicount"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="cas_china_award_10year_final"
+               domainObjectName="CasChinaAward10YearFinal"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <table tableName="cas_hlhl_award_winner"
+               domainObjectName="CasHlhlAwardWinner"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>

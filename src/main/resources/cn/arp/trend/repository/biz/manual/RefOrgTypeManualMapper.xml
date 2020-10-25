@@ -27,6 +27,34 @@
     id, jgmc, jgmc_en, jgbh, research_field, sljg, sljgmc, ssfy, sssf, datasource_type
   </sql>
 
+    <sql id="sql_affiliation">
+        <choose>
+            <when test="query.unitIdAry != null">
+                AND JGBH in (
+                <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+                    #{item}
+                </foreach>
+                )
+            </when>
+            <otherwise>
+                AND JGBH is not null
+            </otherwise>
+        </choose>
+    </sql>
+
+    <sql id="subQueryAwardDistribution">
+        SELECT
+            jgmc
+        FROM
+            ref_org_type
+        <where>
+            1 = 1
+            <include refid="sql_affiliation"/>
+            AND research_field IS NOT NULL
+            AND research_field!="NA"
+        </where>
+    </sql>
+
     <select id="queryOrgByJGBHAndResearch" resultMap="BaseResultMap"
           parameterType="cn.arp.trend.data.model.DO.OrgInfoQueryDO">
         select
@@ -125,5 +153,143 @@
         <where>
             research_field!='NA'
         </where>
+    </select>
+
+    <select id="queryAwardDistribution" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.DetailAwardDistributionQueryDO">
+      SELECT
+        g.jgbh,
+        g.jgmc,
+        g.research_field,
+        g.num_qsjc,
+        g.num_wlkx,
+        g.num_hlhl,
+        IFNULL(h.num_gjkj,0) AS num_gjkj
+      FROM (
+        SELECT
+          e.jgbh,
+          e.jgmc,
+          e.research_field,
+          e.num_qsjc,
+          e.num_wlkx,
+          IFNULL(f.num_hlhl,0) AS num_hlhl
+        FROM (
+          SELECT
+            c.jgbh,
+            c.jgmc,
+            c.research_field,
+            c.num_qsjc,
+            IFNULL(d.num_wlkx,0) AS num_wlkx
+          FROM (
+            SELECT
+              a.jgbh,
+              a.jgmc,
+              a.research_field,
+              IFNULL(b.num_qsjc,0) AS num_qsjc
+            FROM (
+              SELECT
+                jgbh,
+                jgmc,
+                research_field
+              FROM
+                ref_org_type
+              <where>
+                  1 = 1
+                  <include refid="sql_affiliation"/>
+                  AND research_field IS NOT NULL
+                  AND research_field !="NA"
+              </where>
+            ) AS a
+            LEFT JOIN
+            (
+              SELECT
+                ANY_VALUE(gzdw_std) AS jgmc,
+                COUNT(id) AS num_qsjc
+              FROM
+                cas_qiushi_scientist_award
+              <where>
+                  <![CDATA[nf >= #{query.startYear}]]>
+                  AND <![CDATA[nf <= #{query.endYear}]]>
+                  AND gzdw_std in(<include refid="subQueryAwardDistribution"/>)
+              </where>
+              GROUP BY gzdw_std
+            ) AS b
+            ON a.jgmc = b.jgmc
+          ) AS c
+          LEFT JOIN
+          (
+            SELECT
+              ANY_VALUE(hjrdw_std) AS jgmc,
+              COUNT(id) AS num_wlkx
+            FROM
+              cas_future_prize
+            <where>
+                <![CDATA[hjnf >= #{query.startYear}]]>
+                AND <![CDATA[hjnf <= #{query.endYear}]]>
+                AND hjrdw_std in (<include refid="subQueryAwardDistribution"/>)
+            </where>
+        GROUP BY hjrdw_std
+        ) AS d
+        ON c.jgmc = d.jgmc
+        ) AS e
+        LEFT JOIN
+        (
+          SELECT
+            ANY_VALUE(gzdw_std) AS jgmc,
+            COUNT(id) AS num_hlhl
+          FROM
+            cas_hlhl_award_winner
+          <where>
+              <![CDATA[nd >= #{query.startYear}]]>
+              AND <![CDATA[nd <= #{query.endYear}]]>
+              AND gzdw_std in (<include refid="subQueryAwardDistribution"/>)
+          </where>
+          GROUP BY gzdw_std
+        ) AS f
+        ON e.jgmc = f.jgmc
+      ) AS g
+      LEFT JOIN
+      (
+        SELECT
+          ANY_VALUE(jgmc) AS jgmc,
+          COUNT(id) AS num_gjkj
+        FROM
+        (
+          SELECT
+            id,
+            first_wcdw_std AS jgmc
+          FROM
+            cas_china_award_10year_final
+          <where>
+              first_wcdw_std in (<include refid="subQueryAwardDistribution"/>)
+              AND <![CDATA[hjnf >= #{query.startYear}]]>
+              AND <![CDATA[hjnf <= #{query.endYear}]]>
+          </where>
+          UNION ALL
+          SELECT
+            id,
+            second_wcdw_std AS jgmc
+          FROM
+            cas_china_award_10year_final
+          <where>
+              second_wcdw_std in (<include refid="subQueryAwardDistribution"/>)
+              AND <![CDATA[hjnf >= #{query.startYear}]]>
+              AND <![CDATA[hjnf <= #{query.endYear}]]>
+          </where>
+          UNION ALL
+          SELECT
+            id,
+            third_wcdw_std AS jgmc
+          FROM
+            cas_china_award_10year_final
+          <where>
+              third_wcdw_std in (<include refid="subQueryAwardDistribution"/>)
+              AND <![CDATA[hjnf >= #{query.startYear}]]>
+              AND <![CDATA[hjnf <= #{query.endYear}]]>
+          </where>
+        ) AS t
+        GROUP BY jgmc
+      ) AS h
+      ON g.jgmc = h.jgmc
     </select>
 </mapper>

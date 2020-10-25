@@ -1,10 +1,12 @@
 package cn.arp.trend.repository.biz.manual;
 
+import cn.arp.trend.data.model.DO.DetailAwardDistributionQueryDO;
 import cn.arp.trend.data.model.DO.OrgInfoQueryDO;
 import cn.arp.trend.entity.biz.RefOrgType;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RefOrgTypeManualMapper {
     /**
@@ -34,5 +36,13 @@ public interface RefOrgTypeManualMapper {
      * @return
      */
     List<RefOrgType> queryJgmcAndResearchAndSsfy();
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryAwardDistribution(@Param("query")
+                                                     DetailAwardDistributionQueryDO query);
 
 }

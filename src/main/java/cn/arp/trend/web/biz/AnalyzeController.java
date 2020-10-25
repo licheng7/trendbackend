@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * Date:2020/9/29
  * Time:下午3:42
  **/
-@Api(value="analyze",tags={"对应宏观部分analyze.js"})
+@Api(value="analyze",tags={"对应宏观部分analyze.js(数据结构一致，部分数据不一致，待查)"})
 @RestController
 @RequestMapping(value = "/analyze")
 public class AnalyzeController extends BaseController {
@@ -28,6 +28,11 @@ public class AnalyzeController extends BaseController {
     @Resource
     private AnalyzeService analyzeService;
 
+    /**
+     * 对应analyze.js的/
+     * 数据结构一致，部分数据不一致，待查
+     * @return
+     */
     @ApiOperation(value= "对应analyze.js的/", notes= "对应analyze.js的/")
     @ServiceExecuter(description = "对应analyze.js的/")
     @RequestMapping(value = "/query", method = RequestMethod.POST)

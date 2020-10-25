@@ -7,7 +7,6 @@ import lombok.ToString;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created with IDEA
@@ -16,7 +15,7 @@ import java.util.List;
  * Time:下午4:32
  **/
 @ToString
-public class DetailPaperRequest implements Serializable {
+public class PaperHCAuthorsRequest implements Serializable {
 
     private static final long serialVersionUID = -2726439716077831238L;
 
@@ -34,15 +33,16 @@ public class DetailPaperRequest implements Serializable {
 
     @ApiParam("affiliation")
     @JsonProperty("affiliation")
-    private List<String> affiliation;
+    private String affiliation;
 
     @ApiParam("fields")
     @JsonProperty("fields")
-    private List<String> fields;
+    private String fields;
 
     @ApiParam("category")
     @JsonProperty("category")
     @NotBlank(message = "category不能为空")
+    @Pattern(regexp = "(中国|世界)", message = "category格式不正确")
     private String category;
 
     public String getStartYear() {
@@ -61,22 +61,6 @@ public class DetailPaperRequest implements Serializable {
         this.endYear = endYear;
     }
 
-    public List<String> getAffiliation() {
-        return affiliation;
-    }
-
-    public void setAffiliation(List<String> affiliation) {
-        this.affiliation = affiliation;
-    }
-
-    public List<String> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<String> fields) {
-        this.fields = fields;
-    }
-
     public String getCategory() {
         return category;
     }
@@ -84,4 +68,22 @@ public class DetailPaperRequest implements Serializable {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public String getAffiliation() {
+        return affiliation;
+    }
+
+    public void setAffiliation(String affiliation) {
+        this.affiliation = affiliation;
+    }
+
+    public String getFields() {
+        return fields;
+    }
+
+    public void setFields(String fields) {
+        this.fields = fields;
+    }
+
+
 }

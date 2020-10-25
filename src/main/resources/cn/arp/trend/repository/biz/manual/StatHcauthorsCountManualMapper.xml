@@ -72,4 +72,193 @@
     ORDER BY
       contotal DESC limit 0,5
   </select>
+
+  <select id="queryHCAuthors1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.PaperHCAuthorsQueryDO">
+    SELECT
+      ANY_VALUE(country_ch) AS jgmc,
+      SUM(total) AS rc
+    FROM
+      stat_hcauthors_count
+    <where>
+      1 = 1
+      <choose>
+        <when test="query.fields != null">
+          AND category_ch = #{query.fields}
+        </when>
+        <otherwise>
+          AND category_ch IS NOT NULL
+        </otherwise>
+      </choose>
+    </where>
+    GROUP BY country_ch
+    ORDER BY rc DESC
+  </select>
+
+  <select id="queryHCAuthors2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.PaperHCAuthorsQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf,
+      SUM(total) AS rc
+    FROM
+      stat_hcauthors_count
+    <where>
+      1 = 1
+      <choose>
+        <when test="query.fields != null">
+          AND category_ch = #{query.fields}
+        </when>
+        <otherwise>
+          AND category_ch IS NOT NULL
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliation != null">
+          AND country_ch = #{query.affiliation}
+        </when>
+        <otherwise>
+          AND country_ch IS NOT NULL
+        </otherwise>
+      </choose>
+    </where>
+      GROUP BY nf
+      ORDER BY nf
+  </select>
+
+  <select id="queryHCAuthors3" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.PaperHCAuthorsQueryDO">
+    SELECT
+      a.field AS field,
+      a.rc AS down,
+      IFNULL(b.rc,0) AS up
+    FROM
+      (
+        SELECT
+          ANY_VALUE(category_ch) AS field,
+          SUM(total) AS rc
+        FROM
+          stat_hcauthors_count
+        <where>
+          category_ch IS NOT NULL
+        </where>
+        GROUP BY category_ch
+      ) AS a
+      LEFT JOIN
+      (
+        SELECT
+          ANY_VALUE(category_ch) AS field,
+          SUM(total) AS rc
+        FROM
+          stat_hcauthors_count
+        <where>
+          category_ch IS NOT NULL
+          <choose>
+            <when test="query.affiliation != null">
+              AND country_ch = #{query.affiliation}
+            </when>
+            <otherwise>
+              AND country_ch IS NOT NULL
+            </otherwise>
+          </choose>
+        </where>
+        GROUP BY category_ch
+      ) AS b
+    ON a.field = b.field
+    ORDER BY a.rc DESC
+  </select>
+
+  <select id="queryHCAuthors4" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.PaperHCAuthorsQueryDO">
+    SELECT
+      ANY_VALUE(institution_ch) AS jgmc,
+      SUM(total) AS rc
+    FROM
+      stat_hcauthors_count
+    <where>
+      country_ch = "中国"
+      AND institution_ch IS NOT NULL
+      <choose>
+        <when test="query.fields != null">
+          AND category_ch = #{query.fields}
+        </when>
+        <otherwise>
+          AND category_ch IS NOT NULL
+        </otherwise>
+      </choose>
+    </where>
+    GROUP BY institution_ch
+    ORDER BY rc DESC
+  </select>
+
+  <select id="queryHCAuthors5" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.PaperHCAuthorsQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf,
+      SUM(total) AS rc
+    FROM
+      stat_hcauthors_count
+    <where>
+      country_ch = "中国"
+      <choose>
+        <when test="query.affiliation != null">
+          AND institution_ch = #{query.affiliation}
+        </when>
+        <otherwise>
+          AND institution_ch IS NOT NULL
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.fields != null">
+          AND category_ch = #{query.fields}
+        </when>
+        <otherwise>
+          AND category_ch IS NOT NULL
+        </otherwise>
+      </choose>
+    </where>
+    GROUP BY nf
+    ORDER BY nf
+  </select>
+
+  <select id="queryHCAuthors6" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.PaperHCAuthorsQueryDO">
+    SELECT
+      a.field AS field, a.rc AS down, b.rc AS up
+    FROM
+    (
+      SELECT
+        ANY_VALUE(category_ch) AS field,
+        SUM(total) AS rc
+      FROM
+        stat_hcauthors_count
+      <where>
+        country_ch = "中国"
+        AND category_ch IS NOT NULL
+      </where>
+      GROUP BY category_ch
+    ) AS a
+    LEFT JOIN
+    (
+      SELECT
+        ANY_VALUE(category_ch) AS field,
+        SUM(total) AS rc
+      FROM
+        stat_hcauthors_count
+      <where>
+        country_ch = "中国"
+        AND category_ch IS NOT NULL
+        <choose>
+          <when test="query.affiliation != null">
+            AND institution_ch = #{query.affiliation}
+          </when>
+          <otherwise>
+            AND institution_ch IS NOT NULL
+          </otherwise>
+        </choose>
+        GROUP BY category_ch
+      </where>
+    ) AS b
+    ON a.field = b.field
+    ORDER BY a.rc DESC
+  </select>
 </mapper>
