@@ -26,7 +26,7 @@ import java.util.Map;
  * Date:2020/10/13
  * Time:下午2:38
  **/
-@Api(value="updateData",tags={"对应宏观部分updateData.js"})
+@Api(value="updateData",tags={"对应宏观部分updateData.js(结果已比对)"})
 @RestController
 @RequestMapping(value = "/update/data")
 public class UpdateDataController extends BaseController {

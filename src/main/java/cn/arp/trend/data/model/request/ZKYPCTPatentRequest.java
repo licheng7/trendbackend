@@ -43,7 +43,7 @@ public class ZKYPCTPatentRequest implements Serializable {
     @ApiParam("category")
     @JsonProperty("category")
     @NotBlank(message = "category不能为空")
-    private String category;
+    private String category = "其他";
 
     @ApiParam("subDataType")
     @JsonProperty("subDataType")

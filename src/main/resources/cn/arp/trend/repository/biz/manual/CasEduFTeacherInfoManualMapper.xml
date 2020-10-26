@@ -136,7 +136,7 @@
       a.Mentor_unit_name=b.jgmc
       AND status="正常"
       AND birthday is not null
-      AND first_time_doctor is not NULL
+      AND first_time_doctor is NULL
       AND first_time_advisor IS NOT NULL
       AND <![CDATA[LEFT(enroll_time, 4) <= #{query.endYear}]]>
       <choose>
@@ -181,7 +181,7 @@
       a.Mentor_unit_name=b.jgmc
       AND status="正常"
       AND birthday is not null
-      AND first_time_doctor is not NULL
+      AND first_time_doctor is NULL
       AND first_time_advisor IS NOT NULL
       AND <![CDATA[LEFT(enroll_time, 4) <= #{query.endYear}]]>
       <choose>

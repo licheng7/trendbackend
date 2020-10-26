@@ -70,6 +70,11 @@ public class CollaborationController extends BaseController {
         return new LinksInfoReponse(linksInfo.getTimeList(), linksInfo.getTimeListObj());
     }
 
+    /**
+     * 国家列表(对应collaboration.js的/getCountryNum)
+     *
+     * @return
+     */
     @ApiOperation(value= "国家列表(对应collaboration.js的/getCountryNum)", notes= "国家列表(对应collaboration.js的/getCountryNum)")
     @ServiceExecuter(description = "国家列表(对应collaboration.js的/getCountryNum)")
     @RequestMapping(value = "/getCountryNum", method = RequestMethod.POST)

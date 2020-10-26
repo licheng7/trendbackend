@@ -64,15 +64,19 @@ public class DetailProjectServiceImpl extends AbstructServiceHelper implements D
         });
 
         queryResult2.stream().forEach(map -> {
-            String year = (String) map.get("year");
-            if(yearList.contains(year)) {
-                trendNumberMap.put(year, map.get("xzxms"));
+            if(map.get("year") != null) {
+                String year = (String) map.get("year");
+                if (yearList.contains(year)) {
+                    trendNumberMap.put(year, map.get("xzxms"));
+                }
             }
         });
         queryResult3.stream().forEach(map -> {
-            String year = (String) map.get("year");
-            if(yearList.contains(year)) {
-                trendFundsMap.put(year, map.get("xzzjf"));
+            if(map.get("year") != null) {
+                String year = (String) map.get("year");
+                if (yearList.contains(year)) {
+                    trendFundsMap.put(year, map.get("xzzjf"));
+                }
             }
         });
 
@@ -82,35 +86,39 @@ public class DetailProjectServiceImpl extends AbstructServiceHelper implements D
         Map<String, Map<String, Object>> fieldFundsMap = Maps.newHashMap();
         this.initBizMap(fieldNumberMap, fieldFundsMap, fieldsList, 0);
         queryResult1.stream().forEach(map -> {
-            String researchField = (String) map.get("research_field");
-            if(fieldNumberMap.containsKey(researchField)) {
-                Map<String, Object> fieldNumberValue = fieldNumberMap.get(researchField);
-                fieldNumberValue.put("value", ((Number) fieldNumberValue.get("value")).longValue() +
-                        ((Number) map.get("xzxms")).longValue());
-            }
-            if(fieldFundsMap.containsKey(researchField)) {
-                Map<String, Object> fieldFundsValue = fieldFundsMap.get(researchField);
-                fieldFundsValue.put("value", ((Number) fieldFundsValue.get("value")).doubleValue() +
-                        ((Number) map.get("xzxm_zjf")).doubleValue());
+            if(map.get("research_field") != null) {
+                String researchField = (String) map.get("research_field");
+                if (fieldNumberMap.containsKey(researchField)) {
+                    Map<String, Object> fieldNumberValue = fieldNumberMap.get(researchField);
+                    fieldNumberValue.put("value", ((Number) fieldNumberValue.get("value")).longValue() +
+                            ((Number) map.get("xzxms")).longValue());
+                }
+                if (fieldFundsMap.containsKey(researchField)) {
+                    Map<String, Object> fieldFundsValue = fieldFundsMap.get(researchField);
+                    fieldFundsValue.put("value", ((Number) fieldFundsValue.get("value")).doubleValue() +
+                            ((Number) map.get("xzxm_zjf")).doubleValue());
+                }
             }
         });
 
-        List<String> affiliationsList = queryResult1.stream().map(
-                map -> (String) map.get("jgmc")).distinct().collect(Collectors.toList());
+        List<String> affiliationsList = queryResult1.stream()
+                .map(map -> (String) map.get("jgmc")).distinct().collect(Collectors.toList());
         Map<String, Map<String, Object>> rankNumberMap = Maps.newHashMap();
         Map<String, Map<String, Object>> rankFundsMap = Maps.newHashMap();
         this.initBizMap(rankNumberMap, rankFundsMap, affiliationsList, 0);
         queryResult1.stream().forEach(map -> {
-            String jgmc = (String) map.get("jgmc");
-            if(rankNumberMap.containsKey(jgmc)) {
-                Map<String, Object> rankNumberValue = rankNumberMap.get(jgmc);
-                rankNumberValue.put("value", ((Number) rankNumberValue.get("value")).longValue() +
-                        ((Number) map.get("xzxms")).longValue());
-            }
-            if(rankFundsMap.containsKey(jgmc)) {
-                Map<String, Object> rankFundsValue = rankFundsMap.get(jgmc);
-                rankFundsValue.put("value", ((Number) rankFundsValue.get("value")).doubleValue() +
-                        ((Number) map.get("xzxm_zjf")).doubleValue());
+            if(map.get("jgmc") != null) {
+                String jgmc = (String) map.get("jgmc");
+                if (rankNumberMap.containsKey(jgmc)) {
+                    Map<String, Object> rankNumberValue = rankNumberMap.get(jgmc);
+                    rankNumberValue.put("value", ((Number) rankNumberValue.get("value")).longValue() +
+                            ((Number) map.get("xzxms")).longValue());
+                }
+                if (rankFundsMap.containsKey(jgmc)) {
+                    Map<String, Object> rankFundsValue = rankFundsMap.get(jgmc);
+                    rankFundsValue.put("value", ((Number) rankFundsValue.get("value")).doubleValue() +
+                            ((Number) map.get("xzxm_zjf")).doubleValue());
+                }
             }
         });
 
@@ -416,15 +424,15 @@ public class DetailProjectServiceImpl extends AbstructServiceHelper implements D
             int numbers = ((Number) map.get("numbers")).intValue();
             double funds = ((Number) map.get("funds")).doubleValue();
 
-            totalFun += funds;
-            totalNum += numbers;
-
             if(fieldNumberMap.containsKey(field)) {
                 fieldNumberMap.put(field, (int) fieldNumberMap.get(field) + numbers);
             }
             if(fieldFundsMap.containsKey(field)) {
                 fieldFundsMap.put(field, (double) fieldFundsMap.get(field) + funds);
             }
+
+            totalFun += funds;
+            totalNum += numbers;
         }
 
         List<Map<String, Object>> relationNsfc = Lists.newArrayList();
@@ -513,15 +521,15 @@ public class DetailProjectServiceImpl extends AbstructServiceHelper implements D
             int numbers = ((Number) map.get("numbers")).intValue();
             double funds = ((Number) map.get("funds")).doubleValue();
 
-            totalFun += funds;
-            totalNum += numbers;
-
             if(fieldNumberMap.containsKey(field)) {
                 fieldNumberMap.put(field, (int) fieldNumberMap.get(field) + numbers);
             }
             if(fieldFundsMap.containsKey(field)) {
                 fieldFundsMap.put(field, (double) fieldFundsMap.get(field) + funds);
             }
+
+            totalFun += funds;
+            totalNum += numbers;
         }
 
         List<Map<String, Object>> relationNsfc = Lists.newArrayList();

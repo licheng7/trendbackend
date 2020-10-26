@@ -42,7 +42,7 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
 
         distributionAgeList.stream().forEach(map -> {
             int age = ((Number) map.get("age")).intValue();
-            int number = (Integer) map.get("number");
+            Long number = (Long) map.get("number");
             Map<String, Object> _map = Maps.newHashMap();
             _map.put("age", age);
             _map.put("number", number);
@@ -56,7 +56,7 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
 
         distributionFieldList.stream().forEach(map -> {
             String field = (String) map.get("field");
-            int number = (Integer) map.get("number");
+            Long number = (Long) map.get("number");
             Map<String, Object> _map = Maps.newHashMap();
             _map.put("field", field);
             _map.put("number", number);
@@ -80,7 +80,7 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
 
         distributionAgeList.stream().forEach(map -> {
             int age = ((Number) map.get("age")).intValue();
-            int number = (Integer) map.get("number");
+            Long number = (Long) map.get("number");
             Map<String, Object> _map = Maps.newHashMap();
             _map.put("age", age);
             _map.put("number", number);
@@ -94,7 +94,7 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
 
         distributionFieldList.stream().forEach(map -> {
             String field = (String) map.get("field");
-            int number = (Integer) map.get("number");
+            Long number = (Long) map.get("number");
             Map<String, Object> _map = Maps.newHashMap();
             _map.put("field", field);
             _map.put("number", number);
@@ -117,7 +117,7 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
 
         distributionAgeList.stream().forEach(map -> {
             int age = ((Number) map.get("age")).intValue();
-            int number = (Integer) map.get("number");
+            Long number = (Long) map.get("number");
             Map<String, Object> _map = Maps.newHashMap();
             _map.put("age", age);
             _map.put("number", number);
@@ -131,7 +131,7 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
 
         distributionFieldList.stream().forEach(map -> {
             String field = (String) map.get("field");
-            int number = (Integer) map.get("number");
+            Long number = (Long) map.get("number");
             Map<String, Object> _map = Maps.newHashMap();
             _map.put("field", field);
             _map.put("number", number);
@@ -247,10 +247,8 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
         queryResult.stream().forEach(map -> {
             String year = (String) map.get("year");
             if(mentorList.containsKey(year)) {
-                mentorList.put(year, mentorList.get(year) +
-                        ((Number) map.get("mentor_number")).intValue());
-                studentList.put(year, studentList.get(year) +
-                        ((Number) map.get("student_number")).intValue());
+                mentorList.put(year, mentorList.get(year) + ((Number) map.get("mentor_number")).intValue());
+                studentList.put(year, studentList.get(year) + ((Number) map.get("student_number")).intValue());
             }
         });
 
@@ -339,11 +337,11 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
             chart.put("line2", line2Value);
 
             Map bar1Value = Maps.newHashMap();
-            line1Value.put("totalNum", maxMentorD);
+            bar1Value.put("totalNum", maxMentorD);
             chart.put("bar1", bar1Value);
             Map bar2Value = Maps.newHashMap();
-            line1Value.put("totalNum", maxMentorD + maxMentorM);
-            chart.put("bar2", bar1Value);
+            bar2Value.put("totalNum", maxMentorD + maxMentorM);
+            chart.put("bar2", bar2Value);
 
             List<Map<String, Integer>> tmpValue = tmp.get(key);
             for(Map<String, Integer> map : tmpValue) {
@@ -351,7 +349,7 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
                 ((List) ((Map) chart.get("line1")).get("num")).add(map.get("bd"));
 
                 ((List) ((Map) chart.get("line2")).get("year")).add(map.get("year"));
-                ((List) ((Map) chart.get("line2")).get("num")).add(map.get("bd"));
+                ((List) ((Map) chart.get("line2")).get("num")).add(map.get("sd"));
 
                 if(map.get("year") == maxYear) {
                     endYearBd = map.get("bd");
@@ -411,7 +409,7 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
             BigDecimal orderStudentM = new BigDecimal((int) chart.get("order_student_m"));
             BigDecimal orderMentorM = new BigDecimal((int) chart.get("order_mentor_m"));
             BigDecimal result3 = orderStudentM.divide(orderMentorM, 2, BigDecimal.ROUND_HALF_UP);
-            chart.put("order_mentor_m", result3.doubleValue());
+            chart.put("order_propotion_m", result3.doubleValue());
 
             data.add(chart);
         }

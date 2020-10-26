@@ -1,5 +1,6 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -17,8 +18,10 @@ public class DoctoralSupervisorResponse implements Serializable {
 
     private static final long serialVersionUID = -499911772883452519L;
 
+    @JsonProperty("distribution_age")
     private List<Map> distributionAge;
 
+    @JsonProperty("distribution_field")
     private List<Map> distributionField;
 
     public List<Map> getDistributionAge() {

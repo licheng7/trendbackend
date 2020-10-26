@@ -27,7 +27,7 @@ import javax.annotation.Resource;
  * Date:2020/9/29
  * Time:下午3:42
  **/
-@Api(value="detailProject",tags={"对应宏观部分detailProject.js"})
+@Api(value="detailProject",tags={"对应宏观部分detailProject.js(结果已经比对)"})
 @RestController
 @RequestMapping(value = "/detail/project")
 public class DetailProjectController extends BaseController {
@@ -35,6 +35,14 @@ public class DetailProjectController extends BaseController {
     @Resource
     private DetailProjectService detailProjectService;
 
+    /**
+     * 对应detailProject.js的/nsfc
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "对应detailProject.js的/nsfc", notes= "对应detailProject.js的/nsfc")
     @ServiceExecuter(description = "对应detailProject.js的/nsfc")
     @RequestMapping(value = "/nsfc", method = RequestMethod.POST)
@@ -55,6 +63,14 @@ public class DetailProjectController extends BaseController {
         return response;
     }
 
+    /**
+     * 对应detailProject.js的/kjb
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "对应detailProject.js的/kjb", notes= "对应detailProject.js的/kjb")
     @ServiceExecuter(description = "对应detailProject.js的/kjb")
     @RequestMapping(value = "/kjb", method = RequestMethod.POST)
@@ -72,6 +88,14 @@ public class DetailProjectController extends BaseController {
         return DetailProjectKjbConverter.INSTANCE.domain2dto(detailProjectKjbInfo);
     }
 
+    /**
+     * 对应detailProject.js的/xd
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "对应detailProject.js的/xd", notes= "对应detailProject.js的/xd")
     @ServiceExecuter(description = "对应detailProject.js的/xd")
     @RequestMapping(value = "/xd", method = RequestMethod.POST)
@@ -89,6 +113,14 @@ public class DetailProjectController extends BaseController {
         return DetailProjectXdConverter.INSTANCE.domain2dto(detailProjectXdInfo);
     }
 
+    /**
+     * 对应detailProject.js的/increase
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "对应detailProject.js的/increase", notes= "对应detailProject.js的/increase")
     @ServiceExecuter(description = "对应detailProject.js的/increase")
     @RequestMapping(value = "/increase", method = RequestMethod.POST)
@@ -106,6 +138,14 @@ public class DetailProjectController extends BaseController {
         return DetailProjectIncreaseConverter.INSTANCE.domain2dto(detailProjectIncreaseInfo);
     }
 
+    /**
+     * 对应detailProject.js的/nsfcRelation
+     * 结果已经比对，返回值的第一项和第二项我的比node的要多，感觉是因为node少加了一次，我的更符合逻辑
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "对应detailProject.js的/nsfcRelation", notes= "对应detailProject.js的/nsfcRelation")
     @ServiceExecuter(description = "对应detailProject.js的/nsfcRelation")
     @RequestMapping(value = "/nsfcRelation", method = RequestMethod.POST)
@@ -124,6 +164,14 @@ public class DetailProjectController extends BaseController {
         return DetailProjectNsfcRelationConverter.INSTANCE.domain2dto(detailProjectNsfcRelationInfo);
     }
 
+    /**
+     * 对应detailProject.js的/kjbRelation
+     * 结果已经比对，返回值的第一项和第二项我的比node的要多，感觉是因为node少加了一次，我的更符合逻辑
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "对应detailProject.js的/kjbRelation", notes= "对应detailProject.js的/kjbRelation")
     @ServiceExecuter(description = "对应detailProject.js的/kjbRelation")
     @RequestMapping(value = "/kjbRelation", method = RequestMethod.POST)
@@ -142,6 +190,14 @@ public class DetailProjectController extends BaseController {
         return DetailProjectKjbRelationConverter.INSTANCE.domain2dto(detailProjectKjbRelationInfo);
     }
 
+    /**
+     * 对应detailProject.js的/xdRelation
+     * 结果已经比对，返回值的第一项和第二项我的比node的要多，感觉是因为node少加了一次，我的更符合逻辑
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "对应detailProject.js的/xdRelation", notes= "对应detailProject.js的/xdRelation")
     @ServiceExecuter(description = "对应detailProject.js的/xdRelation")
     @RequestMapping(value = "/xdRelation", method = RequestMethod.POST)

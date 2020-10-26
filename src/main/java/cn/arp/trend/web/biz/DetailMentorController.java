@@ -34,6 +34,14 @@ public class DetailMentorController extends BaseController {
     @Resource
     private DetailMentorService detailMentorService;
 
+    /**
+     * 博导
+     *
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "博导", notes= "博导")
     @ServiceExecuter(description = "博导")
     @RequestMapping(value = "/distribution/d", method = RequestMethod.POST)
@@ -50,6 +58,14 @@ public class DetailMentorController extends BaseController {
                 doctoralSupervisorInfo.getDistributionField());
     }
 
+    /**
+     * 硕导
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "硕导", notes= "硕导")
     @ServiceExecuter(description = "硕导")
     @RequestMapping(value = "/distribution/m", method = RequestMethod.POST)
@@ -66,6 +82,14 @@ public class DetailMentorController extends BaseController {
                 masterSupervisorInfo.getDistributionField());
     }
 
+    /**
+     * 导师
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "导师", notes= "导师")
     @ServiceExecuter(description = "导师")
     @RequestMapping(value = "/distribution/all", method = RequestMethod.POST)
@@ -82,6 +106,14 @@ public class DetailMentorController extends BaseController {
                 allSupervisorInfo.getDistributionField());
     }
 
+    /**
+     * 导师
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "导师", notes= "导师")
     @ServiceExecuter(description = "导师")
     @RequestMapping(value = "/trend/d", method = RequestMethod.POST)
@@ -98,6 +130,14 @@ public class DetailMentorController extends BaseController {
         return new TrendDoctoralSupervisorResponse(trendDoctoralSupervisorInfo.getResult());
     }
 
+    /**
+     * 硕导
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "硕导", notes= "硕导")
     @ServiceExecuter(description = "硕导")
     @RequestMapping(value = "/trend/m", method = RequestMethod.POST)
@@ -114,6 +154,14 @@ public class DetailMentorController extends BaseController {
         return new TrendMasterSupervisorResponse(trendDoctoralSupervisorInfo.getResult());
     }
 
+    /**
+     * 导师
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "导师", notes= "导师")
     @ServiceExecuter(description = "导师")
     @RequestMapping(value = "/trend/all", method = RequestMethod.POST)
@@ -124,11 +172,18 @@ public class DetailMentorController extends BaseController {
         TrendAllQueryDO query = new TrendAllQueryDO(
                 request.getStartYear(), request.getEndYear(),
                 request.getAffiliationId(), request.getFieldName());
-        TrendAllInfoDTO trendAllInfo = detailMentorService
-                .trendAllQuery(query);
+        TrendAllInfoDTO trendAllInfo = detailMentorService.trendAllQuery(query);
         return new TrendAllResponse(trendAllInfo.getResult());
     }
 
+    /**
+     * 中间的详情列表
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "中间的详情列表", notes= "中间的详情列表")
     @ServiceExecuter(description = "导师")
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
@@ -139,8 +194,7 @@ public class DetailMentorController extends BaseController {
         MentorDetailQueryDO query = new MentorDetailQueryDO(
                 request.getStartYear(), request.getEndYear(),
                 request.getAffiliationId(), request.getFieldName());
-        MentorDetailInfoDTO mentorDetailInfo = detailMentorService
-                .detailQuery(query);
+        MentorDetailInfoDTO mentorDetailInfo = detailMentorService.detailQuery(query);
         return new MentorDetailResponse(mentorDetailInfo.getData());
     }
 }

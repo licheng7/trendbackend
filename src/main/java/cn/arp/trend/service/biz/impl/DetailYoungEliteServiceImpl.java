@@ -87,7 +87,7 @@ public class DetailYoungEliteServiceImpl implements DetailYoungEliteService {
         queryResult.stream().forEach(map -> {
             Map<String, Object> detailValue = Maps.newHashMap();
             detailValue.put("id", map.get("id"));
-            detailValue.put("affiliation", map.get("year"));
+            detailValue.put("affiliation", map.get("affiliation"));
             detailValue.put("young_elite", map.get("young_elite"));
             detailValue.put("staff_number", map.get("staff_number"));
             detailValue.put("proportion", map.get("proportion"));

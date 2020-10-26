@@ -61,8 +61,7 @@ public class DetailPatentServiceImpl extends AbstructServiceHelper implements De
 
         switch (query.getCategory()) {
             case "新增" :
-                this.doBuildTemp(queryResult, temp, Map.class.getMethod("get", Object.class),
-                        "xz");
+                this.doBuildTemp(queryResult, temp, Map.class.getMethod("get", Object.class), "xz");
                 this.doBuildCount(queryResult, countMap, Map.class.getMethod("get", Object.class), "xz");
                 break;
             case "失效" :

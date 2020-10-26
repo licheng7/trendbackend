@@ -31,7 +31,7 @@ import java.util.List;
  * Date:2020/10/13
  * Time:下午2:38
  **/
-@Api(value="detailPatent",tags={"对应宏观部分detailPatent.js"})
+@Api(value="detailPatent",tags={"对应宏观部分detailPatent.js(结果已经比对)"})
 @RestController
 @RequestMapping(value = "/detail/patent")
 public class DetailPatentController extends BaseController {
@@ -39,6 +39,14 @@ public class DetailPatentController extends BaseController {
     @Resource
     private DetailPatentService detailPatentService;
 
+    /**
+     * detailPatent.js对应的/ZKYPCTPatent
+     * 接口已比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value= "detailPatent.js对应的/ZKYPCTPatent", notes= "detailPatent.js对应的/ZKYPCTPatent")
     @ServiceExecuter(description = "detailPatent.js对应的/ZKYPCTPatent")
     @RequestMapping(value = "/ZKYPCTPatent", method = RequestMethod.POST)
@@ -63,6 +71,14 @@ public class DetailPatentController extends BaseController {
         ));
     }
 
+    /**
+     * detailPatent.js对应的/ZKYChinaPatent
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value= "detailPatent.js对应的/ZKYChinaPatent", notes= "detailPatent.js对应的/ZKYChinaPatent")
     @ServiceExecuter(description = "detailPatent.js对应的/ZKYChinaPatent")
     @RequestMapping(value = "/ZKYChinaPatent", method = RequestMethod.POST)
