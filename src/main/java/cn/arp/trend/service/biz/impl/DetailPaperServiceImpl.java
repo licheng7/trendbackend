@@ -93,9 +93,13 @@ public class DetailPaperServiceImpl extends AbstructServiceHelper implements Det
         yearList.stream().forEach(year -> {
             if(classifyMap.containsKey(year)) {
                 classify.add(classifyMap.get(year));
+            } else {
+                classify.add(null);
             }
             if(sCIClassifyMap.containsKey(year)) {
                 sCIClassify.add(sCIClassifyMap.get(year));
+            } else {
+                sCIClassify.add(null);
             }
         });
 
@@ -150,9 +154,8 @@ public class DetailPaperServiceImpl extends AbstructServiceHelper implements Det
                 RestError.badArgument("category取值有误");
         }
 
-        List<Map<Object, Object>> topAuthors = rstRank.stream().map(map -> {
-            Map<Object, Object> topAuthor = Maps.newHashMap();
-            topAuthor.put(map.get("jgmc"), map.get("rc"));
+        List<List<Object>> topAuthors = rstRank.stream().map(map -> {
+            List<Object> topAuthor = Lists.newArrayList(map.get("jgmc"), map.get("rc"));
             return topAuthor;
         }).collect(Collectors.toList());
 

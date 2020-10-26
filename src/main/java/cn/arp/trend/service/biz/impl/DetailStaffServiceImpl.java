@@ -124,22 +124,40 @@ public class DetailStaffServiceImpl extends AbstructServiceHelper implements Det
         List ZYJSRY = Lists.newArrayList();
         List XZGLRY = Lists.newArrayList();
         List GR = Lists.newArrayList();
-        resultMapByYear.entrySet().stream().forEach(map -> {
-            ZS.add(map.getValue().get("ZS"));
-            ZYJSRY.add(map.getValue().get("ZYJSRY"));
-            XZGLRY.add(map.getValue().get("XZGLRY"));
-            GR.add(map.getValue().get("GR"));
+        yearList.stream().forEach(year -> {
+            /*resultMapByYear.entrySet().stream().forEach(map -> {
+                ZS.add(map.getValue().get("ZS"));
+                ZYJSRY.add(map.getValue().get("ZYJSRY"));
+                XZGLRY.add(map.getValue().get("XZGLRY"));
+                GR.add(map.getValue().get("GR"));
+            });*/
+            if(resultMapByYear.containsKey(year)) {
+                Map<String, Object> map = resultMapByYear.get(year);
+                ZS.add(map.get("ZS"));
+                ZYJSRY.add(map.get("ZYJSRY"));
+                XZGLRY.add(map.get("XZGLRY"));
+                GR.add(map.get("GR"));
+            } else {
+                ZS.add(null);
+                ZYJSRY.add(null);
+                XZGLRY.add(null);
+                GR.add(null);
+            }
         });
-        Map<String, List> zsValue = Maps.newHashMap();
-        zsValue.put("总数", ZS);
-        Map<String, List> zyjsryValue = Maps.newHashMap();
-        zsValue.put("专业技术人员", ZYJSRY);
-        Map<String, List> xzglryValue = Maps.newHashMap();
-        zsValue.put("行政管理人员", XZGLRY);
-        Map<String, List> grValue = Maps.newHashMap();
-        zsValue.put("工人", GR);
+        Map<String, Object> zsValue = Maps.newHashMap();
+        zsValue.put("name", "总数");
+        zsValue.put("value", ZS);
+        Map<String, Object> zyjsryValue = Maps.newHashMap();
+        zyjsryValue.put("name", "专业技术人员");
+        zyjsryValue.put("value", ZYJSRY);
+        Map<String, Object> xzglryValue = Maps.newHashMap();
+        xzglryValue.put("name", "行政管理人员");
+        xzglryValue.put("value", XZGLRY);
+        Map<String, Object> grValue = Maps.newHashMap();
+        grValue.put("name", "工人");
+        grValue.put("value", GR);
 
-        List<Map<String, List>> typeList =
+        List<Map<String, Object>> typeList =
                 Lists.newArrayList(zsValue, zyjsryValue, xzglryValue, grValue);
 
         detail.setZS(zsValue);

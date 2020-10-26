@@ -47,20 +47,20 @@
       AND <![CDATA[a.nf <= #{query.endYear}]]>
       <choose>
         <when test="query.fields != null">
-          AND research_field in (
+          AND b.research_field in (
           <foreach collection="query.fields" item="item" index="index" separator=",">
             #{item}
           </foreach>
           )
         </when>
         <otherwise>
-          AND research_field is not null
-          and research_field!='NA'
+          AND b.research_field is not null
+          and b.research_field!='NA'
         </otherwise>
       </choose>
       <choose>
         <when test="query.affiliation != null">
-          AND jgmc in (
+          AND a.jgmc in (
           <foreach collection="query.affiliation" item="item" index="index" separator=",">
             #{item}
           </foreach>
@@ -83,20 +83,20 @@
       AND <![CDATA[a.nf <= #{query.endYear}]]>
       <choose>
         <when test="query.fields != null">
-          AND research_field in (
+          AND b.research_field in (
           <foreach collection="query.fields" item="item" index="index" separator=",">
             #{item}
           </foreach>
           )
         </when>
         <otherwise>
-          AND research_field is not null
-          and research_field!='NA'
+          AND b.research_field is not null
+          and b.research_field!='NA'
         </otherwise>
       </choose>
       <choose>
         <when test="query.affiliation != null">
-          AND jgmc in (
+          AND a.jgmc in (
           <foreach collection="query.affiliation" item="item" index="index" separator=",">
             #{item}
           </foreach>

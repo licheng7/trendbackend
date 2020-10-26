@@ -48,6 +48,7 @@
         </when>
       </choose>
     </where>
+    GROUP BY nf
   </select>
   
   <select id="queryNsfcRelation" resultType="java.util.HashMap"

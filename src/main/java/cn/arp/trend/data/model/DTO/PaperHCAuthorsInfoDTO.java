@@ -20,7 +20,7 @@ public class PaperHCAuthorsInfoDTO {
 
     private List<Map<String, Object>> newData;
 
-    private List<Map<Object, Object>> topAuthors;
+    private List<List<Object>> topAuthors;
 
     private List<String> year;
 
@@ -50,11 +50,11 @@ public class PaperHCAuthorsInfoDTO {
         this.newData = newData;
     }
 
-    public List<Map<Object, Object>> getTopAuthors() {
+    public List<List<Object>> getTopAuthors() {
         return topAuthors;
     }
 
-    public void setTopAuthors(List<Map<Object, Object>> topAuthors) {
+    public void setTopAuthors(List<List<Object>> topAuthors) {
         this.topAuthors = topAuthors;
     }
 

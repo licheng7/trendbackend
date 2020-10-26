@@ -36,6 +36,14 @@ public class DetailStaffController extends BaseController {
     @Resource
     private DetailStaffService detailStaffService;
 
+    /**
+     * 年龄分布【新】
+     * 结果已比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "年龄分布【新】", notes= "年龄分布【新】")
     @ServiceExecuter(description = "年龄分布【新】")
     @RequestMapping(value = "/ageDistribution", method = RequestMethod.POST)
@@ -54,6 +62,14 @@ public class DetailStaffController extends BaseController {
         return response;
     }
 
+    /**
+     * 学历分布【新】
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "学历分布【新】", notes= "学历分布【新】")
     @ServiceExecuter(description = "学历分布【新】")
     @RequestMapping(value = "/childLevelDistribution", method = RequestMethod.POST)

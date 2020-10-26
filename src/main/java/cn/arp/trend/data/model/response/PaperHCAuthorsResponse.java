@@ -25,13 +25,15 @@ public class PaperHCAuthorsResponse implements Serializable {
     @JsonProperty("new_data")
     private List<Map<String, Object>> newData;
 
-    private List<Map<Object, Object>> topAuthors;
+    private List<List<Object>> topAuthors;
 
     private List<String> year;
 
     private String updateTime;
 
-    public PaperHCAuthorsResponse(List<Object> classify, Map<String, List<Object>> fields, List<Map<String, Object>> newData, List<Map<Object, Object>> topAuthors, List<String> year, String updateTime) {
+    public PaperHCAuthorsResponse(List<Object> classify, Map<String, List<Object>> fields,
+                                  List<Map<String, Object>> newData, List<List<Object>> topAuthors,
+                                  List<String> year, String updateTime) {
         this.classify = classify;
         this.fields = fields;
         this.newData = newData;
@@ -67,11 +69,11 @@ public class PaperHCAuthorsResponse implements Serializable {
         this.newData = newData;
     }
 
-    public List<Map<Object, Object>> getTopAuthors() {
+    public List<List<Object>> getTopAuthors() {
         return topAuthors;
     }
 
-    public void setTopAuthors(List<Map<Object, Object>> topAuthors) {
+    public void setTopAuthors(List<List<Object>> topAuthors) {
         this.topAuthors = topAuthors;
     }
 

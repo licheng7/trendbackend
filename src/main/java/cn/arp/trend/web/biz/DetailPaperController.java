@@ -32,7 +32,7 @@ import javax.annotation.Resource;
  * Date:2020/10/13
  * Time:下午2:38
  **/
-@Api(value="detailPaper",tags={"对应宏观部分detailPaper.js"})
+@Api(value="detailPaper",tags={"对应宏观部分detailPaper.js(结果有已经对比，/HCAuthors我的前两个字段有值，我的应该是正确的)"})
 @RestController
 @RequestMapping(value = "/detail/paper")
 public class DetailPaperController extends BaseController {
@@ -40,6 +40,14 @@ public class DetailPaperController extends BaseController {
     @Resource
     private DetailPaperService detailPaperService;
 
+    /**
+     * detailPaper.js对应的/SCI
+     * 结果已经比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "detailPaper.js对应的/SCI", notes= "detailPaper.js对应的/SCI")
     @ServiceExecuter(description = "detailPaper.js对应的/SCI")
     @RequestMapping(value = "/sci", method = RequestMethod.POST)
@@ -57,6 +65,14 @@ public class DetailPaperController extends BaseController {
         return PaperSciInfoConverter.INSTANCE.domain2dto(paperSciInfo);
     }
 
+    /**
+     * detailPaper.js对应的/HCAuthors
+     * 结果已经对比,值有不一样
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "detailPaper.js对应的/HCAuthors", notes= "detailPaper.js对应的/HCAuthors")
     @ServiceExecuter(description = "detailPaper.js对应的/HCAuthors")
     @RequestMapping(value = "/HCAuthors", method = RequestMethod.POST)

@@ -34,6 +34,14 @@ public class UpdateDataController extends BaseController {
     @Resource
     private UpdateDataService updateDataService;
 
+    /**
+     * updateData.js对应的/
+     * 结果已比对
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
     @ApiOperation(value= "updateData.js对应的/", notes= "updateData.js对应的/")
     @ServiceExecuter(description = "updateData.js对应的/")
     @RequestMapping(value = "/frequency", method = RequestMethod.POST)
@@ -43,6 +51,6 @@ public class UpdateDataController extends BaseController {
         validData(bindingResult);
         UpdateDataQueryDO query = new UpdateDataQueryDO(request.getClassify(), request.getName());
         Map<String, String> result = updateDataService.queryAll(query);
-        return new FrequencyResponse(result);
+        return new FrequencyResponse(result.get("unit"), result.get("upData"));
     }
 }

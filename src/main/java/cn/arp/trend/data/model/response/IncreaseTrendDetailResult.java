@@ -1,5 +1,7 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -14,15 +16,19 @@ public class IncreaseTrendDetailResult implements Serializable {
 
     private static final long serialVersionUID = 3483022861349366852L;
 
-    private Map<String, List> ZS;
+    @JsonProperty("ZS")
+    private Map<String, Object> ZS;
 
-    private Map<String, List> ZYJSRY;
+    @JsonProperty("ZYJSRY")
+    private Map<String, Object> ZYJSRY;
 
-    private Map<String, List> XZGLRY;
+    @JsonProperty("XZGLRY")
+    private Map<String, Object> XZGLRY;
 
-    private Map<String, List> GR;
+    @JsonProperty("GR")
+    private Map<String, Object> GR;
 
-    private List<Map<String, List>> typeList;
+    private List<Map<String, Object>> typeList;
 
     private int totalZYJSRY;
 
@@ -32,43 +38,43 @@ public class IncreaseTrendDetailResult implements Serializable {
 
     private Object allTotal;
 
-    public Map<String, List> getZS() {
+    public Map<String, Object> getZS() {
         return ZS;
     }
 
-    public void setZS(Map<String, List> ZS) {
+    public void setZS(Map<String, Object> ZS) {
         this.ZS = ZS;
     }
 
-    public Map<String, List> getZYJSRY() {
+    public Map<String, Object> getZYJSRY() {
         return ZYJSRY;
     }
 
-    public void setZYJSRY(Map<String, List> ZYJSRY) {
+    public void setZYJSRY(Map<String, Object> ZYJSRY) {
         this.ZYJSRY = ZYJSRY;
     }
 
-    public Map<String, List> getXZGLRY() {
+    public Map<String, Object> getXZGLRY() {
         return XZGLRY;
     }
 
-    public void setXZGLRY(Map<String, List> XZGLRY) {
+    public void setXZGLRY(Map<String, Object> XZGLRY) {
         this.XZGLRY = XZGLRY;
     }
 
-    public Map<String, List> getGR() {
+    public Map<String, Object> getGR() {
         return GR;
     }
 
-    public void setGR(Map<String, List> GR) {
+    public void setGR(Map<String, Object> GR) {
         this.GR = GR;
     }
 
-    public List<Map<String, List>> getTypeList() {
+    public List<Map<String, Object>> getTypeList() {
         return typeList;
     }
 
-    public void setTypeList(List<Map<String, List>> typeList) {
+    public void setTypeList(List<Map<String, Object>> typeList) {
         this.typeList = typeList;
     }
 

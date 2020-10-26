@@ -3,7 +3,6 @@ package cn.arp.trend.data.model.response;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * Created with IDEA
@@ -16,20 +15,31 @@ public class FrequencyResponse implements Serializable {
 
     private static final long serialVersionUID = -1843502965655966849L;
 
-    Map<String, String> result;
+    private Object unit;
+
+    private Object upData;
+
+    public Object getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Object unit) {
+        this.unit = unit;
+    }
+
+    public Object getUpData() {
+        return upData;
+    }
+
+    public void setUpData(Object upData) {
+        this.upData = upData;
+    }
 
     public FrequencyResponse() {
     }
 
-    public FrequencyResponse(Map<String, String> result) {
-        this.result = result;
-    }
-
-    public Map<String, String> getResult() {
-        return result;
-    }
-
-    public void setResult(Map<String, String> result) {
-        this.result = result;
+    public FrequencyResponse(Object unit, Object upData) {
+        this.unit = unit;
+        this.upData = upData;
     }
 }
