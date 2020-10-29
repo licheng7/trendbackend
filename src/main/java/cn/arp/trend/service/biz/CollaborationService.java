@@ -4,6 +4,7 @@ import cn.arp.trend.data.model.DO.ComeAnalyseQueryDO;
 import cn.arp.trend.data.model.DO.GoAnalyseQueryDO;
 import cn.arp.trend.data.model.DTO.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +21,7 @@ public interface CollaborationService {
 
     LinksInfoDTO linksQuery();
 
-    Map<String, Map<String, Integer>> countryNumQuery();
+    List<List<Map<String, Object>>> countryNumQuery();
 
     GoAnalyseInfoDTO goAnalyseQuery(GoAnalyseQueryDO goAnalyseQuery);
 

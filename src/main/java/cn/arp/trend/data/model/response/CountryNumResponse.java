@@ -3,6 +3,7 @@ package cn.arp.trend.data.model.response;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,24 +17,20 @@ public class CountryNumResponse implements Serializable {
 
     private static final long serialVersionUID = 5527033241423427788L;
 
-    private Map<String, Map<String, Integer>> countryNumList;
+    private List<List<Map<String, Object>>> countryNumList;
 
     public CountryNumResponse() {
     }
 
-    public CountryNumResponse(Map<String, Map<String, Integer>> countryNumList) {
+    public CountryNumResponse(List<List<Map<String, Object>>> countryNumList) {
         this.countryNumList = countryNumList;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public Map<String, Map<String, Integer>> getCountryNumList() {
+    public List<List<Map<String, Object>>> getCountryNumList() {
         return countryNumList;
     }
 
-    public void setCountryNumList(Map<String, Map<String, Integer>> countryNumList) {
+    public void setCountryNumList(List<List<Map<String, Object>>> countryNumList) {
         this.countryNumList = countryNumList;
     }
 }

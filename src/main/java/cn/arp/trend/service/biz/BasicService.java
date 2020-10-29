@@ -7,6 +7,7 @@ import cn.arp.trend.data.model.DTO.InternationInfoDTO;
 import cn.arp.trend.data.model.DTO.OrgInfoDTO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -22,5 +23,9 @@ public interface BasicService {
 
     AcademicianInfoDTO academicianQuery(AcademicianQueryDO academicianQueryDO);
 
+    AcademicianInfoDTO academicianNewQuery(AcademicianQueryDO academicianQueryDO);
+
     InternationInfoDTO internationInfoQuery();
+
+    List<Map<String, Object>> sortingQuery();
 }

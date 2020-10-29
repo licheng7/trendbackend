@@ -43,6 +43,9 @@ public class BasicServiceImpl extends AbstructServiceHelper implements BasicServ
     @Resource
     private IcGoManualMapper icGoManualMapper;
 
+    @Resource
+    private CasAcademicianForeignManualMapper casAcademicianForeignManualMapper;
+
     @Override
     public OrgInfoDTO orgInfoQuery(OrgInfoQueryDO orgInfoQuery) {
         /*List<RefOrgType> queryResult1 =
@@ -146,6 +149,57 @@ public class BasicServiceImpl extends AbstructServiceHelper implements BasicServ
     }
 
     @Override
+    public AcademicianInfoDTO academicianNewQuery(AcademicianQueryDO academicianQueryDO) {
+
+        List<String> originalZky = casAcademicianForeignManualMapper.queryAcademicianNew1();
+
+        List<String> originalGcy = casAcademicianCaeChinaManualMapper.queryAcademicianNew2();
+
+        List<String> institutions = casAcademicianForeignManualMapper.queryAcademicianNew3
+                (academicianQueryDO);
+
+        List<Map<String, String>> fieldsZKY = originalZky.stream().map(str -> {
+            Map<String, String> map = Maps.newHashMap();
+            map.put("field", str);
+            return map;
+        }).collect(Collectors.toList());
+
+        List<Map<String, String>> fieldsGCY = originalGcy.stream().map(str -> {
+            Map<String, String> map = Maps.newHashMap();
+            map.put("field", str);
+            return map;
+        }).collect(Collectors.toList());
+
+        Map<String, List<Map<String, String>>> fields = Maps.newHashMap();
+        fields.put("fieldsZKY", fieldsZKY);
+        fields.put("fieldsGCY", fieldsGCY);
+
+        List<Map<String, Object>> originalZkyMapList = originalZky.stream().map(str -> {
+            Map<String, Object> map = Maps.newHashMap();
+            map.put("xuebu", str);
+            return map;
+        }).collect(Collectors.toList());
+        List<Map<String, Object>> originalGcyMapList = originalGcy.stream().map(str -> {
+            Map<String, Object> map = Maps.newHashMap();
+            map.put("xuebu", str);
+            return map;
+        }).collect(Collectors.toList());
+        List<Map<String, String>> institutionsMapList = institutions.stream().map(str -> {
+            Map<String, String> map = Maps.newHashMap();
+            map.put("institution", str);
+            return map;
+        }).collect(Collectors.toList());
+        List<List> resultArray = Lists.newArrayList(originalZkyMapList,
+                originalGcyMapList, institutionsMapList);
+
+        AcademicianInfoDTO info = new AcademicianInfoDTO();
+        info.setFields(fields);
+        info.setResultArray(resultArray);
+        info.setInstitutions(institutionsMapList);
+        return info;
+    }
+
+    @Override
     public InternationInfoDTO internationInfoQuery() {
         // step1 country
         List<String> icComeCountryList = icComeManualMapper.queryCountry();
@@ -199,6 +253,21 @@ public class BasicServiceImpl extends AbstructServiceHelper implements BasicServ
         internationInfoDTO.setSortedAgeYearList(sortedAgeYearList);
         internationInfoDTO.setAgeList(ageList);
         return internationInfoDTO;
+    }
+
+    @Override
+    public List<Map<String, Object>> sortingQuery() {
+
+        List<RefOrgType> queryResult = refOrgTypeManualMapper.querySorting();
+
+        List<Map<String, Object>> result = queryResult.stream().map(obj -> {
+            Map<String, Object> map = Maps.newHashMap();
+            map.put("jgmc", obj.getJgmc());
+            map.put("ssfy", obj.getSsfy());
+            return map;
+        }).collect(Collectors.toList());
+
+        return result;
     }
 
     private List<String> doInternationInfoQuery(List<String> list1, List<String> list2) {

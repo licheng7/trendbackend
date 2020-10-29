@@ -173,12 +173,14 @@ public class CollaborationServiceImpl implements CollaborationService {
     }
 
     @Override
-    public Map<String, Map<String, Integer>> countryNumQuery() {
+    public List<List<Map<String, Object>>> countryNumQuery() {
         List<String> distinctCountryList = icComeManualMapper.queryDistinctCountry();
         List<CountryAndNationality> goCountryAndNationalityList = icGoManualMapper
                 .queryCountryAndNationality();
         List<CountryAndNationality> comeCountryAndNationalityList = icComeManualMapper
                 .queryCountryAndNationality();
+
+        List<String> ymList = Lists.newArrayList();
 
         Map<String, Map<String, Integer>> result = Maps.newHashMap();
         Calendar startCalendar = Calendar.getInstance();
@@ -194,6 +196,7 @@ public class CollaborationServiceImpl implements CollaborationService {
                 countryMap.put(country, 0);
             }
             result.put(time, countryMap);
+            ymList.add(time);
         }
 
         List<CountryAndNationality> allCountryAndNationalityList = Lists.newArrayList();
@@ -206,14 +209,34 @@ public class CollaborationServiceImpl implements CollaborationService {
             String nationality = countryAndNationality.getNationality();
             if(result.containsKey(date)) {
                 Map<String, Integer> countryMap = result.get(date);
-                if(countryMap.containsKey(country) & countryMap.containsKey(nationality)) {
-                    countryMap.put(country, countryMap.get(country) == null ? 0 : countryMap.get(country) + 1);
-                    countryMap.put(nationality, countryMap.get(nationality) == null ? 0 : countryMap.get(nationality) + 1);
+                if(countryMap.containsKey(country) && countryMap.containsKey(nationality)) {
+                    countryMap.put(country,
+                            countryMap.get(country) == null ? 1 : countryMap.get(country) + 1);
+                    countryMap.put(nationality,
+                            countryMap.get(nationality) == null ? 1 : countryMap.get(nationality) + 1);
                 }
             }
         }
 
-        return result;
+        List<List<Map<String, Object>>> listOut = Lists.newArrayList();
+
+        ymList.stream().forEach(time -> {
+            Map<String, Integer> map1 = result.get(time);
+            List<Map<String, Object>> listIn = Lists.newArrayList();
+            map1.entrySet().stream().forEach(
+                    map2 -> {
+                        String key2 = map2.getKey();
+                        Integer value2 = map2.getValue();
+                        Map<String, Object> obj = Maps.newHashMap();
+                        obj.put("name", key2);
+                        obj.put("value", value2);
+                        listIn.add(obj);
+                    }
+            );
+            listOut.add(listIn);
+        });
+
+        return listOut;
     }
 
     @Override
@@ -496,7 +519,7 @@ public class CollaborationServiceImpl implements CollaborationService {
 
         Map<String, Integer> formObjMap = Maps.newHashMap();
         for(String form : formList) {
-            fieldObjMap.put(form, 0);
+            formObjMap.put(form, 0);
         }
 
         Map<String, Integer> affiliationObjMap = Maps.newHashMap();
@@ -514,12 +537,12 @@ public class CollaborationServiceImpl implements CollaborationService {
 
         Map<Integer, Integer> ageNumMap = Maps.newHashMap();
         for(Integer age : agelist) {
-            ageNumMap.put(age, 0);
+            ageNumMap.put(age, null);
         }
 
         Map<String, Integer> yearMap = Maps.newHashMap();
         for(String year : yearlist) {
-            yearMap.put(year, 0);
+            yearMap.put(year, null);
         }
 
         Map<String, List<String>> cityAndCountryObjMap = Maps.newHashMap();
@@ -546,12 +569,13 @@ public class CollaborationServiceImpl implements CollaborationService {
             }
             countryNumberObjectMap.put("中国", countryNumberObjectMap.get("中国") + 1);
             if(ageNumMap.containsKey(comeAnalyse.getYearOld())) {
-                ageNumMap.put(comeAnalyse.getYearOld(), ageNumMap.get(comeAnalyse.getYearOld()) + 1);
+                ageNumMap.put(comeAnalyse.getYearOld(), ageNumMap.get(comeAnalyse.getYearOld())
+                                == null ? 1 : ageNumMap.get(comeAnalyse.getYearOld()) + 1);
             }
             if(yearMap.containsKey(comeAnalyse.getDate())) {
-                int date = Integer.valueOf(comeAnalyse.getDate());
                 yearMap.put(comeAnalyse.getDate(),
-                        yearMap.get(date) == null ? 0 : yearMap.get(date) + 1);
+                        yearMap.get(comeAnalyse.getDate()) == null ? 1 : yearMap.get(comeAnalyse
+                                .getDate()) + 1);
             }
             if(cityAndCountryObjMap.containsKey(comeAnalyse.getCity())) {
                 cityAndCountryObjMap.get(comeAnalyse.getCity()).add(comeAnalyse.getCountry());
@@ -578,63 +602,103 @@ public class CollaborationServiceImpl implements CollaborationService {
 
         Map<String, Integer> sortedComeCountryObjMap = Maps.newHashMap();
 
-        comeCountryObjMap.entrySet().stream().sorted
-                (Collections.reverseOrder(Map.Entry.comparingByValue())).forEach(obj ->
-                sortedComeCountryObjMap.put(obj.getKey(), obj.getValue()));
+        comeCountryObjMap.entrySet().stream().sorted(Comparator.comparingInt(map ->  map
+                .getValue() * -1)).limit(10).forEach(obj -> sortedComeCountryObjMap.put(obj
+                .getKey(), obj.getValue()));
 
-        int top10 = comeCountryObjMap.size() < 10 ? comeCountryObjMap.size() : 10;
 
         Map<String, Map<String, Integer>> topTenCountryMap = Maps.newHashMap();
 
-        Map<String, Integer> tempYearMap = Maps.newHashMap();
-
-        for(String year : yearlist) {
-            tempYearMap.put(year, 0);
-        }
-
-        List<String> topTenCountryName = Lists.newArrayList();
         for(String country : sortedComeCountryObjMap.keySet()) {
-            if(country == null) {
-                continue;
+            Map<String, Integer> tempYearMap = Maps.newHashMap();
+            for(String year : yearlist) {
+                tempYearMap.put(year, null);
             }
             topTenCountryMap.put(country, tempYearMap);
-            topTenCountryName.add(country);
-            top10 --;
-            if(top10 == 0) {
-                break;
-            }
         }
 
         for(GoAndComeAnalyse goAnalyse : comeAnalyseList) {
             if(topTenCountryMap.containsKey(goAnalyse.getCountry())) {
                 Map<String, Integer> countryCount = topTenCountryMap.get(goAnalyse.getCountry());
                 if(countryCount.containsKey(goAnalyse.getDate())) {
-                    countryCount.put(goAnalyse.getDate(), countryCount.get(goAnalyse.getDate()) +
-                            1);
+                    countryCount.put(goAnalyse.getDate(), countryCount.get(goAnalyse.getDate())
+                                    == null ? 1 : countryCount.get(goAnalyse.getDate()) + 1);
                 }
             }
         }
+
+        List<Map<String, Object>> topTenCountryList = topTenCountryMap.entrySet().stream().map(
+                map -> {
+                    Map<String, Object> result = Maps.newHashMap();
+                    result.put("name", map.getKey());
+                    List<Integer> value = Lists.newArrayList();
+                    yearlist.stream().forEach(year -> {
+                        value.add(map.getValue().get(year));
+                    });
+                    result.put("value", value);
+                    return result;
+        }).collect(Collectors.toList());
+
+        List<String> topTenCountryName = topTenCountryList.stream().map(map -> (String) map.get
+                ("name")).collect(Collectors.toList());
 
         ComeAnalyseInfoDTO comeAnalyseInfo = new ComeAnalyseInfoDTO();
         comeAnalyseInfo.setCountryNum(goCountryList.size());
         comeAnalyseInfo.setCountryPeopleNum(comeCountryPeopleNum);
         comeAnalyseInfo.setYdylCountryNum(distinctComeYdylCountryList.size());
         comeAnalyseInfo.setYdylCountryPeopleNum(comeYdylCountryPeopleNum);
-        comeAnalyseInfo.setCountryObjList(goCountryObjList);
-        comeAnalyseInfo.setFieldObjList(fieldObjMap);
-        comeAnalyseInfo.setFormObjList(formObjMap);
+
+        List<Map<String, Object>> countryNumberObjectList = countryNumberObjectMap.entrySet()
+                .stream().map(
+                map -> {
+                    Map<String, Object> result = Maps.newHashMap();
+                    result.put("name", map.getKey());
+                    result.put("value", map.getValue());
+                    return result;
+                }
+        ).collect(Collectors.toList());
+
+        comeAnalyseInfo.setCountryObjList(countryNumberObjectList);
+        comeAnalyseInfo.setFieldObjList(
+                fieldObjMap.entrySet().stream().map(
+                    map -> {
+                        Map<String, Object> result = Maps.newHashMap();
+                        result.put("name", map.getKey());
+                        result.put("value", map.getValue());
+                        return result;
+                    }
+                ).collect(Collectors.toList())
+        );
+        comeAnalyseInfo.setFormObjList(
+                formObjMap.entrySet().stream().map(
+                    map -> {
+                        Map<String, Object> result = Maps.newHashMap();
+                        result.put("name", map.getKey());
+                        result.put("value", map.getValue());
+                        return result;
+                    }
+                ).collect(Collectors.toList()));
         Map<String, Integer> sortedAffiliationObjMap = Maps.newHashMap();
         affiliationObjMap.entrySet().stream().sorted
                 (Collections.reverseOrder(Map.Entry.comparingByValue())).forEach(obj ->
                 sortedAffiliationObjMap.put(obj.getKey(), obj.getValue()));
-        comeAnalyseInfo.setAffiliationObjList(sortedAffiliationObjMap);
-        comeAnalyseInfo.setYearNumList(yearMap);
-        comeAnalyseInfo.setAgeNumList(ageNumMap);
+        comeAnalyseInfo.setAffiliationObjList(sortedAffiliationObjMap.entrySet().stream().map(
+                map -> {
+                    Map<String, Object> result = Maps.newHashMap();
+                    result.put("name", map.getKey());
+                    result.put("value", map.getValue());
+                    return result;
+                }
+        ).collect(Collectors.toList()));
+        List<Integer> yearNumList = Lists.newArrayList();
+        yearlist.stream().forEach(year -> yearNumList.add(yearMap.get(year)));
+        comeAnalyseInfo.setYearNumList(yearNumList);
+        comeAnalyseInfo.setAgeNumList(ageNumMap.entrySet().stream().map(map -> map.getValue()).collect(Collectors.toList()));
         comeAnalyseInfo.setAgelist(newAgelist);
         comeAnalyseInfo.setYearList(yearlist);
-        comeAnalyseInfo.setCountryNumberObject(countryNumberObjectMap);
+        comeAnalyseInfo.setCountryNumObject(countryNumberObjectList);
         comeAnalyseInfo.setTopTenCountryName(topTenCountryName);
-        comeAnalyseInfo.setTopTenCountryList(topTenCountryMap);
+        comeAnalyseInfo.setTopTenCountryList(topTenCountryList);
         comeAnalyseInfo.setCityAndCountryMapList(tempObjList);
         comeAnalyseInfo.setCityList(cityList);
 

@@ -4,7 +4,6 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IDEA
@@ -17,20 +16,20 @@ public class ForeignResponse implements Serializable {
 
     private static final long serialVersionUID = 4406090897171861487L;
 
-    private List<Map<String, Object>> topCountry;
+    private List<List<Object>> topCountry;
 
-    public List<Map<String, Object>> getTopCountry() {
+    public List<List<Object>> getTopCountry() {
         return topCountry;
     }
 
-    public void setTopCountry(List<Map<String, Object>> topCountry) {
+    public void setTopCountry(List<List<Object>> topCountry) {
         this.topCountry = topCountry;
     }
 
     public ForeignResponse() {
     }
 
-    public ForeignResponse(List<Map<String, Object>> topCountry) {
+    public ForeignResponse(List<List<Object>> topCountry) {
         this.topCountry = topCountry;
     }
 }

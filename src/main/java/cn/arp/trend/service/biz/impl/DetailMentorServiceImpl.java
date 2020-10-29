@@ -398,18 +398,21 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
 
             BigDecimal orderStudent = new BigDecimal((int) chart.get("order_student"));
             BigDecimal orderMentor = new BigDecimal((int) chart.get("order_mentor"));
-            BigDecimal result1 = orderStudent.divide(orderMentor, 2, BigDecimal.ROUND_HALF_UP);
-            chart.put("order_propotion", result1.doubleValue());
+            Double result1 = orderMentor.intValue() == 0 ? null :
+                    orderStudent.divide(orderMentor, 2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            chart.put("order_propotion", result1);
 
             BigDecimal orderStudentD = new BigDecimal((int) chart.get("order_student_d"));
             BigDecimal orderMentorD = new BigDecimal((int) chart.get("order_mentor_d"));
-            BigDecimal result2 = orderStudentD.divide(orderMentorD, 2, BigDecimal.ROUND_HALF_UP);
-            chart.put("order_propotion_d", result2.doubleValue());
+            Double result2 = orderMentorD.intValue() == 0 ? null :
+                    orderStudentD.divide(orderMentorD, 2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            chart.put("order_propotion_d", result2);
 
             BigDecimal orderStudentM = new BigDecimal((int) chart.get("order_student_m"));
             BigDecimal orderMentorM = new BigDecimal((int) chart.get("order_mentor_m"));
-            BigDecimal result3 = orderStudentM.divide(orderMentorM, 2, BigDecimal.ROUND_HALF_UP);
-            chart.put("order_propotion_m", result3.doubleValue());
+            Double result3 = orderMentorM.intValue() == 0 ? null :
+                    orderStudentM.divide(orderMentorM, 2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            chart.put("order_propotion_m", result3);
 
             data.add(chart);
         }

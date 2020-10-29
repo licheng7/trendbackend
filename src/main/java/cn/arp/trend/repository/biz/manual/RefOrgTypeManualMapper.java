@@ -45,4 +45,9 @@ public interface RefOrgTypeManualMapper {
     List<Map<String, Object>> queryAwardDistribution(@Param("query")
                                                      DetailAwardDistributionQueryDO query);
 
+    /**
+     *
+     * @return
+     */
+    List<RefOrgType> querySorting();
 }

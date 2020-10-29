@@ -46,14 +46,20 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
         List<Map<String, Object>> queryResult = casAcademicianForeignManualMapper.queryForeign
                 (foreignQuery);
 
-        return new ForeignInfoDTO(queryResult);
+        return new ForeignInfoDTO(
+                queryResult.stream().map(
+                        map -> {
+                            return Lists.newArrayList(map.get("guoji"), map.get("rs"));
+                        }).collect(Collectors.toList()
+                )
+        );
     }
 
     @Override
     public List<Object> compareQuery(DACompareQueryDO query) {
 
         List<Map<String, Object>> originalData;
-        List<Map<String, Object>> allData = casAcademicianChinaManualMapper.queryCompareAll();;
+        List<Map<String, Object>> allData = casAcademicianChinaManualMapper.queryCompareAll();
         if(query.getAffiliation() != null) {
             originalData = casAcademicianChinaManualMapper.queryCompareUnit(query);
         } else {
@@ -65,8 +71,7 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
         List<String> xuebuAry = originalData.stream().map(map -> (String) map.get
                 ("xuebu")).collect(Collectors.toList());
 
-        List<String> distinctInstitutionList = unitAry.stream()
-                .distinct().collect(Collectors.toList());
+        List<String> distinctInstitutionList = unitAry.stream().distinct().collect(Collectors.toList());
 
         Map<String, MapResultDTO<String, Integer>> topAcademicianAffiliation = this.initDetail(
                 distinctInstitutionList, Integer.class, 0);
@@ -105,7 +110,10 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
 
             String category = map.get("category") == null ? "" : (String) map.get("category");
             ageTime.set(age - 35, ageTime.get(age - 35) + 1);
-            electedAgeTime.set(dxnf - csnf - 35, electedAgeTime.get(dxnf - csnf - 35) + 1);
+            if(dxnf - csnf - 35 < 0) {
+                System.out.println(map);
+            }
+            electedAgeTime.set((dxnf - csnf - 35), electedAgeTime.get(dxnf - csnf - 35) + 1);
             int countShow = yearAry.indexOf(dxnf);
             if(countShow != -1) {
                 countTimeline.get(0).get("当选").set(countShow, countTimeline.get(0).get("当选").get
@@ -217,8 +225,7 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
         dACompareInfo.setGalaxyList(galaxyList);
         dACompareInfo.setTopAcademicianAffiliation(_topAcademicianAffiliation);
 
-        List<Object> result = Lists.newArrayList(dACompareInfo, Lists.newArrayList(originalData,
-                allData));
+        List<Object> result = Lists.newArrayList(dACompareInfo, Lists.newArrayList(originalData, allData));
 
         return result;
     }
