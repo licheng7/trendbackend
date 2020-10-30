@@ -82,10 +82,9 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
             Map<String, Object> bizMap = Maps.newHashMap();
             bizMap.put("name", map.getKey());
             Map<String, Double> value = map.getValue();
-            List<Double> list = Lists.newArrayList();
+            List<String> list = Lists.newArrayList();
             yearlist.stream().forEach(year -> {
-                Double fund = value.get(year);
-                list.add(fund);
+                list.add(value.get(year) == null ? null : String.valueOf(value.get(year)));
             });
             bizMap.put("value", list);
             result.add(bizMap);
@@ -162,8 +161,16 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         paperInfo.setPaperUpdateTimeGby("2019年10月");
 
         List<MapResultDTO> detailList = Lists.newArrayList();
-        detail.entrySet().stream().forEach(obj -> detailList.add(new MapResultDTO(obj.getKey(),
-                obj.getValue())));
+        detail.entrySet().stream().forEach(obj -> {
+            List<Double> list = Lists.newArrayList();
+            newYearlist.stream().forEach(year -> {
+                list.add(obj.getValue().get(year));
+            });
+
+            MapResultDTO<String, List<Double>> mapResult = new MapResultDTO(obj.getKey(), list);
+
+            detailList.add(mapResult);
+        });
 
         List<MapResultDTO> newDetailList = Lists.newArrayList();
         newDetailList.add(detailList.get(4));

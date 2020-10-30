@@ -28,4 +28,10 @@ public interface CasAcademicianCaeChinaManualMapper {
      * @return
      */
     List<CasAcademicianCaeChina> queryByDxnf(@Param("endYear") String endYear);
+
+    /**
+     *
+     * @return
+     */
+    List<String> queryAcademicianNew2();
 }

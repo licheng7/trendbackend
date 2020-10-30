@@ -45,7 +45,7 @@
   <resultMap id="CountryAndNationalityMap" type="cn.arp.trend.entity.biz.CountryAndNationality">
     <result column="visit_date" property="date" jdbcType="VARCHAR" />
     <result column="country" property="country" jdbcType="VARCHAR" />
-    <result column="nationality" property="country" jdbcType="VARCHAR" />
+    <result column="nationality" property="nationality" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="GoAndComeAnalyseMap" type="cn.arp.trend.entity.biz.GoAndComeAnalyse">
     <result column="jgmc" property="jgmc" jdbcType="VARCHAR" />

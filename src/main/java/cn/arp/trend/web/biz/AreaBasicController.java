@@ -11,6 +11,7 @@ import cn.arp.trend.data.model.converter.OrgInfoRequestConverter;
 import cn.arp.trend.data.model.request.AcademicianQueryRequest;
 import cn.arp.trend.data.model.request.OrgInfoQueryRequest;
 import cn.arp.trend.data.model.response.*;
+import cn.arp.trend.service.biz.AreaBasicService;
 import cn.arp.trend.service.biz.BasicService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 对应Node代码中basic.js
@@ -33,34 +35,16 @@ import java.util.List;
  * Date:2020/9/27
  * Time:下午11:31
  **/
-@Api(value="basic",tags={"对应宏观部分basic.js"})
+@Api(value="basic",tags={"对应领域部分basic.js"})
 @RestController
-@RequestMapping(value = "/basic")
-public class BasicController extends BaseController {
+@RequestMapping(value = "/area/basic")
+public class AreaBasicController extends BaseController {
+
+    @Resource
+    private AreaBasicService areaBasicService;
 
     @Resource
     private BasicService basicService;
-
-    /**
-     * 查询菜单
-     * @return
-     */
-    @ApiOperation(value= "查询菜单", notes= "无参查询菜单")
-    @ServiceExecuter(description = "查询菜单")
-    @RequestMapping(value = "/nav", method = RequestMethod.POST)
-    @Audit(desc="查询菜单")
-    public MenuResponse menuQuery() {
-        List<MenuResult> menuList = Lists.newArrayList();
-        menuList.add(new MenuResult("科研投入", "/rp"));
-        menuList.add(new MenuResult("科研产出", "/po"));
-        menuList.add(new MenuResult("科研人才", "/rt"));
-        menuList.add(new MenuResult("科研发展", "/rd"));
-        menuList.add(new MenuResult("教育态势", "/es"));
-        menuList.add(new MenuResult("多维比较", "/md"));
-
-        MenuResponse menuResponse = new MenuResponse(0, menuList);
-        return menuResponse;
-    }
 
     /**
      * 查询单位信息、领域信息
@@ -99,16 +83,47 @@ public class BasicController extends BaseController {
      */
     @ApiOperation(value= "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）", notes= "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
     @ServiceExecuter(description = "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
-    @RequestMapping(value = "/academician", method = RequestMethod.POST)
+    @RequestMapping(value = "/academicianOld", method = RequestMethod.POST)
     @Audit(desc="获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
-    public AcademicianNewResponse academicianQuery(@RequestBody AcademicianQueryRequest request) {
+    public AcademicianResponse academicianOldQuery(@RequestBody AcademicianQueryRequest request) {
         AcademicianQueryDO academicianQuery =
                 AcademicianRequestConverter.INSTANCE.domain2dto(request);
-        //AcademicianInfoDTO academicianInfo = basicService.academicianQuery(academicianQuery);
-        AcademicianInfoDTO academicianInfo = basicService.academicianNewQuery(academicianQuery);
-        return new AcademicianNewResponse(
-                academicianInfo.getFields(), academicianInfo.getInstitutions(), academicianInfo
-                .getResultArray());
+        AcademicianInfoDTO academicianInfo = basicService.academicianQuery(academicianQuery);
+        return new AcademicianResponse(
+                academicianInfo.getFields(), academicianInfo.getInstitutions());
+    }
+
+    /**
+     * 获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）
+     * @param request
+     * @return
+     */
+    @ApiOperation(value= "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）", notes= "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
+    @ServiceExecuter(description = "获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
+    @RequestMapping(value = "/academician", method = RequestMethod.POST)
+    @Audit(desc="获取中科院院士学部信息，工程院院士学部信息，单位信息（两者的并集）")
+    public AcademicianResponse academicianNewQuery(@RequestBody AcademicianQueryRequest request) {
+        AcademicianQueryDO academicianQuery =
+                AcademicianRequestConverter.INSTANCE.domain2dto(request);
+        AcademicianInfoDTO academicianInfo = basicService.academicianQuery(academicianQuery);
+        return new AcademicianResponse(
+                academicianInfo.getFields(), academicianInfo.getInstitutions());
+    }
+
+    /**
+     *
+     * @return
+     */
+    @ApiOperation(value= "领域部分/colormap", notes= "领域部分/colormap")
+    @ServiceExecuter(description = "领域部分/colormap")
+    @RequestMapping(value = "/colormap", method = RequestMethod.POST)
+    @Audit(desc="领域部分/colormap")
+    public ColormapResponse colormapQuery() {
+
+        List<String> field = Lists.newArrayList("基础前沿交叉", "海洋", "材料", "能源", "光电空间", "资源生态环境", "生命与健康", "信息");
+        List<String> fieldColor = Lists.newArrayList("#0094ff", "#ffae5d", "#eb754b", "#48c9b0", "#9f84db", "#456bf4", "#d1ae15", "#c93d37");
+
+        return new ColormapResponse(field, fieldColor);
     }
 
     @ApiOperation(value= "国际合作头部", notes= "国际合作头部")
@@ -127,5 +142,14 @@ public class BasicController extends BaseController {
                         new SexResult("man", "男"),
                         new SexResult("woman", "女"))
         );
+    }
+
+    @ApiOperation(value= "获取分院单位数据", notes= "获取分院单位数据")
+    @ServiceExecuter(description = "获取分院单位数据")
+    @RequestMapping(value = "/sorting", method = RequestMethod.POST)
+    @Audit(desc="获取分院单位数据")
+    public SortingResponse sortingQuery() {
+        List<Map<String, Object>> country = basicService.sortingQuery();
+        return new SortingResponse(country);
     }
 }

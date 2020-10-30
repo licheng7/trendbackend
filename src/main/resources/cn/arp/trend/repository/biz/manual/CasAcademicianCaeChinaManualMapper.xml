@@ -132,7 +132,7 @@
       gzdw_gf1 asc
   </select>
 
-  <!--<select id="queryAcademician2" resultType="java.lang.String">
+  <select id="queryAcademicianNew2" resultType="java.lang.String">
     SELECT
       DISTINCT IFNULL(xuebu,"未知") AS xuebu
     FROM (
@@ -146,5 +146,6 @@
       FROM
         cas_academician_cae_foreign
     ) AS a
-  </select>-->
+  </select>
+
 </mapper>

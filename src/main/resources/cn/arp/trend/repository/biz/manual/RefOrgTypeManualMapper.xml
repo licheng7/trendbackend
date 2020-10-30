@@ -292,4 +292,8 @@
       ) AS h
       ON g.jgmc = h.jgmc
     </select>
+
+    <select id="querySorting" resultMap="BaseResultMap">
+      SELECT jgmc,ssfy from ref_org_type
+    </select>
 </mapper>

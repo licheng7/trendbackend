@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -80,7 +81,7 @@ public class CollaborationController extends BaseController {
     @RequestMapping(value = "/getCountryNum", method = RequestMethod.POST)
     @Audit(desc="国家列表(对应collaboration.js的/getCountryNum)")
     public CountryNumResponse countryNumQuery() {
-        Map<String, Map<String, Integer>> result = collaborationService.countryNumQuery();
+        List<List<Map<String, Object>>> result = collaborationService.countryNumQuery();
         return new CountryNumResponse(result);
     }
 

@@ -42,6 +42,58 @@
     etl_datasource, firstinput_time, laterupdate_time
   </sql>
 
+  <sql id="afieldNameZky_collection">
+    <choose>
+      <when test="academicianQuery.afieldNameZky != null">
+        <choose>
+          <when test="academicianQuery.afieldNameZky.contains('未知')">
+            AND ((xuebu in (
+            <foreach collection="academicianQuery.afieldNameZky" item="item" index="index" separator=",">
+              #{item}
+            </foreach>
+            )) OR xuebu IS NULL)
+          </when>
+          <otherwise>
+            AND xuebu in (
+            <foreach collection="academicianQuery.afieldNameZky" item="item" index="index" separator=",">
+              #{item}
+            </foreach>
+            )
+          </otherwise>
+        </choose>
+      </when>
+      <otherwise>
+        AND xuebu in ("宇宙拆机不啊")
+      </otherwise>
+    </choose>
+  </sql>
+
+  <sql id="afieldNameGcy_collection">
+    <choose>
+      <when test="academicianQuery.fieldNameGcy != null">
+        <choose>
+          <when test="academicianQuery.fieldNameGcy.contains('未知')">
+            AND ((xuebu in (
+            <foreach collection="academicianQuery.fieldNameGcy" item="item" index="index" separator=",">
+              #{item}
+            </foreach>
+            )) OR xuebu IS NULL)
+          </when>
+          <otherwise>
+            AND xuebu in (
+            <foreach collection="academicianQuery.fieldNameGcy" item="item" index="index" separator=",">
+              #{item}
+            </foreach>
+            )
+          </otherwise>
+        </choose>
+      </when>
+      <otherwise>
+        AND xuebu in ("宇宙拆机不啊")
+      </otherwise>
+    </choose>
+  </sql>
+
   <select id="queryForeign" parameterType="cn.arp.trend.data.model.DO.ForeignQueryDO"
           resultType="java.util.HashMap">
     SELECT
@@ -99,10 +151,11 @@
       rs DESC
   </select>
 
-  <!--<select id="queryAcademician1" resultType="java.lang.String">
+  <select id="queryAcademicianNew1" resultType="java.lang.String">
     SELECT
       DISTINCT IFNULL(xuebu, "未知") AS xuebu
-    FROM (
+    FROM
+    (
       SELECT
         DISTINCT xuebu
       FROM
@@ -110,9 +163,55 @@
       UNION ALL
       SELECT
         DISTINCT xuebu
+      FROM cas_academician_china
+    ) AS a
+  </select>
+
+  <select id="queryAcademicianNew3" resultType="java.lang.String"
+          parameterType="cn.arp.trend.data.model.DO.AcademicianQueryDO">
+    SELECT
+      DISTINCT IFNULL(IF(jgmc IS NOT NULL, "中国科学院", gzdw), "未知") AS institution
+    FROM
+    (
+      SELECT
+        DISTINCT gzdw
+      FROM
+        cas_academician_foreign
+      <where>
+        1 = 1
+        <include refid="afieldNameZky_collection" />
+      </where>
+      UNION ALL
+      SELECT
+        DISTINCT gzdw_gf1 AS gzdw
       FROM
         cas_academician_china
+      <where>
+        1 = 1
+        <include refid="afieldNameZky_collection" />
+      </where>
+      UNION ALL
+      SELECT
+        DISTINCT gzdw
+      FROM
+        cas_academician_cae_foreign
+      <where>
+        1 = 1
+        <include refid="afieldNameGcy_collection" />
+      </where>
+      UNION ALL
+      SELECT
+        DISTINCT gzdw_gf1 AS gzdw
+      FROM
+        cas_academician_cae_china
+      <where>
+        1 = 1
+        <include refid="afieldNameGcy_collection" />
+      </where>
     ) AS a
-  </select>-->
+    LEFT JOIN ref_org_type AS b
+    ON a.gzdw = b.jgmc
+    ORDER BY CONVERT(institution using gbk) ASC
+  </select>
 
 </mapper>
