@@ -5,22 +5,20 @@ import cn.arp.trend.data.model.DO.DACompareQueryDO;
 import cn.arp.trend.entity.biz.CasAcademicianChina;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public interface ContrastAcademicianManualMapper {
 
-    Object contrastByField(
-            @Param("userId") String userId,
-            @Param("startYear") String startYear,
-            @Param("endYear") String endYear,
-            @Param("fieldIdsStr") String fieldIdsStr
+    List<HashMap<String, Object>> contrastByField(
+            Map<String, Object> params
     );
 
     Object contrastByUnit(
             @Param("userId") String userId,
-            @Param("startYear") String startYear,
-            @Param("endYear") String endYear,
+            @Param("startYear") Integer startYear,
+            @Param("endYear") Integer endYear,
             @Param("fieldIdsStr") String fieldIdsStr
     );
 }

@@ -8,6 +8,7 @@ import cn.arp.trend.data.model.request.ForeignRequest;
 import cn.arp.trend.data.model.request.contrast.ContrastBaseRequest;
 import cn.arp.trend.data.model.response.CompareResponse;
 import cn.arp.trend.data.model.response.ForeignResponse;
+import cn.arp.trend.data.model.response.contrast.ContrastAcademicianByFieldResponse;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.ContrastAcademicianService;
 import cn.arp.trend.service.biz.DetailAcademicianService;
@@ -22,7 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -42,15 +46,36 @@ public class ContrastAcademicianController extends BaseController {
     @ServiceExecuter(description = "以field为维度做数据对比")
     @RequestMapping(value = "/field", method = RequestMethod.POST)
     @Audit(desc="")
-    public ForeignResponse contrastByField(@RequestBody ContrastBaseRequest request) {
-        String startYear = "1990";
-        String endYear = "2020";
-        Object foreignInfo = contrastAcademicianService.byField(
+    public ContrastAcademicianByFieldResponse contrastByField(@RequestBody ContrastBaseRequest request) {
+        Integer startYear = 1990;
+        Integer endYear = 2020;
+        List<HashMap<String, Object>> resList = contrastAcademicianService.byField(
                 request.getUserId(),
                 startYear,
                 endYear,
                 request.getDataAry());
-        return null;
+        ContrastAcademicianByFieldResponse contrastAcademicianByFieldResponse = new ContrastAcademicianByFieldResponse();
+
+        List<Map<String, Object>> ageAry = new ArrayList<>();
+        HashMap<String, Object> ageAry1 = new HashMap<String, Object>();
+        ageAry1.put("ageAry1", "ageAry1Value");
+        ArrayList<Long> arrayList = new ArrayList<Long>();
+        arrayList.add(1L);
+        arrayList.add(2L);
+        arrayList.add(3L);
+        ageAry1.put("ageArylist", arrayList);
+        ageAry.add(ageAry1);
+        contrastAcademicianByFieldResponse.setAgeAry(ageAry);
+
+        List<Map<String, Object>> unitAry;
+        List<Map<String, Object>> cumulativeAry;
+
+        List<Long> yearsAry = new ArrayList<>();
+        yearsAry.add(2001L);
+        yearsAry.add(2021L);
+        contrastAcademicianByFieldResponse.setyearsAry(yearsAry);
+
+        return contrastAcademicianByFieldResponse;
     }
 
     @ApiOperation(value= "以unit为维度做数据对比", notes= "数据对比")
@@ -58,8 +83,8 @@ public class ContrastAcademicianController extends BaseController {
     @RequestMapping(value = "/unit", method = RequestMethod.POST)
     @Audit(desc="")
     public ForeignResponse contrastByUnit(@RequestBody ContrastBaseRequest request) {
-        String startYear = "1990";
-        String endYear = "2020";
+        Integer startYear = 1990;
+        Integer endYear = 2020;
         Object foreignInfo = contrastAcademicianService.byUnit(
                 request.getUserId(),
                 startYear,

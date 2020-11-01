@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,15 +36,36 @@ public class ContrastAcademicianServiceImpl implements ContrastAcademicianServic
     private ContrastAcademicianManualMapper contrastAcademicianManualMapper;
 
     @Override
-    public Object byField(String userId, String startYear, String endYear, List<String> fieldIds) {
+    public List<HashMap<String, Object>>  byField(String userId, Integer startYear, Integer endYear, List<String> fieldIds) {
 
-        String fieldIdsStr = " in (" + String.join(",", fieldIds) +  ")";
-        contrastAcademicianManualMapper.contrastByField(userId, startYear, endYear, fieldIdsStr);
-        return null;
+        List<String> fieldIdsQuotes = new ArrayList<String>();
+        for(int i=0;i<fieldIds.size();i++)
+        {
+            fieldIdsQuotes.add(" \"" + fieldIds.get(i) + "\" ");
+        }
+
+        String fieldIdsStr = " in (" + String.join(",", fieldIdsQuotes) +  ") ";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", userId);
+        params.put("startYear", startYear);
+        params.put("endYear", endYear);
+        params.put("fieldIdsStr", fieldIdsStr);
+
+        List<HashMap<String, Object>> tem = null;
+        try
+        {
+              tem = contrastAcademicianManualMapper.contrastByField(params);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+
+        return tem;
     }
 
     @Override
-    public Object byUnit(String userId, String startYear, String endYear, List<String> jgbhs) {
+    public Object byUnit(String userId, Integer startYear, Integer endYear, List<String> jgbhs) {
         return null;
     }
 }

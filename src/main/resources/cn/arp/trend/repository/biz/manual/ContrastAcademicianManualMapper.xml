@@ -10,16 +10,16 @@
     SELECT dxnf, gzdw_gf1 AS jgmc
     FROM cas_academician_china
     <where>
-    qssj IS NULL AND dxnf&lt;=#{endYear}
+    qssj IS NULL AND dxnf&lt;=${endYear}
     </where>
     ) AS a
     INNER JOIN(
     SELECT *
     FROM relation_field_affiliation
     <where>
-    user_id = "#{userId}"
+    user_id = "${userId}"
     </where>
-    AND field_id #{fieldIdsStr}
+    AND field_id ${fieldIdsStr}
     ) AS b
     ON a.jgmc=b.jgmc
     UNION ALL
@@ -28,16 +28,16 @@
     SELECT dxnf, gzdw_gf1 AS jgmc
     FROM cas_academician_cae_china
     <where>
-    qssj IS NULL AND dxnf&lt;=#{endYear}
+    qssj IS NULL AND dxnf&lt;=${endYear}
     </where>
     ) AS a
     INNER JOIN(
     SELECT *
     FROM relation_field_affiliation
     <where>
-    user_id = "#{userId}"
+    user_id = "${userId}"
     </where>
-    AND field_id #{fieldIdsStr}
+    AND field_id ${fieldIdsStr}
     ) AS b
     ON a.jgmc=b.jgmc
     ) AS c

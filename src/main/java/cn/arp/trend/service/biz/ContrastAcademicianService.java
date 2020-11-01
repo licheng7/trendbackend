@@ -1,5 +1,6 @@
 package cn.arp.trend.service.biz;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  **/
 public interface ContrastAcademicianService {
 
-    Object byField(String userId, String startYear, String endYear, List<String> fieldIds);
+    List<HashMap<String, Object>> byField(String userId, Integer startYear, Integer endYear, List<String> fieldIds);
 
-    Object byUnit(String userId, String startYear, String endYear, List<String> jgbhs);
+    Object byUnit(String userId, Integer startYear, Integer endYear, List<String> jgbhs);
 }
