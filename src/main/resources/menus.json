@@ -1,5 +1,93 @@
 [{
-  "url":"/home",
-  "datasets":["homedata", "careerdata"]
+  "url":"#/md",
+  "datasets":["Analyze.Query"]
+},
+{
+  "url":"#/es",
+  "datasets":["Education.MentorDistribution", "Education.DoctorMentorDistribution", "Education.MasterMentorDistribution", "Education.MentorTrend", "Education.DoctorMentorTrend", "Education.MasterMentorTrend", "Education.Detail"]
+},
+{
+  "url":"#/rd/influence/bear",
+  "datasets":["Award.Trend", "Award.Detail", "Award.Distribution"]
+},
+{
+  "url":"#/ic",
+  "datasets":["Collaboration.Go", "Collaboration.Come"]
+},
+{
+  "url":"#/rd/influence",
+  "datasets":["Comparison.Influence.Appraisal", "Comparison.Influence.NationalAward"]
+},
+{
+  "url":"#/rd/InternationalShow",
+  "datasets":["Comparison.Collaboration.Statistics", "Comparison.Collaboration.InstitutionCountryRank", "Comparison.Collaboration.MapLink", "Comparison.Collaboration.CountryNumber"]
+},
+{
+  "url":"#/rd",
+  "datasets":["Award.Trend", "Award.Detail", "Award.Distribution", "Collaboration.Go", "Collaboration.Come", "Comparison.Influence.Appraisal", "Comparison.Influence.NationalAward", "Comparison.Collaboration.Statistics", "Comparison.Collaboration.InstitutionCountryRank", "Comparison.Collaboration.MapLink", "Comparison.Collaboration.CountryNumber"]
+},
+{
+  "url":"#/po/Paper/tow/2",
+  "datasets":["Paper.SCI", "Paper.HCAuthors"]
+},
+{
+  "url":"#/po/patent/tow",
+  "datasets":["Patent.ChinaPatent", "Patent.PCTPatent"]
+},
+{
+  "url":"#/po/paper",
+  "datasets":["Comparison.Paper", "Comparison.HCAuthors"]
+},
+{
+  "url":"#/po/patent",
+  "datasets":["Patent.ChinaPatent", "Patent.PCTPatent"]
+},
+{
+  "url":"#/po",
+  "datasets":["Paper.SCI", "Paper.HCAuthors", "Patent.ChinaPatent", "Patent.PCTPatent", "Comparison.Paper", "Comparison.HCAuthors"]
+},
+{
+  "url":"#/rt/advanced",
+  "datasets":["Academician.Foreign", "Academician.Domain"]
+},
+{
+  "url":"#/rt/young",
+  "datasets":["YoungElite.Trend", "YoungElite.FieldDistribution", "YoungElite.AffiliationDistribution", "YoungElite.Project"]
+},
+{
+  "url":"#/rt/floor",
+  "datasets":["Staff.AgeDistribution", "Staff.EducationLevel", "Staff.Trend", "Staff.CategoryDistribution", "Staff.PositionDistribution", "Staff.TitleDistribution", "Staff.DoctorRank", "Staff.PromotionAnalysis"]
+},
+{
+  "url":"#/rt/",
+  "datasets":["Academician.Foreign", "Academician.Domain", "YoungElite.Trend", "YoungElite.FieldDistribution", "YoungElite.AffiliationDistribution", "YoungElite.Project", "Staff.AgeDistribution", "Staff.EducationLevel", "Staff.Trend", "Staff.CategoryDistribution", "Staff.PositionDistribution", "Staff.TitleDistribution", "Staff.DoctorRank", "Staff.PromotionAnalysis"]
+},
+{
+  "url":"#/rp/project/drd",
+  "datasets":["Project.Increasement", "Project.Nsfc", "Project.Kjb", "Project.Xd", "Project.NsfcRelation", "Project.KjbRelation", "Project.XdRelation"]
+},
+{
+  "url":"#/rp/totalMoney/drd/2",
+  "datasets":["Asset.Overview", "Asset.Detail", "Asset.Income", "Asset.ExecutionTrend"]
+},
+{
+  "url":"#/rp/project",
+  "datasets":["Comparison.Project"]
+},
+{
+  "url":"#/rp/facilities",
+  "datasets":["Comparison.Facility"]
+},
+{
+  "url":"#/rp/funding",
+  "datasets":["Comparison.Finance"]
+},
+{
+  "url":"#/rp/totalMoney",
+  "datasets":["Comparison.Funds"]
+},
+{
+  "url":"#/rp",
+  "datasets":["Project.Increasement", "Project.Nsfc", "Project.Kjb", "Project.Xd", "Project.NsfcRelation", "Project.KjbRelation", "Project.XdRelation", "Asset.Overview", "Asset.Detail", "Asset.Income", "Asset.ExecutionTrend", "Comparison.Project", "Comparison.Facility", "Comparison.Finance", "Comparison.Funds"]
 }
 ]
