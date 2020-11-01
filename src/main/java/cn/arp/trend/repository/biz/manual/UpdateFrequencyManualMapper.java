@@ -8,10 +8,5 @@ import java.util.List;
 
 public interface UpdateFrequencyManualMapper {
 
-    /**
-     *
-     * @param query
-     * @return
-     */
     List<UpdateFrequency> queryAll(@Param("query") UpdateDataQueryDO query);
 }

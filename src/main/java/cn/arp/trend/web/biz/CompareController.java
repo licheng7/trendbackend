@@ -61,7 +61,10 @@ public class CompareController extends BaseController {
         validData(bindingResult);
         FinanceInfoDTO financeInfo = compareService.financeQuery(request.getStartYear(), request
                 .getEndYear());
-        return new FinanceResponse(financeInfo.getYear(), financeInfo.getDetail(), financeInfo.getUpdateTime());
+        return new FinanceResponse(
+                financeInfo.getYear(),
+                financeInfo.getDetail(),
+                financeInfo.getUpdateTime());
     }
 
     @ApiOperation(value= "科研投入-国家科研设施", notes= "科研投入-国家科研设施")

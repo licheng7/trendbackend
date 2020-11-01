@@ -1,5 +1,6 @@
 package cn.arp.trend.repository.biz.manual;
 
+import cn.arp.trend.data.model.DO.AreaHrQueryDO;
 import cn.arp.trend.data.model.DO.DistributionAffiliationQueryDO;
 import cn.arp.trend.data.model.DO.DistributionFieldQueryDO;
 import cn.arp.trend.data.model.DO.YoungEliteQueryDO;
@@ -30,4 +31,16 @@ public interface StatCasStaffQianzaiyearcountBydanweiManualMapper {
      * @return
      */
     List<Map<String, Object>> queryDistributionAffiliation(@Param("query") DistributionAffiliationQueryDO query);
+
+    /**
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryYoungElite1(@Param("query")AreaHrQueryDO query);
+
+    /**
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryYoungElite2(@Param("query")AreaHrQueryDO query);
 }

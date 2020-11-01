@@ -18,12 +18,12 @@ public class FrequencyRequest implements Serializable {
 
     private static final long serialVersionUID = -2726439716077831238L;
 
-    @ApiParam("name")
+    @ApiParam(value = "name", example = "国家自然科学基金项目")
     @JsonProperty("name")
     @NotBlank(message = "name不能为空")
     private String name;
 
-    @ApiParam("classify")
+    @ApiParam(value = "classify", example = "项目")
     @JsonProperty("classify")
     private String classify;
 

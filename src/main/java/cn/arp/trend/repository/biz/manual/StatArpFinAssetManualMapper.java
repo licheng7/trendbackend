@@ -1,5 +1,6 @@
 package cn.arp.trend.repository.biz.manual;
 
+import cn.arp.trend.data.model.DO.AreaFinanceQueryDO;
 import cn.arp.trend.data.model.DO.OverviewQueryDO;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +22,11 @@ public interface StatArpFinAssetManualMapper {
      * @return
      */
     List<Map<String, Object>> queryOverview2(@Param("query") OverviewQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryFinanceOverview(@Param("query") AreaFinanceQueryDO query);
 }

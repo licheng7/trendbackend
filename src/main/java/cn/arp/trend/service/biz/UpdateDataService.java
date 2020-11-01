@@ -12,5 +12,10 @@ import java.util.Map;
  **/
 public interface UpdateDataService {
 
+    /**
+     * updateData.js对应的/
+     * @param query
+     * @return
+     */
     Map<String, String> queryAll(UpdateDataQueryDO query);
 }

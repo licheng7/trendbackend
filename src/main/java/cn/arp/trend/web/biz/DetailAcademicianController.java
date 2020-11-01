@@ -5,7 +5,6 @@ import cn.arp.trend.data.model.DO.DACompareQueryDO;
 import cn.arp.trend.data.model.DTO.ForeignInfoDTO;
 import cn.arp.trend.data.model.request.CompareRequest;
 import cn.arp.trend.data.model.request.ForeignRequest;
-import cn.arp.trend.data.model.response.CompareResponse;
 import cn.arp.trend.data.model.response.ForeignResponse;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.DetailAcademicianService;
@@ -49,13 +48,13 @@ public class DetailAcademicianController extends BaseController {
     @ServiceExecuter(description = "detailAcademician.js对应的/")
     @RequestMapping(value = "/compare", method = RequestMethod.POST)
     @Audit(desc="detailAcademician.js对应的/")
-    public CompareResponse compareQuery(@RequestBody CompareRequest request, BindingResult
+    public List<Object> compareQuery(@RequestBody CompareRequest request, BindingResult
             bindingResult) throws RestError {
         validData(bindingResult);
         DACompareQueryDO query = new DACompareQueryDO();
         query.setAffiliation(request.getAffiliation());
         List<Object> result = detailAcademicianService.compareQuery(query);
         // 这玩意实在太复杂懒得做DTO转换了
-        return new CompareResponse(result);
+        return result;
     }
 }

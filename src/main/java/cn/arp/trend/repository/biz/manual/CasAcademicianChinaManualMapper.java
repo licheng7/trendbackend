@@ -1,6 +1,7 @@
 package cn.arp.trend.repository.biz.manual;
 
 import cn.arp.trend.data.model.DO.AcademicianQueryDO;
+import cn.arp.trend.data.model.DO.AreaHrQueryDO;
 import cn.arp.trend.data.model.DO.DACompareQueryDO;
 import cn.arp.trend.entity.biz.CasAcademicianChina;
 import org.apache.ibatis.annotations.Param;
@@ -44,4 +45,32 @@ public interface CasAcademicianChinaManualMapper {
      * @return
      */
     List<Map<String, Object>> queryCompareUnit(@Param("query") DACompareQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryHrAcadCasTrend(@Param("query") AreaHrQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryHrAcadCasDist1(@Param("query") AreaHrQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryHrAcadCasDist2(@Param("query") AreaHrQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryHrAcadCasDist3(@Param("query") AreaHrQueryDO query);
 }

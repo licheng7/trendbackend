@@ -1,5 +1,6 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -24,8 +25,10 @@ public class DevelopmentResponse implements Serializable {
 
     List<Double> jsjb;
 
+    @JsonProperty("kj")
     List<MapResult> newkj;
 
+    @JsonProperty("kx")
     List<MapResult> newkx;
 
     private String zrkxUpdateTime;

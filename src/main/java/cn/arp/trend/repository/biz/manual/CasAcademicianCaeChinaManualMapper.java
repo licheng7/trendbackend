@@ -1,10 +1,12 @@
 package cn.arp.trend.repository.biz.manual;
 
 import cn.arp.trend.data.model.DO.AcademicianQueryDO;
+import cn.arp.trend.data.model.DO.AreaHrQueryDO;
 import cn.arp.trend.entity.biz.CasAcademicianCaeChina;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CasAcademicianCaeChinaManualMapper {
 
@@ -34,4 +36,32 @@ public interface CasAcademicianCaeChinaManualMapper {
      * @return
      */
     List<String> queryAcademicianNew2();
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryHrAcadCaeTrend(@Param("query") AreaHrQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryHrAcadCaeDist1(@Param("query") AreaHrQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryHrAcadCaeDist2(@Param("query") AreaHrQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryHrAcadCaeDist3(@Param("query") AreaHrQueryDO query);
 }

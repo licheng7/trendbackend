@@ -1,5 +1,7 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -18,10 +20,13 @@ public class AssetDetailResponse implements Serializable {
 
     private List<Map<String, Object>> detail;
 
+    @JsonProperty("income_distribution")
     private List<Map<String, Object>> incomeDistribution;
 
+    @JsonProperty("outcome_distribution")
     private List<Map<String, Object>> outcomeDistribution;
 
+    @JsonProperty("result_array")
     private List<List> resultArray;
 
     public String getUpdateTime() {

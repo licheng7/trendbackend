@@ -206,4 +206,52 @@ public class AnalyzeAllResultDTO {
 
     public AnalyzeAllResultDTO() {
     }
+
+    public void addMentor(int mentor) {
+        this.mentor += mentor;
+    }
+
+    public void addConcurrent(int concurrent) {
+        this.concurrent += concurrent;
+    }
+
+    public void addTalent100(int talent100) {
+        this.talent100 += talent100;
+    }
+
+    public void addPatent(long patent) {
+        this.patent += patent;
+    }
+
+    public void addPaper(int paper) {
+        this.paper += paper;
+    }
+
+    public void addProjectNsfc(long projectNsfc) {
+        this.projectNsfc += projectNsfc;
+    }
+
+    public void addProjectKjb(long projectKjb) {
+        this.projectKjb += projectKjb;
+    }
+
+    public void addProjectXd(long projectXd) {
+        this.projectXd += projectXd;
+    }
+
+    public void addFinance(double finance) {
+        this.finance += finance;
+    }
+
+    public void addCas(int cas) {
+        this.cas += cas;
+    }
+
+    public void addCae(int cae) {
+        this.cae += cae;
+    }
+
+    public void addAward(long award) {
+        this.award += award;
+    }
 }

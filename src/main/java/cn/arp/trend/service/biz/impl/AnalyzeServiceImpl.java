@@ -176,41 +176,41 @@ public class AnalyzeServiceImpl implements AnalyzeService {
         }
 
         intermediateResult.setAfByJgmcMap(
-                intermediateResult.getAfList().stream().collect(Collectors.toMap(obj
-                        -> obj.getJgmc(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getAfList().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getJgmc())));
         intermediateResult.setEduByJgmcMap(
-                intermediateResult.getEduList().stream().collect(Collectors.toMap(obj
-                        -> obj.getJgmc(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getEduList().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getJgmc())));
         intermediateResult.setTalent100ByJgmcMap(
-                intermediateResult.getTalent100List().stream().collect(Collectors.toMap(obj
-                        -> obj.getJgmc(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getTalent100List().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getJgmc())));
         intermediateResult.setPatentByJgmcMap(
-                intermediateResult.getPatentList().stream().collect(Collectors.toMap(obj
-                        -> obj.getJgmc(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getPatentList().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getJgmc())));
         intermediateResult.setPaperByJgmcMap(
-                intermediateResult.getPaperList().stream().collect(Collectors.toMap(obj
-                        -> obj.getJgmc(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getPaperList().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getJgmc())));
         intermediateResult.setNsfcByJgmcMap(
-                intermediateResult.getNsfcList().stream().collect(Collectors.toMap(obj
-                        -> obj.getJgmc(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getNsfcList().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getJgmc())));
         intermediateResult.setKjbByJgmcMap(
-                intermediateResult.getKjbList().stream().collect(Collectors.toMap(obj
-                        -> obj.getJgmc(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getKjbList().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getJgmc())));
         intermediateResult.setXdByJgmcMap(
-                intermediateResult.getXdList().stream().collect(Collectors.toMap(obj
-                        -> obj.getJgmc(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getXdList().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getJgmc())));
         intermediateResult.setFundsByJgmcMap(
-                intermediateResult.getFundsList().stream().collect(Collectors.toMap(obj
-                        -> obj.getJgmc(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getFundsList().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getJgmc())));
         intermediateResult.setCasByGzdwGf1Map(
-                intermediateResult.getCasList().stream().collect(Collectors.toMap(obj
-                        -> obj.getGzdwGf1(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getCasList().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getGzdwGf1())));
         intermediateResult.setCaeByGzdwGf1Map(
-                intermediateResult.getCaeList().stream().collect(Collectors.toMap(obj
-                        -> obj.getGzdwGf1(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getCaeList().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getGzdwGf1())));
         intermediateResult.setAwardByFirstWcdwMap(
-                intermediateResult.getAwardList().stream().collect(Collectors.toMap(obj
-                        -> obj.getFirstWcdw(), obj -> obj, (obj1, obj2) -> obj2)));
+                intermediateResult.getAwardList().stream().collect(
+                        Collectors.groupingBy(obj -> obj.getFirstWcdw())));
 
         List<AnalyzeAllResultDTO> analyzeAllResultList = Lists.newArrayList();
 
@@ -220,80 +220,103 @@ public class AnalyzeServiceImpl implements AnalyzeService {
             AnalyzeAllResultDTO analyzeAllResult = new AnalyzeAllResultDTO();
             analyzeAllResult.setIndex(index);
 
-            String jgmc = intermediateResult.getAfByJgmcMap().get(key).getJgmc();
-            String field = intermediateResult.getAfByJgmcMap().get(key).getResearchField();
+            String jgmc = intermediateResult.getAfByJgmcMap().get(key).get(0).getJgmc();
+            String field = intermediateResult.getAfByJgmcMap().get(key).get(0).getResearchField();
             analyzeAllResult.setFaf(jgmc);
             analyzeAllResult.setField(field);
 
             if(intermediateResult.getEduByJgmcMap().containsKey(jgmc)) {
-                StatTeacherStudent edu = intermediateResult.getEduByJgmcMap().get(jgmc);
-                if(endYear.equals(edu.getNf())) {
-                    analyzeAllResult.setMentor(edu == null ? 0 : (edu.getBdrs() + edu
-                            .getSdrs()));
-                    analyzeAllResult.setConcurrent(edu == null ? 0 : edu.getBdrs());
-                }
+                List<StatTeacherStudent> eduList = intermediateResult.getEduByJgmcMap().get(jgmc);
+                eduList.stream().forEach(edu -> {
+                    if(endYear.equals(edu.getNf())) {
+                        analyzeAllResult.addMentor(edu == null ? 0 : (edu.getBdrs() + edu.getSdrs()));
+                        analyzeAllResult.addConcurrent(edu == null ? 0 : edu.getBdrs());
+                    }
+                });
             }
 
             if(intermediateResult.getTalent100ByJgmcMap().containsKey(jgmc)) {
-                StatCasTalentsProgram talent100 = intermediateResult.getTalent100ByJgmcMap().get(jgmc);
-                if(endYear.equals(talent100.getNf())) {
-                    analyzeAllResult.setTalent100(talent100 == null ? 0 : talent100.getLj());
-                }
+                List<StatCasTalentsProgram> talent100List =
+                        intermediateResult.getTalent100ByJgmcMap().get(jgmc);
+                talent100List.stream().forEach(talent100 -> {
+                    if(endYear.equals(talent100.getNf())) {
+                        analyzeAllResult.addTalent100(talent100 == null ? 0 : talent100.getLj());
+                    }
+                });
             }
 
             if(intermediateResult.getPatentByJgmcMap().containsKey(jgmc)) {
-                StatPatent patent = intermediateResult.getPatentByJgmcMap().get(jgmc);
-                if(endYear.equals(patent.getNf())) {
-                    analyzeAllResult.setPatent(patent == null ? 0 : patent.getLj());
-                }
+                List<StatPatent> patentList = intermediateResult.getPatentByJgmcMap().get(jgmc);
+                patentList.stream().forEach(patent -> {
+                    if(endYear.equals(patent.getNf())) {
+                        analyzeAllResult.addPatent(patent == null ? 0 : patent.getLj());
+                    }
+                });
             }
 
             if(intermediateResult.getPaperByJgmcMap().containsKey(jgmc)) {
-                StatCasPaper paper = intermediateResult.getPaperByJgmcMap().get(jgmc);
-                analyzeAllResult.setPaper(paper == null ? 0 : paper.getLws());
+                List<StatCasPaper> paperList = intermediateResult.getPaperByJgmcMap().get(jgmc);
+                paperList.stream().forEach(paper -> {
+                    analyzeAllResult.addPaper(paper == null ? 0 : paper.getLws());
+                });
             }
 
             if(intermediateResult.getNsfcByJgmcMap().containsKey(jgmc)) {
-                StatNsfcProject nsfc = intermediateResult.getNsfcByJgmcMap().get(jgmc);
-                analyzeAllResult.setProjectNsfc(nsfc == null ? 0 : nsfc.getXzxms());
+                List<StatNsfcProject> nsfcList = intermediateResult.getNsfcByJgmcMap().get(jgmc);
+                nsfcList.stream().forEach(nsfc -> {
+                    analyzeAllResult.addProjectNsfc(nsfc == null ? 0 : nsfc.getXzxms());
+                });
             }
 
             if(intermediateResult.getKjbByJgmcMap().containsKey(jgmc)) {
-                StatMostProject kjb = intermediateResult.getKjbByJgmcMap().get(jgmc);
-                analyzeAllResult.setProjectKjb(kjb == null ? 0 : kjb.getXzxms());
+                List<StatMostProject> kjbList = intermediateResult.getKjbByJgmcMap().get(jgmc);
+                kjbList.stream().forEach(kjb -> {
+                    analyzeAllResult.addProjectKjb(kjb == null ? 0 : kjb.getXzxms());
+                });
             }
 
             if(intermediateResult.getXdByJgmcMap().containsKey(jgmc)) {
-                StatXdzx xd = intermediateResult.getXdByJgmcMap().get(jgmc);
-                analyzeAllResult.setProjectXd(xd == null ? 0 : xd.getXzxms());
+                List<StatXdzx> xdList = intermediateResult.getXdByJgmcMap().get(jgmc);
+                xdList.stream().forEach(xd -> {
+                    analyzeAllResult.addProjectXd(xd == null ? 0 : xd.getXzxms());
+                });
             }
 
             if(intermediateResult.getFundsByJgmcMap().containsKey(jgmc)) {
-                Funds funds = intermediateResult.getFundsByJgmcMap().get(jgmc);
-                analyzeAllResult.setFinance(funds == null ? 0 : funds.getZsr());
+                List<Funds> fundsList = intermediateResult.getFundsByJgmcMap().get(jgmc);
+                fundsList.stream().forEach(funds -> {
+                    analyzeAllResult.addFinance(funds == null ? 0 : funds.getZsr());
+                });
             }
 
             if(intermediateResult.getCasByGzdwGf1Map().containsKey(jgmc)) {
-                CasAcademicianChina cas = intermediateResult.getCasByGzdwGf1Map().get(jgmc);
-                analyzeAllResult.setCas(cas == null ? 0 : 1);
+                List<CasAcademicianChina> casList =
+                        intermediateResult.getCasByGzdwGf1Map().get(jgmc);
+                casList.stream().forEach(cas -> {
+                    analyzeAllResult.addCas(cas == null ? 0 : 1);
+                });
             }
 
             if(intermediateResult.getCaeByGzdwGf1Map().containsKey(jgmc)) {
-                CasAcademicianCaeChina cae = intermediateResult.getCaeByGzdwGf1Map().get(jgmc);
-                analyzeAllResult.setCae(cae == null ? 0 : 1);
+                List<CasAcademicianCaeChina> caeList =
+                        intermediateResult.getCaeByGzdwGf1Map().get(jgmc);
+                caeList.stream().forEach(cae -> {
+                    analyzeAllResult.addCae(cae == null ? 0 : 1);
+                });
             }
 
             if(intermediateResult.getAwardByFirstWcdwMap().containsKey(jgmc)) {
-                StatChinaAward10yearFinalCount award = intermediateResult.getAwardByFirstWcdwMap().get(jgmc);
-                analyzeAllResult.setAward(award == null ? 0 : award.getNum());
+                List<StatChinaAward10yearFinalCount> awardList = intermediateResult
+                        .getAwardByFirstWcdwMap().get(jgmc);
+                awardList.stream().forEach(award -> {
+                    analyzeAllResult.addAward(award == null ? 0 : award.getNum());
+                });
             }
 
             analyzeAllResultList.add(analyzeAllResult);
             index ++;
         }
 
-        /*List<String> fField = analyzeAllResultList.stream().map(obj -> obj.getField()).distinct()
-                .collect(Collectors.toList());*/
         List<String> distinctResearchField = intermediateResult.getAfList().stream().map(i -> i
                 .getResearchField()).distinct().collect(Collectors.toList());
 
@@ -304,9 +327,9 @@ public class AnalyzeServiceImpl implements AnalyzeService {
             list.add(obj.getTalent100());
             list.add(obj.getPatent());
             list.add(obj.getPaper());
-            list.add(obj.getProjectNsfc() + obj.getProjectKjb() + obj.getProjectXd());
+            list.add(obj.getProjectNsfc() + obj.getProjectKjb() + obj.getProjectXd()); //
             list.add(obj.getFinance());
-            list.add(obj.getAcadenician());
+            list.add(obj.getCas() + obj.getCae()); //
             list.add(obj.getAward());
             list.add(distinctResearchField.indexOf(obj.getField()));
             list.add(obj.getFaf());

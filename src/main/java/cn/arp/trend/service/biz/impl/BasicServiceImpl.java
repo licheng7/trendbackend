@@ -149,14 +149,16 @@ public class BasicServiceImpl extends AbstructServiceHelper implements BasicServ
     }
 
     @Override
-    public AcademicianInfoDTO academicianNewQuery(AcademicianQueryDO academicianQueryDO) {
+    public AcademicianInfoDTO academicianNewQuery(AcademicianQueryDO query) {
 
-        List<String> originalZky = casAcademicianForeignManualMapper.queryAcademicianNew1();
+        List<String> originalZky =
+                casAcademicianForeignManualMapper.queryAcademicianNew1();
 
-        List<String> originalGcy = casAcademicianCaeChinaManualMapper.queryAcademicianNew2();
+        List<String> originalGcy =
+                casAcademicianCaeChinaManualMapper.queryAcademicianNew2();
 
-        List<String> institutions = casAcademicianForeignManualMapper.queryAcademicianNew3
-                (academicianQueryDO);
+        List<String> institutions =
+                casAcademicianForeignManualMapper.queryAcademicianNew3(query);
 
         List<Map<String, String>> fieldsZKY = originalZky.stream().map(str -> {
             Map<String, String> map = Maps.newHashMap();

@@ -125,18 +125,29 @@ public class DetailAssetServiceImpl implements DetailAssetService {
             detail.add(detailValue);
         });
 
+        Map<String, List<Map<String, Object>>> _fieldDis = fieldDis.stream().collect(Collectors
+                .groupingBy(map -> (String) map.get("research_field")));
+
         List<Map<String, Object>> incomeDis = Lists.newArrayList();
         List<Map<String, Object>> outcomeDis = Lists.newArrayList();
 
-        fieldDis.stream().forEach(map -> {
+        _fieldDis.entrySet().stream().forEach(map -> {
+            String key = map.getKey();
+            List<Map<String, Object>> value = map.getValue();
             Map incomeDisValue = Maps.newHashMap();
-            incomeDisValue.put("field", map.get("research_field"));
-            incomeDisValue.put("income", map.get("income"));
-            incomeDis.add(incomeDisValue);
-
             Map outcomeDisValue = Maps.newHashMap();
-            outcomeDisValue.put("field", map.get("research_field"));
-            outcomeDisValue.put("outcome", map.get("outcome"));
+            value.stream().forEach(map2 -> {
+                incomeDisValue.put("field", key);
+                incomeDisValue.put("income", (incomeDisValue.get("income") == null ? 0D : ((Number)
+                        incomeDisValue.get("income")).doubleValue()) + ((Number)
+                        map2.get("income")).doubleValue());
+
+                outcomeDisValue.put("field", key);
+                outcomeDisValue.put("outcome", (outcomeDisValue.get("outcome") == null ? 0D : ((Number)
+                        outcomeDisValue.get("outcome")).doubleValue()) + ((Number)
+                        map2.get("outcome")).doubleValue());
+            });
+            incomeDis.add(incomeDisValue);
             outcomeDis.add(outcomeDisValue);
         });
 
@@ -206,4 +217,5 @@ public class DetailAssetServiceImpl implements DetailAssetService {
 
         return new ExecutionTrendInfoDTO(detail, queryResult);
     }
+
 }

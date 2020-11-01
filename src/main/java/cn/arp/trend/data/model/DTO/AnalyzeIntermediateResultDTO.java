@@ -39,59 +39,29 @@ public class AnalyzeIntermediateResultDTO {
 
     private List<StatChinaAward10yearFinalCount> awardList;
 
-    Map<String, RefOrgType> afByJgmcMap;
+    Map<String, List<RefOrgType>> afByJgmcMap;
 
-    Map<String, StatTeacherStudent> eduByJgmcMap;
+    Map<String, List<StatTeacherStudent>> eduByJgmcMap;
 
-    Map<String, StatCasTalentsProgram> talent100ByJgmcMap;
+    Map<String, List<StatCasTalentsProgram>> talent100ByJgmcMap;
 
-    Map<String, StatPatent> patentByJgmcMap;
+    Map<String, List<StatPatent>> patentByJgmcMap;
 
-    Map<String, StatCasPaper> paperByJgmcMap;
+    Map<String, List<StatCasPaper>> paperByJgmcMap;
 
-    Map<String, StatNsfcProject> nsfcByJgmcMap;
+    Map<String, List<StatNsfcProject>> nsfcByJgmcMap;
 
-    Map<String, StatMostProject> kjbByJgmcMap;
+    Map<String, List<StatMostProject>> kjbByJgmcMap;
 
-    Map<String, StatXdzx> xdByJgmcMap;
+    Map<String, List<StatXdzx>> xdByJgmcMap;
 
-    Map<String, Funds> fundsByJgmcMap;
+    Map<String, List<Funds>> fundsByJgmcMap;
 
-    Map<String, CasAcademicianChina> casByGzdwGf1Map;
+    Map<String, List<CasAcademicianChina>> casByGzdwGf1Map;
 
-    Map<String, CasAcademicianCaeChina> caeByGzdwGf1Map;
+    Map<String, List<CasAcademicianCaeChina>> caeByGzdwGf1Map;
 
-    Map<String, StatChinaAward10yearFinalCount> awardByFirstWcdwMap;
-
-    public AnalyzeIntermediateResultDTO(List<RefOrgType> afList, List<StatTeacherStudent> eduList, List<StatCasTalentsProgram> talent100List, List<StatPatent> patentList, List<StatCasPaper> paperList, List<StatNsfcProject> nsfcList, List<StatMostProject> kjbList, List<StatXdzx> xdList, List<Funds> fundsList, List<CasAcademicianChina> casList, List<CasAcademicianCaeChina> caeList, List<StatChinaAward10yearFinalCount> awardList, Map<String, RefOrgType> afByJgmcMap, Map<String, StatTeacherStudent> eduByJgmcMap, Map<String, StatCasTalentsProgram> talent100ByJgmcMap, Map<String, StatPatent> patentByJgmcMap, Map<String, StatCasPaper> paperByJgmcMap, Map<String, StatNsfcProject> nsfcByJgmcMap, Map<String, StatMostProject> kjbByJgmcMap, Map<String, StatXdzx> xdByJgmcMap, Map<String, Funds> fundsByJgmcMap, Map<String, CasAcademicianChina> casByGzdwGf1Map, Map<String, CasAcademicianCaeChina> caeByGzdwGf1Map, Map<String, StatChinaAward10yearFinalCount> awardByFirstWcdwMap) {
-        this.afList = afList;
-        this.eduList = eduList;
-        this.talent100List = talent100List;
-        this.patentList = patentList;
-        this.paperList = paperList;
-        this.nsfcList = nsfcList;
-        this.kjbList = kjbList;
-        this.xdList = xdList;
-        this.fundsList = fundsList;
-        this.casList = casList;
-        this.caeList = caeList;
-        this.awardList = awardList;
-        this.afByJgmcMap = afByJgmcMap;
-        this.eduByJgmcMap = eduByJgmcMap;
-        this.talent100ByJgmcMap = talent100ByJgmcMap;
-        this.patentByJgmcMap = patentByJgmcMap;
-        this.paperByJgmcMap = paperByJgmcMap;
-        this.nsfcByJgmcMap = nsfcByJgmcMap;
-        this.kjbByJgmcMap = kjbByJgmcMap;
-        this.xdByJgmcMap = xdByJgmcMap;
-        this.fundsByJgmcMap = fundsByJgmcMap;
-        this.casByGzdwGf1Map = casByGzdwGf1Map;
-        this.caeByGzdwGf1Map = caeByGzdwGf1Map;
-        this.awardByFirstWcdwMap = awardByFirstWcdwMap;
-    }
-
-    public AnalyzeIntermediateResultDTO() {
-    }
+    Map<String, List<StatChinaAward10yearFinalCount>> awardByFirstWcdwMap;
 
     public List<RefOrgType> getAfList() {
         return afList;
@@ -189,99 +159,99 @@ public class AnalyzeIntermediateResultDTO {
         this.awardList = awardList;
     }
 
-    public Map<String, RefOrgType> getAfByJgmcMap() {
+    public Map<String, List<RefOrgType>> getAfByJgmcMap() {
         return afByJgmcMap;
     }
 
-    public void setAfByJgmcMap(Map<String, RefOrgType> afByJgmcMap) {
+    public void setAfByJgmcMap(Map<String, List<RefOrgType>> afByJgmcMap) {
         this.afByJgmcMap = afByJgmcMap;
     }
 
-    public Map<String, StatTeacherStudent> getEduByJgmcMap() {
+    public Map<String, List<StatTeacherStudent>> getEduByJgmcMap() {
         return eduByJgmcMap;
     }
 
-    public void setEduByJgmcMap(Map<String, StatTeacherStudent> eduByJgmcMap) {
+    public void setEduByJgmcMap(Map<String, List<StatTeacherStudent>> eduByJgmcMap) {
         this.eduByJgmcMap = eduByJgmcMap;
     }
 
-    public Map<String, StatCasTalentsProgram> getTalent100ByJgmcMap() {
+    public Map<String, List<StatCasTalentsProgram>> getTalent100ByJgmcMap() {
         return talent100ByJgmcMap;
     }
 
-    public void setTalent100ByJgmcMap(Map<String, StatCasTalentsProgram> talent100ByJgmcMap) {
+    public void setTalent100ByJgmcMap(Map<String, List<StatCasTalentsProgram>> talent100ByJgmcMap) {
         this.talent100ByJgmcMap = talent100ByJgmcMap;
     }
 
-    public Map<String, StatPatent> getPatentByJgmcMap() {
+    public Map<String, List<StatPatent>> getPatentByJgmcMap() {
         return patentByJgmcMap;
     }
 
-    public void setPatentByJgmcMap(Map<String, StatPatent> patentByJgmcMap) {
+    public void setPatentByJgmcMap(Map<String, List<StatPatent>> patentByJgmcMap) {
         this.patentByJgmcMap = patentByJgmcMap;
     }
 
-    public Map<String, StatCasPaper> getPaperByJgmcMap() {
+    public Map<String, List<StatCasPaper>> getPaperByJgmcMap() {
         return paperByJgmcMap;
     }
 
-    public void setPaperByJgmcMap(Map<String, StatCasPaper> paperByJgmcMap) {
+    public void setPaperByJgmcMap(Map<String, List<StatCasPaper>> paperByJgmcMap) {
         this.paperByJgmcMap = paperByJgmcMap;
     }
 
-    public Map<String, StatNsfcProject> getNsfcByJgmcMap() {
+    public Map<String, List<StatNsfcProject>> getNsfcByJgmcMap() {
         return nsfcByJgmcMap;
     }
 
-    public void setNsfcByJgmcMap(Map<String, StatNsfcProject> nsfcByJgmcMap) {
+    public void setNsfcByJgmcMap(Map<String, List<StatNsfcProject>> nsfcByJgmcMap) {
         this.nsfcByJgmcMap = nsfcByJgmcMap;
     }
 
-    public Map<String, StatMostProject> getKjbByJgmcMap() {
+    public Map<String, List<StatMostProject>> getKjbByJgmcMap() {
         return kjbByJgmcMap;
     }
 
-    public void setKjbByJgmcMap(Map<String, StatMostProject> kjbByJgmcMap) {
+    public void setKjbByJgmcMap(Map<String, List<StatMostProject>> kjbByJgmcMap) {
         this.kjbByJgmcMap = kjbByJgmcMap;
     }
 
-    public Map<String, StatXdzx> getXdByJgmcMap() {
+    public Map<String, List<StatXdzx>> getXdByJgmcMap() {
         return xdByJgmcMap;
     }
 
-    public void setXdByJgmcMap(Map<String, StatXdzx> xdByJgmcMap) {
+    public void setXdByJgmcMap(Map<String, List<StatXdzx>> xdByJgmcMap) {
         this.xdByJgmcMap = xdByJgmcMap;
     }
 
-    public Map<String, Funds> getFundsByJgmcMap() {
+    public Map<String, List<Funds>> getFundsByJgmcMap() {
         return fundsByJgmcMap;
     }
 
-    public void setFundsByJgmcMap(Map<String, Funds> fundsByJgmcMap) {
+    public void setFundsByJgmcMap(Map<String, List<Funds>> fundsByJgmcMap) {
         this.fundsByJgmcMap = fundsByJgmcMap;
     }
 
-    public Map<String, CasAcademicianChina> getCasByGzdwGf1Map() {
+    public Map<String, List<CasAcademicianChina>> getCasByGzdwGf1Map() {
         return casByGzdwGf1Map;
     }
 
-    public void setCasByGzdwGf1Map(Map<String, CasAcademicianChina> casByGzdwGf1Map) {
+    public void setCasByGzdwGf1Map(Map<String, List<CasAcademicianChina>> casByGzdwGf1Map) {
         this.casByGzdwGf1Map = casByGzdwGf1Map;
     }
 
-    public Map<String, CasAcademicianCaeChina> getCaeByGzdwGf1Map() {
+    public Map<String, List<CasAcademicianCaeChina>> getCaeByGzdwGf1Map() {
         return caeByGzdwGf1Map;
     }
 
-    public void setCaeByGzdwGf1Map(Map<String, CasAcademicianCaeChina> caeByGzdwGf1Map) {
+    public void setCaeByGzdwGf1Map(Map<String, List<CasAcademicianCaeChina>> caeByGzdwGf1Map) {
         this.caeByGzdwGf1Map = caeByGzdwGf1Map;
     }
 
-    public Map<String, StatChinaAward10yearFinalCount> getAwardByFirstWcdwMap() {
+    public Map<String, List<StatChinaAward10yearFinalCount>> getAwardByFirstWcdwMap() {
         return awardByFirstWcdwMap;
     }
 
-    public void setAwardByFirstWcdwMap(Map<String, StatChinaAward10yearFinalCount> awardByFirstWcdwMap) {
+    public void setAwardByFirstWcdwMap(Map<String, List<StatChinaAward10yearFinalCount>> awardByFirstWcdwMap) {
         this.awardByFirstWcdwMap = awardByFirstWcdwMap;
     }
 }

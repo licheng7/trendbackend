@@ -299,4 +299,43 @@
     GROUP BY
     research_field
   </select>
+
+  <select id="queryEdu4D5" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
+    SELECT
+      TIMESTAMPDIFF(YEAR, birthday, now()) AS age,
+      COUNT(a.staff_id) AS number
+    FROM
+      cas_edu_f_teacher_info AS a,
+      ref_org_type AS b
+    <where>
+      a.Mentor_unit_name=b.jgmc
+      AND status="正常"
+      AND birthday is not null
+      AND first_time_doctor is not NULL
+      AND <![CDATA[LEFT(enroll_time, 4) <= #{query.endYear}]]>
+      AND b.jgbh IS NOT NULL
+    </where>
+    GROUP BY TIMESTAMPDIFF(YEAR, birthday, now())
+  </select>
+
+  <select id="queryEdu4M5" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
+    SELECT
+      TIMESTAMPDIFF(YEAR, birthday, now()) AS age,
+      COUNT(a.staff_id) AS number
+    FROM
+      cas_edu_f_teacher_info AS a,
+      ref_org_type AS b
+    <where>
+      a.Mentor_unit_name=b.jgmc
+      AND status="正常"
+      AND birthday is not null
+      AND first_time_advisor IS NOT NULL
+      AND first_time_doctor is not NULL
+      AND <![CDATA[LEFT(enroll_time, 4) <= #{query.endYear}]]>
+      AND b.jgbh IS NOT NULL
+    </where>
+    GROUP BY TIMESTAMPDIFF(YEAR, birthday, now())
+  </select>
 </mapper>

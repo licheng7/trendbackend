@@ -119,10 +119,10 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
             Map<String, Object> bizMap = Maps.newHashMap();
             bizMap.put("name", map.getKey());
             Map<String, Double> value = map.getValue();
-            List<Double> list = Lists.newArrayList();
+            List<Object> list = Lists.newArrayList();
             yearlist.stream().forEach(year -> {
                 Double fund = value.get(year);
-                list.add(fund);
+                list.add(String.valueOf(fund));
             });
             bizMap.put("value", list);
             result.add(bizMap);
@@ -194,7 +194,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         List<String> listC9 = Lists.newArrayList("清华大学", "浙江大学", "北京大学", "复旦大学", "中国科技大学", "上海交通大学", "南京大学", "西安交通大学", "哈尔滨工业大学");
 
         Map<String, Map<String, MapResultDTO<String, Integer>>> detail = this.initDetail2(nameList, yearlist,
-                Integer.class, 0);
+                Integer.class, null);
         List<StatHcauthorsCount> resultList = statHcauthorsCountManualMapper
                 .queryScientist1(startYear, endYear);
         for(StatHcauthorsCount statHcauthorsCount : resultList) {
@@ -210,8 +210,10 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
             }
             Map<String, MapResultDTO<String, Integer>> map = detail.get(key);
             if(map.containsKey(statHcauthorsCount.getNf())) {
-                map.get(statHcauthorsCount.getNf()).setValue(map.get(statHcauthorsCount.getNf()).getValue() +
-                        statHcauthorsCount.getTotal());
+                map.get(statHcauthorsCount.getNf()).setValue(
+                        (map.get(statHcauthorsCount.getNf()).getValue() == null ? 0 :
+                                map.get(statHcauthorsCount.getNf()).getValue())
+                                        + statHcauthorsCount.getTotal());
             }
         }
 
@@ -221,42 +223,59 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         List<String> countryName = resultWorld.stream().map(obj -> obj.getCountryCh()).distinct().collect
                 (Collectors.toList());
         Map<String, Map<String, MapResultDTO<String, Integer>>> worldtotal = this.initDetail2(countryName, yearlist,
-                Integer.class, 0);
+                Integer.class, null);
         for(StatHcauthorsCount statHcauthorsCount : resultWorld) {
             if(worldtotal.containsKey(statHcauthorsCount.getCountryCh())) {
                 Map<String, MapResultDTO<String, Integer>> map = worldtotal.get(statHcauthorsCount
                         .getCountryCh());
                 if(map.containsKey(statHcauthorsCount.getNf())) {
-                    map.get(statHcauthorsCount.getNf()).setValue(map.get(statHcauthorsCount.getNf()).getValue() +
-                            statHcauthorsCount.getTotal());
+                    map.get(statHcauthorsCount.getNf()).setValue(
+                            (map.get(statHcauthorsCount.getNf()).getValue() == null ? 0 :
+                                    map.get(statHcauthorsCount.getNf()).getValue()) +
+                                    statHcauthorsCount.getTotal());
                 }
             }
         }
-
 
         List<Map<String, Object>> totalFive = statHcauthorsCountManualMapper
                 .queryScientist3(startYear, endYear);
+
         List<String> totalFiveName = Lists.newArrayList();
         totalFive.stream().forEach(obj -> totalFiveName.add((String)obj.get("country_ch")));
-        List<MapResultDTO<String, Integer>> otherList = Lists.newArrayList();
-        List<MapResultDTO<String, List<MapResultDTO<String, Integer>>>> newWorldlist = Lists.newArrayList();
-        for(String key : worldtotal.keySet()) {
-            if(totalFiveName.indexOf(key) != -1) {
-                for(String year : yearlist) {
-                    otherList.add(new MapResultDTO<String, Integer>(year, worldtotal.get(key).get(year)
-                            .getValue()));
-                }
+
+        List<MapResultDTO<String, List<Integer>>> newWorldlist = Lists.newArrayList();
+
+        Map<String, Integer> otherMap = Maps.newHashMap();
+        yearlist.stream().forEach(year -> {
+            otherMap.put(year, null);
+        });
+
+        worldtotal.entrySet().stream().forEach(map -> {
+            String country = map.getKey();
+            if(totalFiveName.contains(country)) {
+                List<Integer> list = Lists.newArrayList();
+                yearlist.stream().forEach(year -> {
+                    list.add(map.getValue().get(year).getValue());
+                });
+                newWorldlist.add(new MapResultDTO<String, List<Integer>>(country, list));
             } else {
-                List<MapResultDTO<String, Integer>> list = Lists.newArrayList();
-                worldtotal.get(key).entrySet().stream().forEach(obj -> list.add(obj.getValue()));
-                newWorldlist.add(new MapResultDTO(key, list));
+                map.getValue().entrySet().stream().forEach(map2 -> {
+                    if(otherMap.containsKey(map2.getKey())) {
+                        otherMap.put(map2.getKey(),
+                                (otherMap.get(map2.getKey()) == null ? 0 : otherMap.get(map2.getKey()))
+                                        + (map2.getValue().getValue() == null ? 0 : map2.getValue().getValue()));
+                    }
+                });
             }
-        }
-        newWorldlist.add(new MapResultDTO("其他", otherList));
+        });
 
+        List<Integer> otherValueList = Lists.newArrayList();
+        yearlist.stream().forEach(year -> {
+            otherValueList.add(otherMap.get(year));
+        });
+        MapResultDTO<String, List<Integer>> otherMr = new MapResultDTO("其他", otherValueList);
 
-        /*List<Map<String, Object>> newFive = statHcauthorsCountManualMapper
-                .queryScientist4(startYear, endYear);*/
+        newWorldlist.add(otherMr);
 
         ScientistInfoDTO scientistInfo = new ScientistInfoDTO();
         scientistInfo.setYear(yearlist);
@@ -264,20 +283,19 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         detail.entrySet().stream().forEach(obj -> {
             String key = obj.getKey();
             List<Integer> value = Lists.newArrayList();
-            obj.getValue().entrySet().stream().forEach(map -> value.add(map.getValue().getValue()));
+            yearlist.stream().forEach(year -> {
+                value.add(obj.getValue().get(year).getValue());
+            });
             domestic.add(new MapResultDTO<String, List<Integer>>(key, value));
+        });
+
+        yearlist.stream().forEach(year -> {
+            Map<String, MapResultDTO<String, Integer>> obj = detail.get(year);
+
         });
         scientistInfo.setDomestic(domestic);
 
-        List<MapResultDTO<String, List<Integer>>> _newWorldlist = Lists.newArrayList();
-        newWorldlist.stream().forEach(obj -> {
-            String key = obj.getName();
-            List<Integer> list = Lists.newArrayList();
-            List<MapResultDTO<String, Integer>> value = obj.getValue();
-            value.stream().forEach(obj2 -> list.add(obj2.getValue()));
-            _newWorldlist.add(new MapResultDTO<String, List<Integer>>(key, list));
-        });
-        scientistInfo.setNewWorldlist(_newWorldlist);
+        scientistInfo.setNewWorldlist(newWorldlist);
 
         return scientistInfo;
     }

@@ -26,27 +26,27 @@ public class GoAnalyseResponse implements Serializable {
 
     private int ydylCountryPeopleNum;
 
-    private List<String> countryObjList;
+    private List<Map<String, Object>> countryObjList;
 
-    private Map<String, Integer> fieldObjList;
+    private List<Map<String, Object>> fieldObjList;
 
-    private Map<String, Integer> formObjList;
+    private List<Map<String, Object>> formObjList;
 
-    private Map<String, Integer> affiliationObjList;
+    private List<Map<String, Object>> affiliationObjList;
 
-    private Map<String, Integer> yearNumList;
+    private List<Integer> yearNumList;
 
-    private Map<Integer, Integer> ageNumList;
+    private List<Integer> ageNumList;
 
     private List<String> agelist;
 
     private List<String> yearList;
 
-    private Map<String, Integer> countryNumberObject;
+    private List<Map<String, Object>> countryNumObject;
 
     private List<String> topTenCountryName;
 
-    private Map<String, Map<String, Integer>> topTenCountryList;
+    private List<Map<String, Object>> topTenCountryList;
 
     private List<TempObjDTO> cityAndCountryMapList;
 
@@ -84,52 +84,44 @@ public class GoAnalyseResponse implements Serializable {
         this.ydylCountryPeopleNum = ydylCountryPeopleNum;
     }
 
-    public List<String> getCountryObjList() {
+    public List<Map<String, Object>> getCountryObjList() {
         return countryObjList;
     }
 
-    public void setCountryObjList(List<String> countryObjList) {
+    public void setCountryObjList(List<Map<String, Object>> countryObjList) {
         this.countryObjList = countryObjList;
     }
 
-    public Map<String, Integer> getFieldObjList() {
+    public List<Map<String, Object>> getFieldObjList() {
         return fieldObjList;
     }
 
-    public void setFieldObjList(Map<String, Integer> fieldObjList) {
+    public void setFieldObjList(List<Map<String, Object>> fieldObjList) {
         this.fieldObjList = fieldObjList;
     }
 
-    public Map<String, Integer> getFormObjList() {
+    public List<Map<String, Object>> getFormObjList() {
         return formObjList;
     }
 
-    public void setFormObjList(Map<String, Integer> formObjList) {
+    public void setFormObjList(List<Map<String, Object>> formObjList) {
         this.formObjList = formObjList;
     }
 
-    public Map<String, Integer> getAffiliationObjList() {
+    public List<Map<String, Object>> getAffiliationObjList() {
         return affiliationObjList;
     }
 
-    public void setAffiliationObjList(Map<String, Integer> affiliationObjList) {
+    public void setAffiliationObjList(List<Map<String, Object>> affiliationObjList) {
         this.affiliationObjList = affiliationObjList;
     }
 
-    public Map<String, Integer> getYearNumList() {
+    public List<Integer> getYearNumList() {
         return yearNumList;
     }
 
-    public void setYearNumList(Map<String, Integer> yearNumList) {
+    public void setYearNumList(List<Integer> yearNumList) {
         this.yearNumList = yearNumList;
-    }
-
-    public Map<Integer, Integer> getAgeNumList() {
-        return ageNumList;
-    }
-
-    public void setAgeNumList(Map<Integer, Integer> ageNumList) {
-        this.ageNumList = ageNumList;
     }
 
     public List<String> getAgelist() {
@@ -148,12 +140,12 @@ public class GoAnalyseResponse implements Serializable {
         this.yearList = yearList;
     }
 
-    public Map<String, Integer> getCountryNumberObject() {
-        return countryNumberObject;
+    public List<Map<String, Object>> getCountryNumObject() {
+        return countryNumObject;
     }
 
-    public void setCountryNumberObject(Map<String, Integer> countryNumberObject) {
-        this.countryNumberObject = countryNumberObject;
+    public void setCountryNumObject(List<Map<String, Object>> countryNumObject) {
+        this.countryNumObject = countryNumObject;
     }
 
     public List<String> getTopTenCountryName() {
@@ -164,11 +156,11 @@ public class GoAnalyseResponse implements Serializable {
         this.topTenCountryName = topTenCountryName;
     }
 
-    public Map<String, Map<String, Integer>> getTopTenCountryList() {
+    public List<Map<String, Object>> getTopTenCountryList() {
         return topTenCountryList;
     }
 
-    public void setTopTenCountryList(Map<String, Map<String, Integer>> topTenCountryList) {
+    public void setTopTenCountryList(List<Map<String, Object>> topTenCountryList) {
         this.topTenCountryList = topTenCountryList;
     }
 
@@ -186,5 +178,13 @@ public class GoAnalyseResponse implements Serializable {
 
     public void setCityList(List<String> cityList) {
         this.cityList = cityList;
+    }
+
+    public List<Integer> getAgeNumList() {
+        return ageNumList;
+    }
+
+    public void setAgeNumList(List<Integer> ageNumList) {
+        this.ageNumList = ageNumList;
     }
 }

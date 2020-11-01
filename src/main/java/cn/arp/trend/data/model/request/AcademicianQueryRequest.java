@@ -20,6 +20,7 @@ public class AcademicianQueryRequest implements Serializable {
 
     private static final long serialVersionUID = -6536218052575197273L;
 
+    // TODO 这个参数老接口有，新接口没有，宏观部分使用的新接口
     @ApiParam(value = "affiliationIds")
     @JsonProperty("affiliation_id")
     private List<String> affiliationIds;

@@ -23,11 +23,16 @@ public class UpdateDataServiceImpl implements UpdateDataService {
     @Resource
     private UpdateFrequencyManualMapper updateFrequencyManualMapper;
 
+    /**
+     * updateData.js对应的/
+     * @param query
+     * @return
+     */
     @Override
     public Map<String, String> queryAll(UpdateDataQueryDO query) {
-        List<UpdateFrequency> queryResult = updateFrequencyManualMapper.queryAll(query);
+        List<UpdateFrequency> queryResult
+                = updateFrequencyManualMapper.queryAll(query);
         UpdateFrequency updateFrequency = queryResult.get(0);
-
         Map<String, String> result = Maps.newHashMap();
         result.put("unit", updateFrequency.getDataValue());
         result.put("upData", updateFrequency.getFrequency());

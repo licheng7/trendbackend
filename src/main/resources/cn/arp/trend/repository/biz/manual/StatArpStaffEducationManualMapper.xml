@@ -23,6 +23,21 @@
     id, jgbh, jgmc, nf, zw, xl, rs, update_time
   </sql>
 
+  <sql id="sql_affiliation">
+    <choose>
+      <when test="query.unitIdAry != null">
+        AND JGBH in (
+        <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+          #{item}
+        </foreach>
+        )
+      </when>
+      <otherwise>
+        AND JGBH is not null
+      </otherwise>
+    </choose>
+  </sql>
+
   <select id="queryChildLevelDistribution" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.ChildLevelDistributionQueryDO">
     SELECT
@@ -67,5 +82,81 @@
       </choose>
     </where>
     GROUP BY jgmc
+  </select>
+
+  <select id="queryHrStaffDist1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      ANY_VALUE(jgmc) AS jgmc, SUM(rs) AS rs
+    FROM
+      stat_arp_staff_education
+    <where>
+      xl="博士研究生"
+      AND nf= #{query.endYear}
+    </where>
+    GROUP BY jgmc
+    ORDER BY rs DESC
+  </select>
+
+  <select id="queryHrStaffDist2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      SUM(zb) AS zb, SUM(ld) AS ld, SUM(tx) AS tx
+    FROM
+      stat_arp_staff
+    <where>
+      nf= #{query.endYear}
+      <include refid="sql_affiliation"/>
+    </where>
+  </select>
+
+  <select id="queryHrStaffDist3" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      SUM(ky) AS ky, SUM(gl) AS gl, SUM(zc) AS zc, SUM(qt) AS qt
+    FROM
+      stat_arp_staff_post
+    <where>
+      nf= #{query.endYear}
+      <include refid="sql_affiliation"/>
+    </where>
+  </select>
+
+  <select id="queryHrStaffDist4" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      ANY_VALUE(nld) AS nld, SUM(rs) AS rs
+    FROM
+      stat_arp_staff_age
+    <where>
+      nf= #{query.endYear}
+      <include refid="sql_affiliation"/>
+    </where>
+    GROUP BY nld
+  </select>
+
+  <select id="queryHrStaffDist5" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      ANY_VALUE(xl) AS xl, SUM(rs) AS rs
+    FROM
+      stat_arp_staff_education
+    <where>
+      nf= #{query.endYear}
+      <include refid="sql_affiliation"/>
+    </where>
+    GROUP BY xl
+  </select>
+
+  <select id="queryHrStaffDist6" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      SUM(gj) AS gj, SUM(fg) AS fg, SUM(zj) AS zj, SUM(cj) AS cj
+    FROM
+      stat_arp_staff_tech_level
+    <where>
+      nf= #{query.endYear}
+      <include refid="sql_affiliation"/>
+    </where>
   </select>
 </mapper>

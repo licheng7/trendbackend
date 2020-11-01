@@ -179,7 +179,14 @@
         cas_academician_foreign
       <where>
         1 = 1
-        <include refid="afieldNameZky_collection" />
+        <choose>
+          <when test="academicianQuery.afieldNameZky != null">
+            <include refid="afieldNameZky_collection" />
+          </when>
+          <otherwise>
+            and xuebu in (SELECT DISTINCT xuebu FROM cas_academician_foreign)
+          </otherwise>
+        </choose>
       </where>
       UNION ALL
       SELECT
@@ -188,7 +195,14 @@
         cas_academician_china
       <where>
         1 = 1
-        <include refid="afieldNameZky_collection" />
+        <choose>
+          <when test="academicianQuery.afieldNameZky != null">
+            <include refid="afieldNameZky_collection" />
+          </when>
+          <otherwise>
+            and xuebu in (SELECT DISTINCT xuebu FROM cas_academician_china)
+          </otherwise>
+        </choose>
       </where>
       UNION ALL
       SELECT
@@ -197,7 +211,14 @@
         cas_academician_cae_foreign
       <where>
         1 = 1
-        <include refid="afieldNameGcy_collection" />
+        <choose>
+          <when test="academicianQuery.afieldNameZky != null">
+            <include refid="afieldNameZky_collection" />
+          </when>
+          <otherwise>
+            AND xuebu in (SELECT DISTINCT xuebu FROM cas_academician_cae_foreign)
+          </otherwise>
+        </choose>
       </where>
       UNION ALL
       SELECT
@@ -206,7 +227,14 @@
         cas_academician_cae_china
       <where>
         1 = 1
-        <include refid="afieldNameGcy_collection" />
+        <choose>
+          <when test="academicianQuery.afieldNameZky != null">
+            <include refid="afieldNameZky_collection" />
+          </when>
+          <otherwise>
+            AND xuebu in (SELECT DISTINCT xuebu FROM cas_academician_cae_china)
+          </otherwise>
+        </choose>
       </where>
     ) AS a
     LEFT JOIN ref_org_type AS b

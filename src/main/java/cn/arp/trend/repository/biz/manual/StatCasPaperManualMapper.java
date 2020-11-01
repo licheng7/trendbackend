@@ -1,5 +1,6 @@
 package cn.arp.trend.repository.biz.manual;
 
+import cn.arp.trend.data.model.DO.AreaPaperQueryDO;
 import cn.arp.trend.data.model.DO.PaperSciQueryDO;
 import cn.arp.trend.entity.biz.StatCasPaper;
 import org.apache.ibatis.annotations.Param;
@@ -31,4 +32,39 @@ public interface StatCasPaperManualMapper {
      * @return
      */
     List<Map<String, Object>> querySci2(@Param("query") PaperSciQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryAreaPaperSci1(@Param("query") AreaPaperQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryAreaPaperSci2(@Param("query") AreaPaperQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryAreaPaperSci3(@Param("query") AreaPaperQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryAreaPaperSci4(@Param("query") AreaPaperQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryAreaPaperSci5(@Param("query") AreaPaperQueryDO query);
 }

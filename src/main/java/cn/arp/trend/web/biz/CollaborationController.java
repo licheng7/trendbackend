@@ -76,7 +76,8 @@ public class CollaborationController extends BaseController {
      *
      * @return
      */
-    @ApiOperation(value= "国家列表(对应collaboration.js的/getCountryNum)", notes= "国家列表(对应collaboration.js的/getCountryNum)")
+    @ApiOperation(value= "国家列表(对应collaboration.js的/getCountryNum)",
+            notes= "国家列表(对应collaboration.js的/getCountryNum)")
     @ServiceExecuter(description = "国家列表(对应collaboration.js的/getCountryNum)")
     @RequestMapping(value = "/getCountryNum", method = RequestMethod.POST)
     @Audit(desc="国家列表(对应collaboration.js的/getCountryNum)")
@@ -101,13 +102,14 @@ public class CollaborationController extends BaseController {
     @ServiceExecuter(description = "对应collaboration.js的/comeAnalyse")
     @RequestMapping(value = "/comeAnalyse", method = RequestMethod.POST)
     @Audit(desc="对应collaboration.js的/comeAnalyse")
-    public ComeAnalyseResponse comeAnalyseQuery(@RequestBody @Validated ComeAnalyseRequest
-                                                            request, BindingResult bindingResult) throws RestError {
+    public ComeAnalyseResponse comeAnalyseQuery(
+            @RequestBody @Validated ComeAnalyseRequest request, BindingResult bindingResult)
+            throws RestError {
         validData(bindingResult);
-        ComeAnalyseQueryDO comeAnalyseQueryDO = ComeAnalyseRequestConverter.INSTANCE.domain2dto
-                (request);
-        ComeAnalyseInfoDTO comeAnalyseInfo = collaborationService.comeAnalyseQuery
-                (comeAnalyseQueryDO);
+        ComeAnalyseQueryDO comeAnalyseQueryDO =
+                ComeAnalyseRequestConverter.INSTANCE.domain2dto(request);
+        ComeAnalyseInfoDTO comeAnalyseInfo =
+                collaborationService.comeAnalyseQuery(comeAnalyseQueryDO);
         return ComeAnalyseInfoConverter.INSTANCE.domain2dto(comeAnalyseInfo);
     }
 }

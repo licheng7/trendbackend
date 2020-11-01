@@ -1,5 +1,6 @@
 package cn.arp.trend.repository.biz.manual;
 
+import cn.arp.trend.data.model.DO.AreaFinanceQueryDO;
 import cn.arp.trend.data.model.DO.IncreaseTrendQueryDO;
 import cn.arp.trend.data.model.DO.ProjectQueryDO;
 import org.apache.ibatis.annotations.Param;
@@ -36,4 +37,11 @@ public interface StatArpStaffDutyManualMapper {
      * @return
      */
     List<Map<String, Object>> queryXdRelation(@Param("query") ProjectQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryFinanceRank(@Param("query") AreaFinanceQueryDO query);
 }

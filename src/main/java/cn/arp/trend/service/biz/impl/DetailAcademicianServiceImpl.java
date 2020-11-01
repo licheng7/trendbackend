@@ -66,6 +66,8 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
             originalData = allData;
         }
 
+        final int stateAge = 0;
+
         List<String> unitAry = originalData.stream().map(map -> (String) map.get
                 ("institution")).collect(Collectors.toList());
         List<String> xuebuAry = originalData.stream().map(map -> (String) map.get
@@ -76,8 +78,8 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
         Map<String, MapResultDTO<String, Integer>> topAcademicianAffiliation = this.initDetail(
                 distinctInstitutionList, Integer.class, 0);
 
-        List<Integer> ageTime = this.fillArray(105-35, Integer.class, 0);
-        List<Integer> electedAgeTime = this.fillArray(105-35, Integer.class, 0);
+        List<Integer> ageTime = this.fillArray(105-stateAge, Integer.class, 0);
+        List<Integer> electedAgeTime = this.fillArray(105-stateAge, Integer.class, 0);
         List<Integer> allYearAry = this.fillArray(10, Integer.class, 0);
 
         List<Integer> yearAry = Lists.newArrayList();
@@ -91,33 +93,23 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
         Map<String, List<Integer>> dangxuan = Maps.newHashMap();
         dangxuan.put("当选", this.fillArray(10, Integer.class, 0));
         Map<String, List<Integer>> zhanbi = Maps.newHashMap();
-        dangxuan.put("占比", this.fillArray(10, Integer.class, 0));
+        zhanbi.put("占比", this.fillArray(10, Integer.class, 0));
         countTimeline.add(dangxuan);
         countTimeline.add(zhanbi);
 
         originalData.stream().forEach(map -> {
-            if(null != map.get("institution")) {
-                String institution = (String) map.get("institution");
-                if (topAcademicianAffiliation.containsKey(institution)) {
-                    MapResultDTO<String, Integer> mapResult = topAcademicianAffiliation.get
-                            (institution);
-                    mapResult.setValue(mapResult.getValue() + 1);
-                }
-            }
             int dxnf = map.get("dxnf") == null ? 0 : Integer.valueOf((String) map.get("dxnf"));
             int csnf = map.get("csnf") == null ? 0 : Integer.valueOf((String) map.get("csnf"));
             int age = map.get("age") == null ? 0 : ((Number) map.get("age")).intValue();
-
             String category = map.get("category") == null ? "" : (String) map.get("category");
-            ageTime.set(age - 35, ageTime.get(age - 35) + 1);
-            if(dxnf - csnf - 35 < 0) {
-                System.out.println(map);
-            }
-            electedAgeTime.set((dxnf - csnf - 35), electedAgeTime.get(dxnf - csnf - 35) + 1);
+
+            ageTime.set(age - stateAge, ageTime.get(age - stateAge) + 1);
+            electedAgeTime.set((dxnf - csnf - stateAge),
+                    electedAgeTime.get(dxnf - csnf - stateAge) + 1);
             int countShow = yearAry.indexOf(dxnf);
             if(countShow != -1) {
-                countTimeline.get(0).get("当选").set(countShow, countTimeline.get(0).get("当选").get
-                        (countShow) +1);
+                countTimeline.get(0).get("当选").set(countShow,
+                        countTimeline.get(0).get("当选").get(countShow) +1);
             }
             if(category.equals("中科院院士")) {
                 ZKYAry.add(map);
@@ -136,44 +128,47 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
 
         List<Integer> list = countTimeline.get(0).get("当选");
         for(int i=0; i<list.size(); i++) {
-            Integer value = new BigDecimal(list.get(i) / allYearAry.get(i)).setScale(2,
-                    BigDecimal.ROUND_HALF_UP).intValue() * 100;
+            Integer value = 0;
+            if(allYearAry.get(i) > 0) {
+                value = new BigDecimal(list.get(i) / allYearAry.get(i)).setScale(2,
+                        BigDecimal.ROUND_HALF_UP).intValue() * 100;
+            }
             countTimeline.get(1).get("占比").set(i, value);
         }
 
-        List<Map<String, List<Integer>>> ageTimeline = Lists.newArrayList();
-        Map<String, List<Integer>> ageMap = Maps.newHashMap();
-        ageMap.put("实际年龄", ageTime);
-        ageTimeline.add(ageMap);
+        List<Object> ageList = Lists.newArrayList("实际年龄", ageTime);
+        List<List<Object>> ageTimeline = Lists.newArrayList();
+        ageTimeline.add(ageList);
 
-        List<Map<String, List<Integer>>> electedAgeTimeLine = Lists.newArrayList();
-        Map<String, List<Integer>> selectMap = Maps.newHashMap();
-        selectMap.put("当选年龄", electedAgeTime);
-        electedAgeTimeLine.add(selectMap);
+        List<Object> electedList = Lists.newArrayList("当选年龄", electedAgeTime);
+        List<List<Object>> electedAgeTimeLine = Lists.newArrayList();
+        electedAgeTimeLine.add(electedList);
 
         DACompareInfoDTO dACompareInfo = new DACompareInfoDTO();
 
         List<DACompareInfoDTO.Galaxy> galaxyList = Lists.newArrayList();
         DACompareInfoDTO.Galaxy galaxy = dACompareInfo.new Galaxy();
-        Map<String, Integer> galaxyTotal = Maps.newHashMap();
+        List<List<Object>> galaxyTotal = Lists.newArrayList();
         topAcademicianAffiliation.entrySet().stream().forEach(obj -> {
-            galaxyTotal.put(obj.getValue().getName(), obj.getValue().getValue());
+            galaxyTotal.add(Lists.newArrayList(obj.getValue().getName(), obj.getValue().getValue()));
         });
         galaxy.setGalaxyTotal(galaxyTotal);
+        List<Map<String, Integer>> objList = Lists.newArrayList();
         unitAry.stream().forEach( str -> {
-                List<Integer> obj = Lists.newArrayList();
+                Map<String, Integer> obj = Maps.newHashMap();
                 xuebuAry.stream().forEach(xuebu -> {
-                    obj.add(0);
+                    obj.put(xuebu, 0);
                 });
                 originalData.stream().forEach(map -> {
                     if(map.get("xuebu") != null) {
-                        int xuebu = Integer.valueOf((String) map.get("xuebu"));
-                        obj.set(xuebu, obj.get(xuebu) + 1);
+                        String xuebu = (String) map.get("xuebu");
+                        obj.put(xuebu, (obj.get(xuebu) == null ? 0 : obj.get(xuebu)) + 1);
                     }
                 });
-                galaxy.setGalaxyFields(obj);
+                objList.add(obj);
             }
         );
+        galaxy.setGalaxyFields(objList);
         galaxyList.add(galaxy);
 
         List<String> distinctXuebuZKYAry = ZKYAry.stream().map(map -> (String) map.get("xuebu"))
@@ -189,9 +184,9 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
                 }
             }
         });
-        List<MapResultDTO<String, Integer>> _fieldsPieCAS = Lists.newArrayList();
+        List<List<Object>> _fieldsPieCAS = Lists.newArrayList();
         fieldsPieCAS.entrySet().stream().forEach(map -> {
-            _fieldsPieCAS.add(map.getValue());
+            _fieldsPieCAS.add(Lists.newArrayList(map.getKey(), map.getValue().getValue()));
         });
 
         List<String> distinctXuebuGCYAry = GCYAry.stream().map(map -> (String) map.get("xuebu"))
@@ -207,22 +202,27 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
                 }
             }
         });
-        List<MapResultDTO<String, Integer>> _fieldsPieCAE = Lists.newArrayList();
+        List<List<Object>> _fieldsPieCAE = Lists.newArrayList();
         fieldsPieCAE.entrySet().stream().forEach(map -> {
-            _fieldsPieCAE.add(map.getValue());
+            _fieldsPieCAE.add(Lists.newArrayList(map.getKey(), map.getValue().getValue()));
         });
 
-        List<MapResultDTO<String, Integer>> _topAcademicianAffiliation = Lists.newArrayList();
+        List<List<Object>> _topAcademicianAffiliation = Lists.newArrayList();
         topAcademicianAffiliation.entrySet().stream().forEach(map -> {
-            _topAcademicianAffiliation.add(map.getValue());
+            _topAcademicianAffiliation.add(Lists.newArrayList(map.getValue().getName(), map
+                    .getValue().getValue()));
         });
+
+        List<Object> dxList = Lists.newArrayList("当选", countTimeline.get(0).get("当选"));
+        List<Object> zbList = Lists.newArrayList("占比", countTimeline.get(1).get("占比"));
+        List<List<Object>> newCountTimeline = Lists.newArrayList(dxList, zbList);
 
         dACompareInfo.setAgeTimeline(ageTimeline);
-        dACompareInfo.setCountTimeline(countTimeline);
+        dACompareInfo.setCountTimeline(newCountTimeline);
         dACompareInfo.setElectedAgeTimeLine(electedAgeTimeLine);
         dACompareInfo.setFieldsPieCAS(_fieldsPieCAS);
         dACompareInfo.setFieldsPieCAE(_fieldsPieCAE);
-        dACompareInfo.setGalaxyList(galaxyList);
+        dACompareInfo.setGalaxy(galaxyList);
         dACompareInfo.setTopAcademicianAffiliation(_topAcademicianAffiliation);
 
         List<Object> result = Lists.newArrayList(dACompareInfo, Lists.newArrayList(originalData, allData));

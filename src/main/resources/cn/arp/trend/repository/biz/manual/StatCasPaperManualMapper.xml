@@ -21,6 +21,21 @@
     id, jgbh, jgmc_ori, jgmc, nf, lws
   </sql>
 
+  <sql id="sql_affiliation">
+    <choose>
+      <when test="query.unitIdAry != null">
+        AND JGBH in (
+        <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+          #{item}
+        </foreach>
+        )
+      </when>
+      <otherwise>
+        AND JGBH is not null
+      </otherwise>
+    </choose>
+  </sql>
+
   <select id="queryByNf" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
       <include refid="Base_Column_List" />
@@ -103,6 +118,77 @@
           )
         </when>
       </choose>
+    </where>
+  </select>
+  
+  <select id="queryAreaPaperSci1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf, SUM(lws) AS sci
+    FROM
+      stat_cas_paper
+    <where>
+      <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <include refid="sql_affiliation"/>
+    </where>
+    GROUP BY nf
+    ORDER BY nf
+  </select>
+
+  <select id="queryAreaPaperSci2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf, SUM(lws) AS sci
+    FROM
+      stat_arp_paper_sci
+    <where>
+      <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <include refid="sql_affiliation"/>
+    </where>
+    GROUP BY nf
+    ORDER BY nf
+  </select>
+
+  <select id="queryAreaPaperSci3" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(jgmc) AS jgmc, SUM(lws) AS sci
+    FROM
+      stat_cas_paper
+    <where>
+      <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <include refid="sql_affiliation"/>
+    </where>
+    GROUP BY jgbh
+    ORDER BY sci DESC
+  </select>
+
+  <select id="queryAreaPaperSci4" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      SUM(lws) AS sci
+    FROM
+      stat_cas_paper
+    <where>
+      <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <include refid="sql_affiliation"/>
+    </where>
+  </select>
+
+  <select id="queryAreaPaperSci5" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      SUM(lws) AS sci
+    FROM
+      stat_cas_paper
+    <where>
+      <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      AND jgbh IS NOT NULL
     </where>
   </select>
 </mapper>

@@ -21,12 +21,13 @@ import javax.annotation.Resource;
 import java.util.Map;
 
 /**
+ * 对应宏观部分updateData.js
  * Created with IDEA
  * author:licheng
  * Date:2020/10/13
  * Time:下午2:38
  **/
-@Api(value="updateData",tags={"对应宏观部分updateData.js(结果已比对)"})
+@Api(value="updateData",tags={"对应宏观部分updateData.js"})
 @RestController
 @RequestMapping(value = "/update/data")
 public class UpdateDataController extends BaseController {
@@ -35,22 +36,24 @@ public class UpdateDataController extends BaseController {
     private UpdateDataService updateDataService;
 
     /**
-     * updateData.js对应的/
-     * 结果已比对
+     * 宏观部分updateData.js对应的/
      * @param request
      * @param bindingResult
      * @return
      * @throws RestError
      */
-    @ApiOperation(value= "updateData.js对应的/", notes= "updateData.js对应的/")
-    @ServiceExecuter(description = "updateData.js对应的/")
+    @ApiOperation(value= "宏观部分updateData.js对应的/", notes= "(结果已比对)宏观部分updateData.js对应的/")
+    @ServiceExecuter(description = "宏观部分updateData.js对应的/")
     @RequestMapping(value = "/frequency", method = RequestMethod.POST)
-    @Audit(desc="updateData.js对应的/")
-    public FrequencyResponse frequencyQuery(@RequestBody @Validated FrequencyRequest request, BindingResult
-            bindingResult) throws RestError {
+    @Audit(desc="宏观部分updateData.js对应的/")
+    public FrequencyResponse frequencyQuery(
+            @RequestBody @Validated FrequencyRequest request, BindingResult bindingResult)
+            throws RestError {
         validData(bindingResult);
-        UpdateDataQueryDO query = new UpdateDataQueryDO(request.getClassify(), request.getName());
+        UpdateDataQueryDO query = new UpdateDataQueryDO(
+                request.getClassify(), request.getName());
         Map<String, String> result = updateDataService.queryAll(query);
-        return new FrequencyResponse(result.get("unit"), result.get("upData"));
+        return new FrequencyResponse(
+                result.get("unit"), result.get("upData"));
     }
 }

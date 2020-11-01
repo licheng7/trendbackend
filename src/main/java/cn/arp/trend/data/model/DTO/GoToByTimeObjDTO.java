@@ -1,5 +1,7 @@
 package cn.arp.trend.data.model.DTO;
 
+import java.util.List;
+
 /**
  * Created with IDEA
  * author:licheng
@@ -8,42 +10,31 @@ package cn.arp.trend.data.model.DTO;
  **/
 public class GoToByTimeObjDTO {
 
-    private String time;
+    private List<GoAndComeLinkDTO> to;
 
-    private GoAndComeLinkDTO to;
+    private List<GoAndComeLinkDTO> come;
 
-    private GoAndComeLinkDTO come;
+    public List<GoAndComeLinkDTO> getTo() {
+        return to;
+    }
 
-    public GoToByTimeObjDTO(String time, GoAndComeLinkDTO to, GoAndComeLinkDTO come) {
-        this.time = time;
+    public void setTo(List<GoAndComeLinkDTO> to) {
         this.to = to;
+    }
+
+    public List<GoAndComeLinkDTO> getCome() {
+        return come;
+    }
+
+    public void setCome(List<GoAndComeLinkDTO> come) {
         this.come = come;
     }
 
     public GoToByTimeObjDTO() {
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public GoAndComeLinkDTO getTo() {
-        return to;
-    }
-
-    public void setTo(GoAndComeLinkDTO to) {
+    public GoToByTimeObjDTO(List<GoAndComeLinkDTO> to, List<GoAndComeLinkDTO> come) {
         this.to = to;
-    }
-
-    public GoAndComeLinkDTO getCome() {
-        return come;
-    }
-
-    public void setCome(GoAndComeLinkDTO come) {
         this.come = come;
     }
 }

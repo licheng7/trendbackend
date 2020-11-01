@@ -19,6 +19,21 @@
     year, jgbh, jgmc, count
   </sql>
 
+  <sql id="sql_affiliation">
+    <choose>
+      <when test="query.unitIdAry != null">
+        AND JGBH in (
+        <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+          #{item}
+        </foreach>
+        )
+      </when>
+      <otherwise>
+        AND JGBH is not null
+      </otherwise>
+    </choose>
+  </sql>
+
   <select id="queryYoungEliteTrend" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.YoungEliteQueryDO">
     SELECT
@@ -158,5 +173,35 @@
       AND zs != 0
     </where>
     ORDER BY proportion DESC
+  </select>
+  
+  <select id="queryYoungElite1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf, SUM(count) AS rs_young, SUM(zs) AS rs_staff
+    FROM
+      stat_cas_staff_qianzaiyearcount_bydanwei AS a, stat_arp_staff_duty AS b
+    <where>
+      a.jgbh=b.jgbh
+      AND a.year=b.nf
+      AND <![CDATA[year >= #{query.startYear}]]>
+      AND <![CDATA[year <= #{query.endYear}]]>
+      <include refid="sql_affiliation"/>
+    </where>
+    GROUP BY nf
+    ORDER BY nf
+  </select>
+
+  <select id="queryYoungElite2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      *
+    FROM
+      stat_cas_staff_qianzaiyearcount_bydanwei
+    <where>
+      year = #{query.endYear}
+      <include refid="sql_affiliation"/>
+    </where>
+    ORDER BY count DESC
   </select>
 </mapper>

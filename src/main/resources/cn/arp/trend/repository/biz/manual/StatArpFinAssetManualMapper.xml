@@ -25,6 +25,18 @@
     id, jgbh, jgmc, nf, zzc, zxl, zc, sr, ye, update_time
   </sql>
 
+  <sql id="sql_affiliation_un_otherwise">
+    <choose>
+      <when test="query.unitIdAry != null">
+        AND JGBH in (
+        <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+          #{item}
+        </foreach>
+        )
+      </when>
+    </choose>
+  </sql>
+
   <select id="queryOverview1" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.OverviewQueryDO">
     SELECT
@@ -79,4 +91,23 @@
         research_field
     </where>
   </select>
+
+  <select id="queryFinanceOverview" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaFinanceQueryDO">
+    SELECT
+      jgbh,
+      jgmc,
+      ROUND(zzc/10000,2) AS zzc,
+      ROUND(zc/10000,2) AS zc,
+      ROUND(sr/10000,2) AS sr,
+      ROUND(ye/10000,2) AS ye,
+      ROUND(SUM(sr)/10000,2) AS sum_sr
+    FROM
+      stat_arp_fin_asset
+    <where>
+      nf = ${query.endYear}
+      <include refid="sql_affiliation_un_otherwise"/>
+    </where>
+  </select>
+
 </mapper>

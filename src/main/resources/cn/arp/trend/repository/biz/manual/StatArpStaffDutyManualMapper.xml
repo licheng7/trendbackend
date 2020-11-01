@@ -299,4 +299,65 @@
     </where>
     ORDER BY jgbh
   </select>
+
+  <select id="queryFinanceRank" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaFinanceQueryDO">
+    SELECT
+      c.jgbh, c.jgmc, income, outcome, ROUND(income/zs,2) AS avg_income, ROUND(outcome/zs,2) AS
+    avg_outcome
+    FROM
+    (
+      (
+        SELECT
+          a.jgbh, a.jgmc, zs, income
+        FROM
+        (
+          (
+            SELECT
+            jgbh, jgmc, zs
+            FROM
+            stat_arp_staff_duty
+            <where>zs != 0
+              AND nf = ${
+              end_year}
+            </where>
+          ) AS a
+          LEFT JOIN
+          (
+            SELECT
+              jgbh, ROUND(srhj/10000,2) AS income
+            FROM
+              stat_arp_fin_income
+            <where>
+              zs != 0
+              AND nf = ${end_year}
+            </where>
+          ) AS b
+          ON a.jgbh = b.jgbh
+        )
+      ) AS c
+      LEFT JOIN
+      (
+        SELECT
+          jgbh, ROUND(zchj/10000,2) AS outcome
+        FROM
+          stat_arp_fin_expand
+        <where>
+          nf = ${end_year}
+        </where>
+      ) AS d
+      ON c.jgbh = d.jgbh
+    )
+    <where>
+      <choose>
+        <when test="query.unitIdAry != null">
+          AND c.JGBH in (
+          <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+      </choose>
+    </where>
+  </select>
 </mapper>

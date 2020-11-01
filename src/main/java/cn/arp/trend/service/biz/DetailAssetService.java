@@ -1,13 +1,7 @@
 package cn.arp.trend.service.biz;
 
-import cn.arp.trend.data.model.DO.AssetDetailQueryDO;
-import cn.arp.trend.data.model.DO.AssetIncomeQueryDO;
-import cn.arp.trend.data.model.DO.ExecutionTrendQueryDO;
-import cn.arp.trend.data.model.DO.OverviewQueryDO;
-import cn.arp.trend.data.model.DTO.AssetDetailInfoDTO;
-import cn.arp.trend.data.model.DTO.AssetIncomeInfoDTO;
-import cn.arp.trend.data.model.DTO.ExecutionTrendInfoDTO;
-import cn.arp.trend.data.model.DTO.OverviewInfoDTO;
+import cn.arp.trend.data.model.DO.*;
+import cn.arp.trend.data.model.DTO.*;
 
 /**
  * Created with IDEA
@@ -24,4 +18,5 @@ public interface DetailAssetService {
     AssetIncomeInfoDTO incomeQuery(AssetIncomeQueryDO query);
 
     ExecutionTrendInfoDTO executionTrendQuery(ExecutionTrendQueryDO query);
+
 }

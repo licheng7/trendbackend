@@ -1,9 +1,6 @@
 package cn.arp.trend.repository.biz.manual;
 
-import cn.arp.trend.data.model.DO.MentorDetailQueryDO;
-import cn.arp.trend.data.model.DO.TrendAllQueryDO;
-import cn.arp.trend.data.model.DO.TrendDoctoralSupervisorQueryDO;
-import cn.arp.trend.data.model.DO.TrendMasterSupervisorQueryDO;
+import cn.arp.trend.data.model.DO.*;
 import cn.arp.trend.entity.biz.StatTeacherStudent;
 import org.apache.ibatis.annotations.Param;
 
@@ -60,4 +57,60 @@ public interface StatTeacherStudentManualMapper {
      */
     List<Map<String, Object>> mentorDetail(
             @Param("query") MentorDetailQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryEdu4D1 (@Param("query") AreaEduQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryEdu4D2 (@Param("query") AreaEduQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryEdu4D3 (@Param("query") AreaEduQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryEdu4D4 (@Param("query") AreaEduQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryEdu4M1 (@Param("query") AreaEduQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryEdu4M2 (@Param("query") AreaEduQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryEdu4M3 (@Param("query") AreaEduQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryEdu4M4 (@Param("query") AreaEduQueryDO query);
 }

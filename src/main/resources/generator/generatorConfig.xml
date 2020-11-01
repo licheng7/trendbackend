@@ -229,8 +229,23 @@
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="cas_hlhl_award_winner"
+        <!--<table tableName="cas_hlhl_award_winner"
                domainObjectName="CasHlhlAwardWinner"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="ref_edu_enrollment"
+               domainObjectName="RefEduEnrollment"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="ref_edu_graduation"
+               domainObjectName="RefEduGraduation"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>-->
+        <table tableName="stat_cas_staff_qianzaiyearcount_bydanwei"
+               domainObjectName="StatCasStaffQianzaiyearcountBydanwei"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>

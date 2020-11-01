@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.arp.trend.repository.biz.manual.CommonManualMapper">
+  <sql id="Base_Column_List">
+    id, stat_year, pid, cid, metaid, zsys, xuebu, xingming, dxnf, xingbie, guoji,
+    csny, nianling, qssj, chushengdi, byyx1, byyx2, byyx3, byyx_gf, zhuanye, gzdw, gzdw_gf1, 
+    gzdw_gf2, datasource_type, etl_datasource, firstinput_time, laterupdate_time
+  </sql>
+
+
+</mapper>

@@ -125,12 +125,6 @@ public class DetailStaffServiceImpl extends AbstructServiceHelper implements Det
         List XZGLRY = Lists.newArrayList();
         List GR = Lists.newArrayList();
         yearList.stream().forEach(year -> {
-            /*resultMapByYear.entrySet().stream().forEach(map -> {
-                ZS.add(map.getValue().get("ZS"));
-                ZYJSRY.add(map.getValue().get("ZYJSRY"));
-                XZGLRY.add(map.getValue().get("XZGLRY"));
-                GR.add(map.getValue().get("GR"));
-            });*/
             if(resultMapByYear.containsKey(year)) {
                 Map<String, Object> map = resultMapByYear.get(year);
                 ZS.add(map.get("ZS"));

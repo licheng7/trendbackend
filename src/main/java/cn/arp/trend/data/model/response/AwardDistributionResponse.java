@@ -18,18 +18,18 @@ public class AwardDistributionResponse implements Serializable {
 
     private static final long serialVersionUID = -1843502965655966849L;
 
-    @JsonProperty("award_pie")
-    private List<Map<String, Object>> awardPie;
+    @JsonProperty("award_original_ary")
+    private List<Map<String, Object>> awardOriginalAry;
 
     @JsonProperty("award_ary")
     private List<Map<String, Object>> awardAry;
 
-    public List<Map<String, Object>> getAwardPie() {
-        return awardPie;
+    public List<Map<String, Object>> getAwardOriginalAry() {
+        return awardOriginalAry;
     }
 
-    public void setAwardPie(List<Map<String, Object>> awardPie) {
-        this.awardPie = awardPie;
+    public void setAwardOriginalAry(List<Map<String, Object>> awardOriginalAry) {
+        this.awardOriginalAry = awardOriginalAry;
     }
 
     public List<Map<String, Object>> getAwardAry() {
@@ -40,8 +40,8 @@ public class AwardDistributionResponse implements Serializable {
         this.awardAry = awardAry;
     }
 
-    public AwardDistributionResponse(List<Map<String, Object>> awardPie, List<Map<String, Object>> awardAry) {
-        this.awardPie = awardPie;
+    public AwardDistributionResponse(List<Map<String, Object>> awardOriginalAry, List<Map<String, Object>> awardAry) {
+        this.awardOriginalAry = awardOriginalAry;
         this.awardAry = awardAry;
     }
 

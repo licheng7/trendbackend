@@ -293,7 +293,496 @@
       ON g.jgmc = h.jgmc
     </select>
 
+    <select id="queryAreaAwardDistribution" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.DetailAwardDistributionQueryDO">
+        SELECT
+          m.jgbh,
+          m.jgmc,
+          m.research_field,
+          m.num_qsjc,
+          m.num_wlkx,
+          m.num_hlhl,
+          m.num_zrkx,
+          m.num_jsfm,
+          m.num_kjjb,
+          IFNULL(n.num_zgkj,0) AS num_zgkj
+        FROM
+        (
+          SELECT
+            k.jgbh,
+            k.jgmc,
+            k.research_field,
+            k.num_qsjc,
+            k.num_wlkx,
+            k.num_hlhl,
+            k.num_zrkx,
+            k.num_jsfm,
+            IFNULL(l.num_kjjb,0) AS num_kjjb
+          FROM(
+            SELECT
+              i.jgbh,
+              i.jgmc,
+              i.research_field,
+              i.num_qsjc,
+              i.num_wlkx,
+              i.num_hlhl,
+              i.num_zrkx,
+              IFNULL(j.num_jsfm, 0) AS num_jsfm
+            FROM(
+              SELECT
+                g.jgbh,
+                g.jgmc,
+                g.research_field,
+                g.num_qsjc,
+                g.num_wlkx,
+                g.num_hlhl,
+                IFNULL(h.num_zrkx,0) AS num_zrkx
+              FROM(
+                SELECT
+                  e.jgbh,
+                  e.jgmc,
+                  e.research_field,
+                  e.num_qsjc,
+                  e.num_wlkx,
+                  IFNULL(f.num_hlhl,0) AS num_hlhl
+                FROM(
+                  SELECT
+                    c.jgbh,
+                    c.jgmc,
+                    c.research_field,
+                    c.num_qsjc,
+                    IFNULL(d.num_wlkx,0) AS num_wlkx
+                  FROM(
+                    SELECT
+                      a.jgbh,
+                      a.jgmc,
+                      a.research_field,
+                      IFNULL(b.num_qsjc,0) AS num_qsjc
+                    FROM (
+                      SELECT
+                        jgbh,
+                        jgmc,
+                        research_field
+                      FROM
+                        ref_org_type
+                      <where>
+                        1 = 1
+                        <include refid="sql_affiliation"/>
+                        AND research_field IS NOT NULL
+                        AND research_field !="NA"
+                      </where>
+                    ) AS a
+                    LEFT JOIN
+                    (
+                      SELECT
+                        ANY_VALUE(gzdw_std) AS jgmc,
+                        COUNT(id) AS num_qsjc
+                      FROM
+                        cas_qiushi_scientist_award
+                      <where>
+                        <![CDATA[nf >= #{query.startYear}]]>
+                        AND <![CDATA[nf <= #{query.endYear}]]>
+                        AND gzdw_std in
+                        (
+                          SELECT
+                            jgmc
+                          FROM
+                            ref_org_type
+                          <where>
+                            1 = 1
+                            <include refid="sql_affiliation"/>
+                            AND research_field IS NOT NULL
+                            AND research_field!="NA"
+                          </where>
+                        )
+                      </where>
+                      GROUP BY gzdw_std
+                    ) AS b
+                    ON a.jgmc = b.jgmc
+                  ) AS c
+                  LEFT JOIN
+                  (
+                    SELECT
+                      ANY_VALUE(hjrdw_std) AS jgmc,
+                      COUNT(id) AS num_wlkx
+                    FROM
+                      cas_future_prize
+                    <where>
+                      <![CDATA[hjnf >= #{query.startYear}]]>
+                      AND <![CDATA[hjnf <= #{query.endYear}]]>
+                      AND hjrdw_std in
+                      (
+                        SELECT
+                          jgmc
+                        FROM
+                          ref_org_type
+                        <where>
+                          1 = 1
+                          <include refid="sql_affiliation"/>
+                          AND research_field IS NOT NULL
+                          AND research_field!="NA"
+                        </where>
+                      )
+                    </where>
+                    GROUP BY hjrdw_std
+                  ) AS d
+                  ON c.jgmc = d.jgmc
+                ) AS e
+                LEFT JOIN
+                (
+                  SELECT
+                    ANY_VALUE(gzdw_std) AS jgmc,
+                    COUNT(id) AS num_hlhl
+                  FROM
+                    cas_hlhl_award_winner
+                  <where>
+                    <![CDATA[nd >= #{query.startYear}]]>
+                    AND <![CDATA[nd <= #{query.endYear}]]>
+                    AND gzdw_std in
+                    (
+                      SELECT
+                        jgmc
+                      FROM
+                        ref_org_type
+                      <where>
+                        1 = 1
+                        <include refid="sql_affiliation"/>
+                        AND research_field IS NOT NULL
+                        AND research_field!="NA"
+                      </where>
+                    )
+                  </where>
+                  GROUP BY gzdw_std
+                ) AS f
+                ON e.jgmc = f.jgmc
+              ) AS g
+              LEFT JOIN
+              (
+                SELECT
+                  ANY_VALUE(jgmc) AS jgmc,
+                  COUNT(id) AS num_zrkx
+                FROM(
+                  SELECT
+                    id,
+                    first_wcdw_std AS jgmc
+                  FROM
+                    cas_china_award_10year_final
+                  <where>
+                    first_wcdw_std in
+                    (
+                      SELECT
+                        jgmc
+                      FROM
+                        ref_org_type
+                      <where>
+                        1 = 1
+                        <include refid="sql_affiliation"/>
+                        AND research_field IS NOT NULL
+                        AND research_field!="NA"
+                      </where>
+                    )
+                    AND <![CDATA[hjnf >= #{query.startYear}]]>
+                    AND <![CDATA[hjnf <= #{query.endYear}]]>
+                  </where>
+                  UNION ALL
+                  SELECT
+                    id,
+                    second_wcdw_std AS jgmc
+                  FROM
+                    cas_china_award_10year_final
+                  <where>
+                    second_wcdw_std in
+                    (
+                      SELECT
+                        jgmc
+                      FROM
+                        ref_org_type
+                      <where>
+                        1 = 1
+                        <include refid="sql_affiliation"/>
+                        AND research_field IS NOT NULL
+                        AND research_field!="NA"
+                      </where>
+                    )
+                    AND <![CDATA[hjnf >= #{query.startYear}]]>
+                    AND <![CDATA[hjnf <= #{query.endYear}]]>
+                  </where>
+                  UNION ALL
+                  SELECT
+                    id,
+                    third_wcdw_std AS jgmc
+                  FROM
+                    cas_china_award_10year_final
+                  <where>
+                    third_wcdw_std in
+                    (
+                      SELECT
+                        jgmc
+                      FROM
+                        ref_org_type
+                      <where>
+                        1 = 1
+                        <include refid="sql_affiliation"/>
+                        AND research_field IS NOT NULL
+                        AND research_field!="NA"
+                      </where>
+                    )
+                    AND <![CDATA[hjnf >= #{query.startYear}]]>
+                    AND <![CDATA[hjnf <= #{query.endYear}]]>
+                  </where>
+                ) AS t
+                GROUP BY jgmc
+              ) AS h
+              ON g.jgmc = h.jgmc
+            ) AS i
+            LEFT JOIN
+            (
+              SELECT
+                ANY_VALUE(jgmc) AS jgmc,
+                COUNT(id) AS num_jsfm
+              FROM(
+                SELECT
+                  id,
+                  first_wcdw_std AS jgmc
+                FROM
+                  cas_china_award_10year_final
+                <where>
+                  jxlb="国家技术发明"
+                  AND first_wcdw_std in
+                  (
+                    SELECT
+                      jgmc
+                    FROM
+                      ref_org_type
+                    <where>
+                      1 = 1
+                      <include refid="sql_affiliation"/>
+                      AND research_field IS NOT NULL
+                      AND research_field!="NA"
+                    </where>
+                    AND <![CDATA[hjnf >= #{query.startYear}]]>
+                    AND <![CDATA[hjnf <= #{query.endYear}]]>
+                  )
+                </where>
+                UNION ALL
+                SELECT
+                  id,
+                  second_wcdw_std AS jgmc
+                FROM
+                cas_china_award_10year_final
+                <where>
+                    jxlb="国家技术发明"
+                    AND second_wcdw_std in
+                    (
+                    SELECT
+                    jgmc
+                    FROM
+                    ref_org_type
+                    <where>
+                        1 = 1
+                        <include refid="sql_affiliation"/>
+                        AND research_field IS NOT NULL
+                        AND research_field!="NA"
+                    </where>
+                    AND <![CDATA[hjnf >= #{query.startYear}]]>
+                    AND <![CDATA[hjnf <= #{query.endYear}]]>
+                    )
+                </where>
+                UNION ALL
+                SELECT
+                  id,
+                  third_wcdw_std AS jgmc
+                FROM
+                  cas_china_award_10year_final
+                <where>
+                    jxlb="国家技术发明"
+                    AND third_wcdw_std in
+                    (
+                    SELECT
+                    jgmc
+                    FROM
+                    ref_org_type
+                    <where>
+                        1 = 1
+                        <include refid="sql_affiliation"/>
+                        AND research_field IS NOT NULL
+                        AND research_field!="NA"
+                    </where>
+                    AND <![CDATA[hjnf >= #{query.startYear}]]>
+                    AND <![CDATA[hjnf <= #{query.endYear}]]>
+                    )
+                </where>
+              ) AS t
+              GROUP BY jgmc
+            )  AS j
+            ON i.jgmc = j.jgmc
+          ) AS k
+          LEFT JOIN
+          (
+            SELECT ANY_VALUE(jgmc) AS jgmc, COUNT(id) AS num_kjjb
+            FROM(
+                SELECT
+                id,
+                first_wcdw_std AS jgmc
+                FROM
+                cas_china_award_10year_final
+                <where>
+                    jxlb="国家科学技术进步奖"
+                    AND first_wcdw_std in
+                    (
+                    SELECT
+                    jgmc
+                    FROM
+                    ref_org_type
+                    <where>
+                        1 = 1
+                        <include refid="sql_affiliation"/>
+                        AND research_field IS NOT NULL
+                        AND research_field!="NA"
+                    </where>
+                    AND <![CDATA[hjnf >= #{query.startYear}]]>
+                    AND <![CDATA[hjnf <= #{query.endYear}]]>
+                    )
+                </where>
+                UNION ALL
+                SELECT
+                id,
+                second_wcdw_std AS jgmc
+                FROM
+                cas_china_award_10year_final
+                <where>
+                    jxlb="国家科学技术进步奖"
+                    AND second_wcdw_std in
+                    (
+                    SELECT
+                    jgmc
+                    FROM
+                    ref_org_type
+                    <where>
+                        1 = 1
+                        <include refid="sql_affiliation"/>
+                        AND research_field IS NOT NULL
+                        AND research_field!="NA"
+                    </where>
+                    AND <![CDATA[hjnf >= #{query.startYear}]]>
+                    AND <![CDATA[hjnf <= #{query.endYear}]]>
+                    )
+                </where>
+                UNION ALL
+                SELECT
+                id,
+                third_wcdw_std AS jgmc
+                FROM
+                cas_china_award_10year_final
+                <where>
+                    jxlb="国家科学技术进步奖"
+                    AND third_wcdw_std in
+                    (
+                    SELECT
+                    jgmc
+                    FROM
+                    ref_org_type
+                    <where>
+                        1 = 1
+                        <include refid="sql_affiliation"/>
+                        AND research_field IS NOT NULL
+                        AND research_field!="NA"
+                    </where>
+                    AND <![CDATA[hjnf >= #{query.startYear}]]>
+                    AND <![CDATA[hjnf <= #{query.endYear}]]>
+                    )
+                </where>
+            ) AS t
+            GROUP BY jgmc
+          ) AS l
+          ON k.jgmc = l.jgmc
+        ) AS m
+        LEFT JOIN
+        (
+          SELECT ANY_VALUE(jgmc) AS jgmc, COUNT(id) AS num_zgkj
+          FROM
+          (
+            SELECT
+            id,
+            first_wcdw_std AS jgmc
+            FROM
+            cas_china_award_10year_final
+            <where>
+                jxlb="国家科学技术进步奖"
+                AND first_wcdw_std in
+                (
+                SELECT
+                jgmc
+                FROM
+                ref_org_type
+                <where>
+                    1 = 1
+                    <include refid="sql_affiliation"/>
+                    AND research_field IS NOT NULL
+                    AND research_field!="NA"
+                </where>
+                AND <![CDATA[hjnf >= #{query.startYear}]]>
+                AND <![CDATA[hjnf <= #{query.endYear}]]>
+                )
+            </where>
+            UNION ALL
+            SELECT
+            id,
+            second_wcdw_std AS jgmc
+            FROM
+            cas_china_award_10year_final
+            <where>
+                jxlb="国家科学技术进步奖"
+                AND second_wcdw_std in
+                (
+                SELECT
+                jgmc
+                FROM
+                ref_org_type
+                <where>
+                    1 = 1
+                    <include refid="sql_affiliation"/>
+                    AND research_field IS NOT NULL
+                    AND research_field!="NA"
+                </where>
+                AND <![CDATA[hjnf >= #{query.startYear}]]>
+                AND <![CDATA[hjnf <= #{query.endYear}]]>
+                )
+            </where>
+            UNION ALL
+            SELECT
+            id,
+            third_wcdw_std AS jgmc
+            FROM
+            cas_china_award_10year_final
+            <where>
+                jxlb="国家科学技术进步奖"
+                AND third_wcdw_std in
+                (
+                SELECT
+                jgmc
+                FROM
+                ref_org_type
+                <where>
+                    1 = 1
+                    <include refid="sql_affiliation"/>
+                    AND research_field IS NOT NULL
+                    AND research_field!="NA"
+                </where>
+                AND <![CDATA[hjnf >= #{query.startYear}]]>
+                AND <![CDATA[hjnf <= #{query.endYear}]]>
+                )
+            </where>
+          ) AS t
+          GROUP BY jgmc
+        ) AS n
+        ON m.jgmc = n.jgmc
+    </select>
+
     <select id="querySorting" resultMap="BaseResultMap">
-      SELECT jgmc,ssfy from ref_org_type
+      SELECT
+        jgmc, ssfy
+      from
+        ref_org_type
     </select>
 </mapper>

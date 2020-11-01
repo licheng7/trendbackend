@@ -22,6 +22,7 @@
     -->
     id, jgmc, jgbh, nf, bdrs, bsrs, sdrs, ssrs
   </sql>
+
   <select id="queryByNf" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
       <include refid="Base_Column_List" />
@@ -250,5 +251,169 @@
       a.nf, a.jgmc
     ORDER BY
       a.jgmc, a.nf
+  </select>
+
+  <select id="queryEdu4D1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf,
+      SUM(bdrs) AS rs
+    FROM
+      stat_teacher_student
+    <where>
+      1 = 1
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.unitIdAry != null">
+          AND JGBH in (
+          <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+    GROUP BY nf
+  </select>
+
+  <select id="queryEdu4D2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
+    SELECT
+      SUM(bdrs) AS rs
+    FROM
+      stat_teacher_student
+    <where>
+      1 = 1
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.unitIdAry != null">
+          AND JGBH in (
+          <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+  </select>
+
+  <select id="queryEdu4D3" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
+    SELECT
+      SUM(bdrs) AS rs
+    FROM
+      stat_teacher_student AS a,
+      ref_org_type AS b
+    <where>
+      a.jgbh = b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+  </select>
+
+  <select id="queryEdu4D4" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
+    SELECT
+      ANY_VALUE(jgbh) AS jgbh,
+      ANY_VALUE(jgmc) AS jgmc,
+      SUM(bdrs) AS rs
+    FROM
+      stat_teacher_student
+    <where>
+      nf = #{query.endYear}
+      AND jgbh IS NOT NULL
+    </where>
+    GROUP BY jgbh
+    ORDER BY rs DESC
+  </select>
+
+  <select id="queryEdu4M1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf,
+      SUM(sdrs) AS rs
+    FROM
+      stat_teacher_student
+    <where>
+      1 = 1
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.unitIdAry != null">
+          AND JGBH in (
+          <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+    GROUP BY nf
+  </select>
+
+  <select id="queryEdu4M2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
+    SELECT
+      SUM(sdrs) AS rs
+    FROM
+      stat_teacher_student
+    <where>
+      1 = 1
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      <choose>
+        <when test="query.unitIdAry != null">
+          AND JGBH in (
+          <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND JGBH is not null
+        </otherwise>
+      </choose>
+    </where>
+  </select>
+
+  <select id="queryEdu4M3" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
+    SELECT
+      SUM(sdrs) AS rs
+    FROM
+      stat_teacher_student AS a,
+      ref_org_type AS b
+    <where>
+      a.jgbh = b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+  </select>
+
+  <select id="queryEdu4M4" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
+    SELECT
+      ANY_VALUE(jgbh) AS jgbh,
+      ANY_VALUE(jgmc) AS jgmc,
+      SUM(sdrs) AS rs
+    FROM
+      stat_teacher_student
+    <where>
+      nf = #{query.endYear}
+      AND jgbh IS NOT NULL
+    </where>
+    GROUP BY jgbh
+    ORDER BY rs DESC
   </select>
 </mapper>

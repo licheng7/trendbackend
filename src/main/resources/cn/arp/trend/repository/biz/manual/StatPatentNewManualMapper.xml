@@ -24,6 +24,33 @@
     id, jgbh, jgmc, nf, zllx, sq, pz, sx, update_time
   </sql>
 
+  <sql id="sql_affiliation">
+    <choose>
+      <when test="query.unitIdAry != null">
+        AND JGBH in (
+        <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+          #{item}
+        </foreach>
+        )
+      </when>
+      <otherwise>
+        AND JGBH is not null
+      </otherwise>
+    </choose>
+  </sql>
+
+  <sql id="sql_affiliation_un_otherwise">
+    <choose>
+      <when test="query.unitIdAry != null">
+        AND JGBH in (
+        <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+          #{item}
+        </foreach>
+        )
+      </when>
+    </choose>
+  </sql>
+
   <select id="queryZKYChinaPatent1" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.ZKYChinaPatentQueryDO">
     SELECT
@@ -198,5 +225,140 @@
     </where>
     GROUP BY a.jgbh
     ORDER BY sq DESC
+  </select>
+  
+  <select id="queryAreaPatent1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaPatentQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf, SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
+    FROM
+      stat_patent_new
+    <where>
+      1 = 1
+      <include refid="sql_affiliation"/>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+    GROUP BY nf
+    ORDER BY nf
+  </select>
+
+  <select id="queryAreaPatent2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaPatentQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf, SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
+    FROM
+      stat_arp_patent
+    <where>
+      1 = 1
+      <include refid="sql_affiliation"/>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+    GROUP BY nf
+    ORDER BY nf
+  </select>
+
+  <select id="queryAreaPatent3" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaPatentQueryDO">
+    SELECT
+      SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
+    FROM
+      stat_patent_new AS a, ref_org_type AS b
+    <where>
+      a.jgbh=b.jgbh
+      <include refid="sql_affiliation_un_otherwise"/>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+  </select>
+
+  <select id="queryAreaPatent4" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaPatentQueryDO">
+    SELECT
+      ANY_VALUE(b.jgbh) AS jgbh, ANY_VALUE(b.jgmc) AS jgmc, SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
+    FROM
+      stat_patent_new AS a, ref_org_type AS b
+    <where>
+      a.jgbh=b.jgbh
+      <include refid="sql_affiliation"/>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+    GROUP BY b.jgbh
+    ORDER BY sq DESC
+  </select>
+
+  <select id="queryAreaPatent5" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaPatentQueryDO">
+    SELECT
+      ANY_VALUE(nf) AS nf, SUM(lj) AS lj, SUM(xz) AS xz
+    FROM
+      stat_patent AS a, ref_org_type AS b
+    <where>
+      a.jgmc=b.jgmc AND zllx="PCTPatent"
+      <include refid="sql_affiliation"/>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+    GROUP BY nf
+    ORDER BY nf
+  </select>
+
+  <select id="queryAreaPatent6" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaPatentQueryDO">
+    SELECT
+      SUM(lj) AS lj, SUM(xz) AS xz
+    FROM
+      stat_patent AS a, ref_org_type AS b
+    <where>
+      a.jgmc=b.jgmc
+      <include refid="sql_affiliation"/>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+  </select>
+
+  <select id="queryAreaPatent7" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaPatentQueryDO">
+    SELECT
+      ANY_VALUE(b.jgbh) AS jgbh, ANY_VALUE(b.jgmc) AS jgmc, SUM(lj) AS lj, SUM(xz) AS xz
+    FROM
+      stat_patent AS a, ref_org_type AS b
+    <where>
+      a.jgmc=b.jgmc
+      <include refid="sql_affiliation"/>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+    GROUP BY b.jgbh
+    ORDER BY xz DESC
+  </select>
+
+  <select id="queryAreaPatent8" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaPatentQueryDO">
+    SELECT
+      SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
+    FROM
+      stat_patent AS a, ref_org_type AS b
+    <where>
+      a.jgmc=b.jgmc
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
+  </select>
+
+  <select id="queryAreaPatent9" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaPatentQueryDO">
+    SELECT
+      SUM(lj) AS lj, SUM(xz) AS xz
+    FROM
+      stat_patent AS a, ref_org_type AS b
+    <where>
+      a.jgmc=b.jgmc
+      AND b.jgbh IS NOT NULL
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+    </where>
   </select>
 </mapper>

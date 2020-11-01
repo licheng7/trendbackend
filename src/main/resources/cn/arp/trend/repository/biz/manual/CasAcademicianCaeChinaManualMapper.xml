@@ -45,6 +45,21 @@
     gzdw_gf2, datasource_type, etl_datasource, firstinput_time, laterupdate_time
   </sql>
 
+  <sql id="sql_affiliation">
+    <choose>
+      <when test="query.unitIdAry != null">
+        AND JGBH in (
+        <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+          #{item}
+        </foreach>
+        )
+      </when>
+      <otherwise>
+        AND JGBH is not null
+      </otherwise>
+    </choose>
+  </sql>
+
   <select id="queryInstitutionsGCY" resultType="java.lang.String"
           parameterType="cn.arp.trend.data.model.DO.AcademicianQueryDO">
     SELECT
@@ -134,7 +149,7 @@
 
   <select id="queryAcademicianNew2" resultType="java.lang.String">
     SELECT
-      DISTINCT IFNULL(xuebu,"未知") AS xuebu
+      DISTINCT IFNULL(xuebu, "未知") AS xuebu
     FROM (
       SELECT
         DISTINCT xuebu
@@ -147,5 +162,58 @@
         cas_academician_cae_foreign
     ) AS a
   </select>
+  
+  <select id="queryHrAcadCaeTrend" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      ANY_VALUE(dxnf) AS dxnf, COUNT(a.id) AS dxrs
+    FROM
+      cas_academician_cae_china AS a, ref_org_type AS b
+    <where>
+      a.gzdw_gf1=b.jgmc
+      <include refid="sql_affiliation"/>
+    </where>
+    GROUP BY dxnf
+    ORDER BY dxnf
+  </select>
 
+  <select id="queryHrAcadCaeDist1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      COUNT(a.id) AS rs
+    FROM
+      cas_academician_cae_china AS a, ref_org_type AS b
+    <where>
+      a.gzdw_gf1=b.jgmc AND qssj IS NULL
+      <include refid="sql_affiliation"/>
+      AND <![CDATA[dxnf <= #{query.endYear}]]>
+    </where>
+  </select>
+
+  <select id="queryHrAcadCaeDist2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      COUNT(a.id) AS rs
+    FROM
+      cas_academician_cae_china AS a, ref_org_type AS b
+    <where>
+      a.gzdw_gf1=b.jgmc AND qssj IS NULL
+      AND <![CDATA[dxnf <= #{query.endYear}]]>
+    </where>
+  </select>
+
+  <select id="queryHrAcadCaeDist3" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
+    SELECT
+      ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(jgmc) AS jgmc, COUNT(a.id) AS rs
+    FROM
+    cas_academician_cae_china AS a, ref_org_type AS b
+    <where>
+      a.gzdw_gf1=b.jgmc AND qssj IS NULL
+      <include refid="sql_affiliation"/>
+      AND <![CDATA[dxnf <= #{query.endYear}]]>
+    </where>
+    GROUP BY jgbh
+    ORDER BY rs DESC
+  </select>
 </mapper>

@@ -3,6 +3,7 @@ package cn.arp.trend.service.biz.impl;
 import cn.arp.trend.data.model.DO.DetailAwardDetailQueryDO;
 import cn.arp.trend.data.model.DO.DetailAwardDistributionQueryDO;
 import cn.arp.trend.data.model.DO.DetailAwardTrendQueryDO;
+import cn.arp.trend.data.model.DTO.AreaAwardDistributionInfoDTO;
 import cn.arp.trend.data.model.DTO.DetailAwardDetailInfoDTO;
 import cn.arp.trend.data.model.DTO.DetailAwardDistributionInfoDTO;
 import cn.arp.trend.data.model.DTO.DetailAwardTrendInfoDTO;
@@ -255,6 +256,35 @@ public class DetailAwardServiceImpl extends AbstructServiceHelper implements Det
                 (map -> ((Number) map.get("value")).intValue() * -1)).collect(Collectors.toList());
 
         return new DetailAwardDistributionInfoDTO(awardPie, sortedAwardAry);
+    }
+
+    @Override
+    public AreaAwardDistributionInfoDTO areaDistributionQuery(DetailAwardDistributionQueryDO query) {
+
+        List<Map<String, Object>> awardOriginalAry
+                = refOrgTypeManualMapper.queryAreaAwardDistribution(query);
+
+        List<Map<String, Object>> awardAry = Lists.newArrayList();
+
+        awardOriginalAry.stream().forEach(map -> {
+            int num  = ((Number) map.get("num_hlhl")).intValue() +
+                    ((Number) map.get("num_jsfm")).intValue() +
+                    ((Number) map.get("num_kjjb")).intValue() +
+                    ((Number) map.get("num_qsjc")).intValue() +
+                    ((Number) map.get("num_wlkx")).intValue() +
+                    ((Number) map.get("num_zgkj")).intValue() +
+                    ((Number) map.get("num_zrkx")).intValue();
+            Map<String, Object> aryMap = Maps.newHashMap();
+            aryMap.put("name", map.get("jgmc"));
+            aryMap.put("value", num);
+            aryMap.put("id", map.get("jgbh"));
+            awardAry.add(aryMap);
+        });
+
+        List<Map<String, Object>> sortedAwardAry = awardAry.stream().sorted(Comparator.comparingInt
+                (map -> ((Number) map.get("value")).intValue() * -1)).collect(Collectors.toList());
+
+        return new AreaAwardDistributionInfoDTO(awardOriginalAry, sortedAwardAry);
     }
 
     private Map<String, Integer> calculateNum(List<Map<String, Object>> list) {

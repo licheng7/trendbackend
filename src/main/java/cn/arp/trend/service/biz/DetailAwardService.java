@@ -3,6 +3,7 @@ package cn.arp.trend.service.biz;
 import cn.arp.trend.data.model.DO.DetailAwardDetailQueryDO;
 import cn.arp.trend.data.model.DO.DetailAwardDistributionQueryDO;
 import cn.arp.trend.data.model.DO.DetailAwardTrendQueryDO;
+import cn.arp.trend.data.model.DTO.AreaAwardDistributionInfoDTO;
 import cn.arp.trend.data.model.DTO.DetailAwardDetailInfoDTO;
 import cn.arp.trend.data.model.DTO.DetailAwardDistributionInfoDTO;
 import cn.arp.trend.data.model.DTO.DetailAwardTrendInfoDTO;
@@ -20,4 +21,6 @@ public interface DetailAwardService {
     DetailAwardDetailInfoDTO detailQuery(DetailAwardDetailQueryDO query);
 
     DetailAwardDistributionInfoDTO distributionQuery(DetailAwardDistributionQueryDO query);
+
+    AreaAwardDistributionInfoDTO areaDistributionQuery(DetailAwardDistributionQueryDO query);
 }
