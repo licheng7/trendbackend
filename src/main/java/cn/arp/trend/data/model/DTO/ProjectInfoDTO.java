@@ -25,21 +25,21 @@ public class ProjectInfoDTO {
 
     private List<String> nsfcFunds;
 
-    private String stdCumulation;
+    private long stdCumulation;
 
-    private String stdNew;
+    private long stdNew;
 
-    private String stdProject;
+    private List<String> stdProject;
 
-    private String stdFunds;
+    private List<String> stdFunds;
 
-    private String xdCumulation;
+    private long xdCumulation;
 
-    private String xdNew;
+    private long xdNew;
 
-    private String xdProject;
+    private List<String> xdProject;
 
-    private String xdFunds;
+    private List<String> xdFunds;
 
     private List<OrderDTO> order;
 
@@ -97,67 +97,67 @@ public class ProjectInfoDTO {
         this.nsfcFunds = nsfcFunds;
     }
 
-    public String getStdCumulation() {
+    public long getStdCumulation() {
         return stdCumulation;
     }
 
-    public void setStdCumulation(String stdCumulation) {
+    public void setStdCumulation(long stdCumulation) {
         this.stdCumulation = stdCumulation;
     }
 
-    public String getStdNew() {
+    public long getStdNew() {
         return stdNew;
     }
 
-    public void setStdNew(String stdNew) {
+    public void setStdNew(long stdNew) {
         this.stdNew = stdNew;
     }
 
-    public String getStdProject() {
+    public List<String> getStdProject() {
         return stdProject;
     }
 
-    public void setStdProject(String stdProject) {
+    public void setStdProject(List<String> stdProject) {
         this.stdProject = stdProject;
     }
 
-    public String getStdFunds() {
+    public List<String> getStdFunds() {
         return stdFunds;
     }
 
-    public void setStdFunds(String stdFunds) {
+    public void setStdFunds(List<String> stdFunds) {
         this.stdFunds = stdFunds;
     }
 
-    public String getXdCumulation() {
+    public long getXdCumulation() {
         return xdCumulation;
     }
 
-    public void setXdCumulation(String xdCumulation) {
+    public void setXdCumulation(long xdCumulation) {
         this.xdCumulation = xdCumulation;
     }
 
-    public String getXdNew() {
+    public long getXdNew() {
         return xdNew;
     }
 
-    public void setXdNew(String xdNew) {
+    public void setXdNew(long xdNew) {
         this.xdNew = xdNew;
     }
 
-    public String getXdProject() {
+    public List<String> getXdProject() {
         return xdProject;
     }
 
-    public void setXdProject(String xdProject) {
+    public void setXdProject(List<String> xdProject) {
         this.xdProject = xdProject;
     }
 
-    public String getXdFunds() {
+    public List<String> getXdFunds() {
         return xdFunds;
     }
 
-    public void setXdFunds(String xdFunds) {
+    public void setXdFunds(List<String> xdFunds) {
         this.xdFunds = xdFunds;
     }
 

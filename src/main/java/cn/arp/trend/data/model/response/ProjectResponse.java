@@ -34,28 +34,28 @@ public class ProjectResponse implements Serializable {
     private List<String> nsfcFunds;
 
     @JsonProperty("std_cumulation")
-    private String stdCumulation;
+    private long stdCumulation;
 
     @JsonProperty("std_new")
-    private String stdNew;
+    private long stdNew;
 
     @JsonProperty("std_project")
-    private String stdProject;
+    private List<String> stdProject;
 
     @JsonProperty("std_funds")
-    private String stdFunds;
+    private List<String> stdFunds;
 
     @JsonProperty("xd_cumulation")
-    private String xdCumulation;
+    private long xdCumulation;
 
     @JsonProperty("xd_new")
-    private String xdNew;
+    private long xdNew;
 
     @JsonProperty("xd_project")
-    private String xdProject;
+    private List<String> xdProject;
 
     @JsonProperty("xd_funds")
-    private String xdFunds;
+    private List<String> xdFunds;
 
     private List<ProjectOrderResult> order;
 
@@ -113,67 +113,67 @@ public class ProjectResponse implements Serializable {
         this.nsfcFunds = nsfcFunds;
     }
 
-    public String getStdCumulation() {
+    public long getStdCumulation() {
         return stdCumulation;
     }
 
-    public void setStdCumulation(String stdCumulation) {
+    public void setStdCumulation(long stdCumulation) {
         this.stdCumulation = stdCumulation;
     }
 
-    public String getStdNew() {
+    public long getStdNew() {
         return stdNew;
     }
 
-    public void setStdNew(String stdNew) {
+    public void setStdNew(long stdNew) {
         this.stdNew = stdNew;
     }
 
-    public String getStdProject() {
+    public List<String> getStdProject() {
         return stdProject;
     }
 
-    public void setStdProject(String stdProject) {
+    public void setStdProject(List<String> stdProject) {
         this.stdProject = stdProject;
     }
 
-    public String getStdFunds() {
+    public List<String> getStdFunds() {
         return stdFunds;
     }
 
-    public void setStdFunds(String stdFunds) {
+    public void setStdFunds(List<String> stdFunds) {
         this.stdFunds = stdFunds;
     }
 
-    public String getXdCumulation() {
+    public long getXdCumulation() {
         return xdCumulation;
     }
 
-    public void setXdCumulation(String xdCumulation) {
+    public void setXdCumulation(long xdCumulation) {
         this.xdCumulation = xdCumulation;
     }
 
-    public String getXdNew() {
+    public long getXdNew() {
         return xdNew;
     }
 
-    public void setXdNew(String xdNew) {
+    public void setXdNew(long xdNew) {
         this.xdNew = xdNew;
     }
 
-    public String getXdProject() {
+    public List<String> getXdProject() {
         return xdProject;
     }
 
-    public void setXdProject(String xdProject) {
+    public void setXdProject(List<String> xdProject) {
         this.xdProject = xdProject;
     }
 
-    public String getXdFunds() {
+    public List<String> getXdFunds() {
         return xdFunds;
     }
 
-    public void setXdFunds(String xdFunds) {
+    public void setXdFunds(List<String> xdFunds) {
         this.xdFunds = xdFunds;
     }
 

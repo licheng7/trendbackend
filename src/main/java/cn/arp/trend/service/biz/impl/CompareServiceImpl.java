@@ -567,7 +567,6 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         projectInfo.setCategory(Lists.newArrayList("项目", "经费"));
 
         List<ProjectInfoDTO.OrderDTO> orderList = Lists.newArrayList();
-        //orderMap.entrySet().stream().forEach(obj -> orderList.add(obj.getValue()));
         yearListStr.stream().forEach(year -> {
             orderList.add(orderMap.get(year));
         });
@@ -581,6 +580,12 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
     private void initProjectInfoDTO(ProjectInfoDTO projectInfo) {
         projectInfo.setNsfcProject(Lists.newArrayList());
         projectInfo.setNsfcFunds(Lists.newArrayList());
+
+        projectInfo.setXdProject(Lists.newArrayList());
+        projectInfo.setXdFunds(Lists.newArrayList());
+
+        projectInfo.setStdProject(Lists.newArrayList());
+        projectInfo.setStdFunds(Lists.newArrayList());
     }
 
     private void doProjectQuery(List<String> yearListStr, Map<String, ProjectInfoDTO.OrderDTO>
@@ -594,14 +599,33 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
 
         projectInfo.setNsfcNew(xmList.get(yearListStr.get(yearListStr.size()-1)));
 
-        for(String year : xmList.keySet()) {
-            projectInfo.getNsfcProject().add(xmList.get(year).toString());
-            projectInfo.setNsfcCumulation(projectInfo.getNsfcCumulation() + xmList.get(year));
-        }
+        String lastYear = yearListStr.get(yearListStr.size() - 1);
 
-        for(String year : jfList.keySet()) {
-            projectInfo.getNsfcFunds().add(jfList.get(year).toString());
-        }
+        yearListStr.stream().forEach(year -> {
+            if(method.getName().equals("getNsfc")) {
+                projectInfo.getNsfcProject().add(xmList.get(year).toString());
+                projectInfo.setNsfcCumulation(projectInfo.getNsfcCumulation() + xmList.get(year));
+                projectInfo.getNsfcFunds().add(jfList.get(year).toString());
+                if(year.equals(lastYear)) {
+                    projectInfo.setNsfcNew(xmList.get(year));
+                }
+            } else if(method.getName().equals("getStd")) {
+                projectInfo.getStdProject().add(xmList.get(year).toString());
+                projectInfo.setStdCumulation(projectInfo.getStdCumulation() + xmList.get(year));
+                projectInfo.getStdFunds().add(jfList.get(year).toString());
+                if(year.equals(lastYear)) {
+                    projectInfo.setStdNew(xmList.get(year));
+                }
+            } else if(method.getName().equals("getXd")) {
+                projectInfo.getXdProject().add(xmList.get(year).toString());
+                projectInfo.setXdCumulation(projectInfo.getXdCumulation() + xmList.get(year));
+                projectInfo.getXdFunds().add(jfList.get(year).toString());
+                if(year.equals(lastYear)) {
+                    projectInfo.setXdNew(xmList.get(year));
+                }
+            }
+        });
+
 
         for(String year : recordList.keySet()) {
             ProjectInfoDTO.OrderDTO order = orderMap.get(year);
