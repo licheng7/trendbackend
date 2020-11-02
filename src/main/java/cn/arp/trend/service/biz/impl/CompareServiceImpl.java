@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -32,6 +33,13 @@ import java.util.stream.Collectors;
 public class CompareServiceImpl extends AbstructServiceHelper implements CompareService {
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy");
+
+    static NumberFormat nf = NumberFormat.getInstance();
+
+    static {
+        nf.setMaximumFractionDigits(5);
+        nf.setGroupingUsed(false);
+    }
 
     @Resource
     private CasPxxJfbjManualMapper casPxxJfbjManualMapper;
@@ -605,21 +613,21 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
             if(method.getName().equals("getNsfc")) {
                 projectInfo.getNsfcProject().add(xmList.get(year).toString());
                 projectInfo.setNsfcCumulation(projectInfo.getNsfcCumulation() + xmList.get(year));
-                projectInfo.getNsfcFunds().add(jfList.get(year).toString());
+                projectInfo.getNsfcFunds().add(nf.format(jfList.get(year)));
                 if(year.equals(lastYear)) {
                     projectInfo.setNsfcNew(xmList.get(year));
                 }
             } else if(method.getName().equals("getStd")) {
                 projectInfo.getStdProject().add(xmList.get(year).toString());
                 projectInfo.setStdCumulation(projectInfo.getStdCumulation() + xmList.get(year));
-                projectInfo.getStdFunds().add(jfList.get(year).toString());
+                projectInfo.getStdFunds().add(nf.format(jfList.get(year)));
                 if(year.equals(lastYear)) {
                     projectInfo.setStdNew(xmList.get(year));
                 }
             } else if(method.getName().equals("getXd")) {
                 projectInfo.getXdProject().add(xmList.get(year).toString());
                 projectInfo.setXdCumulation(projectInfo.getXdCumulation() + xmList.get(year));
-                projectInfo.getXdFunds().add(jfList.get(year).toString());
+                projectInfo.getXdFunds().add(nf.format(jfList.get(year)));
                 if(year.equals(lastYear)) {
                     projectInfo.setXdNew(xmList.get(year));
                 }
@@ -662,6 +670,8 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
                     if(yearListStr.contains(obj.getNf())) {
                         String year = obj.getNf();
                         xmList.put(year, xmList.get(year) + obj.getXm());
+                        /*jfList.put(year, new BigDecimal(jfList.get(year)).add(new BigDecimal(obj
+                                .getJf())).doubleValue());*/
                         jfList.put(year, jfList.get(year) + obj.getJf());
                         recordList.get(year).add(obj);
                     }
