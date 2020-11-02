@@ -65,7 +65,31 @@ public class ContrastAcademicianServiceImpl implements ContrastAcademicianServic
     }
 
     @Override
-    public Object byUnit(String userId, Integer startYear, Integer endYear, List<String> jgbhs) {
-        return null;
+    public List<HashMap<String, Object>>  byUnit(String userId, Integer startYear, Integer endYear, List<String> fieldIds) {
+
+        List<String> fieldIdsQuotes = new ArrayList<String>();
+        for(int i=0;i<fieldIds.size();i++)
+        {
+            fieldIdsQuotes.add(" \"" + fieldIds.get(i) + "\" ");
+        }
+
+        String jgbhStr = " in (" + String.join(",", fieldIdsQuotes) +  ") ";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", userId);
+        params.put("startYear", startYear);
+        params.put("endYear", endYear);
+        params.put("jgbhStr", jgbhStr);
+
+        List<HashMap<String, Object>> tem = null;
+        try
+        {
+            tem = contrastAcademicianManualMapper.contrastByUnit(params);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+
+        return tem;
     }
 }

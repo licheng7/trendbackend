@@ -43,4 +43,46 @@
     ) AS c
     GROUP BY research_field, dxnf;
   </select>
+
+  <select id="contrastByUnit" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(jgmc) AS jgmc, ANY_VALUE(dxnf) AS dxnf, COUNT(*) AS num
+    FROM (
+    SELECT b.jgbh, b.jgmc, dxnf
+    FROM (
+    SELECT dxnf, gzdw_gf1 AS jgmc
+    FROM cas_academician_china
+    <where>
+    qssj IS NULL AND dxnf&lt;=${endYear}
+    </where>
+    ) AS a
+    INNER JOIN(
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND jgbh ${jgbhStr}
+    ) AS b
+    ON a.jgmc=b.jgmc
+    UNION ALL
+    SELECT d.jgbh, d.jgmc, dxnf
+    FROM (
+    SELECT dxnf, gzdw_gf1 AS jgmc
+    FROM cas_academician_cae_china
+    <where>
+    qssj IS NULL AND dxnf&lt;=${endYear}
+    </where>
+    ) AS c
+    INNER JOIN(
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND jgbh ${jgbhStr}
+    ) AS d
+    ON c.jgmc=d.jgmc
+    ) AS e
+    GROUP BY jgmc, dxnf;
+  </select>
 </mapper>

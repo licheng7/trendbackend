@@ -13,5 +13,5 @@ public interface ContrastAcademicianService {
 
     List<HashMap<String, Object>> byField(String userId, Integer startYear, Integer endYear, List<String> fieldIds);
 
-    Object byUnit(String userId, Integer startYear, Integer endYear, List<String> jgbhs);
+    List<HashMap<String, Object>> byUnit(String userId, Integer startYear, Integer endYear, List<String> fieldIds);
 }

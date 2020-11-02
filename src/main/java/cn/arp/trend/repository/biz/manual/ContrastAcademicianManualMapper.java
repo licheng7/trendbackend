@@ -15,10 +15,7 @@ public interface ContrastAcademicianManualMapper {
             Map<String, Object> params
     );
 
-    Object contrastByUnit(
-            @Param("userId") String userId,
-            @Param("startYear") Integer startYear,
-            @Param("endYear") Integer endYear,
-            @Param("fieldIdsStr") String fieldIdsStr
+    List<HashMap<String, Object>> contrastByUnit(
+            Map<String, Object> params
     );
 }
