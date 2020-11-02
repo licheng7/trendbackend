@@ -35,7 +35,7 @@ public class DACompareInfoDTO {
     public class Galaxy{
 
         @JsonProperty("galaxy_fields")
-        private List<Map<String, Integer>> galaxyFields;
+        private List<Map<String, Object>> galaxyFields;
 
         @JsonProperty("galaxy_total")
         private List<List<Object>> galaxyTotal;
