@@ -1,5 +1,6 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class AgeDistributionResponse implements Serializable {
 
     private List<MapResult> detail;
 
+    @JsonProperty("result_array")
     private List<Map<String, Object>> resultList;
 
     public String getUpdateTime() {

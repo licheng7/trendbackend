@@ -1,7 +1,5 @@
 package cn.arp.trend.data.model.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -16,16 +14,12 @@ public class IncreaseTrendDetailResult implements Serializable {
 
     private static final long serialVersionUID = 3483022861349366852L;
 
-    @JsonProperty("ZS")
     private Map<String, Object> ZS;
 
-    @JsonProperty("ZYJSRY")
     private Map<String, Object> ZYJSRY;
 
-    @JsonProperty("XZGLRY")
     private Map<String, Object> XZGLRY;
 
-    @JsonProperty("GR")
     private Map<String, Object> GR;
 
     private List<Map<String, Object>> typeList;

@@ -35,7 +35,7 @@ import javax.annotation.Resource;
  * Date:2020/10/13
  * Time:下午2:38
  **/
-@Api(value="DetailAward", tags={"对应宏观部分detailAward.js (结果已比对)"})
+@Api(value="DetailAward", tags={"对应宏观部分detailAward.js"})
 @RestController
 @RequestMapping(value = "/detail/award")
 public class DetailAwardController extends BaseController {
@@ -75,7 +75,6 @@ public class DetailAwardController extends BaseController {
 
     /**
      * detailAward.js对应的/detail
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return
@@ -100,7 +99,6 @@ public class DetailAwardController extends BaseController {
 
     /**
      * detailAward.js对应的/distribution
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return

@@ -31,7 +31,7 @@ public class PostAnalyzeRequest implements Serializable {
     private String endYear;
 
     @ApiParam("positionValue")
-    @JsonProperty("position_value")
+    @JsonProperty("positionValue")
     @NotBlank(message = "positionValue不能为空")
     private String positionValue;
 

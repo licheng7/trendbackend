@@ -26,7 +26,7 @@ import javax.annotation.Resource;
  * Date:2020/10/12
  * Time:上午12:56
  **/
-@Api(value="detailMentor",tags={"对应宏观部分detailMentor.js(已比对结果)"})
+@Api(value="detailMentor",tags={"对应宏观部分detailMentor.js"})
 @RestController
 @RequestMapping(value = "/detail/mentor")
 public class DetailMentorController extends BaseController {
