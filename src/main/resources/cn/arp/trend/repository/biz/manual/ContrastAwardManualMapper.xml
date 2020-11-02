@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.arp.trend.repository.biz.manual.ContrastAwardManualMapper" >
+
+  <select id="contrastByField1" resultType="java.util.HashMap">
+    SELECT *
+    FROM(
+    SELECT jgmc, jgbh, research_field, nf, jxmc, detail
+    FROM (
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, second_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, third_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_hlhl_award_winner
+    UNION ALL
+    SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
+    FROM cas_future_prize
+    UNION ALL
+    SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_qiushi_scientist_award
+    ) AS a
+    INNER JOIN
+    (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND field_id ${arrayStr}
+    ) AS b
+    ON a.gzdw = b.jgmc
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>;
+  </select>
+  <select id="contrastByField2" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(nf) AS year, ANY_VALUE(jxmc) AS unitName, jxmc, ANY_VALUE(research_field) AS field,COUNT(*) AS num
+    FROM(
+    SELECT jgmc, jgbh, research_field, nf, jxmc, detail
+    FROM (
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, second_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, third_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_hlhl_award_winner
+    UNION ALL
+    SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
+    FROM cas_future_prize
+    UNION ALL
+    SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_qiushi_scientist_award
+    ) AS a
+    INNER JOIN
+    (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND field_id ${arrayStr}
+    ) AS b
+    ON a.gzdw = b.jgmc
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>
+    GROUP BY nf, jxmc;
+  </select>
+  <select id="contrastByField3" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS name, ANY_VALUE(jxmc) AS jxmc, COUNT(*) AS num
+    FROM(
+    SELECT jgmc, jgbh, research_field, nf, jxmc, detail
+    FROM (
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, second_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, third_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_hlhl_award_winner
+    UNION ALL
+    SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
+    FROM cas_future_prize
+    UNION ALL
+    SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_qiushi_scientist_award
+    ) AS a
+    INNER JOIN
+    (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND field_id ${arrayStr}
+    ) AS b
+    ON a.gzdw = b.jgmc
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>
+    GROUP BY research_field, jxmc;
+  </select>
+
+  <select id="contrastByUnit1" resultType="java.util.HashMap">
+
+  </select>
+  <select id="contrastByUnit2" resultType="java.util.HashMap">
+
+  </select>
+  <select id="contrastByUnit3" resultType="java.util.HashMap">
+
+  </select>
+</mapper>
