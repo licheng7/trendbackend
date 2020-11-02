@@ -23,10 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IDEA
@@ -47,33 +44,102 @@ public class ContrastAcademicianController extends BaseController {
     @RequestMapping(value = "/field", method = RequestMethod.POST)
     @Audit(desc="")
     public ContrastAcademicianByFieldResponse contrastByField(@RequestBody ContrastBaseRequest request) {
-        Integer startYear = 1990;
-        Integer endYear = 2020;
+
+        Calendar cal = Calendar.getInstance();
+        Integer endYear = cal.get(Calendar.YEAR) - 1;
+        Integer startYear = endYear - 9;
+        Integer startNf = 1980;
+
         List<HashMap<String, Object>> resList = contrastAcademicianService.byField(
                 request.getUserId(),
                 startYear,
                 endYear,
                 request.getDataAry());
+
+        // build help data structure
+        // research_field, nf, num
+        Map<String, long[]> helpStruct = new HashMap<>();
+        for(int i = 0;i<resList.size();i++)
+        {
+            HashMap<String, Object> item = resList.get(i);
+            String fieldName = (String) item.get("research_field");
+            Long num = (Long) item.get("num");
+            Integer nf = Integer.parseInt(""+item.get("nf"));
+
+            if(!helpStruct.containsKey(fieldName))
+            {
+                helpStruct.put(fieldName, new long[endYear - startNf + 1]);
+            }
+            helpStruct.get(fieldName)[nf - startNf] = num;
+        }
+
+        // build response
         ContrastAcademicianByFieldResponse contrastAcademicianByFieldResponse = new ContrastAcademicianByFieldResponse();
 
+        // build ageAry
         List<Map<String, Object>> ageAry = new ArrayList<>();
-        HashMap<String, Object> ageAry1 = new HashMap<String, Object>();
-        ageAry1.put("ageAry1", "ageAry1Value");
-        ArrayList<Long> arrayList = new ArrayList<Long>();
-        arrayList.add(1L);
-        arrayList.add(2L);
-        arrayList.add(3L);
-        ageAry1.put("ageArylist", arrayList);
-        ageAry.add(ageAry1);
+        for(String fieldName : helpStruct.keySet())
+        {
+            HashMap<String, Object> ageAryOne = new HashMap<String, Object>();
+            ageAryOne.put("name", fieldName);
+
+            ArrayList<Long> arrayList = new ArrayList<Long>();
+            for(int j = startYear ; j <= endYear ; j++)
+            {
+                arrayList.add(helpStruct.get(fieldName)[j - startNf]);
+            }
+            ageAryOne.put("value", arrayList);
+            ageAry.add(ageAryOne);
+        }
         contrastAcademicianByFieldResponse.setAgeAry(ageAry);
 
-        List<Map<String, Object>> unitAry;
-        List<Map<String, Object>> cumulativeAry;
+        // build unitAry
+        List<Map<String, Object>> unitAry = new ArrayList<>();
+        for(String fieldName : helpStruct.keySet())
+        {
+            HashMap<String, Object> ageunitAry = new HashMap<String, Object>();
+            ageunitAry.put("name", fieldName);
 
+            int allSum = 0;
+            for(int j = startNf ; j <= endYear ; j++)
+            {
+                allSum += helpStruct.get(fieldName)[j - startNf];
+            }
+            ageunitAry.put("value", allSum);
+            unitAry.add(ageunitAry);
+        }
+        contrastAcademicianByFieldResponse.setUnitAry(unitAry);
+
+        // build yearsAry
         List<Long> yearsAry = new ArrayList<>();
-        yearsAry.add(2001L);
-        yearsAry.add(2021L);
+        for(int j = startYear ; j <= endYear ; j++)
+        {
+            yearsAry.add((long) j);
+        }
         contrastAcademicianByFieldResponse.setyearsAry(yearsAry);
+
+        // build cumulativeAry
+        List<Map<String, Object>> cumulativeAry = new ArrayList<>();
+        for(String fieldName : helpStruct.keySet())
+        {
+            HashMap<String, Object> cumulativeAryOne = new HashMap<String, Object>();
+            cumulativeAryOne.put("name", fieldName);
+
+            ArrayList<Long> arrayList = new ArrayList<Long>();
+            int allSum = 0;
+            for(int j = startNf ; j < startYear ; j++)
+            {
+                allSum += helpStruct.get(fieldName)[j - startNf];
+            }
+            for(int j = startYear ; j <= endYear ; j++)
+            {
+                allSum += helpStruct.get(fieldName)[j - startNf];
+                arrayList.add((long) allSum);
+            }
+            cumulativeAryOne.put("value", arrayList);
+            cumulativeAry.add(cumulativeAryOne);
+        }
+        contrastAcademicianByFieldResponse.setCumulativeAry(cumulativeAry);
 
         return contrastAcademicianByFieldResponse;
     }

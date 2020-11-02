@@ -45,7 +45,7 @@ public class ContrastAcademicianByFieldResponse implements Serializable {
         return cumulativeAry;
     }
 
-    public void setCumulativeAry(List<Map<String, Object>> unitAry) {
+    public void setCumulativeAry(List<Map<String, Object>> cumulativeAry) {
         this.cumulativeAry = cumulativeAry;
     }
 
