@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -566,7 +567,10 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         projectInfo.setCategory(Lists.newArrayList("项目", "经费"));
 
         List<ProjectInfoDTO.OrderDTO> orderList = Lists.newArrayList();
-        orderMap.entrySet().stream().forEach(obj -> orderList.add(obj.getValue()));
+        //orderMap.entrySet().stream().forEach(obj -> orderList.add(obj.getValue()));
+        yearListStr.stream().forEach(year -> {
+            orderList.add(orderMap.get(year));
+        });
         projectInfo.setOrder(orderList);
 
         projectInfo.setYear(yearListStr);
@@ -586,7 +590,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         Triple<Map, Map, Map> triple = this.initCalculateParam(yearListStr, bizDateList);
         Map<String, Long> xmList = triple.getLeft();
         Map<String, Double> jfList = triple.getMiddle();
-        Map<String, CompareProjectObj> recordList = triple.getRight();
+        Map<String, List<CompareProjectObj>> recordList = triple.getRight();
 
         projectInfo.setNsfcNew(xmList.get(yearListStr.get(yearListStr.size()-1)));
 
@@ -603,8 +607,14 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
             ProjectInfoDTO.OrderDTO order = orderMap.get(year);
             MapResultDTO<List<String>, List<Long>> map = (MapResultDTO<List<String>, List<Long>>) method.invoke(order);
             if(null != recordList.get(year)) {
-                map.setName(Lists.newArrayList(recordList.get(year).getJgmc()));
-                map.setValue(Lists.newArrayList(recordList.get(year).getXm()));
+                List<CompareProjectObj> list = recordList.get(year);
+                List<CompareProjectObj> sortedList = list.stream().sorted(Comparator
+                        .comparingLong(ompareProjectObj -> ompareProjectObj.getXm() * -1)).limit(10)
+                        .collect(Collectors.toList());
+                sortedList.stream().forEach(compareProjectObj -> {
+                    map.getName().add(compareProjectObj.getJgmc());
+                    map.getValue().add(compareProjectObj.getXm());
+                });
             }
         }
     }
@@ -613,13 +623,13 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
 
         Map<String, Long> xmList = Maps.newHashMap();   // 每年的项目数
         Map<String, Double> jfList = Maps.newHashMap();   // 每年的经费数
-        Map<String, CompareProjectObj> recordList = Maps.newHashMap();   // 每年的记录数
+        Map<String, List<CompareProjectObj>> recordList = Maps.newHashMap();   // 每年的记录数
 
         yearListStr.forEach(
                 obj -> {
                     xmList.put(obj, 0L);
                     jfList.put(obj, 0D);
-                    recordList.put(obj, null);
+                    recordList.put(obj, Lists.newArrayList());
                 }
         );
 
@@ -629,7 +639,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
                         String year = obj.getNf();
                         xmList.put(year, xmList.get(year) + obj.getXm());
                         jfList.put(year, jfList.get(year) + obj.getJf());
-                        recordList.put(year, obj);
+                        recordList.get(year).add(obj);
                     }
                 }
         );
