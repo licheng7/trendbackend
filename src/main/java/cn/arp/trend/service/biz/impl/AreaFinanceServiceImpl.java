@@ -44,18 +44,20 @@ public class AreaFinanceServiceImpl extends AbstructServiceHelper implements Are
         List<Map<String, Object>> list2 = Lists.newArrayList();
 
         queryResult.stream().forEach(map -> {
-            Map<String, Object> map1 = Maps.newHashMap();
-            map1.put("jgbh", map.get("jgbh"));
-            map1.put("jgmc", map.get("jgmc"));
-            map1.put("zzc", map.get("zzc"));
-            map1.put("zc", map.get("zc"));
-            map1.put("sr", map.get("sr"));
-            map1.put("ye", map.get("ye"));
-            list1.add(map1);
+            if(map != null) {
+                Map<String, Object> map1 = Maps.newHashMap();
+                map1.put("jgbh", map.get("jgbh"));
+                map1.put("jgmc", map.get("jgmc"));
+                map1.put("zzc", map.get("zzc"));
+                map1.put("zc", map.get("zc"));
+                map1.put("sr", map.get("sr"));
+                map1.put("ye", map.get("ye"));
+                list1.add(map1);
 
-            Map<String, Object> map2 = Maps.newHashMap();
-            map2.put("sum_sr", map.get("sum_sr"));
-            list2.add(map2);
+                Map<String, Object> map2 = Maps.newHashMap();
+                map2.put("sum_sr", map.get("sum_sr"));
+                list2.add(map2);
+            }
         });
 
         return new AreaFinanceOverviewInfoDTO(Lists.newArrayList(list1, list2, list2));

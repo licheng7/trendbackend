@@ -148,8 +148,8 @@ public class AreaBasicController extends BaseController {
     @ServiceExecuter(description = "获取分院单位数据")
     @RequestMapping(value = "/sorting", method = RequestMethod.POST)
     @Audit(desc="获取分院单位数据")
-    public SortingResponse sortingQuery() {
+    public List<Map<String, Object>> sortingQuery() {
         List<Map<String, Object>> country = basicService.sortingQuery();
-        return new SortingResponse(country);
+        return country;
     }
 }

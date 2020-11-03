@@ -35,7 +35,7 @@ import javax.annotation.Resource;
  * Date:2020/10/13
  * Time:下午2:38
  **/
-@Api(value="AreaAward", tags={"对应领域部分detailAward.js (结果已比对)"})
+@Api(value="AreaAward", tags={"对应领域部分detailAward.js"})
 @RestController
 @RequestMapping(value = "/area/award")
 public class AreaAwardController extends BaseController {
@@ -45,7 +45,6 @@ public class AreaAwardController extends BaseController {
 
     /**
      * detailAward.js对应的/trend
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return
@@ -55,8 +54,9 @@ public class AreaAwardController extends BaseController {
     @ServiceExecuter(description = "领域部分award.js对应的/trend")
     @RequestMapping(value = "/trend", method = RequestMethod.POST)
     @Audit(desc="领域部分award.js对应的/trend")
-    public AwardTrendResponse trendQuery(@RequestBody @Validated DetailAwardTrendRequest request, BindingResult
-            bindingResult) throws RestError {
+    public AwardTrendResponse trendQuery(
+            @RequestBody @Validated DetailAwardTrendRequest request, BindingResult bindingResult)
+            throws RestError {
         validData(bindingResult);
         DetailAwardTrendQueryDO detailAwardTrendQuery = new DetailAwardTrendQueryDO(
                 request.getStartYear(),
@@ -75,7 +75,6 @@ public class AreaAwardController extends BaseController {
 
     /**
      * detailAward.js对应的/detail
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return
@@ -85,8 +84,9 @@ public class AreaAwardController extends BaseController {
     @ServiceExecuter(description = "领域部分award.js对应的/detail")
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     @Audit(desc="领域部分award.js对应的/detail")
-    public AwardDetailResponse detailQuery(@RequestBody @Validated DetailAwardDetailRequest request, BindingResult
-            bindingResult) throws RestError {
+    public AwardDetailResponse detailQuery(
+            @RequestBody @Validated DetailAwardDetailRequest request, BindingResult bindingResult)
+            throws RestError {
         validData(bindingResult);
         DetailAwardDetailQueryDO detailAwardDetailQuery = new DetailAwardDetailQueryDO(
                 request.getStartYear(),
@@ -100,7 +100,6 @@ public class AreaAwardController extends BaseController {
 
     /**
      * detailAward.js对应的/distribution
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return
@@ -110,8 +109,9 @@ public class AreaAwardController extends BaseController {
     @ServiceExecuter(description = "领域部分award.js对应的/distribution")
     @RequestMapping(value = "/distribution", method = RequestMethod.POST)
     @Audit(desc="领域部分award.js对应的/distribution")
-    public AwardDistributionResponse distributionQuery(@RequestBody @Validated DetailAwardDistributionRequest request, BindingResult
-            bindingResult) throws RestError {
+    public AwardDistributionResponse distributionQuery(
+            @RequestBody @Validated DetailAwardDistributionRequest request, BindingResult bindingResult)
+            throws RestError {
         validData(bindingResult);
         DetailAwardDistributionQueryDO detailAwardDistributionQuery = new DetailAwardDistributionQueryDO(
                 request.getStartYear(),

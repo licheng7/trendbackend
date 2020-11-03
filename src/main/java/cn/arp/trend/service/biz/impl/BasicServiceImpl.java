@@ -83,8 +83,8 @@ public class BasicServiceImpl extends AbstructServiceHelper implements BasicServ
         cal.setTimeInMillis(System.currentTimeMillis());
 
         for(int i=0; i<10; i++) {
-            result.add(simpleDateFormat.format(cal.getTime()));
             cal.add(Calendar.YEAR, -1);
+            result.add(simpleDateFormat.format(cal.getTime()));
         }
 
         return result;

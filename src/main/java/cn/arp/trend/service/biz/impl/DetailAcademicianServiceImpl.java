@@ -75,15 +75,6 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
 
         List<String> distinctInstitutionList = unitAry.stream().distinct().collect(Collectors.toList());
 
-        /*Map<String, MapResultDTO<String, Integer>> topAcademicianAffiliation = this.initDetail(
-                distinctInstitutionList, Integer.class, 0);
-
-        originalData.stream().forEach(map -> {
-            if(topAcademicianAffiliation.containsKey(map.get(""))) {
-
-            }
-        });*/
-
         List<Integer> ageTime = this.fillArray(105-stateAge, Integer.class, 0);
         List<Integer> electedAgeTime = this.fillArray(105-stateAge, Integer.class, 0);
         List<Integer> allYearAry = this.fillArray(10, Integer.class, 0);
@@ -162,9 +153,6 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
         List<DACompareInfoDTO.Galaxy> galaxyList = Lists.newArrayList();
         DACompareInfoDTO.Galaxy galaxy = dACompareInfo.new Galaxy();
         List<List<Object>> galaxyTotal = Lists.newArrayList();
-        /*topAcademicianAffiliation.entrySet().stream().forEach(obj -> {
-            galaxyTotal.add(Lists.newArrayList(obj.getValue().getName(), obj.getValue().getValue()));
-        });*/
         originalDataGroupByInstitution.entrySet().stream().forEach(map -> {
             galaxyTotal.add(Lists.newArrayList(map.getKey(), map.getValue().size()));
         });
@@ -224,12 +212,6 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
         fieldsPieCAE.entrySet().stream().forEach(map -> {
             _fieldsPieCAE.add(Lists.newArrayList(map.getKey(), map.getValue().getValue()));
         });
-
-        /*List<List<Object>> _topAcademicianAffiliation = Lists.newArrayList();
-        topAcademicianAffiliation.entrySet().stream().forEach(map -> {
-            _topAcademicianAffiliation.add(Lists.newArrayList(map.getValue().getName(), map
-                    .getValue().getValue()));
-        });*/
 
         List<Object> dxList = Lists.newArrayList("当选", countTimeline.get(0).get("当选"));
         List<Object> zbList = Lists.newArrayList("占比", countTimeline.get(1).get("占比"));
