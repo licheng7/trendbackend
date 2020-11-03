@@ -36,6 +36,16 @@ public class AreaEduServiceImpl extends AbstructServiceHelper implements AreaEdu
     @Resource
     private RefEduEnrollmentManualMapper refEduEnrollmentManualMapper;
 
+    /*public AreaEduDInfoDTO newAreaEduDQuery(AreaEduQueryDO query) {
+
+        ConcurrentSupport.ConcurrentSupportContext context = ConcurrentSupport.getInstance()
+                .initConcurrentSupportContext();
+
+        context.
+
+        return null;
+    }*/
+
     @Override
     public AreaEduDInfoDTO areaEduDQuery(AreaEduQueryDO query) {
 

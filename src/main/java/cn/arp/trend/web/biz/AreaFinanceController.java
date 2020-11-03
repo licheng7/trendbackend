@@ -13,6 +13,7 @@ import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.AreaFinanceService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -55,7 +58,7 @@ public class AreaFinanceController extends BaseController {
         validData(bindingResult);
         AreaFinanceQueryDO query = new AreaFinanceQueryDO(
                 request.getStartYear(), request.getEndYear(), request.getUnitIdAry());
-        AreaFinanceOverviewInfoDTO areaFinanceInfo = areaFinanceService.areaEduDQuery(query);
+        AreaFinanceOverviewInfoDTO areaFinanceInfo = areaFinanceService.overviewQuery(query);
         return new AreaFinanceOverviewResponse(areaFinanceInfo.getResultList());
     }
 
@@ -118,6 +121,9 @@ public class AreaFinanceController extends BaseController {
         AreaFinanceQueryDO query = new AreaFinanceQueryDO(
                 request.getStartYear(), request.getEndYear(), request.getUnitIdAry());
         AreaFinanceInfoDTO areaFinanceInfo = areaFinanceService.rankQuery(query);
-        return new AreaFinanceRankResponse(areaFinanceInfo.getResultList());
+        List<Map<String, Object>> result = areaFinanceInfo.getResultList();
+        List<List<Map<String, Object>>> response = Lists.newArrayList();
+        response.add(result);
+        return new AreaFinanceRankResponse(response);
     }
 }

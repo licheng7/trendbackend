@@ -18,7 +18,7 @@ public class AwardDistributionResponse implements Serializable {
 
     private static final long serialVersionUID = -1843502965655966849L;
 
-    @JsonProperty("award_pie")
+    @JsonProperty("award_original_ary")
     private List<Map<String, Object>> awardOriginalAry;
 
     @JsonProperty("award_ary")

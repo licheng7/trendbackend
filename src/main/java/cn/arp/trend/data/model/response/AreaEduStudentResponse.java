@@ -1,5 +1,6 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -16,14 +17,19 @@ public class AreaEduStudentResponse implements Serializable {
 
     private static final long serialVersionUID = -1843502965655966849L;
 
+    @JsonProperty("year_list")
     private List<String> yearList;
 
+    @JsonProperty("doctor_list_school")
     private List<Object> doctorListSchool;
 
+    @JsonProperty("doctor_list_graduate")
     private List<Object> doctorListGraduate;
 
+    @JsonProperty("master_list_school")
     private List<Object> masterListSchool;
 
+    @JsonProperty("master_list_graduate")
     private List<Object> masterListGraduate;
 
     public List<String> getYearList() {

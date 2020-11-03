@@ -92,7 +92,7 @@ public class DetailAwardServiceImpl extends AbstructServiceHelper implements Det
         });
 
         return new DetailAwardTrendInfoDTO(
-                "2019年12月",
+                AbstructServiceHelper.UPDATETIME,
                 yearList,
                 stateTendency,
                 elseTendency,

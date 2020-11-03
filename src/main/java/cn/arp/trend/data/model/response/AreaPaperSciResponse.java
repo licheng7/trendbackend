@@ -1,5 +1,7 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -12,16 +14,22 @@ import java.util.Map;
  **/
 public class AreaPaperSciResponse implements Serializable {
 
+    @JsonProperty("official_list")
     private List<Map<String, Object>> officialList;
 
+    @JsonProperty("arp_list")
     private List<Map<String, Object>> arpList;
 
+    @JsonProperty("unit_ary")
     private List<Map<String, Object>> unitAry;
 
+    @JsonProperty("paper_proportion")
     private List<Map<String, Object>> paperProportion;
 
+    @JsonProperty("year_list")
     private List<String> yearList;
 
+    @JsonProperty("update_time")
     private String updateTime;
 
     public List<Map<String, Object>> getOfficialList() {

@@ -19,20 +19,20 @@ public class AreaFinanceRankResponse implements Serializable {
     private static final long serialVersionUID = -1843502965655966849L;
 
     @JsonProperty("result_array")
-    private List<Map<String, Object>> resultList;
+    private List<List<Map<String, Object>>> resultList;
 
-    public List<Map<String, Object>> getResultList() {
+    public List<List<Map<String, Object>>> getResultList() {
         return resultList;
     }
 
-    public void setResultList(List<Map<String, Object>> resultList) {
+    public void setResultList(List<List<Map<String, Object>>> resultList) {
         this.resultList = resultList;
     }
 
     public AreaFinanceRankResponse() {
     }
 
-    public AreaFinanceRankResponse(List<Map<String, Object>> resultList) {
+    public AreaFinanceRankResponse(List<List<Map<String, Object>>> resultList) {
         this.resultList = resultList;
     }
 }

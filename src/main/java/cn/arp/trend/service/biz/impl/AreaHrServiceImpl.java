@@ -99,19 +99,19 @@ public class AreaHrServiceImpl extends AbstructServiceHelper implements AreaHrSe
                 statArpStaffEducationManualMapper.queryHrStaffDist1(query);
 
         List<Map<String, Object>> queryResult2 =
-                statArpStaffEducationManualMapper.queryHrStaffDist1(query);
+                statArpStaffEducationManualMapper.queryHrStaffDist2(query);
 
         List<Map<String, Object>> queryResult3 =
-                statArpStaffEducationManualMapper.queryHrStaffDist1(query);
+                statArpStaffEducationManualMapper.queryHrStaffDist3(query);
 
         List<Map<String, Object>> queryResult4 =
-                statArpStaffEducationManualMapper.queryHrStaffDist1(query);
+                statArpStaffEducationManualMapper.queryHrStaffDist4(query);
 
         List<Map<String, Object>> queryResult5 =
                 statArpStaffEducationManualMapper.queryHrStaffDist5(query);
 
         List<Map<String, Object>> queryResult6 =
-                statArpStaffEducationManualMapper.queryHrStaffDist1(query);
+                statArpStaffEducationManualMapper.queryHrStaffDist6(query);
 
         List<Map<String, Object>> unitAry = queryResult1.stream().map(map -> {
             Map<String, Object> bizMap = Maps.newHashMap();

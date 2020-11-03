@@ -12,7 +12,7 @@ import cn.arp.trend.data.model.DTO.AreaFinanceOverviewInfoDTO;
  **/
 public interface AreaFinanceService {
 
-    AreaFinanceOverviewInfoDTO areaEduDQuery(AreaFinanceQueryDO query);
+    AreaFinanceOverviewInfoDTO overviewQuery(AreaFinanceQueryDO query);
 
     AreaFinanceInfoDTO incomeQuery(AreaFinanceQueryDO query);
 

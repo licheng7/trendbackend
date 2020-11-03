@@ -92,8 +92,19 @@
       ROUND(zzc/10000,2) AS zzc,
       ROUND(zc/10000,2) AS zc,
       ROUND(sr/10000,2) AS sr,
-      ROUND(ye/10000,2) AS ye,
-      ROUND(SUM(sr)/10000,2) AS sum_sr
+      ROUND(ye/10000,2) AS ye
+    FROM
+    v_stat_arp_fin_asset
+    <where>
+      nf = #{query.endYear}
+      <include refid="sql_affiliation_un_otherwise"/>
+    </where>
+  </select>
+
+  <select id="queryFinanceOverview2" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaFinanceQueryDO">
+    SELECT
+      ROUND(SUM(sr)/10000,2) AS sr
     FROM
     v_stat_arp_fin_asset
     <where>

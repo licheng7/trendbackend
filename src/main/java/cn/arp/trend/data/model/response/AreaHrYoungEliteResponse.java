@@ -18,13 +18,16 @@ public class AreaHrYoungEliteResponse implements Serializable {
 
     private static final long serialVersionUID = -1843502965655966849L;
 
-    @JsonProperty("unit_data")
+    @JsonProperty("year_list")
     private List<String> yearList;
 
+    @JsonProperty("rs_young_list")
     private List<Object> rsYoungList;
 
+    @JsonProperty("rs_staff_list")
     private List<Object> rsStaffList;
 
+    @JsonProperty("unit_list")
     private List<Map<String, Object>> unitList;
 
     public List<String> getYearList() {

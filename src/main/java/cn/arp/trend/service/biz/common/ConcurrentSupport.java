@@ -37,13 +37,13 @@ public class ConcurrentSupport extends ApplicationObjectSupport {
     private static ConcurrentSupport instance = new ConcurrentSupport();
 
     private ConcurrentSupport(){
-        fixedThreadPool = getApplicationContext().getBean("fixedThreadPool", ExecutorService
-                .class);
+        fixedThreadPool = getApplicationContext().getBean(
+                "fixedThreadPool", ExecutorService.class);
         listeningExecutorService = getApplicationContext().getBean("listeningExecutorService",
                 ListeningExecutorService.class);
     }
 
-    public ConcurrentSupport getInstance() {
+    public static ConcurrentSupport getInstance() {
         return instance;
     }
 
@@ -125,6 +125,16 @@ public class ConcurrentSupport extends ApplicationObjectSupport {
 
         public void setLf(ListenableFuture<List> lf) {
             this.lf = lf;
+        }
+
+        public Task(String taskName, Callable<T> executable, Consumer<T> callback, ListenableFuture<List> lf) {
+            this.taskName = taskName;
+            this.executable = executable;
+            this.callback = callback;
+            this.lf = lf;
+        }
+
+        public Task() {
         }
     }
 
