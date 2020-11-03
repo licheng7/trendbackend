@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.arp.trend.repository.biz.manual.ContrastPaperManualMapper" >
+
+  <select id="contrastByField" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(nf) AS nf, SUM(lws) AS lws
+    FROM (
+    SELECT a.jgbh, a.jgmc, nf, lws, field_id, research_field
+    FROM stat_cas_paper AS a
+    INNER JOIN
+    (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS b
+    ON a.jgbh = b.jgbh
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>
+    AND field_id ${arrayStr}
+    GROUP BY research_field, nf;
+  </select>
+
+  <select id="contrastByUnit" resultType="java.util.HashMap">
+    SELECT jgbh, jgmc, nf, lws
+    FROM (
+    SELECT a.jgbh, a.jgmc, nf, lws
+    FROM stat_cas_paper AS a
+    INNER JOIN
+    (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND jgbh ${arrayStr}
+    ) AS b
+    ON a.jgbh = b.jgbh
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>;
+  </select>
+</mapper>
