@@ -128,7 +128,7 @@ public class ContrastEducationServiceImpl implements ContrastEducationService {
         List<HashMap<String, Object>> tem = null;
         try
         {
-            tem = contrastEducationManualMapper.contrastByUnit1(params);
+            tem = contrastEducationManualMapper.contrastByUnit2(params);
         }
         catch (Exception e)
         {
