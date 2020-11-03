@@ -777,4 +777,234 @@
       from
         v_ref_org_type
     </select>
+
+    <select id="queryAreaProjectXdzx" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectQueryDO">
+      SELECT
+        ANY_VALUE(nf) AS nf, SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+      FROM
+        v_stat_xdzx AS a, v_ref_org_type AS b
+      <where>
+          a.jgmc = b.jgmc
+          AND <![CDATA[nf >= #{query.startYear}]]>
+          AND <![CDATA[nf <= #{query.endYear}]]>
+          <include refid="sql_affiliation"/>
+      </where>
+      GROUP BY nf
+    </select>
+
+    <select id="queryAreaProjectXdzx1" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectQueryDO">
+        SELECT
+        ANY_VALUE(nf) AS nf, SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+        FROM
+        v_stat_xdzx AS a, v_ref_org_type AS b
+        <where>
+            a.jgmc = b.jgmc
+            AND <![CDATA[nf >= #{query.startYear}]]>
+            AND <![CDATA[nf <= #{query.endYear}]]>
+            <include refid="sql_affiliation"/>
+        </where>
+        GROUP BY nf
+    </select>
+
+    <select id="queryAreaProjectXdzx2" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectQueryDO">
+        SELECT
+          SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+        FROM
+          v_stat_xdzx AS a, v_ref_org_type AS b
+        <where>
+            a.jgmc = b.jgmc
+            AND <![CDATA[nf >= #{query.startYear}]]>
+            AND <![CDATA[nf <= #{query.endYear}]]>
+            <include refid="sql_affiliation"/>
+        </where>
+    </select>
+
+    <select id="queryAreaProjectXdzx3" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectQueryDO">
+        SELECT
+          ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(a.jgmc) AS jgmc, SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+        FROM
+        v_stat_xdzx AS a, v_ref_org_type AS b
+        <where>
+            a.jgmc = b.jgmc
+            AND <![CDATA[nf >= #{query.startYear}]]>
+            AND <![CDATA[nf <= #{query.endYear}]]>
+            <include refid="sql_affiliation"/>
+        </where>
+        GROUP BY jgbh
+        ORDER BY jgmc
+    </select>
+
+    <select id="queryAreaProjectXdzx4" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectQueryDO">
+        SELECT
+          SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+        FROM
+          v_stat_xdzx AS a, v_ref_org_type AS b
+        <where>
+            a.jgmc = b.jgmc
+            AND <![CDATA[nf >= #{query.startYear}]]>
+            AND <![CDATA[nf <= #{query.endYear}]]>
+            AND jgbh IS NOT NULL
+        </where>
+    </select>
+
+    <select id="queryAreaProjectZdyf1" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectQueryDO">
+        SELECT
+        ANY_VALUE(nf) AS nf, SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+        FROM
+        v_stat_most_project AS a, v_ref_org_type AS b
+        <where>
+            a.jgmc = b.jgmc
+            AND <![CDATA[nf >= #{query.startYear}]]>
+            AND <![CDATA[nf <= #{query.endYear}]]>
+            <include refid="sql_affiliation"/>
+        </where>
+        GROUP BY nf
+    </select>
+
+    <select id="queryAreaProjectZdyf2" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectQueryDO">
+        SELECT
+        SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+        FROM
+        v_stat_most_project AS a, v_ref_org_type AS b
+        <where>
+            a.jgmc = b.jgmc
+            AND <![CDATA[nf >= #{query.startYear}]]>
+            AND <![CDATA[nf <= #{query.endYear}]]>
+            <include refid="sql_affiliation"/>
+        </where>
+    </select>
+
+    <select id="queryAreaProjectZdyf3" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectQueryDO">
+        SELECT
+        ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(a.jgmc) AS jgmc, SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+        FROM
+        v_stat_most_project AS a, v_ref_org_type AS b
+        <where>
+            a.jgmc = b.jgmc
+            AND <![CDATA[nf >= #{query.startYear}]]>
+            AND <![CDATA[nf <= #{query.endYear}]]>
+            <include refid="sql_affiliation"/>
+        </where>
+        GROUP BY jgbh
+        ORDER BY jgmc
+    </select>
+
+    <select id="queryAreaProjectZdyf4" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectQueryDO">
+        SELECT
+        SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+        FROM
+        v_stat_most_project AS a, v_ref_org_type AS b
+        <where>
+            a.jgmc = b.jgmc
+            AND <![CDATA[nf >= #{query.startYear}]]>
+            AND <![CDATA[nf <= #{query.endYear}]]>
+            AND jgbh IS NOT NULL
+        </where>
+    </select>
+
+    <select id="queryAreaProjectNsfcTrend1" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectNsfcTrendQueryDO">
+      SELECT
+        ANY_VALUE(nf) AS nf, SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+      FROM
+        v_stat_nsfc_project AS a, v_ref_org_type AS b
+      <where>
+        a.jgmc=b.jgmc
+        <choose>
+            <when test="query.category != null and query.category != '全部资助类别' and query.category != ''">
+                AND AND zzlb = #{query.category}
+            </when>
+        </choose>
+        AND <![CDATA[nf >= #{query.startYear}]]>
+        AND <![CDATA[nf <= #{query.endYear}]]>
+        <include refid="sql_affiliation"/>
+      </where>
+      GROUP BY nf
+      ORDER BY nf
+    </select>
+
+    <select id="queryAreaProjectNsfcTrend2" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectNsfcTrendQueryDO">
+        SELECT
+          ANY_VALUE(nf) AS nf, SUM(xm) AS xm, ROUND(SUM(jf)/10000,2) AS jf
+        FROM
+          v_stat_arp_project
+        <where>
+            1 = 1
+            <choose>
+                <when test="query.category != null and query.category != '全部资助类别' and query.category != ''">
+                    AND AND lb = #{query.category}
+                </when>
+            </choose>
+            AND <![CDATA[nf >= #{query.startYear}]]>
+            AND <![CDATA[nf <= #{query.endYear}]]>
+            <include refid="sql_affiliation"/>
+        </where>
+        GROUP BY nf
+        ORDER BY nf
+    </select>
+
+    <select id="queryAreaProjectNsfcDist1" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectNsfcDistQueryDO">
+      SELECT
+        ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(a.jgmc) AS jgmc, SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+      FROM
+        v_stat_nsfc_project AS a, v_ref_org_type AS b
+      <where>
+          a.jgmc = b.jgmc
+          <choose>
+              <when
+                      test="query.category != null and query.category != '全部资助类别' and query.category != ''">
+                  AND AND zzlb = #{query.category}
+              </when>
+          </choose>
+          AND <![CDATA[nf >= #{query.startYear}]]>
+          AND <![CDATA[nf <= #{query.endYear}]]>
+          <include refid="sql_affiliation"/>
+      </where>
+      GROUP BY jgbh
+      ORDER BY jgmc
+    </select>
+
+    <select id="queryAreaProjectNsfcDist2" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectNsfcDistQueryDO">
+        SELECT
+          SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+        FROM
+          v_stat_nsfc_project AS a, v_ref_org_type AS b
+        <where>
+            a.jgmc = b.jgmc
+            <choose>
+                <when test="query.category != null and query.category != '全部资助类别' and query.category != ''">
+                    AND AND zzlb = #{query.category}
+                </when>
+            </choose>
+            AND <![CDATA[nf >= #{query.startYear}]]>
+            AND <![CDATA[nf <= #{query.endYear}]]>
+            <include refid="sql_affiliation"/>
+        </where>
+    </select>
+
+    <select id="queryAreaProjectNsfcDist3" resultType="java.util.HashMap"
+            parameterType="cn.arp.trend.data.model.DO.AreaProjectNsfcDistQueryDO">
+      SELECT
+        SUM(xzxms) AS xm, ROUND(SUM(xzxm_zjf),2) AS jf
+      FROM
+        v_stat_nsfc_project AS a, v_ref_org_type AS b
+      <where>
+          a.jgmc = b.jgmc
+          AND <![CDATA[nf >= #{query.startYear}]]>
+          AND <![CDATA[nf <= #{query.endYear}]]>
+          AND jgbh IS NOT NULL
+      </where>
+    </select>
 </mapper>
