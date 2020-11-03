@@ -88,7 +88,50 @@ public class ContrastAwardController extends BaseController {
     @ServiceExecuter(description = "以unit为维度做数据对比")
     @RequestMapping(value = "/unit", method = RequestMethod.POST)
     @Audit(desc="")
-    public ContrastAcademicianByFieldResponse contrastByUnit(@RequestBody ContrastBaseRequest request) {
-        return null;
+    public List<Object> contrastByUnit(@RequestBody ContrastBaseRequest request) {
+        Calendar cal = Calendar.getInstance();
+        Integer endYear = cal.get(Calendar.YEAR) - 0;
+        Integer startYear = endYear - 9;
+        Integer startNf = 1980;
+
+        List<HashMap<String, Object>> resList1 = contrastAwardService.byUnit1(
+                request.getUserId(),
+                startYear,
+                endYear,
+                request.getDataAry());
+
+        List<HashMap<String, Object>> resList2 = contrastAwardService.byUnit2(
+                request.getUserId(),
+                startYear,
+                endYear,
+                request.getDataAry());
+
+        List<HashMap<String, Object>> resList3 = contrastAwardService.byUnit3(
+                request.getUserId(),
+                startYear,
+                endYear,
+                request.getDataAry());
+
+        List<Long> resList4 = new ArrayList<>();
+        for(int j = startYear ; j <= endYear ; j++)
+        {
+            resList4.add((long) j);
+        }
+
+        if(resList1 == null || resList2 == null || resList3 == null || resList4 == null)
+        {
+            return null;
+        }
+
+        ContrastAwardByFieldResponse contrastAwardByFieldResponse = new ContrastAwardByFieldResponse();
+        List<Object> res = new ArrayList<Object>();
+        res.add(resList1);
+        res.add(resList2);
+        res.add(resList3);
+        res.add(resList4);
+        contrastAwardByFieldResponse.setRes(res);
+
+        // keep format as nodejs server
+        return res;
     }
 }

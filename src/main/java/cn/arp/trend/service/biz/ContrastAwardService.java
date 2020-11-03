@@ -17,5 +17,9 @@ public interface ContrastAwardService {
 
     List<HashMap<String, Object>> byField3(String userId, Integer startYear, Integer endYear, List<String> fieldIds);
 
-    List<HashMap<String, Object>> byUnit(String userId, Integer startYear, Integer endYear, List<String> fieldIds);
+    List<HashMap<String, Object>> byUnit1(String userId, Integer startYear, Integer endYear, List<String> fieldIds);
+
+    List<HashMap<String, Object>> byUnit2(String userId, Integer startYear, Integer endYear, List<String> fieldIds);
+
+    List<HashMap<String, Object>> byUnit3(String userId, Integer startYear, Integer endYear, List<String> fieldIds);
 }

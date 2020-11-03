@@ -41,7 +41,7 @@
     </where>;
   </select>
   <select id="contrastByField2" resultType="java.util.HashMap">
-    SELECT ANY_VALUE(nf) AS year, ANY_VALUE(jxmc) AS unitName, jxmc, ANY_VALUE(research_field) AS field,COUNT(*) AS num
+    SELECT ANY_VALUE(nf) AS year, ANY_VALUE(jxmc) AS unitName, ANY_VALUE(jxmc) AS jxmc, ANY_VALUE(research_field) AS field,COUNT(*) AS num
     FROM(
     SELECT jgmc, jgbh, research_field, nf, jxmc, detail
     FROM (
@@ -120,12 +120,119 @@
   </select>
 
   <select id="contrastByUnit1" resultType="java.util.HashMap">
-
+    SELECT *
+    FROM(
+    SELECT jgmc, jgbh, nf, jxmc, detail
+    FROM (
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_hlhl_award_winner
+    UNION ALL
+    SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
+    FROM cas_future_prize
+    UNION ALL
+    SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_qiushi_scientist_award
+    ) AS a
+    INNER JOIN
+    (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS b
+    ON a.gzdw = b.jgmc
+    ) AS c
+    <where>
+    jgbh ${arrayStr}
+    </where>
+    AND nf>=${startYear} AND nf&lt;=${endYear};
   </select>
   <select id="contrastByUnit2" resultType="java.util.HashMap">
-
+    SELECT ANY_VALUE(jgmc) AS field, ANY_VALUE(nf) AS year, ANY_VALUE(jxmc) AS unitName,ANY_VALUE(jxmc) AS jxmc , COUNT(*) AS num
+    FROM(
+    SELECT jgmc, jgbh, nf, jxmc, detail
+    FROM (
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, second_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, third_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_hlhl_award_winner
+    UNION ALL
+    SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
+    FROM cas_future_prize
+    UNION ALL
+    SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_qiushi_scientist_award
+    ) AS a
+    INNER JOIN
+    (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS b
+    ON a.gzdw = b.jgmc
+    ) AS c
+    <where>
+    jgbh ${arrayStr}
+    </where>
+    AND nf>=${startYear} AND nf&lt;=${endYear}
+    GROUP BY jgbh, nf, jxmc;
   </select>
   <select id="contrastByUnit3" resultType="java.util.HashMap">
-
+    SELECT ANY_VALUE(jgmc) AS name, ANY_VALUE(jxmc) AS jxmc, COUNT(*) AS num
+    FROM(
+    SELECT jgmc, jgbh, nf, jxmc, detail
+    FROM (
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, second_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, third_wcdw_std AS gzdw
+    FROM cas_china_award_10year_final
+    UNION ALL
+    SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_hlhl_award_winner
+    UNION ALL
+    SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
+    FROM cas_future_prize
+    UNION ALL
+    SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
+    FROM cas_qiushi_scientist_award
+    ) AS a
+    INNER JOIN
+    (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS b
+    ON a.gzdw = b.jgmc
+    ) AS c
+    <where>
+    jgbh ${arrayStr}
+    </where>
+    AND nf>=${startYear} AND nf&lt;=${endYear}
+    GROUP BY jgbh, jxmc;
   </select>
 </mapper>
