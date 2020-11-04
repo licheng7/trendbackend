@@ -60,9 +60,9 @@ public class LoginController extends BaseController{
 	}
 	
 	@GetMapping("/logout")
-	public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void logout(@RequestParam("from") String from, HttpServletRequest request, HttpServletResponse response) throws IOException, RestError {
 		request.getSession().invalidate();
-		response.sendRedirect(client.buildLogoutUrl());
+		jumpToDispatch(from, request, response);
 	}
 	
 	@GetMapping("/echo")
