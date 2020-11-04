@@ -38,7 +38,7 @@ public class LogAspect {
 		logger = LoggerFactory.getLogger(LogAspect.class);
 	}
 
-	@Pointcut("execution(public * cn.arp.trend.web.*.*(..))")
+	@Pointcut("execution(public * cn.arp.trend.web..*.*(..))")
 	public void auditLog() {
 	};
 
