@@ -42,7 +42,6 @@ public class DetailPaperController extends BaseController {
 
     /**
      * detailPaper.js对应的/SCI
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return

@@ -27,7 +27,7 @@ import javax.annotation.Resource;
  * Date:2020/9/29
  * Time:下午3:42
  **/
-@Api(value="detailProject",tags={"对应宏观部分detailProject.js(结果已经比对)"})
+@Api(value="detailProject",tags={"对应宏观部分detailProject.js"})
 @RestController
 @RequestMapping(value = "/detail/project")
 public class DetailProjectController extends BaseController {
@@ -37,7 +37,6 @@ public class DetailProjectController extends BaseController {
 
     /**
      * 对应detailProject.js的/nsfc
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return
@@ -65,7 +64,6 @@ public class DetailProjectController extends BaseController {
 
     /**
      * 对应detailProject.js的/kjb
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return
@@ -90,7 +88,6 @@ public class DetailProjectController extends BaseController {
 
     /**
      * 对应detailProject.js的/xd
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return
@@ -115,7 +112,6 @@ public class DetailProjectController extends BaseController {
 
     /**
      * 对应detailProject.js的/increase
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return

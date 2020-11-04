@@ -37,7 +37,7 @@ import javax.annotation.Resource;
  * Date:2020/10/13
  * Time:下午2:38
  **/
-@Api(value="detailYoungElite",tags={"对应宏观部分detailYoungElite.js(结果已比对)"})
+@Api(value="detailYoungElite",tags={"对应宏观部分detailYoungElite.js"})
 @RestController
 @RequestMapping(value = "/detail/young/elite")
 public class DetailYoungEliteController extends BaseController {
@@ -47,7 +47,6 @@ public class DetailYoungEliteController extends BaseController {
 
     /**
      * detailYoungElite.js对应的/trend
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return
@@ -78,7 +77,6 @@ public class DetailYoungEliteController extends BaseController {
 
     /**
      * detailYoungElite.js对应的/distribution/field
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return
@@ -108,7 +106,6 @@ public class DetailYoungEliteController extends BaseController {
 
     /**
      * detailYoungElite.js对应的/distribution/affiliation
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return
@@ -136,7 +133,6 @@ public class DetailYoungEliteController extends BaseController {
 
     /**
      * detailYoungElite.js对应的/project
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return

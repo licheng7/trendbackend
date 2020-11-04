@@ -36,7 +36,6 @@ public class AreaHrController extends BaseController {
 
     /**
      * 在职职工 (hr.js对应的/staffTrend)
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return

@@ -33,7 +33,7 @@ public class AnalyzeController extends BaseController {
      * 数据结构一致，部分数据不一致，待查
      * @return
      */
-    @ApiOperation(value= "对应analyze.js的/", notes= "(结果已比对)对应analyze.js的/")
+    @ApiOperation(value= "对应analyze.js的/", notes= "对应analyze.js的/")
     @ServiceExecuter(description = "对应analyze.js的/")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     @Audit(desc="对应analyze.js的/")

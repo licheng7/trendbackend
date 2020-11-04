@@ -45,7 +45,6 @@ public class DetailAwardController extends BaseController {
 
     /**
      * detailAward.js对应的/trend
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return

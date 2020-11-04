@@ -60,7 +60,6 @@ public class DetailMentorController extends BaseController {
 
     /**
      * 硕导
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return
@@ -84,7 +83,6 @@ public class DetailMentorController extends BaseController {
 
     /**
      * 导师
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return
@@ -108,7 +106,6 @@ public class DetailMentorController extends BaseController {
 
     /**
      * 导师
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return
@@ -132,7 +129,6 @@ public class DetailMentorController extends BaseController {
 
     /**
      * 硕导
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return
@@ -156,7 +152,6 @@ public class DetailMentorController extends BaseController {
 
     /**
      * 导师
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return
@@ -178,7 +173,6 @@ public class DetailMentorController extends BaseController {
 
     /**
      * 中间的详情列表
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return

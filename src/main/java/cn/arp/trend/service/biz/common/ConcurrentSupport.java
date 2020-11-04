@@ -20,9 +20,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
- * TODO 这个类是对并发查询的支持，后面可以借助这个类处理多个sql并发查询的情况，会提升效率
+ * TODO 这个类是对并发查询的支持，后面可以借助这个类处理多个sql并发查询的情况，会提升效率，对小规模并发查询接口查询时间会缩减
  *
  * TODO 使用姿势：
+ *      0、service类继承ConcurrentSupport
  *      1、调用initConcurrentSupportContext()初始化并发处理上下文；
  *      2、调用context.registerTask(Task task)将待执行的任务列表注册到上下文
  *      3、调用context.taskExecute()提交并执行任务
@@ -51,38 +52,47 @@ public class ConcurrentSupport extends AbstructServiceHelper {
 
 
     public <T> void doAddCallback(ListenableFuture<T> feture, Consumer<T> consumer,
-                                   List<ListenableFuture> fetureList, CountDownLatch latch) {
+                                  ConcurrentSupportContext context) {
         Futures.addCallback(feture, new FutureCallback<T>() {
             @Override
             public void onSuccess(@Nullable T t) {
                 doSuccess((p) -> {
                     consumer.accept(p);
-                }, t, latch);
+                }, t, context);
             }
             @Override
             public void onFailure(Throwable throwable) {
-                doFailure(fetureList, throwable);
+                doFailure(throwable, context);
             }
         }, fixedThreadPool);
     }
 
-    public void doFailure(List<ListenableFuture> fetureList, Throwable throwable) {
+    public void doFailure(Throwable tr, ConcurrentSupportContext context) {
         // 尝试取消本次任务其他线程执行，试图节省算力
-        for(ListenableFuture feture : fetureList) {
-            if(!feture.isCancelled() && !feture.isDone()) {
-                // TODO 这么写不能保证一定取消掉其他线程执行，严谨一点需要用信号量告知，这点并发问题不大
-                feture.cancel(true);
+        try {
+            for(ListenableFuture feture : context.getFetureList()) {
+                if(!feture.isCancelled() && !feture.isDone()) {
+                    // TODO 这么写不能保证一定取消掉其他线程执行，严谨一点需要用信号量告知，这点并发问题不大
+                    feture.cancel(true);
+                }
             }
+        } finally {
+            context.setSuccess(false);
+            context.setError(tr);
+            context.getLatch().countDown();
+            throw new RuntimeException("执行analyzeServiceImpl.query()异常", tr);
         }
-        throw new RuntimeException("执行analyzeServiceImpl.query()异常", throwable);
     }
 
-    public <T> void doSuccess(Consumer<T> consumer, T t, CountDownLatch latch) {
+    public <T> void doSuccess(Consumer<T> consumer, T t, ConcurrentSupportContext context) {
         try {
             consumer.accept(t);
+            context.setSuccess(true);
         } catch (Throwable tr) {
+            context.setSuccess(false);
+            context.setError(tr);
         } finally {
-            latch.countDown();
+            context.getLatch().countDown();
         }
     }
 
@@ -148,6 +158,26 @@ public class ConcurrentSupport extends AbstructServiceHelper {
 
         private Map<String, List> result;
 
+        private boolean success;
+
+        private Throwable error;
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+
+        public Throwable getError() {
+            return error;
+        }
+
+        public void setError(Throwable error) {
+            this.error = error;
+        }
+
         public Map<String, Task> getTaskMap() {
             return taskMap;
         }
@@ -207,8 +237,7 @@ public class ConcurrentSupport extends AbstructServiceHelper {
                 log.info("-为并发任务{}注册回调-", map.getKey());
                 Task task = map.getValue();
                 //doAddCallback(task.getLf(), task.getCallback(), fetureList, latch);
-                doAddCallback(task.getLf(), list -> result.put(task.getTaskName(), (List) list),
-                        fetureList, latch);
+                doAddCallback(task.getLf(), list -> result.put(task.getTaskName(), (List) list),this);
             });
         }
 

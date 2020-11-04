@@ -36,7 +36,6 @@ public class AreaPaperController extends BaseController {
 
     /**
      * paper.js对应的/sci
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return

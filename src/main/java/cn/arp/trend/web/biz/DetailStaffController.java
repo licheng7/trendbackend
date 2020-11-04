@@ -38,7 +38,6 @@ public class DetailStaffController extends BaseController {
 
     /**
      * 年龄分布【新】
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return
@@ -64,7 +63,6 @@ public class DetailStaffController extends BaseController {
 
     /**
      * 学历分布【新】
-     * 结果已经比对
      * @param request
      * @param bindingResult
      * @return

@@ -17,15 +17,15 @@ import java.util.concurrent.*;
 public class ExecutorServicePoolConfig {
 
     // 核心线程数
-    private final int corePoolSize = 5;
+    private final int corePoolSize = 10;
     // 最大线程数
-    private final int maximumPoolSize = 100;
+    private final int maximumPoolSize = 50;
     // 闲置线程存活时间
-    private final long keepAliveTime = 300;
+    private final long keepAliveTime = 600;
     // 时间单位
     private final TimeUnit unit = TimeUnit.SECONDS;
     // 线程队列
-    private final BlockingQueue<Runnable> workQueue = new LinkedBlockingDeque(300);
+    private final BlockingQueue<Runnable> workQueue = new LinkedBlockingDeque(500);
 
 
     @Bean

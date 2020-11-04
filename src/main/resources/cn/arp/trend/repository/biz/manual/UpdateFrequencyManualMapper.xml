@@ -22,7 +22,7 @@
     SELECT
       <include refid="Base_Column_List" />
     from
-    v_update_frequency
+     update_frequency
     <where>
       <choose>
         <when test="query.classify != null">

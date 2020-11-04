@@ -40,7 +40,6 @@ public class AreaEduController extends BaseController {
 
     /**
      * updateData.js对应的/
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return
@@ -67,7 +66,6 @@ public class AreaEduController extends BaseController {
 
     /**
      * updateData.js对应的/
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return
@@ -94,7 +92,6 @@ public class AreaEduController extends BaseController {
 
     /**
      * updateData.js对应的/
-     * 结果已比对
      * @param request
      * @param bindingResult
      * @return

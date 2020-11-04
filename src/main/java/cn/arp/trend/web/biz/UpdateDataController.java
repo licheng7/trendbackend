@@ -42,7 +42,7 @@ public class UpdateDataController extends BaseController {
      * @return
      * @throws RestError
      */
-    @ApiOperation(value= "宏观部分updateData.js对应的/", notes= "(结果已比对)宏观部分updateData.js对应的/")
+    @ApiOperation(value= "宏观部分updateData.js对应的/", notes= "宏观部分updateData.js对应的/")
     @ServiceExecuter(description = "宏观部分updateData.js对应的/")
     @RequestMapping(value = "/frequency", method = RequestMethod.POST)
     @Audit(desc="宏观部分updateData.js对应的/")

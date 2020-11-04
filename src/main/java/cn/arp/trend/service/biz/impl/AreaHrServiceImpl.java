@@ -6,6 +6,7 @@ import cn.arp.trend.data.model.DTO.*;
 import cn.arp.trend.repository.biz.manual.*;
 import cn.arp.trend.service.biz.AreaHrService;
 import cn.arp.trend.service.biz.common.AbstructServiceHelper;
+import cn.arp.trend.service.biz.common.ConcurrentSupport;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  * Time:上午11:28
  **/
 @Service
-public class AreaHrServiceImpl extends AbstructServiceHelper implements AreaHrService {
+public class AreaHrServiceImpl extends ConcurrentSupport implements AreaHrService {
 
     @Resource
     private StatArpStaffDutyManualMapper statArpStaffDutyManualMapper;
@@ -95,85 +96,7 @@ public class AreaHrServiceImpl extends AbstructServiceHelper implements AreaHrSe
     @Override
     public AreaHrStaffDistInfoDTO areaStaffDistQuery(AreaHrQueryDO query) {
 
-        List<Map<String, Object>> queryResult1 =
-                statArpStaffEducationManualMapper.queryHrStaffDist1(query);
-
-        List<Map<String, Object>> queryResult2 =
-                statArpStaffEducationManualMapper.queryHrStaffDist2(query);
-
-        List<Map<String, Object>> queryResult3 =
-                statArpStaffEducationManualMapper.queryHrStaffDist3(query);
-
-        List<Map<String, Object>> queryResult4 =
-                statArpStaffEducationManualMapper.queryHrStaffDist4(query);
-
-        List<Map<String, Object>> queryResult5 =
-                statArpStaffEducationManualMapper.queryHrStaffDist5(query);
-
-        List<Map<String, Object>> queryResult6 =
-                statArpStaffEducationManualMapper.queryHrStaffDist6(query);
-
-        List<Map<String, Object>> unitAry = queryResult1.stream().map(map -> {
-            Map<String, Object> bizMap = Maps.newHashMap();
-            bizMap.put("name", map.get("jgmc"));
-            bizMap.put("value", map.get("rs"));
-            return bizMap;
-        }).collect(Collectors.toList());
-
-        Map<String, List<Map<String, Object>>> entiretyAry = Maps.newHashMap();
-        if(!queryResult2.isEmpty()) {
-            entiretyAry = this.buildEntiretyAry(queryResult2.get(0));
-        }
-
-        Map<String, List<Map<String, Object>>> positionAry = Maps.newHashMap();
-        if(!queryResult3.isEmpty()) {
-            positionAry = this.buildPositionAry(queryResult3.get(0));
-        }
-
-        List<Object> ageAryName = Lists.newArrayList();
-        List<Object> ageAryValue = Lists.newArrayList();
-        queryResult4.stream().forEach(map -> {
-            ageAryName.add(map.get("nld"));
-            ageAryValue.add(map.get("rs"));
-        });
-        Map<String, List<Object>> ageAry = Maps.newHashMap();
-        ageAry.put("age_ary_name", ageAryName);
-        ageAry.put("age_ary_value", ageAryValue);
-
-        List<Object> educationAryName = Lists.newArrayList();
-        List<Object> educationAryValue = Lists.newArrayList();
-        queryResult5.stream().forEach(map -> {
-            Map<String, Object> bizNameMap = Maps.newHashMap();
-            bizNameMap.put("name", map.get("xl"));
-            bizNameMap.put("icon", "roundRect");
-            educationAryName.add(bizNameMap);
-
-            Map<String, Object> bizValueMap = Maps.newHashMap();
-            bizValueMap.put("name", map.get("xl"));
-            bizValueMap.put("value", map.get("rs"));
-            educationAryValue.add(bizValueMap);
-        });
-        Map<String, List<Object>> educationAry = Maps.newHashMap();
-        educationAry.put("ary_name", educationAryName);
-        educationAry.put("ary_value", educationAryValue);
-
-        Map<String, List<Map<String, Object>>> titleAry = Maps.newHashMap();
-        if(!queryResult6.isEmpty()) {
-            titleAry = this.buildTitleAry(queryResult6.get(0));
-        }
-
-        AreaHrStaffDistInfoDTO info = new AreaHrStaffDistInfoDTO();
-        info.setUpdateTime(AbstructServiceHelper.UPDATETIME);
-        info.setResultArray(Lists.newArrayList(queryResult1, queryResult2, queryResult3,
-                queryResult4, queryResult5, queryResult6));
-        info.setUnitAry(unitAry);
-        info.setAgeAry(ageAry);
-        info.setEducationAry(educationAry);
-        info.setEntiretyAry(entiretyAry);
-        info.setPositionAry(positionAry);
-        info.setTitleAry(titleAry);
-
-        return info;
+        return this.areaStaffDistQueryByCs(query);
     }
 
     @Override
@@ -391,5 +314,208 @@ public class AreaHrServiceImpl extends AbstructServiceHelper implements AreaHrSe
         titleAry.put("ary_value", aryValue);
 
         return titleAry;
+    }
+
+
+
+    private AreaHrStaffDistInfoDTO areaStaffDistQueryByCs(AreaHrQueryDO query) {
+
+        ConcurrentSupport.ConcurrentSupportContext context = this.initConcurrentSupportContext();
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task1 =
+                new Task<>("queryHrStaffDist1",
+                        () -> statArpStaffEducationManualMapper.queryHrStaffDist1(query));
+        context.registerTask(task1);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task2 =
+                new Task<>("queryHrStaffDist2",
+                        () -> statArpStaffEducationManualMapper.queryHrStaffDist2(query));
+        context.registerTask(task2);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task3 =
+                new Task<>("queryHrStaffDist3",
+                        () -> statArpStaffEducationManualMapper.queryHrStaffDist3(query));
+        context.registerTask(task3);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task4 =
+                new Task<>("queryHrStaffDist4",
+                        () -> statArpStaffEducationManualMapper.queryHrStaffDist4(query));
+        context.registerTask(task4);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task5 =
+                new Task<>("queryHrStaffDist5",
+                        () -> statArpStaffEducationManualMapper.queryHrStaffDist5(query));
+        context.registerTask(task5);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task6 =
+                new Task<>("queryHrStaffDist6",
+                        () -> statArpStaffEducationManualMapper.queryHrStaffDist6(query));
+        context.registerTask(task6);
+
+        context.taskExecute();
+        context.await();
+
+        if(!context.isSuccess()) {
+            throw new RuntimeException(context.getError());
+        }
+        Map<String, List> queryResult = context.getResult();
+
+        List<Map<String, Object>> queryResult1 = queryResult.get(task1.getTaskName());
+        List<Map<String, Object>> queryResult2 = queryResult.get(task2.getTaskName());
+        List<Map<String, Object>> queryResult3 = queryResult.get(task3.getTaskName());
+        List<Map<String, Object>> queryResult4 = queryResult.get(task4.getTaskName());
+        List<Map<String, Object>> queryResult5 = queryResult.get(task5.getTaskName());
+        List<Map<String, Object>> queryResult6 = queryResult.get(task6.getTaskName());
+
+        List<Map<String, Object>> unitAry = queryResult1.stream().map(map -> {
+            Map<String, Object> bizMap = Maps.newHashMap();
+            bizMap.put("name", map.get("jgmc"));
+            bizMap.put("value", map.get("rs"));
+            return bizMap;
+        }).collect(Collectors.toList());
+
+        Map<String, List<Map<String, Object>>> entiretyAry = Maps.newHashMap();
+        if(!queryResult2.isEmpty()) {
+            entiretyAry = this.buildEntiretyAry(queryResult2.get(0));
+        }
+
+        Map<String, List<Map<String, Object>>> positionAry = Maps.newHashMap();
+        if(!queryResult3.isEmpty()) {
+            positionAry = this.buildPositionAry(queryResult3.get(0));
+        }
+
+        List<Object> ageAryName = Lists.newArrayList();
+        List<Object> ageAryValue = Lists.newArrayList();
+        queryResult4.stream().forEach(map -> {
+            ageAryName.add(map.get("nld"));
+            ageAryValue.add(map.get("rs"));
+        });
+        Map<String, List<Object>> ageAry = Maps.newHashMap();
+        ageAry.put("age_ary_name", ageAryName);
+        ageAry.put("age_ary_value", ageAryValue);
+
+        List<Object> educationAryName = Lists.newArrayList();
+        List<Object> educationAryValue = Lists.newArrayList();
+        queryResult5.stream().forEach(map -> {
+            Map<String, Object> bizNameMap = Maps.newHashMap();
+            bizNameMap.put("name", map.get("xl"));
+            bizNameMap.put("icon", "roundRect");
+            educationAryName.add(bizNameMap);
+
+            Map<String, Object> bizValueMap = Maps.newHashMap();
+            bizValueMap.put("name", map.get("xl"));
+            bizValueMap.put("value", map.get("rs"));
+            educationAryValue.add(bizValueMap);
+        });
+        Map<String, List<Object>> educationAry = Maps.newHashMap();
+        educationAry.put("ary_name", educationAryName);
+        educationAry.put("ary_value", educationAryValue);
+
+        Map<String, List<Map<String, Object>>> titleAry = Maps.newHashMap();
+        if(!queryResult6.isEmpty()) {
+            titleAry = this.buildTitleAry(queryResult6.get(0));
+        }
+
+        AreaHrStaffDistInfoDTO info = new AreaHrStaffDistInfoDTO();
+        info.setUpdateTime(AbstructServiceHelper.UPDATETIME);
+        info.setResultArray(Lists.newArrayList(queryResult1, queryResult2, queryResult3,
+                queryResult4, queryResult5, queryResult6));
+        info.setUnitAry(unitAry);
+        info.setAgeAry(ageAry);
+        info.setEducationAry(educationAry);
+        info.setEntiretyAry(entiretyAry);
+        info.setPositionAry(positionAry);
+        info.setTitleAry(titleAry);
+
+        return info;
+    }
+
+
+
+
+
+
+    @Deprecated
+    private AreaHrStaffDistInfoDTO areaStaffDistQueryOrigin(AreaHrQueryDO query) {
+
+        List<Map<String, Object>> queryResult1 =
+                statArpStaffEducationManualMapper.queryHrStaffDist1(query);
+
+        List<Map<String, Object>> queryResult2 =
+                statArpStaffEducationManualMapper.queryHrStaffDist2(query);
+
+        List<Map<String, Object>> queryResult3 =
+                statArpStaffEducationManualMapper.queryHrStaffDist3(query);
+
+        List<Map<String, Object>> queryResult4 =
+                statArpStaffEducationManualMapper.queryHrStaffDist4(query);
+
+        List<Map<String, Object>> queryResult5 =
+                statArpStaffEducationManualMapper.queryHrStaffDist5(query);
+
+        List<Map<String, Object>> queryResult6 =
+                statArpStaffEducationManualMapper.queryHrStaffDist6(query);
+
+        List<Map<String, Object>> unitAry = queryResult1.stream().map(map -> {
+            Map<String, Object> bizMap = Maps.newHashMap();
+            bizMap.put("name", map.get("jgmc"));
+            bizMap.put("value", map.get("rs"));
+            return bizMap;
+        }).collect(Collectors.toList());
+
+        Map<String, List<Map<String, Object>>> entiretyAry = Maps.newHashMap();
+        if(!queryResult2.isEmpty()) {
+            entiretyAry = this.buildEntiretyAry(queryResult2.get(0));
+        }
+
+        Map<String, List<Map<String, Object>>> positionAry = Maps.newHashMap();
+        if(!queryResult3.isEmpty()) {
+            positionAry = this.buildPositionAry(queryResult3.get(0));
+        }
+
+        List<Object> ageAryName = Lists.newArrayList();
+        List<Object> ageAryValue = Lists.newArrayList();
+        queryResult4.stream().forEach(map -> {
+            ageAryName.add(map.get("nld"));
+            ageAryValue.add(map.get("rs"));
+        });
+        Map<String, List<Object>> ageAry = Maps.newHashMap();
+        ageAry.put("age_ary_name", ageAryName);
+        ageAry.put("age_ary_value", ageAryValue);
+
+        List<Object> educationAryName = Lists.newArrayList();
+        List<Object> educationAryValue = Lists.newArrayList();
+        queryResult5.stream().forEach(map -> {
+            Map<String, Object> bizNameMap = Maps.newHashMap();
+            bizNameMap.put("name", map.get("xl"));
+            bizNameMap.put("icon", "roundRect");
+            educationAryName.add(bizNameMap);
+
+            Map<String, Object> bizValueMap = Maps.newHashMap();
+            bizValueMap.put("name", map.get("xl"));
+            bizValueMap.put("value", map.get("rs"));
+            educationAryValue.add(bizValueMap);
+        });
+        Map<String, List<Object>> educationAry = Maps.newHashMap();
+        educationAry.put("ary_name", educationAryName);
+        educationAry.put("ary_value", educationAryValue);
+
+        Map<String, List<Map<String, Object>>> titleAry = Maps.newHashMap();
+        if(!queryResult6.isEmpty()) {
+            titleAry = this.buildTitleAry(queryResult6.get(0));
+        }
+
+        AreaHrStaffDistInfoDTO info = new AreaHrStaffDistInfoDTO();
+        info.setUpdateTime(AbstructServiceHelper.UPDATETIME);
+        info.setResultArray(Lists.newArrayList(queryResult1, queryResult2, queryResult3,
+                queryResult4, queryResult5, queryResult6));
+        info.setUnitAry(unitAry);
+        info.setAgeAry(ageAry);
+        info.setEducationAry(educationAry);
+        info.setEntiretyAry(entiretyAry);
+        info.setPositionAry(positionAry);
+        info.setTitleAry(titleAry);
+
+        return info;
     }
 }
