@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.arp.trend.repository.biz.manual.ContrastProjectManualMapper" >
+
+  <select id="contrastByField" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(zzlb) AS zzlb, ANY_VALUE(research_field) AS name, ANY_VALUE(nf) AS year, SUM(xzxm_zjf) AS xzxm_zjf,SUM(xzxms) AS xzxms
+    FROM (
+    SELECT field_id, research_field, b.jgbh, b.jgmc, nf, zzlb, xzxms, xzxm_zjf
+    FROM stat_nsfc_project AS a
+    INNER JOIN (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS b
+    ON a.jgmc=b.jgmc
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>
+    AND field_id ${arrayStr}
+    GROUP BY zzlb, research_field, nf;
+  </select>
+
+  <select id="contrastByUnit" resultType="java.util.HashMap">
+    SELECT zzlb, jgbh, jgmc, nf, xzxms, xzxm_zjf
+    FROM (
+    SELECT b.jgbh, b.jgmc, nf, zzlb, xzxms, xzxm_zjf
+    FROM stat_nsfc_project AS a
+    INNER JOIN (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND jgbh ${arrayStr}
+    ) AS b
+    ON a.jgmc=b.jgmc
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>;
+  </select>
+</mapper>
