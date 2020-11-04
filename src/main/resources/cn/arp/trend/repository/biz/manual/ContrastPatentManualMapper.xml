@@ -67,7 +67,7 @@
     <where>
     nf>=${startYear} AND nf&lt;=${endYear}
     </where>
-    AND jgbh ${arrayStr};rt
+    AND jgbh ${arrayStr};
   </select>
   
   <select id="contrastByUnit2" resultType="java.util.HashMap">
@@ -93,6 +93,6 @@
     <where>
     nf>=${startYear} AND nf&lt;=${endYear}
     </where>
-    AND jgbh ${arrayStr};rt
+    AND jgbh ${arrayStr};
   </select>
 </mapper>
