@@ -72,6 +72,31 @@ public class ContrastProjectController extends BaseController {
     @RequestMapping(value = "/unit", method = RequestMethod.POST)
     @Audit(desc="")
     public ContrastProjectByFieldResponse contrastByUnit(@RequestBody ContrastBaseRequest request) {
-        return null;
+        Calendar cal = Calendar.getInstance();
+        Integer endYear = cal.get(Calendar.YEAR) - 0;
+        Integer startYear = endYear - 9;
+        // Integer startNf = 1980;
+
+        List<HashMap<String, Object>> resList1 = contrastProjectService.byUnit(
+                request.getUserId(),
+                startYear,
+                endYear,
+                request.getDataAry());
+
+        List<Integer> resList4 = new ArrayList<Integer>();
+        for(int j = startYear ; j <= endYear ; j++)
+        {
+            resList4.add(j);
+        }
+
+        if(resList1 == null || resList4 == null)
+        {
+            return null;
+        }
+
+        ContrastProjectByFieldResponse contrastProjectByFieldResponse = new ContrastProjectByFieldResponse();
+        contrastProjectByFieldResponse.setProjectData(resList1);
+        contrastProjectByFieldResponse.setYearsAry(resList4);
+        return contrastProjectByFieldResponse;
     }
 }

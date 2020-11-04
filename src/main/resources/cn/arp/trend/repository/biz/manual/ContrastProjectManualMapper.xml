@@ -24,7 +24,7 @@
   </select>
 
   <select id="contrastByUnit" resultType="java.util.HashMap">
-    SELECT zzlb, jgbh, jgmc, nf, xzxms, xzxm_zjf
+    SELECT zzlb, jgmc as name, nf as year, xzxms, xzxm_zjf
     FROM (
     SELECT b.jgbh, b.jgmc, nf, zzlb, xzxms, xzxm_zjf
     FROM stat_nsfc_project AS a
