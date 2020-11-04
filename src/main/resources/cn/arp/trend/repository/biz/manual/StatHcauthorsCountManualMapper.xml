@@ -75,7 +75,7 @@
     <where>
       1 = 1
       <choose>
-        <when test="query.fields != null and query.fields.size() > 0">
+        <when test="query.fields != null">
           AND category_ch = #{query.fields}
         </when>
         <otherwise>
@@ -97,7 +97,7 @@
     <where>
       1 = 1
       <choose>
-        <when test="query.fields != null and query.fields.size() > 0">
+        <when test="query.fields != null">
           AND category_ch = #{query.fields}
         </when>
         <otherwise>
@@ -105,7 +105,7 @@
         </otherwise>
       </choose>
       <choose>
-        <when test="query.affiliation != null and query.affiliation.size() > 0">
+        <when test="query.affiliation != null">
           AND country_ch = #{query.affiliation}
         </when>
         <otherwise>
@@ -145,7 +145,7 @@
         <where>
           category_ch IS NOT NULL
           <choose>
-            <when test="query.affiliation != null and query.affiliation.size() > 0">
+            <when test="query.affiliation != null">
               AND country_ch = #{query.affiliation}
             </when>
             <otherwise>
@@ -170,7 +170,7 @@
       country_ch = "中国"
       AND institution_ch IS NOT NULL
       <choose>
-        <when test="query.fields != null and query.fields.size() > 0">
+        <when test="query.fields != null">
           AND category_ch = #{query.fields}
         </when>
         <otherwise>
@@ -192,7 +192,7 @@
     <where>
       country_ch = "中国"
       <choose>
-        <when test="query.affiliation != null and query.affiliation.size() > 0">
+        <when test="query.affiliation != null">
           AND institution_ch = #{query.affiliation}
         </when>
         <otherwise>
@@ -200,7 +200,7 @@
         </otherwise>
       </choose>
       <choose>
-        <when test="query.fields != null and query.fields.size() > 0">
+        <when test="query.fields != null">
           AND category_ch = #{query.fields}
         </when>
         <otherwise>
@@ -240,7 +240,7 @@
         country_ch = "中国"
         AND category_ch IS NOT NULL
         <choose>
-          <when test="query.affiliation != null and query.affiliation.size() > 0">
+          <when test="query.affiliation != null">
             AND institution_ch = #{query.affiliation}
           </when>
           <otherwise>

@@ -176,6 +176,9 @@
           <when test="academicianQuery.afieldNameZky != null and academicianQuery.afieldNameZky.size() > 0">
             <include refid="afieldNameZky_collection" />
           </when>
+          <when test="academicianQuery.afieldNameZky != null and academicianQuery.afieldNameZky.size() == 0">
+            AND xuebu in ("宇宙拆机不啊")
+          </when>
           <otherwise>
             and xuebu in (SELECT DISTINCT xuebu FROM v_cas_academician_foreign)
           </otherwise>
@@ -192,6 +195,9 @@
           <when test="academicianQuery.afieldNameZky != null and academicianQuery.afieldNameZky.size() > 0">
             <include refid="afieldNameZky_collection" />
           </when>
+          <when test="academicianQuery.afieldNameZky != null and academicianQuery.afieldNameZky.size() == 0">
+            AND xuebu in ("宇宙拆机不啊")
+          </when>
           <otherwise>
             and xuebu in (SELECT DISTINCT xuebu FROM v_cas_academician_china)
           </otherwise>
@@ -205,8 +211,11 @@
       <where>
         1 = 1
         <choose>
-          <when test="academicianQuery.afieldNameZky != null and academicianQuery.afieldNameZky.size() > 0">
-            <include refid="afieldNameZky_collection" />
+          <when test="academicianQuery.fieldNameGcy != null and academicianQuery.fieldNameGcy.size() > 0">
+            <include refid="afieldNameGcy_collection" />
+          </when>
+          <when test="academicianQuery.fieldNameGcy != null and academicianQuery.fieldNameGcy.size() == 0">
+            AND xuebu in ("宇宙拆机不啊")
           </when>
           <otherwise>
             AND xuebu in (SELECT DISTINCT xuebu FROM v_cas_academician_cae_foreign)
@@ -221,8 +230,11 @@
       <where>
         1 = 1
         <choose>
-          <when test="academicianQuery.afieldNameZky != null and academicianQuery.afieldNameZky.size() > 0">
-            <include refid="afieldNameZky_collection" />
+          <when test="academicianQuery.fieldNameGcy != null and academicianQuery.fieldNameGcy.size() > 0">
+            <include refid="afieldNameGcy_collection" />
+          </when>
+          <when test="academicianQuery.fieldNameGcy != null and academicianQuery.fieldNameGcy.size() == 0">
+            AND xuebu in ("宇宙拆机不啊")
           </when>
           <otherwise>
             AND xuebu in (SELECT DISTINCT xuebu FROM v_cas_academician_cae_china)

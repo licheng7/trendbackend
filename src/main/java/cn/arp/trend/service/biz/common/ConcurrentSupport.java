@@ -9,43 +9,40 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.ApplicationObjectSupport;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
  * TODO 这个类是对并发查询的支持，后面可以借助这个类处理多个sql并发查询的情况，会提升效率
+ *
+ * TODO 使用姿势：
+ *      1、调用initConcurrentSupportContext()初始化并发处理上下文；
+ *      2、调用context.registerTask(Task task)将待执行的任务列表注册到上下文
+ *      3、调用context.taskExecute()提交并执行任务
+ *      4、调用context.await()阻塞主线程，直到所有task执行结束
+ *      5、调用context.getResult()获取异步执行结果，用于主线程后续处理
  *
  * Created with IDEA
  * author:licheng
  * Date:2020/10/14
  * Time:上午10:32
  **/
-public class ConcurrentSupport extends ApplicationObjectSupport {
+public class ConcurrentSupport extends AbstructServiceHelper {
 
     private Logger log = LoggerFactory.getLogger(ConcurrentSupport.class);
 
+    @Resource
     private ExecutorService fixedThreadPool;
 
+    @Resource
     private ListeningExecutorService listeningExecutorService;
-
-    private static ConcurrentSupport instance = new ConcurrentSupport();
-
-    private ConcurrentSupport(){
-        fixedThreadPool = getApplicationContext().getBean(
-                "fixedThreadPool", ExecutorService.class);
-        listeningExecutorService = getApplicationContext().getBean("listeningExecutorService",
-                ListeningExecutorService.class);
-    }
-
-    public static ConcurrentSupport getInstance() {
-        return instance;
-    }
 
     public ConcurrentSupportContext initConcurrentSupportContext() {
         return new ConcurrentSupportContext();
@@ -81,8 +78,12 @@ public class ConcurrentSupport extends ApplicationObjectSupport {
     }
 
     public <T> void doSuccess(Consumer<T> consumer, T t, CountDownLatch latch) {
-        consumer.accept(t);
-        latch.countDown();
+        try {
+            consumer.accept(t);
+        } catch (Throwable tr) {
+        } finally {
+            latch.countDown();
+        }
     }
 
 
@@ -94,6 +95,15 @@ public class ConcurrentSupport extends ApplicationObjectSupport {
         private Consumer<T> callback;
 
         private ListenableFuture<List> lf;
+
+        public Task(String taskName) {
+            this.taskName = taskName;
+        }
+
+        public Task(String taskName, Callable<T> executable) {
+            this.taskName = taskName;
+            this.executable = executable;
+        }
 
         public String getTaskName() {
             return taskName;
@@ -127,15 +137,6 @@ public class ConcurrentSupport extends ApplicationObjectSupport {
             this.lf = lf;
         }
 
-        public Task(String taskName, Callable<T> executable, Consumer<T> callback, ListenableFuture<List> lf) {
-            this.taskName = taskName;
-            this.executable = executable;
-            this.callback = callback;
-            this.lf = lf;
-        }
-
-        public Task() {
-        }
     }
 
     public class ConcurrentSupportContext{
@@ -144,6 +145,8 @@ public class ConcurrentSupport extends ApplicationObjectSupport {
         private List<ListenableFuture> fetureList;
 
         private CountDownLatch latch;
+
+        private Map<String, List> result;
 
         public Map<String, Task> getTaskMap() {
             return taskMap;
@@ -169,9 +172,18 @@ public class ConcurrentSupport extends ApplicationObjectSupport {
             this.latch = latch;
         }
 
+        public Map<String, List> getResult() {
+            return result;
+        }
+
+        public void setResult(Map<String, List> result) {
+            this.result = result;
+        }
+
         private ConcurrentSupportContext() {
             taskMap = Maps.newHashMap();
             fetureList = Lists.newArrayList();
+            result = Maps.newHashMap();
         }
 
         public void registerTask(Task task) {
@@ -194,13 +206,15 @@ public class ConcurrentSupport extends ApplicationObjectSupport {
             taskMap.entrySet().stream().forEach(map -> {
                 log.info("-为并发任务{}注册回调-", map.getKey());
                 Task task = map.getValue();
-                doAddCallback(task.getLf(), task.getCallback(), fetureList, latch);
+                //doAddCallback(task.getLf(), task.getCallback(), fetureList, latch);
+                doAddCallback(task.getLf(), list -> result.put(task.getTaskName(), (List) list),
+                        fetureList, latch);
             });
         }
 
         public void await() {
             try {
-                latch.await();
+                latch.await(15, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 throw new RuntimeException("执行analyzeServiceImpl.query()异常", e);
             }

@@ -8,7 +8,7 @@ import cn.arp.trend.repository.biz.manual.CasEduFTeacherInfoManualMapper;
 import cn.arp.trend.repository.biz.manual.RefEduEnrollmentManualMapper;
 import cn.arp.trend.repository.biz.manual.StatTeacherStudentManualMapper;
 import cn.arp.trend.service.biz.AreaEduService;
-import cn.arp.trend.service.biz.common.AbstructServiceHelper;
+import cn.arp.trend.service.biz.common.ConcurrentSupport;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * Time:上午7:28
  **/
 @Service
-public class AreaEduServiceImpl extends AbstructServiceHelper implements AreaEduService {
+public class AreaEduServiceImpl extends ConcurrentSupport implements AreaEduService {
 
     @Resource
     private CasEduFTeacherInfoManualMapper casEduFTeacherInfoManualMapper;
@@ -36,15 +36,88 @@ public class AreaEduServiceImpl extends AbstructServiceHelper implements AreaEdu
     @Resource
     private RefEduEnrollmentManualMapper refEduEnrollmentManualMapper;
 
-    /*public AreaEduDInfoDTO newAreaEduDQuery(AreaEduQueryDO query) {
+    public AreaEduDInfoDTO newAreaEduDQuery(AreaEduQueryDO query) {
 
-        ConcurrentSupport.ConcurrentSupportContext context = ConcurrentSupport.getInstance()
-                .initConcurrentSupportContext();
+        ConcurrentSupport.ConcurrentSupportContext context = this.initConcurrentSupportContext();
 
-        context.
+        ConcurrentSupport.Task<List<Map<String, Object>>> task1 =
+                new Task<>("queryEdu4D1",
+                        () -> statTeacherStudentManualMapper.queryEdu4D1(query));
+        context.registerTask(task1);
 
-        return null;
-    }*/
+        ConcurrentSupport.Task<List<Map<String, Object>>> task2 =
+                new Task<>("queryEdu4D2",
+                        () -> statTeacherStudentManualMapper.queryEdu4D2(query));
+        context.registerTask(task2);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task3 =
+                new Task<>("queryEdu4D3",
+                        () -> statTeacherStudentManualMapper.queryEdu4D3(query));
+        context.registerTask(task3);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task4 =
+                new Task<>("queryEdu4D4",
+                        () -> statTeacherStudentManualMapper.queryEdu4D4(query));
+        context.registerTask(task4);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task5 =
+                new Task<>("queryEdu4D5",
+                        () -> casEduFTeacherInfoManualMapper.queryEdu4D5(query));
+        context.registerTask(task5);
+
+        context.taskExecute();
+        context.await();
+
+        Map<String, List> queryResult = context.getResult();
+        List<Map<String, Object>> doctorTeacherOriginal = queryResult.get("queryEdu4D1");
+        List<Map<String, Object>> doctorTeacherNumberOriginal = queryResult.get("queryEdu4D2");
+        List<Map<String, Object>> doctorTeacherSumOriginal = queryResult.get("queryEdu4D3");
+        List<Map<String, Object>> doctorTeacherUnitOriginal = queryResult.get("queryEdu4D4");
+        List<Map<String, Object>> doctorTeacherYearOriginal = queryResult.get("queryEdu4D5");
+
+        List<String> yearList = this.buildYearlist(query.getStartYear(), query.getEndYear());
+
+        Map<String, Map<String, Object>> doctorTeacherOriginalMap = Maps.newHashMap();
+        doctorTeacherOriginal.stream().forEach(map ->
+                doctorTeacherOriginalMap.put((String) map.get("nf"), map));
+
+        List<Integer> doctorTeacherList = Lists.newArrayList();
+        yearList.stream().forEach(year ->
+                doctorTeacherList.add(doctorTeacherOriginalMap.get(year) == null ? null :
+                        ((Number) doctorTeacherOriginalMap.get(year).get("rs")).intValue()));
+
+        List<Map<String, Object>> doctorTeacherUnitList
+                = doctorTeacherUnitOriginal.stream().map(map -> {
+            Map<String, Object> value = Maps.newHashMap();
+            value.put("name", map.get("jgmc"));
+            value.put("value", map.get("rs"));
+            value.put("id", map.get("jgbh"));
+            return value;
+        }).collect(Collectors.toList());
+
+        List<Object> year = Lists.newArrayList();
+        List<Object> number = Lists.newArrayList();
+        doctorTeacherYearOriginal.stream().forEach(map -> {
+            year.add(map.get("age"));
+            number.add(map.get("number"));
+        });
+        Map<String, List<Object>> doctorTeacherYear = Maps.newHashMap();
+        doctorTeacherYear.put("year", year);
+        doctorTeacherYear.put("number", number);
+
+        Map<String, Object> doctorTeacherPie = Maps.newHashMap();
+        doctorTeacherPie.put("sum", doctorTeacherSumOriginal.get(0).get("rs"));
+        doctorTeacherPie.put("number", doctorTeacherNumberOriginal.get(0).get("rs"));
+
+        AreaEduDInfoDTO info = new AreaEduDInfoDTO();
+        info.setYearList(yearList);
+        info.setDoctorTeacherList(doctorTeacherList);
+        info.setDoctorTeacherUnitList(doctorTeacherUnitList);
+        info.setDoctorTeacherYear(doctorTeacherYear);
+        info.setDoctorTeacherPie(doctorTeacherPie);
+
+        return info;
+    }
 
     @Override
     public AreaEduDInfoDTO areaEduDQuery(AreaEduQueryDO query) {
@@ -106,6 +179,8 @@ public class AreaEduServiceImpl extends AbstructServiceHelper implements AreaEdu
         info.setDoctorTeacherPie(doctorTeacherPie);
 
         return info;
+
+        //return this.newAreaEduDQuery(query);
     }
 
     @Override
