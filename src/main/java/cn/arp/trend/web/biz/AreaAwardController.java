@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.DO.DetailAwardDetailQueryDO;
 import cn.arp.trend.data.model.DO.DetailAwardDistributionQueryDO;
 import cn.arp.trend.data.model.DO.DetailAwardTrendQueryDO;
@@ -38,6 +39,7 @@ import javax.annotation.Resource;
 @Api(value="AreaAward", tags={"对应领域部分detailAward.js"})
 @RestController
 @RequestMapping(value = "/area/award")
+@RequirePermission(dataset=true)
 public class AreaAwardController extends BaseController {
 
     @Resource
@@ -53,7 +55,7 @@ public class AreaAwardController extends BaseController {
     @ApiOperation(value= "领域部分award.js对应的/trend", notes= "领域部分award.js对应的/trend")
     @ServiceExecuter(description = "领域部分award.js对应的/trend")
     @RequestMapping(value = "/trend", method = RequestMethod.POST)
-    @Audit(desc="领域部分award.js对应的/trend")
+    @Audit(desc="领域部分award.js对应的/trend", value="Award.Trend")
     public AwardTrendResponse trendQuery(
             @RequestBody @Validated DetailAwardTrendRequest request, BindingResult bindingResult)
             throws RestError {
@@ -108,7 +110,7 @@ public class AreaAwardController extends BaseController {
     @ApiOperation(value= "领域部分award.js对应的/distribution", notes= "领域部分award.js对应的/distribution")
     @ServiceExecuter(description = "领域部分award.js对应的/distribution")
     @RequestMapping(value = "/distribution", method = RequestMethod.POST)
-    @Audit(desc="领域部分award.js对应的/distribution")
+    @Audit(desc="领域部分award.js对应的/distribution", value="Award.Distribution")
     public AwardDistributionResponse distributionQuery(
             @RequestBody @Validated DetailAwardDistributionRequest request, BindingResult bindingResult)
             throws RestError {
