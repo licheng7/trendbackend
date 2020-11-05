@@ -140,7 +140,7 @@ public class LogAspect {
 	private void addUserInfo(AuditLog auditLog) {
 		if (CurrentSession.getSubject() != null && CurrentSession.getSubject().getUser() != null) {
 			auditLog.setUserId(CurrentSession.getUserId());
-			auditLog.setUserName(CurrentSession.getSubject().getUser().getName());
+			auditLog.setUserName(CurrentSession.getSubject().getUser().getUserName());
 		} else {
 			auditLog.setUserId("Unknown");
 			auditLog.setUserName("Unknown");
