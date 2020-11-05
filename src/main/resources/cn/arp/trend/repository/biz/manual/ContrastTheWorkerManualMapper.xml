@@ -100,7 +100,7 @@
     <where>
       user_id = "${userId}"
     </where>
-    AND ${arrayStr}
+    AND jgbh ${arrayStr}
     ) AS b
     ON a.jgbh=b.jgbh;
   </select>
@@ -115,7 +115,7 @@
     <where>
       user_id = "${userId}"
     </where>
-    AND ${arrayStr}
+    AND jgbh ${arrayStr}
     ) AS b
     ON a.jgbh=b.jgbh
     ) AS c
@@ -139,7 +139,7 @@
     <where>
     user_id = "${userId}"
     </where>
-    AND ${arrayStr}
+    AND jgbh ${arrayStr}
     ) AS b
     ON a.jgbh=b.jgbh;
   </select>
@@ -160,7 +160,7 @@
     <where>
     user_id = "${userId}"
     </where>
-    AND ${arrayStr}
+    AND jgbh ${arrayStr}
     ) AS b
     ON a.jgbh=b.jgbh;
   </select>
