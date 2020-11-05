@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.arp.trend.repository.biz.manual.ContrastTheWorkerManualMapper" >
+
+  <select id="contrastByField1" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(nld) AS nld, SUM(rs) AS rs
+    FROM (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS a
+    INNER JOIN (
+    SELECT *
+    FROM stat_arp_staff_age
+    <where>
+    nf=${endYear}
+    </where>
+    ) AS b
+    ON a.jgbh=b.jgbh
+    AND field_id ${arrayStr}
+    GROUP BY research_field, nld;
+  </select>
+  <select id="contrastByField2" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(nf) AS nf, SUM(zs) AS zs
+    FROM (
+    SELECT field_id, research_field, b.jgbh, b.jgmc, nf, zs
+    FROM stat_arp_staff_duty AS a
+    INNER JOIN (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS b
+    ON a.jgbh=b.jgbh
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>
+    AND field_id ${arrayStr}
+    GROUP BY research_field, nf;
+  </select>
+  <select id="contrastByField3" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field,ANY_VALUE(research_field) AS jgmc, SUM(gj) AS gj, SUM(fg) AS fg, SUM(zj) AS zj, SUM(cj) AS cj, SUM(cj)+SUM(fg)+SUM(gj)+SUM(zj) AS total
+    FROM (
+    SELECT field_id, research_field, b.jgbh, b.jgmc, nf, gj, fg, zj, cj
+    FROM stat_arp_staff_tech_level AS a
+    INNER JOIN (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS b
+    ON a.jgbh=b.jgbh
+    ) AS c
+    <where>
+    nf=${endYear}
+    </where>
+    AND field_id ${arrayStr}
+    GROUP BY research_field;
+  </select>
+  <select id="contrastByField4" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(xl) AS xl, SUM(rs) AS rs
+    FROM (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS a
+    INNER JOIN(
+    SELECT *
+    FROM stat_arp_staff_education
+    <where>
+    nf=${endYear}
+    </where>
+    ) AS b
+    ON a.jgbh=b.jgbh
+    AND field_id ${arrayStr}
+    GROUP BY research_field, xl;
+  </select>
+
+  <select id="contrastByUnit1" resultType="java.util.HashMap">
+    SELECT b.jgbh, b.jgmc, rs, nld
+    FROM (
+    SELECT ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(nld) AS nld, SUM(rs) AS rs
+    FROM stat_arp_staff_age
+    <where>
+    nf=${endYear}
+    </where>
+    GROUP BY jgbh, nld
+    ) AS a
+    INNER JOIN
+    (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+      user_id = "${userId}"
+    </where>
+    AND ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh;
+  </select>
+  <select id="contrastByUnit2" resultType="java.util.HashMap">
+    SELECT jgbh, jgmc, nf, zs
+    FROM (
+    SELECT b.jgbh, b.jgmc, nf, zs
+    FROM stat_arp_staff_duty AS a
+    INNER JOIN (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+      user_id = "${userId}"
+    </where>
+    AND ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>;
+  </select>
+  <select id="contrastByUnit3" resultType="java.util.HashMap">
+    SELECT b.jgbh, b.jgmc, gj, fg, zj, cj
+    FROM (
+    SELECT jgbh, jgmc, gj, fg, zj, cj
+    FROM stat_arp_staff_tech_level
+    <where>
+    nf=${endYear}
+    </where>
+    ) AS a
+    INNER JOIN
+    (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh;
+  </select>
+  <select id="contrastByUnit4" resultType="java.util.HashMap">
+    SELECT b.jgbh, b.jgmc, xl, rs
+    FROM (
+    SELECT ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(xl) AS xl, SUM(rs) AS rs
+    FROM stat_arp_staff_education
+    <where>
+    nf=${endYear}
+    </where>
+    GROUP BY jgbh, xl
+    ) AS a
+    INNER JOIN
+    (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh;
+  </select>
+</mapper>
