@@ -81,8 +81,8 @@
       SUM(sx) AS sx,
       ANY_VALUE(research_field) AS research_field
     FROM
-      stat_patent_new AS a,
-      ref_org_type AS b
+      v_stat_patent_new AS a,
+      v_ref_org_type AS b
     <where>
       a.jgbh=b.jgbh
       <choose>
@@ -125,8 +125,8 @@
       SUM(pz) AS pz,
       SUM(sx) AS sx
     FROM
-    v_stat_patent_new AS a,
-    v_ref_org_type AS b
+      v_stat_patent_new AS a,
+      v_ref_org_type AS b
     <where>
       a.jgbh=b.jgbh
       <choose>
@@ -169,8 +169,8 @@
       SUM(pz) AS pz,
       SUM(sx) AS sx
     FROM
-    v_stat_patent_new AS a,
-    v_ref_org_type AS b
+      v_stat_patent_new AS a,
+      v_ref_org_type AS b
     <where>
       a.jgbh = b.jgbh
       <choose>
@@ -213,8 +213,8 @@
       SUM(pz) AS pz,
       SUM(sx) AS sx
     FROM
-    v_stat_arp_patent AS a,
-    v_ref_org_type AS b
+      v_stat_arp_patent AS a,
+      v_ref_org_type AS b
     <where>
       a.jgbh = b.jgbh
       <choose>
@@ -254,7 +254,7 @@
     SELECT
       ANY_VALUE(nf) AS nf, SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
     FROM
-    v_stat_patent_new
+      v_stat_patent_new
     <where>
       1 = 1
       <include refid="sql_affiliation"/>
@@ -270,7 +270,7 @@
     SELECT
       ANY_VALUE(nf) AS nf, SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
     FROM
-    v_stat_arp_patent
+      v_stat_arp_patent
     <where>
       1 = 1
       <include refid="sql_affiliation"/>
@@ -286,7 +286,7 @@
     SELECT
       SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
     FROM
-    v_stat_patent_new AS a, v_ref_org_type AS b
+      v_stat_patent_new AS a, v_ref_org_type AS b
     <where>
       a.jgbh=b.jgbh
       <include refid="sql_affiliation_un_otherwise"/>
@@ -300,7 +300,7 @@
     SELECT
       ANY_VALUE(b.jgbh) AS jgbh, ANY_VALUE(b.jgmc) AS jgmc, SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
     FROM
-    v_stat_patent_new AS a, v_ref_org_type AS b
+      v_stat_patent_new AS a, v_ref_org_type AS b
     <where>
       a.jgbh=b.jgbh
       <include refid="sql_affiliation_a"/>
@@ -316,7 +316,7 @@
     SELECT
       ANY_VALUE(nf) AS nf, SUM(lj) AS lj, SUM(xz) AS xz
     FROM
-    v_stat_patent AS a, v_ref_org_type AS b
+      v_stat_patent AS a, v_ref_org_type AS b
     <where>
       a.jgmc=b.jgmc AND zllx="PCTPatent"
       <include refid="sql_affiliation"/>
@@ -332,7 +332,7 @@
     SELECT
       SUM(lj) AS lj, SUM(xz) AS xz
     FROM
-    v_stat_patent AS a, v_ref_org_type AS b
+      v_stat_patent AS a, v_ref_org_type AS b
     <where>
       a.jgmc=b.jgmc
       <include refid="sql_affiliation_b"/>
@@ -346,7 +346,7 @@
     SELECT
       ANY_VALUE(b.jgbh) AS jgbh, ANY_VALUE(b.jgmc) AS jgmc, SUM(lj) AS lj, SUM(xz) AS xz
     FROM
-    v_stat_patent AS a, v_ref_org_type AS b
+      v_stat_patent AS a, v_ref_org_type AS b
     <where>
       a.jgmc=b.jgmc
       <include refid="sql_affiliation_b"/>
@@ -362,7 +362,7 @@
     SELECT
       SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
     FROM
-    v_stat_patent_new AS a, v_ref_org_type AS b
+      v_stat_patent_new AS a, v_ref_org_type AS b
     <where>
       a.jgmc=b.jgmc
       AND <![CDATA[nf >= #{query.startYear}]]>
@@ -375,7 +375,7 @@
     SELECT
       SUM(lj) AS lj, SUM(xz) AS xz
     FROM
-    v_stat_patent AS a, v_ref_org_type AS b
+      v_stat_patent AS a, v_ref_org_type AS b
     <where>
       a.jgmc=b.jgmc
       AND b.jgbh IS NOT NULL

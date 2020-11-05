@@ -10,5 +10,9 @@ import cn.arp.trend.data.model.DTO.AnalyzeInfoDTO;
  **/
 public interface AnalyzeService {
 
+    /**
+     * 对应analyze.js的/
+     * @return
+     */
     AnalyzeInfoDTO query();
 }
