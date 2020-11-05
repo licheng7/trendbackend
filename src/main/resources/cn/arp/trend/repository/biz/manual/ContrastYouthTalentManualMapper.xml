@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.arp.trend.repository.biz.manual.ContrastYouthTalentManualMapper" >
+
+  <select id="contrastByField1" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field, ROUND(SUM(pzje),2) AS expenditure, COUNT(*) AS project
+    FROM (
+    SELECT ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(jgmc) AS jgmc, SUM(pzje) AS pzje
+    FROM temp_cas_staff_for_rencaicount AS a
+    INNER JOIN
+    (
+    SELECT xmpzh, xmfzr, ytdw, pzje
+    FROM cas_icp_isisn_nsfc_projects
+    WHERE pznd=${endYear}
+    ) AS b
+    ON a.xm=b.xmfzr AND a.jgmc=b.ytdw
+    GROUP BY jgbh
+    ) AS c
+    INNER JOIN
+    (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND field_id ${arrayStr}
+    ) AS d
+    ON c.jgbh=d.jgbh
+    GROUP BY research_field;
+  </select>
+  <select id="contrastByField2" resultType="java.util.HashMap">
+    SELECT a.research_field, a.nf, rcrs, zgrs
+    FROM (
+    SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(a.nf) AS nf, SUM(rcrs) AS rcrs
+    FROM (
+    (
+    SELECT year AS nf, jgbh, count AS rcrs
+    FROM stat_cas_staff_qianzaiyearcount_bydanwei
+    WHERE year>=${startYear} AND year&lt;=${endYear}
+    ) AS a
+    INNER JOIN
+    (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND field_id ${arrayStr}
+    ) AS c
+    ON a.jgbh=c.jgbh
+    )
+    GROUP BY research_field, a.nf
+    ) AS a
+    INNER JOIN
+    (
+    SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(b.nf) AS nf, SUM(zgrs) AS zgrs
+    FROM (
+    (
+    SELECT nf, jgbh, zs AS zgrs
+    FROM stat_arp_staff_duty
+    WHERE zs != 0
+    AND nf>=${startYear} AND nf&lt;=${endYear}
+    ) AS b
+    INNER JOIN
+    (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND field_id ${arrayStr}
+    ) AS c
+    ON b.jgbh=c.jgbh
+    )
+    GROUP BY research_field, b.nf
+    ) AS b
+    ON a.research_field=b.research_field AND a.nf=b.nf;
+  </select>
+  <select id="contrastByField3" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(zwmc) AS zwmc, COUNT(a.id) AS rs
+    FROM temp_cas_staff_for_rencaicount AS a
+    INNER JOIN
+    (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND field_id ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh
+    GROUP BY research_field, zwmc;
+  </select>
+  <select id="contrastByField4" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field, IFNULL(ANY_VALUE(xw),"未知") AS xw, COUNT(a.id) AS rs
+    FROM temp_cas_staff_for_rencaicount AS a
+    INNER JOIN
+    (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND field_id ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh
+    GROUP BY research_field, xw
+  </select>
+
+
+  <select id="contrastByUnit1" resultType="java.util.HashMap">
+    SELECT d.jgbh, d.jgmc, ROUND(pzje,2) AS expenditure, project
+    FROM (
+    SELECT ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(jgmc) AS jgmc, SUM(pzje) AS pzje, COUNT(*) AS project
+    FROM temp_cas_staff_for_rencaicount AS a
+    INNER JOIN
+    (
+    SELECT xmpzh, xmfzr, ytdw, pzje
+    FROM cas_icp_isisn_nsfc_projects
+    WHERE pznd=${endYear}
+    ) AS b
+    ON a.xm=b.xmfzr AND a.jgmc=b.ytdw
+    GROUP BY jgbh
+    ) AS c
+    INNER JOIN
+    (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND jgbh ${arrayStr}
+    ) AS d
+    ON c.jgbh=d.jgbh;
+  </select>
+  <select id="contrastByUnit2" resultType="java.util.HashMap">
+    SELECT b.jgbh, b.jgmc, b.nf, rcrs, zgrs, ROUND(rcrs/zgrs,2) AS ratio
+    FROM (
+    SELECT year AS nf, jgbh, count AS rcrs
+    FROM stat_cas_staff_qianzaiyearcount_bydanwei
+    WHERE year>=${startYear} AND year&lt;=${endYear}
+    AND jgbh ${arrayStr}
+    ) AS a
+    INNER JOIN
+    (
+    SELECT nf, jgbh, jgmc, zs AS zgrs
+    FROM stat_arp_staff_duty
+    WHERE zs != 0
+    AND nf>=${startYear} AND nf&lt;=${endYear}
+    AND jgbh ${arrayStr}
+    ) AS b
+    INNER JOIN
+    (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND jgbh ${arrayStr}
+    ) AS c
+    ON a.jgbh=b.jgbh AND a.nf=b.nf AND b.jgbh=c.jgbh;
+  </select>
+  <select id="contrastByUnit3" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(a.jgbh) AS jgbh, ANY_VALUE(b.jgmc) AS jgmc, ANY_VALUE(zwmc) AS zwmc, COUNT(a.id) AS rs
+    FROM temp_cas_staff_for_rencaicount AS a
+    INNER JOIN
+    (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND jgbh ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh
+    GROUP BY b.jgbh, b.jgmc, zwmc
+  </select>
+  <select id="contrastByUnit4" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(a.jgbh) AS jgbh, ANY_VALUE(b.jgmc) AS jgmc, IFNULL(ANY_VALUE(xw),"未知") AS xw, COUNT(a.id) AS rs
+    FROM temp_cas_staff_for_rencaicount AS a
+    INNER JOIN
+    (
+    SELECT DISTINCT jgbh, jgmc
+    FROM relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND jgbh ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh
+    GROUP BY a.jgbh, a.jgmc, xw
+  </select>
+</mapper>
