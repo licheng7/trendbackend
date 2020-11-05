@@ -31,6 +31,7 @@ import javax.annotation.Resource;
 @Api(value="detailStaff",tags={"对应宏观部分detailStaff.js"})
 @RestController
 @RequestMapping(value = "/detail/staff")
+@RequirePermission(dataset=true)
 public class DetailStaffController extends BaseController {
 
     @Resource
@@ -46,7 +47,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "年龄分布【新】", notes= "年龄分布【新】")
     @ServiceExecuter(description = "年龄分布【新】")
     @RequestMapping(value = "/ageDistribution", method = RequestMethod.POST)
-    @Audit(desc="年龄分布【新】")
+    @Audit(desc="在职员工年龄分布", value="Staff.AgeDistribution")
     public AgeDistributionResponse ageDistributionQuery(
             @RequestBody @Validated AgeDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -71,7 +72,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "学历分布【新】", notes= "学历分布【新】")
     @ServiceExecuter(description = "学历分布【新】")
     @RequestMapping(value = "/childLevelDistribution", method = RequestMethod.POST)
-    @Audit(desc="学历分布【新】")
+    @Audit(desc="在职员工学历分布", value="Staff.EducationLevel")
     public ChildLevelDistributionResponse childLevelDistributionQuery(
             @RequestBody @Validated ChildLevelDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -90,7 +91,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "在职职工人员增长趋势【新】", notes= "在职职工人员增长趋势【新】")
     @ServiceExecuter(description = "在职职工人员增长趋势【新】")
     @RequestMapping(value = "/increaseTrend", method = RequestMethod.POST)
-    @Audit(desc="在职职工人员增长趋势【新】")
+    @Audit(desc="在职职工人员增长趋势", value="Staff.Trend")
     public IncreaseTrendResponse increaseTrendQuery(
             @RequestBody @Validated IncreaseTrendRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -107,7 +108,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "人员类型整体分布【新】", notes= "人员类型整体分布【新】")
     @ServiceExecuter(description = "人员类型整体分布【新】")
     @RequestMapping(value = "/personTypeDistribution", method = RequestMethod.POST)
-    @Audit(desc="人员类型整体分布【新】")
+    @Audit(desc="人员类型整体分布", value="Staff.CategoryDistribution")
     public PersonTypeDistributionResponse personTypeDistributionQuery(
             @RequestBody @Validated PersonTypeDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -122,7 +123,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "在职职工岗位分布【新】", notes= "在职职工岗位分布【新】")
     @ServiceExecuter(description = "在职职工岗位分布【新】")
     @RequestMapping(value = "/postDistribution", method = RequestMethod.POST)
-    @Audit(desc="在职职工岗位分布【新】")
+    @Audit(desc="在职职工岗位分布", value="Staff.PositionDistribution")
     public PostDistributionResponse postDistributionQuery(
             @RequestBody @Validated PostDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -137,7 +138,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "专业技术人员职称分布【新】", notes= "专业技术人员职称分布【新】")
     @ServiceExecuter(description = "专业技术人员职称分布【新】")
     @RequestMapping(value = "/positionDistribution", method = RequestMethod.POST)
-    @Audit(desc="专业技术人员职称分布【新】")
+    @Audit(desc="专业技术人员职称分布", value="Staff.TitleDistribution")
     public PositionDistributionResponse positionDistributionQuery(
             @RequestBody @Validated PositionDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -152,7 +153,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "博士学历所占比例排名【新】", notes= "博士学历所占比例排名【新】")
     @ServiceExecuter(description = "博士学历所占比例排名【新】")
     @RequestMapping(value = "/drRank", method = RequestMethod.POST)
-    @Audit(desc="博士学历所占比例排名【新】")
+    @Audit(desc="各研究所博士学历人数", value="Staff.DoctorRank")
     public DrRankResponse drRankQuery(
             @RequestBody @Validated DrRankRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -165,7 +166,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "岗位晋升分析【新】", notes= "岗位晋升分析【新】")
     @ServiceExecuter(description = "岗位晋升分析【新】")
     @RequestMapping(value = "/postAnalyze", method = RequestMethod.POST)
-    @Audit(desc="岗位晋升分析【新】")
+    @Audit(desc="岗位晋升分析", value="Staff.PromotionAnalysis")
     public PostAnalyzeResponse postAnalyzeQuery(
             @RequestBody @Validated PostAnalyzeRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);

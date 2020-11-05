@@ -30,6 +30,7 @@ import java.util.List;
 @Api(value="detailAcademician",tags={"对应宏观部分detailAcademician.js"})
 @RestController
 @RequestMapping(value = "/detail/academician")
+@RequirePermission(dataset=true)
 public class DetailAcademicianController extends BaseController {
 
     @Resource
@@ -38,7 +39,7 @@ public class DetailAcademicianController extends BaseController {
     @ApiOperation(value= "外籍院士数据【新】", notes= "外籍院士数据【新】")
     @ServiceExecuter(description = "外籍院士数据【新】")
     @RequestMapping(value = "/foreign", method = RequestMethod.POST)
-    @Audit(desc="外籍院士数据【新】")
+    @Audit(desc="外籍院士数据", value="Academician.Foreign")
     public ForeignResponse foreignQuery(@RequestBody ForeignRequest request) {
         ForeignInfoDTO foreignInfo = detailAcademicianService.foreignQuery(request.getAffiliation());
         return new ForeignResponse(foreignInfo.getTopCountry());
@@ -47,7 +48,7 @@ public class DetailAcademicianController extends BaseController {
     @ApiOperation(value= "detailAcademician.js对应的/", notes= "detailAcademician.js对应的/")
     @ServiceExecuter(description = "detailAcademician.js对应的/")
     @RequestMapping(value = "/compare", method = RequestMethod.POST)
-    @Audit(desc="detailAcademician.js对应的/")
+    @Audit(desc="本土院士数据", value="Academician.Domain")
     public List<Object> compareQuery(@RequestBody CompareRequest request, BindingResult
             bindingResult) throws RestError {
         validData(bindingResult);

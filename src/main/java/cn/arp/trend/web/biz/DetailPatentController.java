@@ -34,6 +34,7 @@ import java.util.List;
 @Api(value="detailPatent",tags={"对应宏观部分detailPatent.js"})
 @RestController
 @RequestMapping(value = "/detail/patent")
+@RequirePermission(dataset=true)
 public class DetailPatentController extends BaseController {
 
     @Resource
@@ -49,7 +50,7 @@ public class DetailPatentController extends BaseController {
     @ApiOperation(value= "detailPatent.js对应的/ZKYPCTPatent", notes= "detailPatent.js对应的/ZKYPCTPatent")
     @ServiceExecuter(description = "detailPatent.js对应的/ZKYPCTPatent")
     @RequestMapping(value = "/ZKYPCTPatent", method = RequestMethod.POST)
-    @Audit(desc="detailPatent.js对应的/ZKYPCTPatent")
+    @Audit(desc="中科院PCT专利", value="Patent.PCTPatent")
     public List<ZKYPCTPatentResponse> patentZKYPCTQuery(
             @RequestBody @Validated ZKYPCTPatentRequest request, BindingResult bindingResult) throws Exception {
         validData(bindingResult);
@@ -80,7 +81,7 @@ public class DetailPatentController extends BaseController {
     @ApiOperation(value= "detailPatent.js对应的/ZKYChinaPatent", notes= "detailPatent.js对应的/ZKYChinaPatent")
     @ServiceExecuter(description = "detailPatent.js对应的/ZKYChinaPatent")
     @RequestMapping(value = "/ZKYChinaPatent", method = RequestMethod.POST)
-    @Audit(desc="detailPatent.js对应的/ZKYChinaPatent")
+    @Audit(desc="中科院中国发明专利", value="Patent.ChinaPatent")
     public ZKYChinaPatentResponse patentZKYChinaQuery(
             @RequestBody @Validated ZKYChinaPatentRequest request, BindingResult bindingResult) throws Exception {
         validData(bindingResult);

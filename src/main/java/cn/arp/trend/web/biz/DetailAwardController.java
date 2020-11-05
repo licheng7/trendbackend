@@ -38,6 +38,7 @@ import javax.annotation.Resource;
 @Api(value="DetailAward", tags={"对应宏观部分detailAward.js"})
 @RestController
 @RequestMapping(value = "/detail/award")
+@RequirePermission(dataset=true)
 public class DetailAwardController extends BaseController {
 
     @Resource
@@ -53,7 +54,7 @@ public class DetailAwardController extends BaseController {
     @ApiOperation(value= "detailAward.js对应的/trend", notes= "detailAward.js对应的/trend")
     @ServiceExecuter(description = "detailAward.js对应的/trend")
     @RequestMapping(value = "/trend", method = RequestMethod.POST)
-    @Audit(desc="detailAward.js对应的/trend")
+    @Audit(desc="历年国家奖、社会奖获奖趋势", value="Award.Trend")
     public AwardTrendResponse trendQuery(@RequestBody @Validated DetailAwardTrendRequest request, BindingResult
             bindingResult) throws RestError {
         validData(bindingResult);
@@ -82,7 +83,7 @@ public class DetailAwardController extends BaseController {
     @ApiOperation(value= "detailAward.js对应的/detail", notes= "detailAward.js对应的/detail")
     @ServiceExecuter(description = "detailAward.js对应的/detail")
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
-    @Audit(desc="detailAward.js对应的/detail")
+    @Audit(desc="国家奖、社会奖获奖详情", value="Award.Detail")
     public AwardDetailResponse detailQuery(@RequestBody @Validated DetailAwardDetailRequest request, BindingResult
             bindingResult) throws RestError {
         validData(bindingResult);
@@ -106,7 +107,7 @@ public class DetailAwardController extends BaseController {
     @ApiOperation(value= "detailAward.js对应的/distribution", notes= "detailAward.js对应的/distribution")
     @ServiceExecuter(description = "detailAward.js对应的/distribution")
     @RequestMapping(value = "/distribution", method = RequestMethod.POST)
-    @Audit(desc="detailAward.js对应的/distribution")
+    @Audit(desc="各单位获奖数量和奖项领域分布", value="Award.Distribution")
     public AwardDistributionResponse distributionQuery(@RequestBody @Validated DetailAwardDistributionRequest request, BindingResult
             bindingResult) throws RestError {
         validData(bindingResult);

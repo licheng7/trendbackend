@@ -41,6 +41,7 @@ import javax.annotation.Resource;
 @Api(value="detailAsset",tags={"对应宏观部分detailAsset.js"})
 @RestController
 @RequestMapping(value = "/detail/asset")
+@RequirePermission(dataset=true)
 public class DetailAssetController extends BaseController {
 
     @Resource
@@ -49,7 +50,7 @@ public class DetailAssetController extends BaseController {
     @ApiOperation(value= "对应detailAsset.js/overview", notes= "对应detailAsset.js/overview")
     @ServiceExecuter(description = "对应detailAsset.js/overview")
     @RequestMapping(value = "/overview", method = RequestMethod.POST)
-    @Audit(desc="对应detailAsset.js/overview")
+    @Audit(desc="收支概况", value="Asset.Overview")
     public OverviewResponse overviewQuery(
             @RequestBody @Validated OverviewRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -61,7 +62,7 @@ public class DetailAssetController extends BaseController {
     @ApiOperation(value= "对应detailAsset.js/detail", notes= "对应detailAsset.js/detail")
     @ServiceExecuter(description = "对应detailAsset.js/detail")
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
-    @Audit(desc="对应detailAsset.js/detail")
+    @Audit(desc="收支详情", value="Asset.Detail")
     public AssetDetailResponse detailQuery(
             @RequestBody @Validated AssetIncomeRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -79,7 +80,7 @@ public class DetailAssetController extends BaseController {
     @ApiOperation(value= "对应detailAsset.js/income", notes= "对应detailAsset.js/income")
     @ServiceExecuter(description = "对应detailAsset.js/income")
     @RequestMapping(value = "/income", method = RequestMethod.POST)
-    @Audit(desc="对应detailAsset.js/income")
+    @Audit(desc="历年收入", value="Asset.Income")
     public AssetIncomeResponse incomeQuery(
             @RequestBody @Validated AssetIncomeRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -98,7 +99,7 @@ public class DetailAssetController extends BaseController {
     @ApiOperation(value= "对应detailAsset.js/execution_trend", notes= "对应detailAsset.js/execution_trend")
     @ServiceExecuter(description = "对应detailAsset.js/execution_trend")
     @RequestMapping(value = "/execution_trend", method = RequestMethod.POST)
-    @Audit(desc="对应detailAsset.js/execution_trend")
+    @Audit(desc="执行率", value="Asset.ExecutionTrend")
     public ExecutionTrendResponse executionTrendQuery(
             @RequestBody @Validated ExecutionTrendRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);

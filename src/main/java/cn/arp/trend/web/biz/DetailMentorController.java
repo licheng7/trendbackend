@@ -29,6 +29,7 @@ import javax.annotation.Resource;
 @Api(value="detailMentor",tags={"对应宏观部分detailMentor.js"})
 @RestController
 @RequestMapping(value = "/detail/mentor")
+@RequirePermission(dataset=true)
 public class DetailMentorController extends BaseController {
 
     @Resource
@@ -45,7 +46,7 @@ public class DetailMentorController extends BaseController {
     @ApiOperation(value= "博导", notes= "博导")
     @ServiceExecuter(description = "博导")
     @RequestMapping(value = "/distribution/d", method = RequestMethod.POST)
-    @Audit(desc="博导")
+    @Audit(desc="博导的领域分布、年龄分布", value="Education.DoctorMentorDistribution")
     public DoctoralSupervisorResponse doctoralupervisorQuery(
             @RequestBody @Validated DoctoralSupervisorRequest request,
             BindingResult bindingResult) throws RestError {
@@ -68,7 +69,7 @@ public class DetailMentorController extends BaseController {
     @ApiOperation(value= "硕导", notes= "硕导")
     @ServiceExecuter(description = "硕导")
     @RequestMapping(value = "/distribution/m", method = RequestMethod.POST)
-    @Audit(desc="硕导")
+    @Audit(desc="硕导的领域分布、年龄分布", value="Education.MasterMentorDistribution")
     public MasterSupervisorResponse masterSupervisorQuery(
             @RequestBody @Validated MasterSupervisorRequest request,
             BindingResult bindingResult) throws RestError {
@@ -91,7 +92,7 @@ public class DetailMentorController extends BaseController {
     @ApiOperation(value= "导师", notes= "导师")
     @ServiceExecuter(description = "导师")
     @RequestMapping(value = "/distribution/all", method = RequestMethod.POST)
-    @Audit(desc="导师")
+    @Audit(desc="导师的领域分布、年龄分布", value="Education.MentorDistribution")
     public AllSupervisorResponse allSupervisorQuery(
             @RequestBody @Validated AllSupervisorRequest request,
             BindingResult bindingResult) throws RestError {
@@ -114,7 +115,7 @@ public class DetailMentorController extends BaseController {
     @ApiOperation(value= "导师", notes= "导师")
     @ServiceExecuter(description = "导师")
     @RequestMapping(value = "/trend/d", method = RequestMethod.POST)
-    @Audit(desc="导师")
+    @Audit(desc="历年博导、博士生数量", value="Education.DoctorMentorTrend")
     public TrendDoctoralSupervisorResponse trendDoctoralSupervisorQuery(
             @RequestBody @Validated TrendDoctoralSupervisorRequest request,
             BindingResult bindingResult) throws RestError {
@@ -137,7 +138,7 @@ public class DetailMentorController extends BaseController {
     @ApiOperation(value= "硕导", notes= "硕导")
     @ServiceExecuter(description = "硕导")
     @RequestMapping(value = "/trend/m", method = RequestMethod.POST)
-    @Audit(desc="硕导")
+    @Audit(desc="历年硕导、硕士生数量", value="Education.MasterMentorTrend")
     public TrendMasterSupervisorResponse trendMasterSupervisorQuery(
             @RequestBody @Validated TrendMasterSupervisorRequest request,
             BindingResult bindingResult) throws RestError {
@@ -160,7 +161,7 @@ public class DetailMentorController extends BaseController {
     @ApiOperation(value= "导师", notes= "导师")
     @ServiceExecuter(description = "导师")
     @RequestMapping(value = "/trend/all", method = RequestMethod.POST)
-    @Audit(desc="导师")
+    @Audit(desc="历年导师、学生数量", value="Education.MentorTrend")
     public TrendAllResponse trendMasterSupervisorQuery(
             @RequestBody @Validated TrendAllRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -181,7 +182,7 @@ public class DetailMentorController extends BaseController {
     @ApiOperation(value= "中间的详情列表", notes= "中间的详情列表")
     @ServiceExecuter(description = "导师")
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
-    @Audit(desc="导师")
+    @Audit(desc="导师、学生详情", value="Education.Detail")
     public MentorDetailResponse trendMasterSupervisorQuery(
             @RequestBody @Validated MentorDetailRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
