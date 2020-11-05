@@ -63,7 +63,7 @@
         jgmc,
         ROUND(srhj/10000,2) AS income
       FROM
-      v_stat_arp_fin_income
+        v_stat_arp_fin_income
       <where>
         nf = #{query.year}
       </where>
@@ -74,7 +74,7 @@
         jgmc,
         ROUND(zchj/10000,2) AS outcome
       FROM
-      v_stat_arp_fin_expand
+        v_stat_arp_fin_expand
       <where>
         nf = #{query.year}
       </where>
@@ -85,12 +85,12 @@
         jgmc,
         zs AS rs
       FROM
-      v_stat_arp_staff_duty
+        v_stat_arp_staff_duty
       <where>
         nf = #{query.year}
       </where>
     ) AS c,
-    ref_org_type AS d
+      v_ref_org_type AS d
     <where>
       a.jgbh=b.jgbh
       AND b.jgbh=c.jgbh
@@ -153,7 +153,7 @@
         nf = #{query.year}
       </where>
     ) AS c,
-    ref_org_type AS d
+      v_ref_org_type AS d
     <where>
       a.jgbh=b.jgbh
       AND b.jgbh=c.jgbh
@@ -208,7 +208,7 @@
         LEFT(YEAR, 4) = #{query.year}
       </where>
     ) AS b,
-    ref_org_type AS c
+     v_ref_org_type AS c
     <where>
       a.JGBH=b.JGBH
       AND b.JGBH=c.jgbh
@@ -258,7 +258,7 @@
         LEFT(YEAR, 4) = #{query.year}
       </where>
     ) AS b,
-    ref_org_type AS c
+      v_ref_org_type AS c
     <where>
       a.JGBH=b.JGBH
       AND b.JGBH=c.jgbh

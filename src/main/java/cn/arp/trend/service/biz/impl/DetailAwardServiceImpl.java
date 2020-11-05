@@ -12,6 +12,7 @@ import cn.arp.trend.repository.biz.manual.CasHlhlAwardWinnerManualMapper;
 import cn.arp.trend.repository.biz.manual.RefOrgTypeManualMapper;
 import cn.arp.trend.service.biz.DetailAwardService;
 import cn.arp.trend.service.biz.common.AbstructServiceHelper;
+import cn.arp.trend.service.biz.common.ConcurrentSupport;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
  * Time:下午12:15
  **/
 @Service
-public class DetailAwardServiceImpl extends AbstructServiceHelper implements DetailAwardService {
+public class DetailAwardServiceImpl extends ConcurrentSupport implements DetailAwardService {
 
     @Resource
     private CasHlhlAwardWinnerManualMapper casHlhlAwardWinnerManualMapper;
@@ -103,91 +104,7 @@ public class DetailAwardServiceImpl extends AbstructServiceHelper implements Det
     @Override
     public DetailAwardDetailInfoDTO detailQuery(DetailAwardDetailQueryDO query) {
 
-        List<Map<String, Object>> heOriginalPie
-                = casHlhlAwardWinnerManualMapper.queryAwardDetail1(query);
-
-        List<Map<String, Object>> futureOriginalPie
-                = casHlhlAwardWinnerManualMapper.queryAwardDetail2(query);
-
-        List<Map<String, Object>> outstandingOriginalPie
-                = casHlhlAwardWinnerManualMapper.queryAwardDetail3(query);
-
-        List<Map<String, Object>> progressOriginalPie
-                = casHlhlAwardWinnerManualMapper.queryAwardDetail4(query, "国家科学技术进步奖");
-
-        List<Map<String, Object>> natureOriginalPie
-                = casHlhlAwardWinnerManualMapper.queryAwardDetail4(query, "国家自然科学奖");
-
-        List<Map<String, Object>> inventOriginalPie
-                = casHlhlAwardWinnerManualMapper.queryAwardDetail4(query, "国家技术发明奖");
-
-        List<Map<String, Object>> highestOriginalPie
-                = casHlhlAwardWinnerManualMapper.queryAwardDetail7(query);
-
-        List<Map<String, Object>> hePie = this.setPeiAry(heOriginalPie, "hjjx");
-        List<Map<String, Object>> futurePie = this.setPeiAry(futureOriginalPie, "hjlb");
-        List<Map<String, Object>> outstandingPie = this.setPeiAry(outstandingOriginalPie, "hjlb");
-        List<Map<String, Object>> progressPie = this.setPeiAry(progressOriginalPie, "jxlb");
-        List<Map<String, Object>> naturePie = this.setPeiAry(natureOriginalPie, "jxlb");
-        List<Map<String, Object>> inventPie = this.setPeiAry(inventOriginalPie, "jxlb");
-
-        List<Map<String, Object>> highestList = Lists.newArrayList();
-        highestOriginalPie.stream().forEach(map -> {
-            List listAry = Lists.newArrayList();
-            if (map.get("first_wcdw_std") != null) {
-                Map<String, Object> aryMap = Maps.newHashMap();
-                aryMap.put("unit", map.get("first_wcdw_std"));
-                aryMap.put("wcdw", "第一完成单位");
-                listAry.add(aryMap);
-            }
-            if (map.get("second_wcdw_std") != null) {
-                Map<String, Object> aryMap = Maps.newHashMap();
-                aryMap.put("unit", map.get("second_wcdw_std"));
-                aryMap.put("wcdw", "第二完成单位");
-                listAry.add(aryMap);
-            }
-            if (map.get("third_wcdw_std") != null) {
-                Map<String, Object> aryMap = Maps.newHashMap();
-                aryMap.put("unit", map.get("third_wcdw_std"));
-                aryMap.put("wcdw", "第三完成单位");
-                listAry.add(aryMap);
-            }
-            Map<String, Object> highestMap = Maps.newHashMap();
-            highestMap.put("year", map.get("hjnf"));
-            highestMap.put("list", listAry);
-            highestList.add(highestMap);
-        });
-
-        BigDecimal hePieSum = hePie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
-                ).reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal futurePieSum = futurePie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
-                ).reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal outstandingPieSum = outstandingPie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
-                ).reduce(BigDecimal.ZERO, BigDecimal::add);
-        int otherNum = hePieSum.intValue() + futurePieSum.intValue() + outstandingPieSum.intValue();
-
-        BigDecimal progressPieSum = progressPie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
-                ).reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal naturePieSum = naturePie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
-                ).reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal inventPieSum = inventPie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
-                ).reduce(BigDecimal.ZERO, BigDecimal::add);
-        int stateNum = progressPieSum.intValue() + naturePieSum.intValue() + inventPieSum
-                .intValue() + highestOriginalPie.size();
-
-        DetailAwardDetailInfoDTO info = new DetailAwardDetailInfoDTO();
-        info.setHePie(hePie);
-        info.setFuturePie(futurePie);
-        info.setOutstandingPie(outstandingPie);
-        info.setProgressPie(progressPie);
-        info.setNaturePie(naturePie);
-        info.setInventPie(inventPie);
-        info.setHighestList(highestList);
-        info.setHighestMun(highestOriginalPie.size());
-        info.setOtherNum(otherNum);
-        info.setStateNum(stateNum);
-
-        return info;
+        return this.detailQueryByCs(query);
     }
 
     @Override
@@ -324,5 +241,222 @@ public class DetailAwardServiceImpl extends AbstructServiceHelper implements Det
                 }).collect(Collectors.toList());
         }
         return returnAry;
+    }
+
+
+    private DetailAwardDetailInfoDTO detailQueryByCs(DetailAwardDetailQueryDO query) {
+
+        ConcurrentSupport.ConcurrentSupportContext context = this.initConcurrentSupportContext();
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task1 =
+                new Task<>("queryAwardDetail1",
+                        () -> casHlhlAwardWinnerManualMapper.queryAwardDetail1(query));
+        context.registerTask(task1);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task2 =
+                new Task<>("queryAwardDetail2",
+                        () -> casHlhlAwardWinnerManualMapper.queryAwardDetail2(query));
+        context.registerTask(task2);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task3 =
+                new Task<>("queryAwardDetail3",
+                        () -> casHlhlAwardWinnerManualMapper.queryAwardDetail3(query));
+        context.registerTask(task3);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task4 =
+                new Task<>("queryAwardDetail4",
+                        () -> casHlhlAwardWinnerManualMapper.queryAwardDetail4(query, "国家科学技术进步奖"));
+        context.registerTask(task4);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task5 =
+                new Task<>("queryAwardDetail5",
+                        () -> casHlhlAwardWinnerManualMapper.queryAwardDetail4(query, "国家自然科学奖"));
+        context.registerTask(task5);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task6 =
+                new Task<>("queryAwardDetail6",
+                        () -> casHlhlAwardWinnerManualMapper.queryAwardDetail4(query, "国家技术发明奖"));
+        context.registerTask(task6);
+
+        ConcurrentSupport.Task<List<Map<String, Object>>> task7 =
+                new Task<>("queryAwardDetail7",
+                        () -> casHlhlAwardWinnerManualMapper.queryAwardDetail7(query));
+        context.registerTask(task7);
+
+        context.taskExecute();
+        context.await();
+
+        if(!context.isSuccess()) {
+            throw new RuntimeException(context.getError());
+        }
+        Map<String, List> queryResult = context.getResult();
+
+        List<Map<String, Object>> heOriginalPie = queryResult.get(task1.getTaskName());
+        List<Map<String, Object>> futureOriginalPie = queryResult.get(task2.getTaskName());
+        List<Map<String, Object>> outstandingOriginalPie = queryResult.get(task3.getTaskName());
+        List<Map<String, Object>> progressOriginalPie = queryResult.get(task4.getTaskName());
+        List<Map<String, Object>> natureOriginalPie = queryResult.get(task5.getTaskName());
+        List<Map<String, Object>> inventOriginalPie = queryResult.get(task6.getTaskName());
+        List<Map<String, Object>> highestOriginalPie = queryResult.get(task7.getTaskName());
+
+        List<Map<String, Object>> hePie = this.setPeiAry(heOriginalPie, "hjjx");
+        List<Map<String, Object>> futurePie = this.setPeiAry(futureOriginalPie, "hjlb");
+        List<Map<String, Object>> outstandingPie = this.setPeiAry(outstandingOriginalPie, "hjlb");
+        List<Map<String, Object>> progressPie = this.setPeiAry(progressOriginalPie, "jxlb");
+        List<Map<String, Object>> naturePie = this.setPeiAry(natureOriginalPie, "jxlb");
+        List<Map<String, Object>> inventPie = this.setPeiAry(inventOriginalPie, "jxlb");
+
+        List<Map<String, Object>> highestList = Lists.newArrayList();
+        highestOriginalPie.stream().forEach(map -> {
+            List listAry = Lists.newArrayList();
+            if (map.get("first_wcdw_std") != null) {
+                Map<String, Object> aryMap = Maps.newHashMap();
+                aryMap.put("unit", map.get("first_wcdw_std"));
+                aryMap.put("wcdw", "第一完成单位");
+                listAry.add(aryMap);
+            }
+            if (map.get("second_wcdw_std") != null) {
+                Map<String, Object> aryMap = Maps.newHashMap();
+                aryMap.put("unit", map.get("second_wcdw_std"));
+                aryMap.put("wcdw", "第二完成单位");
+                listAry.add(aryMap);
+            }
+            if (map.get("third_wcdw_std") != null) {
+                Map<String, Object> aryMap = Maps.newHashMap();
+                aryMap.put("unit", map.get("third_wcdw_std"));
+                aryMap.put("wcdw", "第三完成单位");
+                listAry.add(aryMap);
+            }
+            Map<String, Object> highestMap = Maps.newHashMap();
+            highestMap.put("year", map.get("hjnf"));
+            highestMap.put("list", listAry);
+            highestList.add(highestMap);
+        });
+
+        BigDecimal hePieSum = hePie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal futurePieSum = futurePie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal outstandingPieSum = outstandingPie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        int otherNum = hePieSum.intValue() + futurePieSum.intValue() + outstandingPieSum.intValue();
+
+        BigDecimal progressPieSum = progressPie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal naturePieSum = naturePie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal inventPieSum = inventPie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        int stateNum = progressPieSum.intValue() + naturePieSum.intValue() + inventPieSum
+                .intValue() + highestOriginalPie.size();
+
+        DetailAwardDetailInfoDTO info = new DetailAwardDetailInfoDTO();
+        info.setHePie(hePie);
+        info.setFuturePie(futurePie);
+        info.setOutstandingPie(outstandingPie);
+        info.setProgressPie(progressPie);
+        info.setNaturePie(naturePie);
+        info.setInventPie(inventPie);
+        info.setHighestList(highestList);
+        info.setHighestMun(highestOriginalPie.size());
+        info.setOtherNum(otherNum);
+        info.setStateNum(stateNum);
+
+        return info;
+    }
+
+
+
+
+
+
+    @Deprecated
+    private DetailAwardDetailInfoDTO detailQueryOrigin(DetailAwardDetailQueryDO query) {
+
+        List<Map<String, Object>> heOriginalPie
+                = casHlhlAwardWinnerManualMapper.queryAwardDetail1(query);
+
+        List<Map<String, Object>> futureOriginalPie
+                = casHlhlAwardWinnerManualMapper.queryAwardDetail2(query);
+
+        List<Map<String, Object>> outstandingOriginalPie
+                = casHlhlAwardWinnerManualMapper.queryAwardDetail3(query);
+
+        List<Map<String, Object>> progressOriginalPie
+                = casHlhlAwardWinnerManualMapper.queryAwardDetail4(query, "国家科学技术进步奖");
+
+        List<Map<String, Object>> natureOriginalPie
+                = casHlhlAwardWinnerManualMapper.queryAwardDetail4(query, "国家自然科学奖");
+
+        List<Map<String, Object>> inventOriginalPie
+                = casHlhlAwardWinnerManualMapper.queryAwardDetail4(query, "国家技术发明奖");
+
+        List<Map<String, Object>> highestOriginalPie
+                = casHlhlAwardWinnerManualMapper.queryAwardDetail7(query);
+
+        List<Map<String, Object>> hePie = this.setPeiAry(heOriginalPie, "hjjx");
+        List<Map<String, Object>> futurePie = this.setPeiAry(futureOriginalPie, "hjlb");
+        List<Map<String, Object>> outstandingPie = this.setPeiAry(outstandingOriginalPie, "hjlb");
+        List<Map<String, Object>> progressPie = this.setPeiAry(progressOriginalPie, "jxlb");
+        List<Map<String, Object>> naturePie = this.setPeiAry(natureOriginalPie, "jxlb");
+        List<Map<String, Object>> inventPie = this.setPeiAry(inventOriginalPie, "jxlb");
+
+        List<Map<String, Object>> highestList = Lists.newArrayList();
+        highestOriginalPie.stream().forEach(map -> {
+            List listAry = Lists.newArrayList();
+            if (map.get("first_wcdw_std") != null) {
+                Map<String, Object> aryMap = Maps.newHashMap();
+                aryMap.put("unit", map.get("first_wcdw_std"));
+                aryMap.put("wcdw", "第一完成单位");
+                listAry.add(aryMap);
+            }
+            if (map.get("second_wcdw_std") != null) {
+                Map<String, Object> aryMap = Maps.newHashMap();
+                aryMap.put("unit", map.get("second_wcdw_std"));
+                aryMap.put("wcdw", "第二完成单位");
+                listAry.add(aryMap);
+            }
+            if (map.get("third_wcdw_std") != null) {
+                Map<String, Object> aryMap = Maps.newHashMap();
+                aryMap.put("unit", map.get("third_wcdw_std"));
+                aryMap.put("wcdw", "第三完成单位");
+                listAry.add(aryMap);
+            }
+            Map<String, Object> highestMap = Maps.newHashMap();
+            highestMap.put("year", map.get("hjnf"));
+            highestMap.put("list", listAry);
+            highestList.add(highestMap);
+        });
+
+        BigDecimal hePieSum = hePie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal futurePieSum = futurePie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal outstandingPieSum = outstandingPie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        int otherNum = hePieSum.intValue() + futurePieSum.intValue() + outstandingPieSum.intValue();
+
+        BigDecimal progressPieSum = progressPie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal naturePieSum = naturePie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal inventPieSum = inventPie.stream().map(map -> new BigDecimal(((Number) map.get("value")).intValue())
+        ).reduce(BigDecimal.ZERO, BigDecimal::add);
+        int stateNum = progressPieSum.intValue() + naturePieSum.intValue() + inventPieSum
+                .intValue() + highestOriginalPie.size();
+
+        DetailAwardDetailInfoDTO info = new DetailAwardDetailInfoDTO();
+        info.setHePie(hePie);
+        info.setFuturePie(futurePie);
+        info.setOutstandingPie(outstandingPie);
+        info.setProgressPie(progressPie);
+        info.setNaturePie(naturePie);
+        info.setInventPie(inventPie);
+        info.setHighestList(highestList);
+        info.setHighestMun(highestOriginalPie.size());
+        info.setOtherNum(otherNum);
+        info.setStateNum(stateNum);
+
+        return info;
     }
 }

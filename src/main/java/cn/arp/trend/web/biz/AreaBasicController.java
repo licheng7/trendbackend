@@ -11,7 +11,6 @@ import cn.arp.trend.data.model.converter.OrgInfoRequestConverter;
 import cn.arp.trend.data.model.request.AcademicianQueryRequest;
 import cn.arp.trend.data.model.request.OrgInfoQueryRequest;
 import cn.arp.trend.data.model.response.*;
-import cn.arp.trend.service.biz.AreaBasicService;
 import cn.arp.trend.service.biz.BasicService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
@@ -39,9 +38,6 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/area/basic")
 public class AreaBasicController extends BaseController {
-
-    @Resource
-    private AreaBasicService areaBasicService;
 
     @Resource
     private BasicService basicService;
