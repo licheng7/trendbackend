@@ -1,18 +1,7 @@
 package cn.arp.trend.web.biz;
 
-import cn.arp.trend.auth.Audit;
-import cn.arp.trend.data.model.DO.*;
-import cn.arp.trend.data.model.DTO.*;
-import cn.arp.trend.data.model.converter.IncreaseTrendDetailConverter;
-import cn.arp.trend.data.model.converter.MapResultConverter;
-import cn.arp.trend.data.model.request.*;
-import cn.arp.trend.data.model.response.*;
-import cn.arp.trend.error.RestError;
-import cn.arp.trend.service.biz.DetailStaffService;
-import cn.arp.trend.tools.annotation.ServiceExecuter;
-import cn.arp.trend.web.BaseController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import javax.annotation.Resource;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +9,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
+import cn.arp.trend.data.model.DO.AgeDistributionQueryDO;
+import cn.arp.trend.data.model.DO.ChildLevelDistributionQueryDO;
+import cn.arp.trend.data.model.DO.DrRankQueryDO;
+import cn.arp.trend.data.model.DO.IncreaseTrendQueryDO;
+import cn.arp.trend.data.model.DO.PersonTypeDistributionQueryDO;
+import cn.arp.trend.data.model.DO.PositionDistributionQueryDO;
+import cn.arp.trend.data.model.DO.PostAnalyzeQueryDO;
+import cn.arp.trend.data.model.DO.PostDistributionQueryDO;
+import cn.arp.trend.data.model.DTO.AgeDistributionInfoDTO;
+import cn.arp.trend.data.model.DTO.ChildLevelDistributionInfoDTO;
+import cn.arp.trend.data.model.DTO.DrRankInfoDTO;
+import cn.arp.trend.data.model.DTO.IncreaseTrendInfoDTO;
+import cn.arp.trend.data.model.DTO.PersonTypeDistributionInfoDTO;
+import cn.arp.trend.data.model.DTO.PositionDistributionInfoDTO;
+import cn.arp.trend.data.model.DTO.PostAnalyzeInfoDTO;
+import cn.arp.trend.data.model.DTO.PostDistributionInfoDTO;
+import cn.arp.trend.data.model.converter.IncreaseTrendDetailConverter;
+import cn.arp.trend.data.model.converter.MapResultConverter;
+import cn.arp.trend.data.model.request.AgeDistributionRequest;
+import cn.arp.trend.data.model.request.ChildLevelDistributionRequest;
+import cn.arp.trend.data.model.request.DrRankRequest;
+import cn.arp.trend.data.model.request.IncreaseTrendRequest;
+import cn.arp.trend.data.model.request.PersonTypeDistributionRequest;
+import cn.arp.trend.data.model.request.PositionDistributionRequest;
+import cn.arp.trend.data.model.request.PostAnalyzeRequest;
+import cn.arp.trend.data.model.request.PostDistributionRequest;
+import cn.arp.trend.data.model.response.AgeDistributionResponse;
+import cn.arp.trend.data.model.response.ChildLevelDistributionResponse;
+import cn.arp.trend.data.model.response.DrRankResponse;
+import cn.arp.trend.data.model.response.IncreaseTrendResponse;
+import cn.arp.trend.data.model.response.PersonTypeDistributionResponse;
+import cn.arp.trend.data.model.response.PositionDistributionResponse;
+import cn.arp.trend.data.model.response.PostAnalyzeResponse;
+import cn.arp.trend.data.model.response.PostDistributionResponse;
+import cn.arp.trend.error.RestError;
+import cn.arp.trend.service.biz.DetailStaffService;
+import cn.arp.trend.tools.annotation.ServiceExecuter;
+import cn.arp.trend.web.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Created with IDEA

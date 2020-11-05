@@ -1,16 +1,7 @@
 package cn.arp.trend.web.biz;
 
-import cn.arp.trend.auth.Audit;
-import cn.arp.trend.data.model.DO.*;
-import cn.arp.trend.data.model.DTO.*;
-import cn.arp.trend.data.model.request.*;
-import cn.arp.trend.data.model.response.*;
-import cn.arp.trend.error.RestError;
-import cn.arp.trend.service.biz.DetailMentorService;
-import cn.arp.trend.tools.annotation.ServiceExecuter;
-import cn.arp.trend.web.BaseController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import javax.annotation.Resource;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +9,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
+import cn.arp.trend.data.model.DO.AllSupervisorQueryDO;
+import cn.arp.trend.data.model.DO.DoctoralSupervisorQueryDO;
+import cn.arp.trend.data.model.DO.MasterSupervisorQueryDO;
+import cn.arp.trend.data.model.DO.MentorDetailQueryDO;
+import cn.arp.trend.data.model.DO.TrendAllQueryDO;
+import cn.arp.trend.data.model.DO.TrendDoctoralSupervisorQueryDO;
+import cn.arp.trend.data.model.DO.TrendMasterSupervisorQueryDO;
+import cn.arp.trend.data.model.DTO.AllSupervisorInfoDTO;
+import cn.arp.trend.data.model.DTO.DoctoralSupervisorInfoDTO;
+import cn.arp.trend.data.model.DTO.MasterSupervisorInfoDTO;
+import cn.arp.trend.data.model.DTO.MentorDetailInfoDTO;
+import cn.arp.trend.data.model.DTO.TrendAllInfoDTO;
+import cn.arp.trend.data.model.DTO.TrendDoctoralSupervisorInfoDTO;
+import cn.arp.trend.data.model.DTO.TrendMasterSupervisorInfoDTO;
+import cn.arp.trend.data.model.request.AllSupervisorRequest;
+import cn.arp.trend.data.model.request.DoctoralSupervisorRequest;
+import cn.arp.trend.data.model.request.MasterSupervisorRequest;
+import cn.arp.trend.data.model.request.MentorDetailRequest;
+import cn.arp.trend.data.model.request.TrendAllRequest;
+import cn.arp.trend.data.model.request.TrendDoctoralSupervisorRequest;
+import cn.arp.trend.data.model.request.TrendMasterSupervisorRequest;
+import cn.arp.trend.data.model.response.AllSupervisorResponse;
+import cn.arp.trend.data.model.response.DoctoralSupervisorResponse;
+import cn.arp.trend.data.model.response.MasterSupervisorResponse;
+import cn.arp.trend.data.model.response.MentorDetailResponse;
+import cn.arp.trend.data.model.response.TrendAllResponse;
+import cn.arp.trend.data.model.response.TrendDoctoralSupervisorResponse;
+import cn.arp.trend.data.model.response.TrendMasterSupervisorResponse;
+import cn.arp.trend.error.RestError;
+import cn.arp.trend.service.biz.DetailMentorService;
+import cn.arp.trend.tools.annotation.ServiceExecuter;
+import cn.arp.trend.web.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Created with IDEA

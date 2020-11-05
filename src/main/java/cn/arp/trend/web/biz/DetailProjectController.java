@@ -1,17 +1,7 @@
 package cn.arp.trend.web.biz;
 
-import cn.arp.trend.auth.Audit;
-import cn.arp.trend.data.model.DO.ProjectQueryDO;
-import cn.arp.trend.data.model.DTO.*;
-import cn.arp.trend.data.model.converter.*;
-import cn.arp.trend.data.model.request.*;
-import cn.arp.trend.data.model.response.*;
-import cn.arp.trend.error.RestError;
-import cn.arp.trend.service.biz.DetailProjectService;
-import cn.arp.trend.tools.annotation.ServiceExecuter;
-import cn.arp.trend.web.BaseController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import javax.annotation.Resource;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +9,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
+import cn.arp.trend.data.model.DO.ProjectQueryDO;
+import cn.arp.trend.data.model.DTO.DetailProjectIncreaseInfoDTO;
+import cn.arp.trend.data.model.DTO.DetailProjectKjbInfoDTO;
+import cn.arp.trend.data.model.DTO.DetailProjectKjbRelationInfoDTO;
+import cn.arp.trend.data.model.DTO.DetailProjectNsfcInfoDTO;
+import cn.arp.trend.data.model.DTO.DetailProjectNsfcRelationInfoDTO;
+import cn.arp.trend.data.model.DTO.DetailProjectXdInfoDTO;
+import cn.arp.trend.data.model.DTO.DetailProjectXdRelationInfoDTO;
+import cn.arp.trend.data.model.converter.DetailProjectIncreaseConverter;
+import cn.arp.trend.data.model.converter.DetailProjectKjbConverter;
+import cn.arp.trend.data.model.converter.DetailProjectKjbRelationConverter;
+import cn.arp.trend.data.model.converter.DetailProjectNsfcConverter;
+import cn.arp.trend.data.model.converter.DetailProjectNsfcRelationConverter;
+import cn.arp.trend.data.model.converter.DetailProjectXdConverter;
+import cn.arp.trend.data.model.converter.DetailProjectXdRelationConverter;
+import cn.arp.trend.data.model.request.DetailProjectIncreaseQueryRequest;
+import cn.arp.trend.data.model.request.DetailProjectKjbQueryRequest;
+import cn.arp.trend.data.model.request.DetailProjectKjbRelationQueryRequest;
+import cn.arp.trend.data.model.request.DetailProjectNsfcQueryRequest;
+import cn.arp.trend.data.model.request.DetailProjectNsfcRelationQueryRequest;
+import cn.arp.trend.data.model.request.DetailProjectXdQueryRequest;
+import cn.arp.trend.data.model.request.DetailProjectXdRelationQueryRequest;
+import cn.arp.trend.data.model.response.DetailProjectIncreaseResponse;
+import cn.arp.trend.data.model.response.DetailProjectKjbRelationResponse;
+import cn.arp.trend.data.model.response.DetailProjectKjbResponse;
+import cn.arp.trend.data.model.response.DetailProjectNsfcRelationResponse;
+import cn.arp.trend.data.model.response.DetailProjectNsfcResponse;
+import cn.arp.trend.data.model.response.DetailProjectXdRelationResponse;
+import cn.arp.trend.data.model.response.DetailProjectXdResponse;
+import cn.arp.trend.error.RestError;
+import cn.arp.trend.service.biz.DetailProjectService;
+import cn.arp.trend.tools.annotation.ServiceExecuter;
+import cn.arp.trend.web.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Created with IDEA
