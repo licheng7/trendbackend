@@ -45,6 +45,10 @@ public class LoginController extends BaseController{
 	public void globalLogin(HttpServletRequest request, HttpServletResponse response) throws RestError{
 		jumpToDispatch("global", request, response);
 	}
+	@GetMapping("/domain")
+	public void globalDomain(HttpServletRequest request, HttpServletResponse response) throws RestError{
+		jumpToDispatch("domain", request, response);
+	}
 	
 	@GetMapping("/manage")
 	public void domainLogin(HttpServletRequest request, HttpServletResponse response) throws RestError{
@@ -94,6 +98,8 @@ public class LoginController extends BaseController{
 				String loginFrom =(String) request.getSession().getAttribute("loginFrom");
 				if ("global".equals(loginFrom)){
 					response.sendRedirect(globalHome);
+				}if ("domain".equals(loginFrom)){
+					response.sendRedirect(domainHome);
 				}else{
 					response.sendRedirect(homeUri);
 				}
