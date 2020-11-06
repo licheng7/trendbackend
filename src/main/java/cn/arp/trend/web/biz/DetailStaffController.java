@@ -1,18 +1,7 @@
 package cn.arp.trend.web.biz;
 
-import cn.arp.trend.auth.Audit;
-import cn.arp.trend.data.model.DO.*;
-import cn.arp.trend.data.model.DTO.*;
-import cn.arp.trend.data.model.converter.IncreaseTrendDetailConverter;
-import cn.arp.trend.data.model.converter.MapResultConverter;
-import cn.arp.trend.data.model.request.*;
-import cn.arp.trend.data.model.response.*;
-import cn.arp.trend.error.RestError;
-import cn.arp.trend.service.biz.DetailStaffService;
-import cn.arp.trend.tools.annotation.ServiceExecuter;
-import cn.arp.trend.web.BaseController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import javax.annotation.Resource;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +9,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
+import cn.arp.trend.data.model.DO.AgeDistributionQueryDO;
+import cn.arp.trend.data.model.DO.ChildLevelDistributionQueryDO;
+import cn.arp.trend.data.model.DO.DrRankQueryDO;
+import cn.arp.trend.data.model.DO.IncreaseTrendQueryDO;
+import cn.arp.trend.data.model.DO.PersonTypeDistributionQueryDO;
+import cn.arp.trend.data.model.DO.PositionDistributionQueryDO;
+import cn.arp.trend.data.model.DO.PostAnalyzeQueryDO;
+import cn.arp.trend.data.model.DO.PostDistributionQueryDO;
+import cn.arp.trend.data.model.DTO.AgeDistributionInfoDTO;
+import cn.arp.trend.data.model.DTO.ChildLevelDistributionInfoDTO;
+import cn.arp.trend.data.model.DTO.DrRankInfoDTO;
+import cn.arp.trend.data.model.DTO.IncreaseTrendInfoDTO;
+import cn.arp.trend.data.model.DTO.PersonTypeDistributionInfoDTO;
+import cn.arp.trend.data.model.DTO.PositionDistributionInfoDTO;
+import cn.arp.trend.data.model.DTO.PostAnalyzeInfoDTO;
+import cn.arp.trend.data.model.DTO.PostDistributionInfoDTO;
+import cn.arp.trend.data.model.converter.IncreaseTrendDetailConverter;
+import cn.arp.trend.data.model.converter.MapResultConverter;
+import cn.arp.trend.data.model.request.AgeDistributionRequest;
+import cn.arp.trend.data.model.request.ChildLevelDistributionRequest;
+import cn.arp.trend.data.model.request.DrRankRequest;
+import cn.arp.trend.data.model.request.IncreaseTrendRequest;
+import cn.arp.trend.data.model.request.PersonTypeDistributionRequest;
+import cn.arp.trend.data.model.request.PositionDistributionRequest;
+import cn.arp.trend.data.model.request.PostAnalyzeRequest;
+import cn.arp.trend.data.model.request.PostDistributionRequest;
+import cn.arp.trend.data.model.response.AgeDistributionResponse;
+import cn.arp.trend.data.model.response.ChildLevelDistributionResponse;
+import cn.arp.trend.data.model.response.DrRankResponse;
+import cn.arp.trend.data.model.response.IncreaseTrendResponse;
+import cn.arp.trend.data.model.response.PersonTypeDistributionResponse;
+import cn.arp.trend.data.model.response.PositionDistributionResponse;
+import cn.arp.trend.data.model.response.PostAnalyzeResponse;
+import cn.arp.trend.data.model.response.PostDistributionResponse;
+import cn.arp.trend.error.RestError;
+import cn.arp.trend.service.biz.DetailStaffService;
+import cn.arp.trend.tools.annotation.ServiceExecuter;
+import cn.arp.trend.web.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Created with IDEA
@@ -31,6 +61,7 @@ import javax.annotation.Resource;
 @Api(value="detailStaff",tags={"对应宏观部分detailStaff.js"})
 @RestController
 @RequestMapping(value = "/detail/staff")
+@RequirePermission(dataset=true)
 public class DetailStaffController extends BaseController {
 
     @Resource
@@ -46,7 +77,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "年龄分布【新】", notes= "年龄分布【新】")
     @ServiceExecuter(description = "年龄分布【新】")
     @RequestMapping(value = "/ageDistribution", method = RequestMethod.POST)
-    @Audit(desc="年龄分布【新】")
+    @Audit(desc="在职员工年龄分布", value="Staff.AgeDistribution")
     public AgeDistributionResponse ageDistributionQuery(
             @RequestBody @Validated AgeDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -71,7 +102,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "学历分布【新】", notes= "学历分布【新】")
     @ServiceExecuter(description = "学历分布【新】")
     @RequestMapping(value = "/childLevelDistribution", method = RequestMethod.POST)
-    @Audit(desc="学历分布【新】")
+    @Audit(desc="在职员工学历分布", value="Staff.EducationLevel")
     public ChildLevelDistributionResponse childLevelDistributionQuery(
             @RequestBody @Validated ChildLevelDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -90,7 +121,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "在职职工人员增长趋势【新】", notes= "在职职工人员增长趋势【新】")
     @ServiceExecuter(description = "在职职工人员增长趋势【新】")
     @RequestMapping(value = "/increaseTrend", method = RequestMethod.POST)
-    @Audit(desc="在职职工人员增长趋势【新】")
+    @Audit(desc="在职职工人员增长趋势", value="Staff.Trend")
     public IncreaseTrendResponse increaseTrendQuery(
             @RequestBody @Validated IncreaseTrendRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -107,7 +138,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "人员类型整体分布【新】", notes= "人员类型整体分布【新】")
     @ServiceExecuter(description = "人员类型整体分布【新】")
     @RequestMapping(value = "/personTypeDistribution", method = RequestMethod.POST)
-    @Audit(desc="人员类型整体分布【新】")
+    @Audit(desc="人员类型整体分布", value="Staff.CategoryDistribution")
     public PersonTypeDistributionResponse personTypeDistributionQuery(
             @RequestBody @Validated PersonTypeDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -122,7 +153,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "在职职工岗位分布【新】", notes= "在职职工岗位分布【新】")
     @ServiceExecuter(description = "在职职工岗位分布【新】")
     @RequestMapping(value = "/postDistribution", method = RequestMethod.POST)
-    @Audit(desc="在职职工岗位分布【新】")
+    @Audit(desc="在职职工岗位分布", value="Staff.PositionDistribution")
     public PostDistributionResponse postDistributionQuery(
             @RequestBody @Validated PostDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -137,7 +168,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "专业技术人员职称分布【新】", notes= "专业技术人员职称分布【新】")
     @ServiceExecuter(description = "专业技术人员职称分布【新】")
     @RequestMapping(value = "/positionDistribution", method = RequestMethod.POST)
-    @Audit(desc="专业技术人员职称分布【新】")
+    @Audit(desc="专业技术人员职称分布", value="Staff.TitleDistribution")
     public PositionDistributionResponse positionDistributionQuery(
             @RequestBody @Validated PositionDistributionRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -152,7 +183,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "博士学历所占比例排名【新】", notes= "博士学历所占比例排名【新】")
     @ServiceExecuter(description = "博士学历所占比例排名【新】")
     @RequestMapping(value = "/drRank", method = RequestMethod.POST)
-    @Audit(desc="博士学历所占比例排名【新】")
+    @Audit(desc="各研究所博士学历人数", value="Staff.DoctorRank")
     public DrRankResponse drRankQuery(
             @RequestBody @Validated DrRankRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -165,7 +196,7 @@ public class DetailStaffController extends BaseController {
     @ApiOperation(value= "岗位晋升分析【新】", notes= "岗位晋升分析【新】")
     @ServiceExecuter(description = "岗位晋升分析【新】")
     @RequestMapping(value = "/postAnalyze", method = RequestMethod.POST)
-    @Audit(desc="岗位晋升分析【新】")
+    @Audit(desc="岗位晋升分析", value="Staff.PromotionAnalysis")
     public PostAnalyzeResponse postAnalyzeQuery(
             @RequestBody @Validated PostAnalyzeRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);

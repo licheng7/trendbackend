@@ -1,6 +1,16 @@
 package cn.arp.trend.web.biz;
 
+import javax.annotation.Resource;
+
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.DO.DistributionAffiliationQueryDO;
 import cn.arp.trend.data.model.DO.DistributionFieldQueryDO;
 import cn.arp.trend.data.model.DO.YoungEliteQueryDO;
@@ -22,14 +32,6 @@ import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * Created with IDEA
@@ -40,6 +42,7 @@ import javax.annotation.Resource;
 @Api(value="detailYoungElite",tags={"对应宏观部分detailYoungElite.js"})
 @RestController
 @RequestMapping(value = "/detail/young/elite")
+@RequirePermission(dataset=true)
 public class DetailYoungEliteController extends BaseController {
 
     @Resource
@@ -55,7 +58,7 @@ public class DetailYoungEliteController extends BaseController {
     @ApiOperation(value= "detailYoungElite.js对应的/trend", notes= "detailYoungElite.js对应的/trend")
     @ServiceExecuter(description = "detailYoungElite.js对应的/trend")
     @RequestMapping(value = "/trend", method = RequestMethod.POST)
-    @Audit(desc="detailYoungElite.js对应的/trend")
+    @Audit(desc="历年青年人才数量及占比", value="YoungElite.Trend")
     public YoungTrendResponse trendQuery(@RequestBody @Validated YoungEliteRequest request, BindingResult
             bindingResult) throws RestError {
         validData(bindingResult);
@@ -85,7 +88,7 @@ public class DetailYoungEliteController extends BaseController {
     @ApiOperation(value= "detailYoungElite.js对应的/distribution/field", notes= "detailYoungElite.js对应的/distribution/field")
     @ServiceExecuter(description = "detailYoungElite.js对应的/distribution/field")
     @RequestMapping(value = "/distribution/field", method = RequestMethod.POST)
-    @Audit(desc="detailYoungElite.js对应的/distribution/field")
+    @Audit(desc="青年人才领域分布及占比", value="YoungElite.FieldDistribution")
     public DistributionFieldResponse distributionFieldQuery(
             @RequestBody @Validated DistributionFieldRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -114,7 +117,7 @@ public class DetailYoungEliteController extends BaseController {
     @ApiOperation(value= "detailYoungElite.js对应的/distribution/affiliation", notes= "detailYoungElite.js对应的/distribution/affiliation")
     @ServiceExecuter(description = "detailYoungElite.js对应的/distribution/affiliation")
     @RequestMapping(value = "/distribution/affiliation", method = RequestMethod.POST)
-    @Audit(desc="detailYoungElite.js对应的/distribution/affiliation")
+    @Audit(desc="各单位青年人才数量及占比", value="YoungElite.AffiliationDistribution")
     public DistributionAffiliationResponse distributionAffiliationQuery(
             @RequestBody @Validated DistributionAffiliationRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -141,7 +144,7 @@ public class DetailYoungEliteController extends BaseController {
     @ApiOperation(value= "detailYoungElite.js对应的/project", notes= "detailYoungElite.js对应的/project")
     @ServiceExecuter(description = "detailYoungElite.js对应的/project")
     @RequestMapping(value = "/project", method = RequestMethod.POST)
-    @Audit(desc="detailYoungElite.js对应的/project")
+    @Audit(desc="青年人才争取项目情况", value="YoungElite.Project")
     public YoungProjectResponse projectQuery(
             @RequestBody @Validated YoungEliteRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);

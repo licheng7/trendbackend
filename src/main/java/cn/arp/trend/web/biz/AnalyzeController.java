@@ -39,7 +39,7 @@ public class AnalyzeController extends BaseController {
     @ApiOperation(value= "对应analyze.js的/", notes= "对应analyze.js的/")
     @ServiceExecuter(description = "对应analyze.js的/")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
-    @Audit(desc="对应analyze.js的/",value="Analyze.Query")
+    @Audit(desc="多维度关联分析",value="Analyze.Query")
     public AnalyzeResponse analyzeQuery() {
         AnalyzeInfoDTO analyzeInfo = analyzeService.query();
         AnalyzeResponse response = new AnalyzeResponse();

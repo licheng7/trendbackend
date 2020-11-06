@@ -1,6 +1,16 @@
 package cn.arp.trend.web.biz;
 
+import javax.annotation.Resource;
+
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.DO.AssetDetailQueryDO;
 import cn.arp.trend.data.model.DO.AssetIncomeQueryDO;
 import cn.arp.trend.data.model.DO.ExecutionTrendQueryDO;
@@ -23,14 +33,6 @@ import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * Created with IDEA
@@ -41,6 +43,7 @@ import javax.annotation.Resource;
 @Api(value="detailAsset",tags={"对应宏观部分detailAsset.js"})
 @RestController
 @RequestMapping(value = "/detail/asset")
+@RequirePermission(dataset=true)
 public class DetailAssetController extends BaseController {
 
     @Resource
@@ -49,7 +52,7 @@ public class DetailAssetController extends BaseController {
     @ApiOperation(value= "对应detailAsset.js/overview", notes= "对应detailAsset.js/overview")
     @ServiceExecuter(description = "对应detailAsset.js/overview")
     @RequestMapping(value = "/overview", method = RequestMethod.POST)
-    @Audit(desc="对应detailAsset.js/overview")
+    @Audit(desc="收支概况", value="Asset.Overview")
     public OverviewResponse overviewQuery(
             @RequestBody @Validated OverviewRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -61,7 +64,7 @@ public class DetailAssetController extends BaseController {
     @ApiOperation(value= "对应detailAsset.js/detail", notes= "对应detailAsset.js/detail")
     @ServiceExecuter(description = "对应detailAsset.js/detail")
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
-    @Audit(desc="对应detailAsset.js/detail")
+    @Audit(desc="收支详情", value="Asset.Detail")
     public AssetDetailResponse detailQuery(
             @RequestBody @Validated AssetIncomeRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -79,7 +82,7 @@ public class DetailAssetController extends BaseController {
     @ApiOperation(value= "对应detailAsset.js/income", notes= "对应detailAsset.js/income")
     @ServiceExecuter(description = "对应detailAsset.js/income")
     @RequestMapping(value = "/income", method = RequestMethod.POST)
-    @Audit(desc="对应detailAsset.js/income")
+    @Audit(desc="历年收入", value="Asset.Income")
     public AssetIncomeResponse incomeQuery(
             @RequestBody @Validated AssetIncomeRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -98,7 +101,7 @@ public class DetailAssetController extends BaseController {
     @ApiOperation(value= "对应detailAsset.js/execution_trend", notes= "对应detailAsset.js/execution_trend")
     @ServiceExecuter(description = "对应detailAsset.js/execution_trend")
     @RequestMapping(value = "/execution_trend", method = RequestMethod.POST)
-    @Audit(desc="对应detailAsset.js/execution_trend")
+    @Audit(desc="执行率", value="Asset.ExecutionTrend")
     public ExecutionTrendResponse executionTrendQuery(
             @RequestBody @Validated ExecutionTrendRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
