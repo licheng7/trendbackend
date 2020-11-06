@@ -89,7 +89,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         List<Map<String, Object>> result = Lists.newArrayList();
         detail.entrySet().stream().forEach(map -> {
             Map<String, Object> bizMap = Maps.newHashMap();
-            bizMap.put("name", map.getKey());
+            bizMap.put("name", map.getKey().equals("中科院") ? "中国科学院" : map.getKey());
             Map<String, Double> value = map.getValue();
             List<String> list = Lists.newArrayList();
             yearlist.stream().forEach(year -> {
@@ -116,9 +116,9 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
 
         for(CasPxxCzbk casPxxCzbk : casPxxCzbkList) {
             if(detail.containsKey(casPxxCzbk.getName())) {
-                Map<String, Double> _funds = detail.get(casPxxCzbk.getName());
-                if(_funds.containsKey(casPxxCzbk.getYear())) {
-                    _funds.put(casPxxCzbk.getYear(), casPxxCzbk.getAmount());
+                Map<String, Double> _finance = detail.get(casPxxCzbk.getName());
+                if(_finance.containsKey(casPxxCzbk.getYear())) {
+                    _finance.put(casPxxCzbk.getYear(), casPxxCzbk.getAmount());
                 }
             }
         }
@@ -126,7 +126,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         List<Map<String, Object>> result = Lists.newArrayList();
         detail.entrySet().stream().forEach(map -> {
             Map<String, Object> bizMap = Maps.newHashMap();
-            bizMap.put("name", map.getKey());
+            bizMap.put("name", map.getKey().equals("中科院") ? "中国科学院" : map.getKey());
             Map<String, Double> value = map.getValue();
             List<Object> list = Lists.newArrayList();
             yearlist.stream().forEach(year -> {
@@ -694,7 +694,8 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
             for(String year : yearlist) {
                 _funds.put(year, null);
             }
-            detail.put(name.equals("中科院") ? "中国科学院" : name, _funds);
+            //detail.put(name.equals("中科院") ? "中国科学院" : name, _funds);
+            detail.put(name, _funds);
         }
         return detail;
     }

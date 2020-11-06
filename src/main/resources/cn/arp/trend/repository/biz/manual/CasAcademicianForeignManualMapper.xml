@@ -109,7 +109,7 @@
           </when>
         </choose>
         <choose>
-          <when test="request.flag == 'OR'">
+          <when test="request.affiliation != null and request.affiliation.contains('未知')">
             OR gzdw IS NULL
           </when>
         </choose>
@@ -131,7 +131,7 @@
           </when>
         </choose>
         <choose>
-          <when test="request.flag == 'OR'">
+          <when test="request.affiliation != null and request.affiliation.contains('未知')">
             OR gzdw IS NULL
           </when>
         </choose>

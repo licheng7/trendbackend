@@ -38,11 +38,6 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
 
         ForeignQueryDO foreignQuery = new ForeignQueryDO();
         foreignQuery.setAffiliation(affiliation);
-        if(affiliation != null && !affiliation.isEmpty() && affiliation.contains("未知")) {
-            foreignQuery.setFlag("OR");
-        } else {
-            foreignQuery.setFlag("");
-        }
         List<Map<String, Object>> queryResult = casAcademicianForeignManualMapper.queryForeign
                 (foreignQuery);
 
