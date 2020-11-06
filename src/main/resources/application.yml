@@ -79,4 +79,4 @@ login:
 system:
    test: false
 swagger:
-  enable: true
+  enable: false
