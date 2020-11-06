@@ -46,12 +46,12 @@ public class LoginController extends BaseController{
 		jumpToDispatch("global", request, response);
 	}
 	@GetMapping("/domain")
-	public void globalDomain(HttpServletRequest request, HttpServletResponse response) throws RestError{
+	public void domainLogin(HttpServletRequest request, HttpServletResponse response) throws RestError{
 		jumpToDispatch("domain", request, response);
 	}
 	
 	@GetMapping("/manage")
-	public void domainLogin(HttpServletRequest request, HttpServletResponse response) throws RestError{
+	public void manageLogin(HttpServletRequest request, HttpServletResponse response) throws RestError{
 		jumpToDispatch("manage", request, response);
 	}
 	private void jumpToDispatch(String loginFrom, HttpServletRequest request, HttpServletResponse response)  throws RestError{
@@ -96,12 +96,16 @@ public class LoginController extends BaseController{
 			if (token!=null){
 				auth.saveSession(request, token.getUserInfo());
 				String loginFrom =(String) request.getSession().getAttribute("loginFrom");
-				if ("global".equals(loginFrom)){
+				switch (loginFrom){
+				case "global":
 					response.sendRedirect(globalHome);
-				}if ("domain".equals(loginFrom)){
+					break;
+				case "domain":
 					response.sendRedirect(domainHome);
-				}else{
+					break;
+				default:
 					response.sendRedirect(homeUri);
+					break;
 				}
 			}else{
 				throw RestError.internalError(String.format("无法登录系统，用户信息获取失败(code=%s)", code));
