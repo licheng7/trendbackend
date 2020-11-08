@@ -6,10 +6,10 @@
     SELECT ANY_VALUE(zzlb) AS zzlb, ANY_VALUE(research_field) AS name, ANY_VALUE(nf) AS year, SUM(xzxm_zjf) AS xzxm_zjf,SUM(xzxms) AS xzxms
     FROM (
     SELECT field_id, research_field, b.jgbh, b.jgmc, nf, zzlb, xzxms, xzxm_zjf
-    FROM stat_nsfc_project AS a
+    FROM v_stat_nsfc_project AS a
     INNER JOIN (
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -27,10 +27,10 @@
     SELECT zzlb, jgmc as name, nf as year, xzxms, xzxm_zjf
     FROM (
     SELECT b.jgbh, b.jgmc, nf, zzlb, xzxms, xzxm_zjf
-    FROM stat_nsfc_project AS a
+    FROM v_stat_nsfc_project AS a
     INNER JOIN (
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>

@@ -8,27 +8,27 @@
     SELECT jgmc, jgbh, research_field, nf, jxmc, detail
     FROM (
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, second_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, third_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_hlhl_award_winner
+    FROM v_cas_hlhl_award_winner
     UNION ALL
     SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
-    FROM cas_future_prize
+    FROM v_cas_future_prize
     UNION ALL
     SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_qiushi_scientist_award
+    FROM v_cas_qiushi_scientist_award
     ) AS a
     INNER JOIN
     (
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -46,27 +46,27 @@
     SELECT jgmc, jgbh, research_field, nf, jxmc, detail
     FROM (
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, second_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, third_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_hlhl_award_winner
+    FROM v_cas_hlhl_award_winner
     UNION ALL
     SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
-    FROM cas_future_prize
+    FROM v_cas_future_prize
     UNION ALL
     SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_qiushi_scientist_award
+    FROM v_cas_qiushi_scientist_award
     ) AS a
     INNER JOIN
     (
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -85,27 +85,27 @@
     SELECT jgmc, jgbh, research_field, nf, jxmc, detail
     FROM (
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, second_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, third_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_hlhl_award_winner
+    FROM v_cas_hlhl_award_winner
     UNION ALL
     SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
-    FROM cas_future_prize
+    FROM v_cas_future_prize
     UNION ALL
     SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_qiushi_scientist_award
+    FROM v_cas_qiushi_scientist_award
     ) AS a
     INNER JOIN
     (
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -125,27 +125,27 @@
     SELECT jgmc, jgbh, nf, jxmc, detail
     FROM (
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_hlhl_award_winner
+    FROM v_cas_hlhl_award_winner
     UNION ALL
     SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
-    FROM cas_future_prize
+    FROM v_cas_future_prize
     UNION ALL
     SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_qiushi_scientist_award
+    FROM v_cas_qiushi_scientist_award
     ) AS a
     INNER JOIN
     (
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -163,27 +163,27 @@
     SELECT jgmc, jgbh, nf, jxmc, detail
     FROM (
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, second_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, third_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_hlhl_award_winner
+    FROM v_cas_hlhl_award_winner
     UNION ALL
     SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
-    FROM cas_future_prize
+    FROM v_cas_future_prize
     UNION ALL
     SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_qiushi_scientist_award
+    FROM v_cas_qiushi_scientist_award
     ) AS a
     INNER JOIN
     (
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -202,27 +202,27 @@
     SELECT jgmc, jgbh, nf, jxmc, detail
     FROM (
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, first_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, second_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT jxlb AS jxmc, hjnf AS nf, xmmc_or_tdmc AS detail, third_wcdw_std AS gzdw
-    FROM cas_china_award_10year_final
+    FROM v_cas_china_award_10year_final
     UNION ALL
     SELECT "何梁何利奖" AS jxmc, nd AS nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_hlhl_award_winner
+    FROM v_cas_hlhl_award_winner
     UNION ALL
     SELECT "未来科学大奖" AS jxmc, hjnf AS nf, hjlb AS detail, hjrdw_std AS gzdw
-    FROM cas_future_prize
+    FROM v_cas_future_prize
     UNION ALL
     SELECT "求是杰出科学家奖" AS jxmc, nf, hjxk AS detail, gzdw_std AS gzdw
-    FROM cas_qiushi_scientist_award
+    FROM v_cas_qiushi_scientist_award
     ) AS a
     INNER JOIN
     (
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>

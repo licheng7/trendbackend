@@ -4,57 +4,57 @@
 
   <select id="getAffiliations" resultType="java.util.HashMap">
     SELECT jgbh, jgmc
-    FROM ref_org_type
+    FROM v_ref_org_type
     WHERE jgbh IS NOT NULL;
   </select>
 
   <select id="getUserTags" resultType="java.util.HashMap">
     SELECT id, research_field
-    FROM relation_field_user
+    FROM v_relation_field_user
     WHERE user_id = ${userId};
   </select>
 
   <select id="getFieldAffiliations" resultType="java.util.HashMap">
     SELECT jgbh, jgmc
-    FROM relation_field_affiliation AS a, relation_field_user AS b
+    FROM v_relation_field_affiliation AS a, relation_field_user AS b
     WHERE a.field_id = b.id
     AND a.user_id = '${userId}'
     AND field_id = ${fieldId};
   </select>
 
   <insert id="addField1" parameterType="java.util.Map"  useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO relation_field_user (user_id)
+    INSERT INTO v_relation_field_user (user_id)
     VALUES ('${userId}');
   </insert>
   <insert id="addField2" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO relation_field_user (research_field, user_id)
+    INSERT INTO v_relation_field_user (research_field, user_id)
     VALUES ('${researchField}', '${userId}');
   </insert>
 
   <update id="updateRelationFieldUser" parameterType="java.util.Map">
-    UPDATE relation_field_user
+    UPDATE v_relation_field_user
     SET research_field = "${researchField}"
     <where>
     id = ${fieldId} AND user_id = '${userId}'
     </where>;
   </update>
   <delete id="deleteRelationFieldAffiliation" parameterType="java.util.Map">
-    DELETE FROM relation_field_affiliation
+    DELETE FROM v_relation_field_affiliation
     <where>
     field_id = ${fieldId} AND user_id = '${userId}'
     </where>;
   </delete>
   <insert id="addRelationFieldAffiliation" parameterType="java.util.Map">
-    INSERT INTO relation_field_affiliation (field_id, research_field, user_id, jgbh, jgmc)
+    INSERT INTO v_relation_field_affiliation (field_id, research_field, user_id, jgbh, jgmc)
     SELECT ${fieldId}, '${researchField}', '${userId}', jgbh, jgmc
-    FROM ref_org_type
+    FROM v_ref_org_type
     <where>
     jgbh ${arrayStr}
     </where>;
   </insert>
 
   <delete id="deleteRelationFieldUser" parameterType="java.util.Map">
-    DELETE FROM relation_field_user
+    DELETE FROM v_relation_field_user
     <where>
     id = ${fieldId} AND user_id = '${userId}'
     </where>;

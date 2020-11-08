@@ -6,10 +6,10 @@
     SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(nf) AS nf, SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
     FROM (
     SELECT b.jgbh, b.jgmc, nf, sq, pz, sx, field_id, research_field
-    FROM stat_patent_new AS a
+    FROM v_stat_patent_new AS a
     INNER JOIN(
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -29,14 +29,14 @@
     SELECT field_id, research_field, jgbh, b.jgmc, nf, xz
     FROM (
     SELECT jgmc, nf, xz
-    FROM stat_patent
+    FROM v_stat_patent
     <where>
     zllx="PCTPatent"
     </where>
     ) AS a
     INNER JOIN(
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -54,10 +54,10 @@
     SELECT jgbh, jgmc, nf, sq, pz, sx
     FROM (
     SELECT b.jgbh, b.jgmc, nf, sq, pz, sx
-    FROM stat_patent_new AS a
+    FROM v_stat_patent_new AS a
     INNER JOIN(
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -76,14 +76,14 @@
     SELECT jgbh, b.jgmc, nf, xz
     FROM (
     SELECT jgmc, nf, xz
-    FROM stat_patent
+    FROM v_stat_patent
     <where>
     zllx="PCTPatent"
     </where>
     ) AS a
     INNER JOIN(
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>

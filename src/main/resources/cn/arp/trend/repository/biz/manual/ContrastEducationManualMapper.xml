@@ -9,12 +9,12 @@
     SELECT field_id, research_field, b.jgbh, b.jgmc, nf, bdrs, bsrs, sdrs, ssrs
     FROM (
     SELECT *
-    FROM stat_teacher_student
+    FROM v_stat_teacher_student
     WHERE nf&gt;=${startYear} AND nf&lt;=${endYear}
     ) AS a
     INNER JOIN (
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND field_id ${arrayStr}
     ) AS b
@@ -30,12 +30,12 @@
     SELECT field_id, research_field, b.jgbh, b.jgmc, nf, bdrs, bsrs, sdrs, ssrs
     FROM (
     SELECT *
-    FROM stat_teacher_student
+    FROM v_stat_teacher_student
     WHERE nf=${endYear}
     ) AS a
     INNER JOIN (
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND field_id ${arrayStr}
     ) AS b
@@ -48,12 +48,12 @@
     SELECT b.jgbh, b.jgmc, nf, bdrs, bsrs, sdrs, ssrs
     FROM (
     SELECT *
-    FROM stat_teacher_student
+    FROM v_stat_teacher_student
     WHERE nf&gt;=${startYear} AND nf&lt;=${endYear}
     ) AS a
     INNER JOIN (
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND jgbh ${arrayStr}
     ) AS b
@@ -64,12 +64,12 @@
     SELECT b.jgbh, b.jgmc, nf, bdrs, bsrs, sdrs, ssrs
     FROM (
     SELECT *
-    FROM stat_teacher_student
+    FROM v_stat_teacher_student
     WHERE nf=${endYear}
     ) AS a
     INNER JOIN (
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND jgbh ${arrayStr}
     ) AS b

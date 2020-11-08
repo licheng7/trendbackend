@@ -8,14 +8,14 @@
     SELECT field_id, research_field, b.jgbh, b.jgmc, dxnf
     FROM (
     SELECT dxnf, gzdw_gf1 AS jgmc
-    FROM cas_academician_china
+    FROM v_cas_academician_china
     <where>
     qssj IS NULL AND dxnf&lt;=${endYear}
     </where>
     ) AS a
     INNER JOIN(
     SELECT *
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -26,14 +26,14 @@
     SELECT field_id, research_field, b.jgbh, b.jgmc, dxnf
     FROM (
     SELECT dxnf, gzdw_gf1 AS jgmc
-    FROM cas_academician_cae_china
+    FROM v_cas_academician_cae_china
     <where>
     qssj IS NULL AND dxnf&lt;=${endYear}
     </where>
     ) AS a
     INNER JOIN(
     SELECT *
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -50,14 +50,14 @@
     SELECT b.jgbh, b.jgmc, dxnf
     FROM (
     SELECT dxnf, gzdw_gf1 AS jgmc
-    FROM cas_academician_china
+    FROM v_cas_academician_china
     <where>
     qssj IS NULL AND dxnf&lt;=${endYear}
     </where>
     ) AS a
     INNER JOIN(
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>
@@ -68,14 +68,14 @@
     SELECT d.jgbh, d.jgmc, dxnf
     FROM (
     SELECT dxnf, gzdw_gf1 AS jgmc
-    FROM cas_academician_cae_china
+    FROM v_cas_academician_cae_china
     <where>
     qssj IS NULL AND dxnf&lt;=${endYear}
     </where>
     ) AS c
     INNER JOIN(
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     <where>
     user_id = "${userId}"
     </where>

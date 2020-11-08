@@ -6,11 +6,11 @@
     SELECT ANY_VALUE(research_field) AS research_field, ROUND(SUM(pzje),2) AS expenditure, COUNT(*) AS project
     FROM (
     SELECT ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(jgmc) AS jgmc, SUM(pzje) AS pzje
-    FROM temp_cas_staff_for_rencaicount AS a
+    FROM v_temp_cas_staff_for_rencaicount AS a
     INNER JOIN
     (
     SELECT xmpzh, xmfzr, ytdw, pzje
-    FROM cas_icp_isisn_nsfc_projects
+    FROM v_cas_icp_isisn_nsfc_projects
     WHERE pznd=${endYear}
     ) AS b
     ON a.xm=b.xmfzr AND a.jgmc=b.ytdw
@@ -19,7 +19,7 @@
     INNER JOIN
     (
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND field_id ${arrayStr}
     ) AS d
@@ -33,13 +33,13 @@
     FROM (
     (
     SELECT year AS nf, jgbh, count AS rcrs
-    FROM stat_cas_staff_qianzaiyearcount_bydanwei
+    FROM v_stat_cas_staff_qianzaiyearcount_bydanwei
     WHERE year>=${startYear} AND year&lt;=${endYear}
     ) AS a
     INNER JOIN
     (
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND field_id ${arrayStr}
     ) AS c
@@ -53,14 +53,14 @@
     FROM (
     (
     SELECT nf, jgbh, zs AS zgrs
-    FROM stat_arp_staff_duty
+    FROM v_stat_arp_staff_duty
     WHERE zs != 0
     AND nf>=${startYear} AND nf&lt;=${endYear}
     ) AS b
     INNER JOIN
     (
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND field_id ${arrayStr}
     ) AS c
@@ -72,11 +72,11 @@
   </select>
   <select id="contrastByField3" resultType="java.util.HashMap">
     SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(zwmc) AS zwmc, COUNT(a.id) AS rs
-    FROM temp_cas_staff_for_rencaicount AS a
+    FROM v_temp_cas_staff_for_rencaicount AS a
     INNER JOIN
     (
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND field_id ${arrayStr}
     ) AS b
@@ -85,11 +85,11 @@
   </select>
   <select id="contrastByField4" resultType="java.util.HashMap">
     SELECT ANY_VALUE(research_field) AS research_field, IFNULL(ANY_VALUE(xw),"未知") AS xw, COUNT(a.id) AS rs
-    FROM temp_cas_staff_for_rencaicount AS a
+    FROM v_temp_cas_staff_for_rencaicount AS a
     INNER JOIN
     (
     SELECT field_id, research_field, jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND field_id ${arrayStr}
     ) AS b
@@ -102,11 +102,11 @@
     SELECT d.jgbh, d.jgmc, ROUND(pzje,2) AS expenditure, project
     FROM (
     SELECT ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(jgmc) AS jgmc, SUM(pzje) AS pzje, COUNT(*) AS project
-    FROM temp_cas_staff_for_rencaicount AS a
+    FROM v_temp_cas_staff_for_rencaicount AS a
     INNER JOIN
     (
     SELECT xmpzh, xmfzr, ytdw, pzje
-    FROM cas_icp_isisn_nsfc_projects
+    FROM v_cas_icp_isisn_nsfc_projects
     WHERE pznd=${endYear}
     ) AS b
     ON a.xm=b.xmfzr AND a.jgmc=b.ytdw
@@ -115,7 +115,7 @@
     INNER JOIN
     (
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND jgbh ${arrayStr}
     ) AS d
@@ -125,14 +125,14 @@
     SELECT b.jgbh, b.jgmc, b.nf, rcrs, zgrs, ROUND(rcrs/zgrs,2) AS ratio
     FROM (
     SELECT year AS nf, jgbh, count AS rcrs
-    FROM stat_cas_staff_qianzaiyearcount_bydanwei
+    FROM v_stat_cas_staff_qianzaiyearcount_bydanwei
     WHERE year>=${startYear} AND year&lt;=${endYear}
     AND jgbh ${arrayStr}
     ) AS a
     INNER JOIN
     (
     SELECT nf, jgbh, jgmc, zs AS zgrs
-    FROM stat_arp_staff_duty
+    FROM v_stat_arp_staff_duty
     WHERE zs != 0
     AND nf>=${startYear} AND nf&lt;=${endYear}
     AND jgbh ${arrayStr}
@@ -140,7 +140,7 @@
     INNER JOIN
     (
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND jgbh ${arrayStr}
     ) AS c
@@ -148,11 +148,11 @@
   </select>
   <select id="contrastByUnit3" resultType="java.util.HashMap">
     SELECT ANY_VALUE(a.jgbh) AS jgbh, ANY_VALUE(b.jgmc) AS jgmc, ANY_VALUE(zwmc) AS zwmc, COUNT(a.id) AS rs
-    FROM temp_cas_staff_for_rencaicount AS a
+    FROM v_temp_cas_staff_for_rencaicount AS a
     INNER JOIN
     (
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND jgbh ${arrayStr}
     ) AS b
@@ -161,11 +161,11 @@
   </select>
   <select id="contrastByUnit4" resultType="java.util.HashMap">
     SELECT ANY_VALUE(a.jgbh) AS jgbh, ANY_VALUE(b.jgmc) AS jgmc, IFNULL(ANY_VALUE(xw),"未知") AS xw, COUNT(a.id) AS rs
-    FROM temp_cas_staff_for_rencaicount AS a
+    FROM v_temp_cas_staff_for_rencaicount AS a
     INNER JOIN
     (
     SELECT DISTINCT jgbh, jgmc
-    FROM relation_field_affiliation
+    FROM v_relation_field_affiliation
     WHERE user_id = "${userId}"
     AND jgbh ${arrayStr}
     ) AS b
