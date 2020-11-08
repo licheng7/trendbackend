@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.arp.trend.repository.biz.manual.ContrastPatentManualMapper" >
+
+  <select id="contrastByField1" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(nf) AS nf, SUM(sq) AS sq, SUM(pz) AS pz, SUM(sx) AS sx
+    FROM (
+    SELECT b.jgbh, b.jgmc, nf, sq, pz, sx, field_id, research_field
+    FROM v_stat_patent_new AS a
+    INNER JOIN(
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM v_relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS b
+    ON a.jgbh=b.jgbh
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>
+    AND field_id ${arrayStr}
+    GROUP BY research_field, nf
+  </select>
+
+  <select id="contrastByField2" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(nf) AS nf, SUM(xz) AS xz
+    FROM(
+    SELECT field_id, research_field, jgbh, b.jgmc, nf, xz
+    FROM (
+    SELECT jgmc, nf, xz
+    FROM v_stat_patent
+    <where>
+    zllx="PCTPatent"
+    </where>
+    ) AS a
+    INNER JOIN(
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM v_relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS b
+    ON a.jgmc=b.jgmc
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>
+    AND field_id ${arrayStr}
+    GROUP BY research_field, nf;
+  </select>
+
+  <select id="contrastByUnit1" resultType="java.util.HashMap">
+    SELECT jgbh, jgmc, nf, sq, pz, sx
+    FROM (
+    SELECT b.jgbh, b.jgmc, nf, sq, pz, sx
+    FROM v_stat_patent_new AS a
+    INNER JOIN(
+    SELECT DISTINCT jgbh, jgmc
+    FROM v_relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS b
+    ON a.jgbh=b.jgbh
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>
+    AND jgbh ${arrayStr};
+  </select>
+  
+  <select id="contrastByUnit2" resultType="java.util.HashMap">
+    SELECT jgbh, jgmc, nf, xz
+    FROM(
+    SELECT jgbh, b.jgmc, nf, xz
+    FROM (
+    SELECT jgmc, nf, xz
+    FROM v_stat_patent
+    <where>
+    zllx="PCTPatent"
+    </where>
+    ) AS a
+    INNER JOIN(
+    SELECT DISTINCT jgbh, jgmc
+    FROM v_relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    ) AS b
+    ON a.jgmc=b.jgmc
+    ) AS c
+    <where>
+    nf>=${startYear} AND nf&lt;=${endYear}
+    </where>
+    AND jgbh ${arrayStr};
+  </select>
+</mapper>
