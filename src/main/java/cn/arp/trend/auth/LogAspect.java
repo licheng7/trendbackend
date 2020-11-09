@@ -123,12 +123,15 @@ public class LogAspect {
 		if (request.getHeader("ClientIP") != null) {
 			log.setRemoteIp(request.getHeader("ClientIP"));
 			log.setInternalIp(request.getRemoteAddr());
+			System.out.println("Using ClentIP"+log.getInternalIp());
 		} else if (request.getHeader("X-Real-IP") != null) {
 			log.setRemoteIp(request.getHeader("X-Real-IP"));
 			log.setInternalIp(request.getHeader("X-Real-IP"));
+			System.out.println("Using X-Real-IP"+log.getInternalIp());
 		} else {
 			log.setRemoteIp(request.getRemoteAddr());
 			log.setInternalIp(request.getRemoteAddr());
+			System.out.println("Using Remote Addr"+log.getInternalIp());
 		}
 
 		if (request.getHeader("X-Real-PORT") != null) {
