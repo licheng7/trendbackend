@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.arp.trend.repository.biz.manual.ContrastAcademicianManualMapper" >
+
+  <select id="contrastByField" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(dxnf) AS nf, COUNT(*) AS num
+    FROM (
+    SELECT field_id, research_field, b.jgbh, b.jgmc, dxnf
+    FROM (
+    SELECT dxnf, gzdw_gf1 AS jgmc
+    FROM v_cas_academician_china
+    <where>
+    qssj IS NULL AND dxnf&lt;=${endYear}
+    </where>
+    ) AS a
+    INNER JOIN(
+    SELECT *
+    FROM v_relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND field_id ${fieldIdsStr}
+    ) AS b
+    ON a.jgmc=b.jgmc
+    UNION ALL
+    SELECT field_id, research_field, b.jgbh, b.jgmc, dxnf
+    FROM (
+    SELECT dxnf, gzdw_gf1 AS jgmc
+    FROM v_cas_academician_cae_china
+    <where>
+    qssj IS NULL AND dxnf&lt;=${endYear}
+    </where>
+    ) AS a
+    INNER JOIN(
+    SELECT *
+    FROM v_relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND field_id ${fieldIdsStr}
+    ) AS b
+    ON a.jgmc=b.jgmc
+    ) AS c
+    GROUP BY research_field, dxnf;
+  </select>
+
+  <select id="contrastByUnit" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(jgmc) AS jgmc, ANY_VALUE(dxnf) AS dxnf, COUNT(*) AS num
+    FROM (
+    SELECT b.jgbh, b.jgmc, dxnf
+    FROM (
+    SELECT dxnf, gzdw_gf1 AS jgmc
+    FROM v_cas_academician_china
+    <where>
+    qssj IS NULL AND dxnf&lt;=${endYear}
+    </where>
+    ) AS a
+    INNER JOIN(
+    SELECT DISTINCT jgbh, jgmc
+    FROM v_relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND jgbh ${jgbhStr}
+    ) AS b
+    ON a.jgmc=b.jgmc
+    UNION ALL
+    SELECT d.jgbh, d.jgmc, dxnf
+    FROM (
+    SELECT dxnf, gzdw_gf1 AS jgmc
+    FROM v_cas_academician_cae_china
+    <where>
+    qssj IS NULL AND dxnf&lt;=${endYear}
+    </where>
+    ) AS c
+    INNER JOIN(
+    SELECT DISTINCT jgbh, jgmc
+    FROM v_relation_field_affiliation
+    <where>
+    user_id = "${userId}"
+    </where>
+    AND jgbh ${jgbhStr}
+    ) AS d
+    ON c.jgmc=d.jgmc
+    ) AS e
+    GROUP BY jgmc, dxnf;
+  </select>
+</mapper>

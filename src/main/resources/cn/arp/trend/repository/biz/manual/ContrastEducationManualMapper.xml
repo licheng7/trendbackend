@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.arp.trend.repository.biz.manual.ContrastEducationManualMapper" >
+
+  <select id="contrastByField1" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(nf) AS nf, SUM(bdrs) AS bdrs, SUM(bsrs) AS bsrs, SUM(sdrs) AS sdrs, SUM(ssrs) AS ssrs
+    FROM
+    (
+    SELECT field_id, research_field, b.jgbh, b.jgmc, nf, bdrs, bsrs, sdrs, ssrs
+    FROM (
+    SELECT *
+    FROM v_stat_teacher_student
+    WHERE nf&gt;=${startYear} AND nf&lt;=${endYear}
+    ) AS a
+    INNER JOIN (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM v_relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND field_id ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh
+    ) AS c
+    GROUP BY research_field, nf;
+  </select>
+
+  <select id="contrastByField2" resultType="java.util.HashMap">
+    SELECT ANY_VALUE(research_field) AS research_field,ANY_VALUE(research_field) AS name, SUM(bdrs) AS bdrs, SUM(bsrs) AS bsrs, SUM(sdrs) AS sdrs, SUM(ssrs) AS ssrs
+    FROM
+    (
+    SELECT field_id, research_field, b.jgbh, b.jgmc, nf, bdrs, bsrs, sdrs, ssrs
+    FROM (
+    SELECT *
+    FROM v_stat_teacher_student
+    WHERE nf=${endYear}
+    ) AS a
+    INNER JOIN (
+    SELECT field_id, research_field, jgbh, jgmc
+    FROM v_relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND field_id ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh
+    ) AS c
+    GROUP BY research_field;
+  </select>
+
+  <select id="contrastByUnit1" resultType="java.util.HashMap">
+    SELECT b.jgbh, b.jgmc, nf, bdrs, bsrs, sdrs, ssrs
+    FROM (
+    SELECT *
+    FROM v_stat_teacher_student
+    WHERE nf&gt;=${startYear} AND nf&lt;=${endYear}
+    ) AS a
+    INNER JOIN (
+    SELECT DISTINCT jgbh, jgmc
+    FROM v_relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND jgbh ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh;
+  </select>
+
+  <select id="contrastByUnit2" resultType="java.util.HashMap">
+    SELECT b.jgbh, b.jgmc, nf, bdrs, bsrs, sdrs, ssrs
+    FROM (
+    SELECT *
+    FROM v_stat_teacher_student
+    WHERE nf=${endYear}
+    ) AS a
+    INNER JOIN (
+    SELECT DISTINCT jgbh, jgmc
+    FROM v_relation_field_affiliation
+    WHERE user_id = "${userId}"
+    AND jgbh ${arrayStr}
+    ) AS b
+    ON a.jgbh=b.jgbh;
+  </select>
+</mapper>
