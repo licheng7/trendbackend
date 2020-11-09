@@ -376,7 +376,7 @@
     FROM
       v_stat_patent_new AS a, v_ref_org_type AS b
     <where>
-      a.jgmc=b.jgmc
+      a.jgbh=b.jgbh
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
     </where>

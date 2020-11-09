@@ -67,20 +67,29 @@ public class AreaPaperServiceImpl extends AbstructServiceHelper implements AreaP
         Map<String, Map<String, Object>> originalPaperArpMap =
                 this.bizData4MapByKeyLimit1(queryResult2, "nf");
 
-        List<Map<String, Object>> officialList = Lists.newArrayList();
-        List<Map<String, Object>> arpList = Lists.newArrayList();
+        List<Object> officialList = Lists.newArrayList();
+        List<Object> arpList = Lists.newArrayList();
 
         yearList.stream().forEach(year -> {
-            Map<String, Object> officialMap = Maps.newHashMap();
-            officialMap.put("sci", originalPaperOfficialMap.get(year));
-            officialList.add(officialMap);
+            //Map<String, Object> officialMap = Maps.newHashMap();
+            //officialMap.put("sci", originalPaperOfficialMap.get(year));
+            //officialList.add(officialMap);
+            officialList.add(originalPaperOfficialMap.get(year) == null ? null
+                    : originalPaperOfficialMap.get(year).get("sci"));
 
-            Map<String, Object> arpMap = Maps.newHashMap();
-            arpMap.put("sci", originalPaperArpMap.get(year));
-            arpList.add(arpMap);
+            //Map<String, Object> arpMap = Maps.newHashMap();
+            //arpMap.put("sci", originalPaperArpMap.get(year));
+            //arpList.add(arpMap);
+            arpList.add(originalPaperArpMap.get(year) == null ? null :
+                    originalPaperArpMap.get(year).get("sci"));
         });
 
         return new AreaPaperSciInfoDTO(
-                officialList, arpList, unitAry, paperProportion, yearList, AbstructServiceHelper.UPDATETIME);
+                officialList,
+                arpList,
+                unitAry,
+                paperProportion,
+                yearList,
+                AbstructServiceHelper.UPDATETIME);
     }
 }

@@ -130,8 +130,10 @@ public class AreaEduServiceImpl extends ConcurrentSupport implements AreaEduServ
         doctorTeacherYear.put("number", number);
 
         Map<String, Object> doctorTeacherPie = Maps.newHashMap();
-        doctorTeacherPie.put("sum", doctorTeacherSumOriginal.get(0).get("rs"));
-        doctorTeacherPie.put("number", doctorTeacherNumberOriginal.get(0).get("rs"));
+        //doctorTeacherPie.put("sum", doctorTeacherSumOriginal.get(0).get("rs"));
+        //doctorTeacherPie.put("number", doctorTeacherNumberOriginal.get(0).get("rs"));
+        doctorTeacherPie.put("sum", doctorTeacherNumberOriginal.get(0).get("rs"));
+        doctorTeacherPie.put("number", doctorTeacherSumOriginal.get(0).get("rs"));
 
         AreaEduDInfoDTO info = new AreaEduDInfoDTO();
         info.setYearList(yearList);
@@ -217,8 +219,10 @@ public class AreaEduServiceImpl extends ConcurrentSupport implements AreaEduServ
         masterTeacherYear.put("number", number);
 
         Map<String, Object> doctorTeacherPie = Maps.newHashMap();
-        doctorTeacherPie.put("sum", masterTeacherSumOriginal.get(0).get("rs"));
-        doctorTeacherPie.put("number", masterTeacherNumberOriginal.get(0).get("rs"));
+        //doctorTeacherPie.put("sum", masterTeacherSumOriginal.get(0).get("rs"));
+        //doctorTeacherPie.put("number", masterTeacherNumberOriginal.get(0).get("rs"));
+        //doctorTeacherPie.put("sum", masterTeacherNumberOriginal.get(0).get("rs"));
+        //doctorTeacherPie.put("number", masterTeacherSumOriginal.get(0).get("rs"));
 
         AreaEduMInfoDTO info = new AreaEduMInfoDTO();
         info.setYearList(yearList);

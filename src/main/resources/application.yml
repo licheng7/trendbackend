@@ -68,6 +68,8 @@ server:
 mybatis:
   mapper-locations: classpath:cn/arp/trend/repository/biz/*/*.xml
   type-alias-package: cn.arp.trend.entity
+  configuration:
+    call-setters-on-nulls: true
 login:
   passportLogout: https://passport.escience.cn/logout?WebServerURL=
   dispatch: http://dispatch.dev.arp.cn

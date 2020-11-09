@@ -198,9 +198,9 @@
   <select id="queryYoungElite2" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
     SELECT
-      *
+      <include refid="Base_Column_List"/>
     FROM
-    v_stat_cas_staff_qianzaiyearcount_bydanwei
+      v_stat_cas_staff_qianzaiyearcount_bydanwei
     <where>
       year = #{query.endYear}
       <include refid="sql_affiliation"/>

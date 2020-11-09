@@ -11,9 +11,9 @@ import java.util.Map;
  **/
 public class AreaPaperSciInfoDTO {
 
-    private List<Map<String, Object>> officialList;
+    private List<Object> officialList;
 
-    private List<Map<String, Object>> arpList;
+    private List<Object> arpList;
 
     private List<Map<String, Object>> unitAry;
 
@@ -23,19 +23,19 @@ public class AreaPaperSciInfoDTO {
 
     private String updateTime;
 
-    public List<Map<String, Object>> getOfficialList() {
+    public List<Object> getOfficialList() {
         return officialList;
     }
 
-    public void setOfficialList(List<Map<String, Object>> officialList) {
+    public void setOfficialList(List<Object> officialList) {
         this.officialList = officialList;
     }
 
-    public List<Map<String, Object>> getArpList() {
+    public List<Object> getArpList() {
         return arpList;
     }
 
-    public void setArpList(List<Map<String, Object>> arpList) {
+    public void setArpList(List<Object> arpList) {
         this.arpList = arpList;
     }
 
@@ -71,7 +71,7 @@ public class AreaPaperSciInfoDTO {
         this.updateTime = updateTime;
     }
 
-    public AreaPaperSciInfoDTO(List<Map<String, Object>> officialList, List<Map<String, Object>> arpList, List<Map<String, Object>> unitAry, List<Map<String, Object>> paperProportion, List<String> yearList, String updateTime) {
+    public AreaPaperSciInfoDTO(List<Object> officialList, List<Object> arpList, List<Map<String, Object>> unitAry, List<Map<String, Object>> paperProportion, List<String> yearList, String updateTime) {
         this.officialList = officialList;
         this.arpList = arpList;
         this.unitAry = unitAry;

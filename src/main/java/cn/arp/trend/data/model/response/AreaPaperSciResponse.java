@@ -14,11 +14,13 @@ import java.util.Map;
  **/
 public class AreaPaperSciResponse implements Serializable {
 
+    private static final long serialVersionUID = 7735688062256226235L;
+
     @JsonProperty("official_list")
-    private List<Map<String, Object>> officialList;
+    private List<Object> officialList;
 
     @JsonProperty("arp_list")
-    private List<Map<String, Object>> arpList;
+    private List<Object> arpList;
 
     @JsonProperty("unit_ary")
     private List<Map<String, Object>> unitAry;
@@ -32,19 +34,19 @@ public class AreaPaperSciResponse implements Serializable {
     @JsonProperty("update_time")
     private String updateTime;
 
-    public List<Map<String, Object>> getOfficialList() {
+    public List<Object> getOfficialList() {
         return officialList;
     }
 
-    public void setOfficialList(List<Map<String, Object>> officialList) {
+    public void setOfficialList(List<Object> officialList) {
         this.officialList = officialList;
     }
 
-    public List<Map<String, Object>> getArpList() {
+    public List<Object> getArpList() {
         return arpList;
     }
 
-    public void setArpList(List<Map<String, Object>> arpList) {
+    public void setArpList(List<Object> arpList) {
         this.arpList = arpList;
     }
 
@@ -80,7 +82,7 @@ public class AreaPaperSciResponse implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public AreaPaperSciResponse(List<Map<String, Object>> officialList, List<Map<String, Object>> arpList, List<Map<String, Object>> unitAry, List<Map<String, Object>> paperProportion, List<String> yearList, String updateTime) {
+    public AreaPaperSciResponse(List<Object> officialList, List<Object> arpList, List<Map<String, Object>> unitAry, List<Map<String, Object>> paperProportion, List<String> yearList, String updateTime) {
         this.officialList = officialList;
         this.arpList = arpList;
         this.unitAry = unitAry;
