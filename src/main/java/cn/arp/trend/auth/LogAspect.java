@@ -121,8 +121,8 @@ public class LogAspect {
 
 	private void addIPAndPort(HttpServletRequest request, AuditLog log) {
 		if (request.getHeader("ClientIP") != null) {
-			log.setRemoteIp(request.getHeader("X-Real-IP"));
-			log.setInternalIp(request.getRemoteAddr());
+			log.setRemoteIp(request.getHeader("ClientIP"));
+			log.setInternalIp(request.getHeader("X-Real-IP"));
 		} else if (request.getHeader("X-Real-IP") != null) {
 			log.setRemoteIp(request.getHeader("X-Real-IP"));
 			log.setInternalIp(request.getHeader("X-Real-IP"));
