@@ -277,21 +277,22 @@
     SELECT
       SUM(bdrs) AS rs
     FROM
-      v_stat_teacher_student
+      v_stat_teacher_student AS a,
+      v_ref_org_type AS b
     <where>
-      1 = 1
+      a.jgbh = b.jgbh
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
       <choose>
         <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
-          AND JGBH in (
+          AND a.JGBH in (
           <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
             #{item}
           </foreach>
           )
         </when>
         <otherwise>
-          AND JGBH is not null
+          AND a.JGBH is not null
         </otherwise>
       </choose>
     </where>
@@ -308,6 +309,7 @@
       a.jgbh = b.jgbh
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
+      AND a.JGBH is not null
     </where>
   </select>
 
@@ -359,21 +361,22 @@
     SELECT
       SUM(sdrs) AS rs
     FROM
-      v_stat_teacher_student
+      v_stat_teacher_student AS a,
+      v_ref_org_type AS b
     <where>
-      1 = 1
+      a.jgbh = b.jgbh
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
       <choose>
         <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
-          AND JGBH in (
+          AND a.JGBH in (
           <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
             #{item}
           </foreach>
           )
         </when>
         <otherwise>
-          AND JGBH is not null
+          AND a.JGBH is not null
         </otherwise>
       </choose>
     </where>
@@ -390,6 +393,7 @@
       a.jgbh = b.jgbh
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
+      AND a.JGBH is not null
     </where>
   </select>
 
