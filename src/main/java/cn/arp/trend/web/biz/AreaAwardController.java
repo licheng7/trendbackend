@@ -55,7 +55,7 @@ public class AreaAwardController extends BaseController {
     @ApiOperation(value= "领域部分award.js对应的/trend", notes= "领域部分award.js对应的/trend")
     @ServiceExecuter(description = "领域部分award.js对应的/trend")
     @RequestMapping(value = "/trend", method = RequestMethod.POST)
-    @Audit(desc="领域部分award.js对应的/trend", value="Award.Trend")
+    @Audit(desc="历年获奖数量趋势", value="Area.AwardTrend")
     public AwardTrendResponse trendQuery(
             @RequestBody @Validated DetailAwardTrendRequest request, BindingResult bindingResult)
             throws RestError {
@@ -85,7 +85,7 @@ public class AreaAwardController extends BaseController {
     @ApiOperation(value= "领域部分award.js对应的/detail", notes= "领域部分award.js对应的/detail")
     @ServiceExecuter(description = "领域部分award.js对应的/detail")
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
-    @Audit(desc="领域部分award.js对应的/detail")
+    @Audit(desc="获得各类奖项详情", value="Area.AwardDetail")
     public AwardDetailResponse detailQuery(
             @RequestBody @Validated DetailAwardDetailRequest request, BindingResult bindingResult)
             throws RestError {
@@ -110,7 +110,7 @@ public class AreaAwardController extends BaseController {
     @ApiOperation(value= "领域部分award.js对应的/distribution", notes= "领域部分award.js对应的/distribution")
     @ServiceExecuter(description = "领域部分award.js对应的/distribution")
     @RequestMapping(value = "/distribution", method = RequestMethod.POST)
-    @Audit(desc="领域部分award.js对应的/distribution", value="Award.Distribution")
+    @Audit(desc="各单位各类奖项数量统计", value="Award.Distribution")
     public AwardDistributionResponse distributionQuery(
             @RequestBody @Validated DetailAwardDistributionRequest request, BindingResult bindingResult)
             throws RestError {

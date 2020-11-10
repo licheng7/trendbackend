@@ -44,7 +44,7 @@ public class AreaPatentController extends BaseController {
     @ApiOperation(value= "patent.js对应的/", notes= "patent.js对应的/")
     @ServiceExecuter(description = "patent.js对应的/")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
-    @Audit(desc="patent.js对应的/")
+    @Audit(desc="历年中国发明专利、PCT专利申请数量、占比、各单位统计", value="Project.Patent")
     public AreaPatentQueryResponse query(
             @RequestBody @Validated AreaPatentRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);

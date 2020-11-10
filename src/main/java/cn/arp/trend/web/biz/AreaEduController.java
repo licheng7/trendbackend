@@ -48,7 +48,7 @@ public class AreaEduController extends BaseController {
     @ApiOperation(value= "edu.js对应的/d/", notes= "edu.js对应的/d/")
     @ServiceExecuter(description = "edu.js对应的/d/")
     @RequestMapping(value = "/d", method = RequestMethod.POST)
-    @Audit(desc="edu.js对应的/d/")
+    @Audit(desc="历年博导人数、博导年龄分布、各机构博导人数、所选单位博导人数占比", value="Area.Doctor")
     public AreaEduDResponse areaEduDQuery(@RequestBody @Validated AreaEduRequest request,
                                           BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -74,7 +74,7 @@ public class AreaEduController extends BaseController {
     @ApiOperation(value= "edu.js对应的/m/", notes= "edu.js对应的/m/")
     @ServiceExecuter(description = "edu.js对应的/m/")
     @RequestMapping(value = "/m", method = RequestMethod.POST)
-    @Audit(desc="edu.js对应的/m/")
+    @Audit(desc="历年硕导人数、硕导年龄分布、各机构硕导人数、所选单位硕导人数占比", value="Area.Master")
     public AreaEduMResponse areaEduMQuery(@RequestBody @Validated AreaEduRequest request,
                                           BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -100,7 +100,7 @@ public class AreaEduController extends BaseController {
     @ApiOperation(value= "edu.js对应的/student/", notes= "edu.js对应的/student/")
     @ServiceExecuter(description = "edu.js对应的/student/")
     @RequestMapping(value = "/student", method = RequestMethod.POST)
-    @Audit(desc="edu.js对应的/student/")
+    @Audit(desc="历年博士生人数、硕士生人数", value="Area.Student")
     public AreaEduStudentResponse areaEduStudentQuery(@RequestBody @Validated AreaEduRequest request,
                                                       BindingResult bindingResult) throws RestError {
         validData(bindingResult);

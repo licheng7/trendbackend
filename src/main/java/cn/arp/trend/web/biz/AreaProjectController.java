@@ -54,7 +54,7 @@ public class AreaProjectController extends BaseController {
     @ApiOperation(value= "project.js对应的/xdzx", notes= "project.js对应的/xdzx")
     @ServiceExecuter(description = "project.js对应的/xdzx")
     @RequestMapping(value = "/xdzx", method = RequestMethod.POST)
-    @Audit(desc="project.js对应的/xdzx")
+    @Audit(desc="先导专项课题数量、经费数量趋势，课题数量、经费数量占比，各单位课题数量、经费数量统计", value="Area.XDZX")
     public AreaProjectXdzxResponse xdzxQuery(
             @RequestBody @Validated AreaProjectRequest request, BindingResult bindingResult)
             throws RestError {
@@ -84,7 +84,7 @@ public class AreaProjectController extends BaseController {
     @ApiOperation(value= "project.js对应的/zdyf", notes= "project.js对应的/zdyf")
     @ServiceExecuter(description = "project.js对应的/zdyf")
     @RequestMapping(value = "/zdyf", method = RequestMethod.POST)
-    @Audit(desc="project.js对应的/zdyf")
+    @Audit(desc="重点研发计划项目项目数量、经费数量趋势，项目数量、经费数量占比，各单位项目数量、经费数量统计", value="Area.ZDYF")
     public AreaProjectZdyfResponse zdyfQuery(
             @RequestBody @Validated AreaProjectRequest request, BindingResult bindingResult)
             throws RestError {
@@ -114,7 +114,7 @@ public class AreaProjectController extends BaseController {
     @ApiOperation(value= "project.js对应的/nsfcTrend", notes= "project.js对应的/nsfcTrend")
     @ServiceExecuter(description = "project.js对应的/nsfcTrend")
     @RequestMapping(value = "/nsfcTrend", method = RequestMethod.POST)
-    @Audit(desc="project.js对应的/nsfcTrend")
+    @Audit(desc="自然科学基金项目数量、经费数量趋势", value="Area.NSFCTrend")
     public AreaProjectNsfcTrendResponse nsfcTrendQuery(
             @RequestBody @Validated AreaProjectNsfcTrendRequest request, BindingResult bindingResult)
             throws RestError {
@@ -143,7 +143,7 @@ public class AreaProjectController extends BaseController {
     @ApiOperation(value= "project.js对应的/nsfcDist", notes= "project.js对应的/nsfcDist")
     @ServiceExecuter(description = "project.js对应的/nsfcDist")
     @RequestMapping(value = "/nsfcDist", method = RequestMethod.POST)
-    @Audit(desc="project.js对应的/nsfcDist")
+    @Audit(desc="自然科学基金项目项目数量、经费数量占比，各单位项目数量、经费数量统计", value="Area.NSFCDist")
     public AreaProjectNsfcDistResponse nsfcDistQuery(
             @RequestBody @Validated AreaProjectNsfcDistRequest request, BindingResult bindingResult)
             throws RestError {

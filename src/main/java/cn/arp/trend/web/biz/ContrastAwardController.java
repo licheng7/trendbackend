@@ -35,7 +35,7 @@ public class ContrastAwardController extends BaseController {
     @ApiOperation(value= "以field为维度做数据对比", notes= "数据对比")
     @ServiceExecuter(description = "以field为维度做数据对比")
     @RequestMapping(value = "/field", method = RequestMethod.POST)
-    @Audit(desc="")
+    @Audit(desc="近十年各领域获奖数量趋势对比、近十年各领域获奖总数对比、近十年各领域获奖详情", value="FieldContrast.Award")
     public List<Object> contrastByField(@RequestBody ContrastBaseRequest request) {
 
         Calendar cal = Calendar.getInstance();
@@ -87,7 +87,7 @@ public class ContrastAwardController extends BaseController {
     @ApiOperation(value= "以unit为维度做数据对比", notes= "数据对比")
     @ServiceExecuter(description = "以unit为维度做数据对比")
     @RequestMapping(value = "/unit", method = RequestMethod.POST)
-    @Audit(desc="")
+    @Audit(desc="近十年各机构获奖数量趋势对比、近十年各机构获奖总数对比、近十年各机构获奖详情", value="InstitutionContrast.Award")
     public List<Object> contrastByUnit(@RequestBody ContrastBaseRequest request) {
         Calendar cal = Calendar.getInstance();
         Integer endYear = cal.get(Calendar.YEAR) - 0;

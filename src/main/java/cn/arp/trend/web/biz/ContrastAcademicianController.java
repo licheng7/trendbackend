@@ -42,7 +42,7 @@ public class ContrastAcademicianController extends BaseController {
     @ApiOperation(value= "以field为维度做数据对比", notes= "数据对比")
     @ServiceExecuter(description = "以field为维度做数据对比")
     @RequestMapping(value = "/field", method = RequestMethod.POST)
-    @Audit(desc="")
+    @Audit(desc="近十年各领域院士数量变化对比、近十年各领域新当选院士数量趋势对比，当前各领域院士数量对比", value="FieldContrast.Academican")
     public ContrastAcademicianByFieldResponse contrastByField(@RequestBody ContrastBaseRequest request) {
 
         Calendar cal = Calendar.getInstance();
@@ -151,7 +151,7 @@ public class ContrastAcademicianController extends BaseController {
     @ApiOperation(value= "以unit为维度做数据对比", notes= "数据对比")
     @ServiceExecuter(description = "以unit为维度做数据对比")
     @RequestMapping(value = "/unit", method = RequestMethod.POST)
-    @Audit(desc="")
+    @Audit(desc="近十年各机构院士数量变化对比、近十年各机构新当选院士数量趋势对比，当前各机构院士数量对比", value="InstitutionContrast.Academican")
     public ContrastAcademicianByFieldResponse contrastByUnit(@RequestBody ContrastBaseRequest request) {
 
         Calendar cal = Calendar.getInstance();

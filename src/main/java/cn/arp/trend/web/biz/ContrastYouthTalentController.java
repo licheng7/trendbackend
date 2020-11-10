@@ -33,7 +33,7 @@ public class ContrastYouthTalentController extends BaseController {
     @ApiOperation(value= "以field为维度做数据对比", notes= "数据对比")
     @ServiceExecuter(description = "以field为维度做数据对比")
     @RequestMapping(value = "/field", method = RequestMethod.POST)
-    @Audit(desc="")
+    @Audit(desc="各领域近十年青年人才数量变化趋势对比，当前青年人才职称对比、学位对比，青年人才争取自然科学基金项目数量、经费数量对比", value="FieldContrast.YoungElite")
     public HashMap<String, Object> contrastByField(@RequestBody ContrastBaseRequest request) {
 
         Calendar cal = Calendar.getInstance();
@@ -229,7 +229,7 @@ public class ContrastYouthTalentController extends BaseController {
     @ApiOperation(value= "以unit为维度做数据对比", notes= "数据对比")
     @ServiceExecuter(description = "以unit为维度做数据对比")
     @RequestMapping(value = "/unit", method = RequestMethod.POST)
-    @Audit(desc="")
+    @Audit(desc="各机构近十年青年人才数量变化趋势对比，当前青年人才职称对比、学位对比，青年人才争取自然科学基金项目数量、经费数量对比", value="InstitutionContrast.YoungElite")
     public HashMap<String, Object> contrastByUnit(@RequestBody ContrastBaseRequest request) {
         Calendar cal = Calendar.getInstance();
         Integer endYear = cal.get(Calendar.YEAR) - 1;

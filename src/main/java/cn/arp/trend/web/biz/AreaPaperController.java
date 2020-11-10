@@ -44,7 +44,7 @@ public class AreaPaperController extends BaseController {
     @ApiOperation(value= "paper.js对应的/sci", notes= "paper.js对应的/sci")
     @ServiceExecuter(description = "paper.js对应的/sci")
     @RequestMapping(value = "/sci", method = RequestMethod.POST)
-    @Audit(desc="paper.js对应的/sci")
+    @Audit(desc="SCI论文数量趋势、占比、各单位统计", value="Area.Paper")
     public AreaPaperSciResponse sciQuery(
             @RequestBody @Validated AreaPaperRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);

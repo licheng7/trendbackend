@@ -36,7 +36,7 @@ public class ContrastCustomController extends BaseController {
     @ApiOperation(value= "获取所有中科院的机构编号、机构名称", notes= "获取数据")
     @ServiceExecuter(description = "获取所有中科院的机构编号、机构名称")
     @RequestMapping(value = "/affiliations", method = RequestMethod.GET)
-    @Audit(desc="")
+    @Audit(desc="获取中科院所有研究所的机构编号、机构名称", value="")
     public HashMap<String, Object> getAffiliations() {
 
         List<HashMap<String, Object>> res = contrastCustomService.getAffiliations();
@@ -61,7 +61,7 @@ public class ContrastCustomController extends BaseController {
     @ApiOperation(value= "查某用户的领域标签信息，包括标签ID、标签名", notes= "获取数据")
     @ServiceExecuter(description = "查某用户的领域标签信息，包括标签ID、标签名")
     @RequestMapping(value = "/usertags/{userid}", method = RequestMethod.GET)
-    @Audit(desc="")
+    @Audit(desc="获取用户自定义的标签信息（标签ID、标签名", value="")
     public HashMap<String, Object> usertags(@PathVariable(name = "userid", required = true) String userId) {
 
         List<HashMap<String, Object>> res = contrastCustomService.getUserTags(userId);
@@ -86,7 +86,7 @@ public class ContrastCustomController extends BaseController {
     @ApiOperation(value= "查选中领域标签、正在编辑的领域标签对应的单位列表", notes= "获取数据")
     @ServiceExecuter(description = "查选中领域标签、正在编辑的领域标签对应的单位列表")
     @RequestMapping(value = "/fieldaffiliations/{userid}/{fieldid}", method = RequestMethod.GET)
-    @Audit(desc="")
+    @Audit(desc="获取指定标签对应的单位列表", value="")
     public HashMap<String, Object> fieldAffiliations(@PathVariable(name = "userid", required = true) String userId,
                                             @PathVariable(name = "fieldid", required = true) String fieldId) {
 
@@ -119,7 +119,7 @@ public class ContrastCustomController extends BaseController {
     @ApiOperation(value= "增加当前用户新建的领域标签（自增的领域标签ID、用户ID、默认的领域标签的名称）", notes= "新增数据")
     @ServiceExecuter(description = "增加当前用户新建的领域标签（自增的领域标签ID、用户ID、默认的领域标签的名称）")
     @RequestMapping(value = "/field", method = RequestMethod.POST)
-    @Audit(desc="")
+    @Audit(desc="新建标签", value="")
     public HashMap<String, Object> field(@RequestBody ContrastCustomFieldRequest request) {
 
         HashMap<String, Object> res = new HashMap<String, Object>();
@@ -176,7 +176,7 @@ public class ContrastCustomController extends BaseController {
     @ApiOperation(value= "更新当前用户选中的领域标签名称、该选中的领域标签对应的单位列表", notes= "新增/更新数据")
     @ServiceExecuter(description = "更新当前用户选中的领域标签名称、该选中的领域标签对应的单位列表")
     @RequestMapping(value = "/userfieldaffiliation", method = RequestMethod.PUT)
-    @Audit(desc="")
+    @Audit(desc="更新标签", value="")
     public HashMap<String, Object> userFieldAffiliation(@RequestBody ContrastCustomUserFieldAffiliationRequest request) {
 
 
@@ -211,7 +211,7 @@ public class ContrastCustomController extends BaseController {
     @ApiOperation(value= "删除当前用户选中的领域标签", notes= "删除数据")
     @ServiceExecuter(description = "删除当前用户选中的领域标签")
     @RequestMapping(value = "/userfieldaffiliation/{userid}/{fieldid}", method = RequestMethod.DELETE)
-    @Audit(desc="")
+    @Audit(desc="删除标签", value="")
     public HashMap<String, Object> deleteUserFieldAffiliation(@PathVariable(name = "userid", required = true) String userId,
                                                               @PathVariable(name = "fieldid", required = true) String fieldId) {
 

@@ -44,7 +44,7 @@ public class AreaHrController extends BaseController {
     @ApiOperation(value= "hr.js对应的/staffTrend", notes= "hr.js对应的/staffTrend")
     @ServiceExecuter(description = "hr.js对应的/staffTrend")
     @RequestMapping(value = "/staffTrend", method = RequestMethod.POST)
-    @Audit(desc="hr.js对应的/staffTrend")
+    @Audit(desc="历年在职职工人数", value="Area.StaffTrend")
     public AreaHrStaffTrendResponse areaStaffTrendQuery(
             @RequestBody @Validated AreaHrRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -71,7 +71,7 @@ public class AreaHrController extends BaseController {
     @ApiOperation(value= "hr.js对应的/staffDist", notes= "hr.js对应的/staffDist")
     @ServiceExecuter(description = "hr.js对应的/staffDist")
     @RequestMapping(value = "/staffDist", method = RequestMethod.POST)
-    @Audit(desc="hr.js对应的/staffDist")
+    @Audit(desc="人员整体分布、在职职工岗位分布、在职职工年龄分布、在职职工学历分布、专业技术人员职称", value="Area.StaffDist")
     public AreaHrStaffDistResponse areaStaffDistQuery(
             @RequestBody @Validated AreaHrRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -101,7 +101,7 @@ public class AreaHrController extends BaseController {
     @ApiOperation(value= "hr.js对应的/acadCaeTrend", notes= "hr.js对应的/acadCaeTrend")
     @ServiceExecuter(description = "hr.js对应的/acadCaeTrend")
     @RequestMapping(value = "/acadCaeTrend", method = RequestMethod.POST)
-    @Audit(desc="hr.js对应的/acadCaeTrend")
+    @Audit(desc="历年当选工程院院士人数", value="Area.AcadCaeTrend")
     public AreaHrAcadCaeTrendResponse areaAcadCaeTrendQuery(
             @RequestBody @Validated AreaHrRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -125,7 +125,7 @@ public class AreaHrController extends BaseController {
     @ApiOperation(value= "hr.js对应的/acadCaeDist", notes= "hr.js对应的/acadCaeDist")
     @ServiceExecuter(description = "hr.js对应的/acadCaeDist")
     @RequestMapping(value = "/acadCaeDist", method = RequestMethod.POST)
-    @Audit(desc="hr.js对应的/acadCaeDist")
+    @Audit(desc="工程院院士领域占比、单位分布", value="Area.AcadCaeDist")
     public AreaHrAcadCaeDistResponse areaAcadCaeDistQuery(
             @RequestBody @Validated AreaHrRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -149,7 +149,7 @@ public class AreaHrController extends BaseController {
     @ApiOperation(value= "hr.js对应的/acadCasTrend", notes= "hr.js对应的/acadCasTrend")
     @ServiceExecuter(description = "hr.js对应的/acadCasTrend")
     @RequestMapping(value = "/acadCasTrend", method = RequestMethod.POST)
-    @Audit(desc="hr.js对应的/acadCasTrend")
+    @Audit(desc="历年当选中科院院士人数", value="Area.AcadCasTrend")
     public AreaHrAcadCasTrendResponse areaAcadCasTrendQuery(
             @RequestBody @Validated AreaHrRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -174,7 +174,7 @@ public class AreaHrController extends BaseController {
     @ApiOperation(value= "hr.js对应的/acadCasDist", notes= "hr.js对应的/acadCasDist")
     @ServiceExecuter(description = "hr.js对应的/acadCasDist")
     @RequestMapping(value = "/acadCasDist", method = RequestMethod.POST)
-    @Audit(desc="hr.js对应的/acadCasDist")
+    @Audit(desc="工程院院士领域占比、单位分布", value="Area.AcadCasDist")
     public AreaHrAcadCasDistResponse areaAcadCasDistQuery(
             @RequestBody @Validated AreaHrRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -197,7 +197,7 @@ public class AreaHrController extends BaseController {
     @ApiOperation(value= "hr.js对应的/youngElite", notes= "hr.js对应的/youngElite")
     @ServiceExecuter(description = "hr.js对应的/youngElite")
     @RequestMapping(value = "/youngElite", method = RequestMethod.POST)
-    @Audit(desc="hr.js对应的/youngElite")
+    @Audit(desc="历年青年人才数量、截止年份青年人才单位分布", value="Area.YoungElite")
     public AreaHrYoungEliteResponse areaYoungEliteQuery(
             @RequestBody @Validated AreaHrRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);

@@ -89,5 +89,93 @@
 {
   "url":"#/rp",
   "datasets":["Project.Increasement", "Project.Nsfc", "Project.Kjb", "Project.Xd", "Project.NsfcRelation", "Project.KjbRelation", "Project.XdRelation", "Asset.Overview", "Asset.Detail", "Asset.Income", "Asset.ExecutionTrend", "Comparison.Project", "Comparison.Facility", "Comparison.Finance", "Comparison.Funds"]
+},///////////////////////
+{
+  "url":"#/area/staff",
+  "datasets":["Area.StaffTrend", "Area.StaffDist"]
+},
+{
+  "url":"#/area/academician/gcy",
+  "datasets":["Area.AcadCaeTrend", "Area.AcadCaeDist"]
+},
+{
+  "url":"#/area/academician/zky",
+  "datasets":["Area.AcadCasTrend", "Area.AcadCasDist"]
+},
+{
+  "url":"#/area/youth",
+  "datasets":["Area.YoungElite"]
+},
+{
+  "url":"#/area/finance",
+  "datasets":["Area.FinanceOverview", "Area.FinanceIncome", "Area.FinanceOutcome", "Area.FinanceRank"]
+},
+{
+  "url":"#/area/project/nsfc",
+  "datasets":["Area.NSFCTrend", "Area.NSFCDist"]
+},
+{
+  "url":"#/area/project/xdzx",
+  "datasets":["Area.XDZX"]
+},
+{
+  "url":"#/area/project/zdyf",
+  "datasets":["Area.ZDYF"]
+},
+{
+  "url":"#/area/paper",
+  "datasets":["Area.Paper"]
+},
+{
+  "url":"#/area/patent",
+  "datasets":["Project.Patent"]
+},
+{
+  "url":"#/area/award",
+  "datasets":["Area.AwardTrend", "Area.AwardDetail", "Area.AwardDistribution"]
+},
+{
+  "url":"#/area/doctor",
+  "datasets":["Area.Doctor", "Area.Student"]
+},
+{
+  "url":"#/area/master",
+  "datasets":["Area.Master", "Area.Student"]
+},
+{
+  "url":"#/contrast/tw",
+  "datasets":["FieldContrast.staff", "InstitutionContrast.staff"]
+},
+{
+  "url":"#/contrast/yt",
+  "datasets":["FieldContrast.YoungElite", "InstitutionContrast.YoungElite"]
+},
+{
+  "url":"#/contrast/Project",
+  "datasets":["FieldContrast.Project", "InstitutionContrast.Project"]
+},
+{
+  "url":"#/contrast/Patent",
+  "datasets":["FieldContrast.Patent", "InstitutionContrast.Patent"]
+},
+{
+  "url":"#/contrast/Education",
+  "datasets":["FieldContrast.Education", "InstitutionContrast.Education"]
+},
+{
+  "url":"#/contrast/Paper",
+  "datasets":["FieldContrast.Paper", "InstitutionContrast.Paper"]
+},
+{
+  "url":"#/contrast/Award",
+  "datasets":["FieldContrast.Award", "InstitutionContrast.Award"]
+},
+{
+  "url":"#/contrast/Academican",
+  "datasets":["FieldContrast.Academican", "InstitutionContrast.Academican"]
+},
+{
+	"url":"#TODO",
+	"datasets":["Custom.GETInstitutions", "Custom.GETUserTags", "Custom.GETFieldAffiliations", "Custom.PostNewTag", "Custom.UPDATETag", "CUSTOM.DELETETag"]
 }
 ]

@@ -52,7 +52,7 @@ public class AreaFinanceController extends BaseController {
     @ApiOperation(value= "finance.js对应的/overview", notes= "finance.js对应的/overview")
     @ServiceExecuter(description = "finance.js对应的/overview")
     @RequestMapping(value = "/overview", method = RequestMethod.POST)
-    @Audit(desc="finance.js对应的/overview")
+    @Audit(desc="财务概览（支出、收入、存款月、资产", value="Area.FinanceOverview")
     public AreaFinanceOverviewResponse overviewQuery(
             @RequestBody @Validated AreaFinanceRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -72,7 +72,7 @@ public class AreaFinanceController extends BaseController {
     @ApiOperation(value= "finance.js对应的/income", notes= "finance.js对应的/income")
     @ServiceExecuter(description = "finance.js对应的/income")
     @RequestMapping(value = "/income", method = RequestMethod.POST)
-    @Audit(desc="finance.js对应的/income")
+    @Audit(desc="历年收入趋势", value="Area.FinanceIncome")
     public AreaFinanceIncomeResponse incomeQuery(
             @RequestBody @Validated AreaFinanceRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -93,7 +93,7 @@ public class AreaFinanceController extends BaseController {
     @ApiOperation(value= "finance.js对应的/outcome", notes= "finance.js对应的/outcome")
     @ServiceExecuter(description = "finance.js对应的/outcome")
     @RequestMapping(value = "/outcome", method = RequestMethod.POST)
-    @Audit(desc="finance.js对应的/outcome")
+    @Audit(desc="历年支出趋势", value="Area.FinanceOutcome")
     public AreaFinanceOutcomeResponse outcomeQuery(
             @RequestBody @Validated AreaFinanceRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
@@ -114,7 +114,7 @@ public class AreaFinanceController extends BaseController {
     @ApiOperation(value= "finance.js对应的/rank", notes= "finance.js对应的/rank")
     @ServiceExecuter(description = "finance.js对应的/rank")
     @RequestMapping(value = "/rank", method = RequestMethod.POST)
-    @Audit(desc="finance.js对应的/rank")
+    @Audit(desc="各单位收支统计（总收入、总支出、人均收入、人均支出）", value="Area.FinanceRank")
     public AreaFinanceRankResponse rankQuery(
             @RequestBody @Validated AreaFinanceRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);
