@@ -5,7 +5,6 @@ import cn.arp.trend.data.model.request.contrast.ContrastBaseRequest;
 import cn.arp.trend.service.biz.ContrastYouthTalentService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
-import com.sun.corba.se.spi.ior.ObjectKey;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.*;
 
 /**

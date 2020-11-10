@@ -33,6 +33,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
         }
         catch (Exception e)
         {
+        	System.out.println(e.toString());
             return null;
         }
 
@@ -48,6 +49,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
         }
         catch (Exception e)
         {
+        	System.out.println(e.toString());
             return null;
         }
 
@@ -63,6 +65,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
         }
         catch (Exception e)
         {
+        	System.out.println(e.toString());
             return null;
         }
 
@@ -82,6 +85,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
         }
         catch (Exception e)
         {
+        	System.out.println(e.toString());
             return null;
         }
 
@@ -102,6 +106,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
         }
         catch (Exception e)
         {
+        	System.out.println(e.toString());
             return null;
         }
 
