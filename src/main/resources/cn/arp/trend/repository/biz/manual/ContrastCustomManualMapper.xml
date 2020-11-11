@@ -11,7 +11,7 @@
   <select id="getUserTags" resultType="java.util.HashMap">
     SELECT id, research_field
     FROM v_relation_field_user
-    WHERE user_id = ${userId};
+    WHERE user_id = '${userId}';
   </select>
 
   <select id="getFieldAffiliations" resultType="java.util.HashMap">
