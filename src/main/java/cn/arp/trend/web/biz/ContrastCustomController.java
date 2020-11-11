@@ -1,7 +1,17 @@
 package cn.arp.trend.web.biz;
 
+import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import cn.arp.trend.auth.Audit;
-import cn.arp.trend.data.model.request.contrast.ContrastBaseRequest;
 import cn.arp.trend.data.model.request.contrast.ContrastCustomFieldRequest;
 import cn.arp.trend.data.model.request.contrast.ContrastCustomUserFieldAffiliationRequest;
 import cn.arp.trend.service.biz.ContrastCustomService;
@@ -9,15 +19,6 @@ import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created with IDEA
@@ -133,29 +134,20 @@ public class ContrastCustomController extends BaseController {
         }
 
         HashMap<String, Object> returnMap = new HashMap<String, Object>();
-        try
+        if(res != null
+                && res.containsKey("result")
+                && res.get("result").toString().equals("1")
+                && res.containsKey("id")
+                && Integer.parseInt(res.get("id").toString()) > 0)
         {
-            if(res != null
-                    && res.containsKey("result")
-                    && res.get("result").toString().equals("1")
-                    && res.containsKey("id")
-                    && Integer.parseInt(res.get("id").toString()) > 0)
-            {
-                returnMap.put("code", 200);
-                returnMap.put("msg", "");
-                HashMap<String, Object> data = new HashMap<String, Object>();
-                data.put("id" , Integer.parseInt(res.get("id").toString()));
-                data.put("research_field", "新建领域标签");
-                returnMap.put("data", data);
-            }
-            else
-            {
-                returnMap.put("code", 500);
-                returnMap.put("msg", "SQL查询出错");
-                returnMap.put("data", "error");
-            }
+            returnMap.put("code", 200);
+            returnMap.put("msg", "");
+            HashMap<String, Object> data = new HashMap<String, Object>();
+            data.put("id" , Integer.parseInt(res.get("id").toString()));
+            data.put("research_field", "新建领域标签");
+            returnMap.put("data", data);
         }
-        catch (Exception e)
+        else
         {
             returnMap.put("code", 500);
             returnMap.put("msg", "SQL查询出错");
@@ -178,25 +170,11 @@ public class ContrastCustomController extends BaseController {
     @RequestMapping(value = "/userfieldaffiliation", method = RequestMethod.PUT)
     @Audit(desc="更新标签", value="")
     public HashMap<String, Object> userFieldAffiliation(@RequestBody ContrastCustomUserFieldAffiliationRequest request) {
-
-
-
-        HashMap<String, Object> returnMap = new HashMap<String, Object>();
-        try
-        {
-            returnMap = contrastCustomService.updateRelationFieldAffiliation(
-                    request.getUserId(),
-                    request.getFieldId(),
-                    request.getResearchField(),
-                    request.getAffiliations());
-        }
-        catch (Exception e)
-        {
-            returnMap.put("code", 500);
-            returnMap.put("msg", "SQL查询出错");
-            returnMap.put("data", "error");
-        }
-        return returnMap;
+       return contrastCustomService.updateRelationFieldAffiliation(
+                request.getUserId(),
+                request.getFieldId(),
+                request.getResearchField(),
+                request.getAffiliations());
     }
 
     /*
@@ -214,24 +192,6 @@ public class ContrastCustomController extends BaseController {
     @Audit(desc="删除标签", value="")
     public HashMap<String, Object> deleteUserFieldAffiliation(@PathVariable(name = "userid", required = true) String userId,
                                                               @PathVariable(name = "fieldid", required = true) String fieldId) {
-
-        HashMap<String, Object> returnMap = new HashMap<String, Object>();
-        try
-        {
-            returnMap = contrastCustomService.deleteRelationFieldAffiliation(userId, fieldId);
-        }
-        catch (Exception e)
-        {
-            returnMap.put("code", 500);
-            returnMap.put("msg", "SQL执行出错");
-            returnMap.put("data", "error");
-        }
-        return returnMap;
+        return contrastCustomService.deleteRelationFieldAffiliation(userId, fieldId);
     }
-
-
-
-
-
-
 }
