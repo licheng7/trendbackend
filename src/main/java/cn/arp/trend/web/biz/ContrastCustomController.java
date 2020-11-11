@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import cn.arp.trend.data.model.request.contrast.ContrastCustomUserIdFieldIdRequest;
+import cn.arp.trend.data.model.request.contrast.ContrastCustomUserIdRequest;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,10 +63,11 @@ public class ContrastCustomController extends BaseController {
 
     @ApiOperation(value= "查某用户的领域标签信息，包括标签ID、标签名", notes= "获取数据")
     @ServiceExecuter(description = "查某用户的领域标签信息，包括标签ID、标签名")
-    @RequestMapping(value = "/usertags/{userid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/usertags", method = RequestMethod.POST)
     @Audit(desc="获取用户自定义的标签信息（标签ID、标签名", value="")
-    public HashMap<String, Object> usertags(@PathVariable(name = "userid", required = true) String userId) {
+    public HashMap<String, Object> usertags(@RequestBody ContrastCustomUserIdRequest request) {
 
+        String userId = request.getUserId();
         List<HashMap<String, Object>> res = contrastCustomService.getUserTags(userId);
 
         HashMap<String, Object> returnMap = new HashMap<String, Object>();
@@ -86,10 +89,12 @@ public class ContrastCustomController extends BaseController {
 
     @ApiOperation(value= "查选中领域标签、正在编辑的领域标签对应的单位列表", notes= "获取数据")
     @ServiceExecuter(description = "查选中领域标签、正在编辑的领域标签对应的单位列表")
-    @RequestMapping(value = "/fieldaffiliations/{userid}/{fieldid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/fieldaffiliations", method = RequestMethod.POST)
     @Audit(desc="获取指定标签对应的单位列表", value="")
-    public HashMap<String, Object> fieldAffiliations(@PathVariable(name = "userid", required = true) String userId,
-                                            @PathVariable(name = "fieldid", required = true) String fieldId) {
+    public HashMap<String, Object> fieldAffiliations(@RequestBody ContrastCustomUserIdFieldIdRequest request) {
+
+        String userId = request.getUserId();
+        String fieldId = request.getFieldId();
 
         List<HashMap<String, Object>> res = contrastCustomService.getFieldAffiliations(userId, fieldId);
 
