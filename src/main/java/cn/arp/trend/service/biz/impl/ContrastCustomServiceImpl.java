@@ -35,9 +35,47 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 		return tem1;
 	}
 
+	@Transactional
 	@Override
-	public List<HashMap<String, Object>> getUserTags(String userId) {
-		return contrastCustomTagManualMapper.getUserTags(userId);
+	public List<HashMap<String, Object>> getUserTags(String userId) throws Exception {
+		List<HashMap<String, Object>> userTags = contrastCustomTagManualMapper.getUserTags(userId);
+
+		// new user
+		HashMap<String, ArrayList<String>> researchFildMapJgbhList = new HashMap<String, ArrayList<String>>();
+		if(userTags.size() == 0)
+		{
+			// init researchFildMapJgbhList content
+			List<HashMap<String, Object>> defaultUserTags = contrastCustomTagManualMapper.getUserTags("default");
+			for(HashMap<String, Object> oneitem : defaultUserTags)
+			{
+				String researchField = oneitem.get("research_field").toString();
+				String filedId = oneitem.get("id").toString();
+
+				researchFildMapJgbhList.put(researchField, new ArrayList<String>());
+				List<HashMap<String, Object>> defaultUserAffiliations = contrastCustomTagManualMapper.getFieldAffiliations("default", filedId);
+
+				for(HashMap<String, Object> oneUserAffiliations : defaultUserAffiliations)
+				{
+					researchFildMapJgbhList.get(researchField).add(oneUserAffiliations.get("jgbh").toString());
+				}
+			}
+
+			// add default data to new user
+			for(String researchField : researchFildMapJgbhList.keySet())
+			{
+				HashMap<String, Object> res = addField2(userId, researchField);
+				String fieldId = res.get("id").toString();
+				HashMap<String, Object> temRes = updateRelationFieldAffiliation(userId, fieldId, researchField,researchFildMapJgbhList.get(researchField));
+				if((int)temRes.get("code") != 200)
+				{
+					throw new Exception("给新用户添加默认Tag失败!");
+				}
+			}
+
+			userTags = contrastCustomTagManualMapper.getUserTags(userId);
+		}
+
+		return userTags;
 	}
 
 	@Override

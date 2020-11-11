@@ -14,7 +14,7 @@ public interface ContrastCustomService {
 
     List<HashMap<String, Object>> getAffiliations();
 
-    List<HashMap<String, Object>> getUserTags(String userId);
+    List<HashMap<String, Object>> getUserTags(String userId) throws Exception;
 
     List<HashMap<String, Object>> getFieldAffiliations(String userId, String fieldId);
 

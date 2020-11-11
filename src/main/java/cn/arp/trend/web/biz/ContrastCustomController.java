@@ -65,7 +65,7 @@ public class ContrastCustomController extends BaseController {
     @ServiceExecuter(description = "查某用户的领域标签信息，包括标签ID、标签名")
     @RequestMapping(value = "/usertags", method = RequestMethod.POST)
     @Audit(desc="获取用户自定义的标签信息（标签ID、标签名", value="")
-    public HashMap<String, Object> usertags(@RequestBody ContrastCustomUserIdRequest request) {
+    public HashMap<String, Object> usertags(@RequestBody ContrastCustomUserIdRequest request) throws Exception {
 
         String userId = request.getUserId();
         List<HashMap<String, Object>> res = contrastCustomService.getUserTags(userId);
