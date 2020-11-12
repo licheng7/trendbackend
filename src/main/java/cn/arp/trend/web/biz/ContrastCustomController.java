@@ -193,10 +193,13 @@ public class ContrastCustomController extends BaseController {
     */
     @ApiOperation(value= "删除当前用户选中的领域标签", notes= "删除数据")
     @ServiceExecuter(description = "删除当前用户选中的领域标签")
-    @RequestMapping(value = "/userfieldaffiliation/{userid}/{fieldid}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/userfieldaffiliation", method = RequestMethod.DELETE)
     @Audit(desc="删除标签", value="")
-    public HashMap<String, Object> deleteUserFieldAffiliation(@PathVariable(name = "userid", required = true) String userId,
-                                                              @PathVariable(name = "fieldid", required = true) String fieldId) {
+    public HashMap<String, Object> deleteUserFieldAffiliation(@RequestBody ContrastCustomUserIdFieldIdRequest request) {
+
+        String userId = request.getUserId();
+        String fieldId = request.getFieldId();
+
         return contrastCustomService.deleteRelationFieldAffiliation(userId, fieldId);
     }
 }

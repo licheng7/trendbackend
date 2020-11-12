@@ -19,14 +19,14 @@ import cn.arp.trend.service.biz.ContrastCustomService;
 public class ContrastCustomServiceImpl implements ContrastCustomService {
 
 	@Resource
-	private ContrastCustomManualMapper contrastCustomTagManualMapper;
+	private ContrastCustomManualMapper contrastCustomManualMapper;
 
 	@Override
 	public List<HashMap<String, Object>> getAffiliations() {
 
 		List<HashMap<String, Object>> tem1 = null;
 		try {
-			tem1 = contrastCustomTagManualMapper.getAffiliations();
+			tem1 = contrastCustomManualMapper.getAffiliations();
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			return null;
@@ -38,21 +38,21 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 	@Transactional
 	@Override
 	public List<HashMap<String, Object>> getUserTags(String userId) throws Exception {
-		List<HashMap<String, Object>> userTags = contrastCustomTagManualMapper.getUserTags(userId);
+		List<HashMap<String, Object>> userTags = contrastCustomManualMapper.getUserTags(userId);
 
 		// new user
 		HashMap<String, ArrayList<String>> researchFildMapJgbhList = new HashMap<String, ArrayList<String>>();
 		if(userTags.size() == 0)
 		{
 			// init researchFildMapJgbhList content
-			List<HashMap<String, Object>> defaultUserTags = contrastCustomTagManualMapper.getUserTags("default");
+			List<HashMap<String, Object>> defaultUserTags = contrastCustomManualMapper.getUserTags("default");
 			for(HashMap<String, Object> oneitem : defaultUserTags)
 			{
 				String researchField = oneitem.get("research_field").toString();
 				String filedId = oneitem.get("id").toString();
 
 				researchFildMapJgbhList.put(researchField, new ArrayList<String>());
-				List<HashMap<String, Object>> defaultUserAffiliations = contrastCustomTagManualMapper.getFieldAffiliations("default", filedId);
+				List<HashMap<String, Object>> defaultUserAffiliations = contrastCustomManualMapper.getFieldAffiliations("default", filedId);
 
 				for(HashMap<String, Object> oneUserAffiliations : defaultUserAffiliations)
 				{
@@ -72,7 +72,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 				}
 			}
 
-			userTags = contrastCustomTagManualMapper.getUserTags(userId);
+			userTags = contrastCustomManualMapper.getUserTags(userId);
 		}
 
 		return userTags;
@@ -80,7 +80,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 
 	@Override
 	public List<HashMap<String, Object>> getFieldAffiliations(String userId, String fieldId) {
-		return contrastCustomTagManualMapper.getFieldAffiliations(userId, fieldId);
+		return contrastCustomManualMapper.getFieldAffiliations(userId, fieldId);
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("id", -1);
 		params.put("userId", userId);
-		params.put("result",  contrastCustomTagManualMapper.addField1(params));
+		params.put("result",  contrastCustomManualMapper.addField1(params));
 		return params;
 	}
 
@@ -99,7 +99,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 		params.put("id", -1);
 		params.put("userId", userId);
 		params.put("researchField", researchField);
-		tem1 = contrastCustomTagManualMapper.addField2(params);
+		tem1 = contrastCustomManualMapper.addField2(params);
 		params.put("result", tem1);
 
 		return params;
@@ -116,7 +116,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 		params1.put("userId", userId);
 		params1.put("fieldId", fieldId);
 		params1.put("researchField", researchField);
-		int tem1 = contrastCustomTagManualMapper.updateRelationFieldUser(params1);
+		int tem1 = contrastCustomManualMapper.updateRelationFieldUser(params1);
 
 		if (tem1 == 0) {
 			// 该用户没有创建该标签
@@ -129,7 +129,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 		HashMap<String, Object> params2 = new HashMap<String, Object>();
 		params2.put("userId", userId);
 		params2.put("fieldId", fieldId);
-		int tem2 = contrastCustomTagManualMapper.deleteRelationFieldAffiliation(params2);
+		int tem2 = contrastCustomManualMapper.deleteRelationFieldAffiliation(params2);
 
 		HashMap<String, Object> params3 = new HashMap<String, Object>();
 
@@ -143,7 +143,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 		params3.put("fieldId", fieldId);
 		params3.put("researchField", researchField);
 		params3.put("arrayStr", arrayStr);
-		int tem3 = contrastCustomTagManualMapper.addRelationFieldAffiliation(params3);
+		int tem3 = contrastCustomManualMapper.addRelationFieldAffiliation(params3);
 
 		returnMap.put("msg", "");
 		returnMap.put("code", 200);
@@ -160,7 +160,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 		HashMap<String, Object> params1 = new HashMap<String, Object>();
 		params1.put("userId", userId);
 		params1.put("fieldId", fieldId);
-		int tem1 = contrastCustomTagManualMapper.deleteRelationFieldAffiliation(params1);
+		int tem1 = contrastCustomManualMapper.deleteRelationFieldAffiliation(params1);
 
 		if (tem1 == 0) {
 			returnMap.put("msg", "DELETE 机构出错");
@@ -172,7 +172,7 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 		HashMap<String, Object> params2 = new HashMap<String, Object>();
 		params2.put("userId", userId);
 		params2.put("fieldId", fieldId);
-		int tem2 = contrastCustomTagManualMapper.deleteRelationFieldUser(params2);
+		int tem2 = contrastCustomManualMapper.deleteRelationFieldUser(params2);
 
 		returnMap.put("msg", "");
 		returnMap.put("code", 200);
