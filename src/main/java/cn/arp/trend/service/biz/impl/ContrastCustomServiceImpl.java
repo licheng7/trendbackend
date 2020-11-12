@@ -52,7 +52,11 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 				String filedId = oneitem.get("id").toString();
 
 				researchFildMapJgbhList.put(researchField, new ArrayList<String>());
-				List<HashMap<String, Object>> defaultUserAffiliations = contrastCustomManualMapper.getFieldAffiliations("default", filedId);
+
+				HashMap<String, Object> params = new HashMap<String, Object>();
+				params.put("fieldId", filedId);
+				params.put("userId", "default");
+				List<HashMap<String, Object>> defaultUserAffiliations = contrastCustomManualMapper.getFieldAffiliations(params);
 
 				for(HashMap<String, Object> oneUserAffiliations : defaultUserAffiliations)
 				{
@@ -80,7 +84,12 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 
 	@Override
 	public List<HashMap<String, Object>> getFieldAffiliations(String userId, String fieldId) {
-		return contrastCustomManualMapper.getFieldAffiliations(userId, fieldId);
+
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("fieldId", fieldId);
+		params.put("userId", userId);
+
+		return contrastCustomManualMapper.getFieldAffiliations(params);
 	}
 
 	@Override

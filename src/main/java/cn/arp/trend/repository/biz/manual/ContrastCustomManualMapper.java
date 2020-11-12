@@ -10,7 +10,7 @@ public interface ContrastCustomManualMapper {
 
     List<HashMap<String, Object>> getUserTags(String userId);
 
-    List<HashMap<String, Object>> getFieldAffiliations(String userId, String fieldId);
+    List<HashMap<String, Object>> getFieldAffiliations(Map<String, Object> params);
 
     int addField1(Map<String, Object> params);
     int addField2(Map<String, Object> params);
