@@ -169,19 +169,12 @@ public class ContrastCustomServiceImpl implements ContrastCustomService {
 		HashMap<String, Object> params1 = new HashMap<String, Object>();
 		params1.put("userId", userId);
 		params1.put("fieldId", fieldId);
-		int tem1 = contrastCustomManualMapper.deleteRelationFieldAffiliation(params1);
-
-		if (tem1 == 0) {
-			returnMap.put("msg", "DELETE 机构出错");
-			returnMap.put("code", 500);
-			returnMap.put("data", "error");
-			return params1;
-		}
+		contrastCustomManualMapper.deleteRelationFieldAffiliation(params1);
 
 		HashMap<String, Object> params2 = new HashMap<String, Object>();
 		params2.put("userId", userId);
 		params2.put("fieldId", fieldId);
-		int tem2 = contrastCustomManualMapper.deleteRelationFieldUser(params2);
+		contrastCustomManualMapper.deleteRelationFieldUser(params2);
 
 		returnMap.put("msg", "");
 		returnMap.put("code", 200);
