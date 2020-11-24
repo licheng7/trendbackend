@@ -37,7 +37,7 @@
       ROUND(SUM(sr)/10000,2) AS sr,
       ROUND(SUM(ye)/10000,2) AS ye
     FROM
-    v_stat_arp_fin_asset
+      v_stat_arp_fin_asset
     <where>
       <![CDATA[nf = #{query.year}]]>
       <choose>
@@ -61,7 +61,7 @@
       research_field,
       ROUND(SUM(sr)/10000,2) AS sr
     FROM
-    v_stat_arp_fin_asset AS a, v_ref_org_type AS b
+      v_stat_arp_fin_asset AS a, v_ref_org_type AS b
     <where>
       a.jgbh = b.jgbh
       AND <![CDATA[nf = #{query.year}]]>
@@ -94,7 +94,7 @@
       ROUND(sr/10000,2) AS sr,
       ROUND(ye/10000,2) AS ye
     FROM
-    v_stat_arp_fin_asset
+      v_stat_arp_fin_asset
     <where>
       nf = #{query.endYear}
       <include refid="sql_affiliation_un_otherwise"/>
@@ -106,10 +106,21 @@
     SELECT
       ROUND(SUM(sr)/10000,2) AS sr
     FROM
-    v_stat_arp_fin_asset
+      v_stat_arp_fin_asset
     <where>
       nf = #{query.endYear}
       <include refid="sql_affiliation_un_otherwise"/>
+    </where>
+  </select>
+
+  <select id="queryFinanceOverview3" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.AreaFinanceQueryDO">
+    SELECT
+      ROUND(SUM(sr)/10000,2) AS sr
+    FROM
+      v_stat_arp_fin_asset
+    <where>
+      nf = #{query.endYear}
     </where>
   </select>
 

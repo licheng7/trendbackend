@@ -269,7 +269,7 @@ public class AreaHrServiceImpl extends ConcurrentSupport implements AreaHrServic
         aryValueValue4.put("name", "其它人员人数");
         aryValueValue4.put("value", resultMap.get("qt"));
         List<Map<String, Object>> aryValue = Lists.newArrayList(
-                aryValueValue1, aryValueValue2, aryValueValue3);
+                aryValueValue1, aryValueValue2, aryValueValue3, aryValueValue4);
 
         Map<String, List<Map<String, Object>>> positionAry = Maps.newHashMap();
         positionAry.put("ary_name", aryName);
@@ -283,13 +283,13 @@ public class AreaHrServiceImpl extends ConcurrentSupport implements AreaHrServic
         aryNameValue1.put("name", "高级人数");
         aryNameValue1.put("icon", "roundRect");
         Map<String, Object> aryNameValue2 = Maps.newHashMap();
-        aryNameValue2.put("name", "高级人数");
+        aryNameValue2.put("name", "副高人数");
         aryNameValue2.put("icon", "roundRect");
         Map<String, Object> aryNameValue3 = Maps.newHashMap();
-        aryNameValue3.put("name", "高级人数");
+        aryNameValue3.put("name", "中级人数");
         aryNameValue3.put("icon", "roundRect");
         Map<String, Object> aryNameValue4 = Maps.newHashMap();
-        aryNameValue4.put("name", "高级人数");
+        aryNameValue4.put("name", "初级人数");
         aryNameValue4.put("icon", "roundRect");
         List<Map<String, Object>> aryName = Lists.newArrayList(
                 aryNameValue1, aryNameValue2, aryNameValue3, aryNameValue4);
@@ -298,16 +298,16 @@ public class AreaHrServiceImpl extends ConcurrentSupport implements AreaHrServic
         aryValueValue1.put("name", "高级人数");
         aryValueValue1.put("value", resultMap.get("gj"));
         Map<String, Object> aryValueValue2 = Maps.newHashMap();
-        aryValueValue2.put("name", "高级人数");
+        aryValueValue2.put("name", "副高人数");
         aryValueValue2.put("value", resultMap.get("fg"));
         Map<String, Object> aryValueValue3 = Maps.newHashMap();
-        aryValueValue3.put("name", "高级人数");
+        aryValueValue3.put("name", "中级人数");
         aryValueValue3.put("value", resultMap.get("zj"));
         Map<String, Object> aryValueValue4 = Maps.newHashMap();
-        aryValueValue4.put("name", "高级人数");
+        aryValueValue4.put("name", "初级人数");
         aryValueValue4.put("value", resultMap.get("cj"));
         List<Map<String, Object>> aryValue = Lists.newArrayList(
-                aryValueValue1, aryValueValue2, aryValueValue3);
+                aryValueValue1, aryValueValue2, aryValueValue3, aryValueValue4);
 
         Map<String, List<Map<String, Object>>> titleAry = Maps.newHashMap();
         titleAry.put("ary_name", aryName);

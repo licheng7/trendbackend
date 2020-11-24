@@ -43,7 +43,11 @@ public class AreaFinanceServiceImpl extends AbstructServiceHelper implements Are
         List<Map<String, Object>> queryResult2
                 = statArpFinAssetManualMapper.queryFinanceOverview2(query);
 
-        return new AreaFinanceOverviewInfoDTO(Lists.newArrayList(queryResult, queryResult2, queryResult2));
+        List<Map<String, Object>> queryResult3
+                = statArpFinAssetManualMapper.queryFinanceOverview3(query);
+
+        return new AreaFinanceOverviewInfoDTO(Lists.newArrayList(queryResult, queryResult3,
+                queryResult2));
     }
 
     @Override
@@ -99,16 +103,16 @@ public class AreaFinanceServiceImpl extends AbstructServiceHelper implements Are
         czbzMap.put("value", czbzAry);
 
         Map<String, Object> sysrMap = Maps.newHashMap();
-        czbzMap.put("name", "事业收入");
-        czbzMap.put("value", sysrAry);
+        sysrMap.put("name", "事业收入");
+        sysrMap.put("value", sysrAry);
 
         Map<String, Object> jysrMap = Maps.newHashMap();
-        czbzMap.put("name", "经营收入");
-        czbzMap.put("value", jysrAry);
+        jysrMap.put("name", "经营收入");
+        jysrMap.put("value", jysrAry);
 
         Map<String, Object> qtsrMap = Maps.newHashMap();
-        czbzMap.put("name", "其他收入");
-        czbzMap.put("value", qtsrAry);
+        qtsrMap.put("name", "其他收入");
+        qtsrMap.put("value", qtsrAry);
 
         List<Map<String, Object>> dataAry = Lists.newArrayList(
                 czbzMap, sysrMap, jysrMap, qtsrMap);
@@ -160,15 +164,15 @@ public class AreaFinanceServiceImpl extends AbstructServiceHelper implements Are
         });
 
         Map<String, Object> ryzcMap = Maps.newHashMap();
-        ryzcMap.put("name", "财政补助收入");
+        ryzcMap.put("name", "人员支出");
         ryzcMap.put("value", ryzcAry);
 
         Map<String, Object> gyzcMap = Maps.newHashMap();
-        gyzcMap.put("name", "事业收入");
+        gyzcMap.put("name", "公用支出");
         gyzcMap.put("value", gyzcAry);
 
         Map<String, Object> jyzcMap = Maps.newHashMap();
-        jyzcMap.put("name", "经营收入");
+        jyzcMap.put("name", "经营支出");
         jyzcMap.put("value", jyzcAry);
 
         List<Map<String, Object>> dataAry = Lists.newArrayList(

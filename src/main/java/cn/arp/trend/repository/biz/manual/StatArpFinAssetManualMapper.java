@@ -36,4 +36,11 @@ public interface StatArpFinAssetManualMapper {
      * @return
      */
     List<Map<String, Object>> queryFinanceOverview2(@Param("query") AreaFinanceQueryDO query);
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Map<String, Object>> queryFinanceOverview3(@Param("query") AreaFinanceQueryDO query);
 }
