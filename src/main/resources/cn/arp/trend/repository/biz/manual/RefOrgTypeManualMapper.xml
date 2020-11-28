@@ -962,9 +962,8 @@
       <where>
           a.jgmc = b.jgmc
           <choose>
-              <when
-                      test="query.category != null and query.category != '全部资助类别' and query.category != ''">
-                  AND AND zzlb = #{query.category}
+              <when test="query.category != null and query.category != '全部资助类别' and query.category != ''">
+                  AND zzlb = #{query.category}
               </when>
           </choose>
           AND <![CDATA[nf >= #{query.startYear}]]>
@@ -985,7 +984,7 @@
             a.jgmc = b.jgmc
             <choose>
                 <when test="query.category != null and query.category != '全部资助类别' and query.category != ''">
-                    AND AND zzlb = #{query.category}
+                    AND zzlb = #{query.category}
                 </when>
             </choose>
             AND <![CDATA[nf >= #{query.startYear}]]>

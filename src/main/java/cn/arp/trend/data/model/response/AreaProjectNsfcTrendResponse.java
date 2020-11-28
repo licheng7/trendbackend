@@ -22,11 +22,11 @@ public class AreaProjectNsfcTrendResponse implements Serializable {
     @JsonProperty("project_num_data")
     private List<Integer> projectNumData;
 
-    @JsonProperty("expenditure_num_data")
-    private List<Integer> expenditureNumData;
+    /*@JsonProperty("expenditure_num_data")
+    private List<Integer> expenditureNumData;*/
 
-    @JsonProperty("ARP_project_num_data")
-    private List<Integer> ARPProjectNumData;
+    /*@JsonProperty("ARP_project_num_data")
+    private List<Integer> ARPProjectNumData;*/
 
     @JsonProperty("ARP_expenditure_num_data")
     private List<Integer> ARPExpenditureNumData;
@@ -53,7 +53,7 @@ public class AreaProjectNsfcTrendResponse implements Serializable {
         this.projectNumData = projectNumData;
     }
 
-    public List<Integer> getExpenditureNumData() {
+    /*public List<Integer> getExpenditureNumData() {
         return expenditureNumData;
     }
 
@@ -67,7 +67,7 @@ public class AreaProjectNsfcTrendResponse implements Serializable {
 
     public void setARPProjectNumData(List<Integer> ARPProjectNumData) {
         this.ARPProjectNumData = ARPProjectNumData;
-    }
+    }*/
 
     public List<Integer> getARPExpenditureNumData() {
         return ARPExpenditureNumData;
@@ -93,11 +93,9 @@ public class AreaProjectNsfcTrendResponse implements Serializable {
         this.resultArray = resultArray;
     }
 
-    public AreaProjectNsfcTrendResponse(List<String> yearList, List<Integer> projectNumData, List<Integer> expenditureNumData, List<Integer> ARPProjectNumData, List<Integer> ARPExpenditureNumData, String updateTime, List<List<Map<String, Object>>> resultArray) {
+    public AreaProjectNsfcTrendResponse(List<String> yearList, List<Integer> projectNumData, List<Integer> ARPExpenditureNumData, String updateTime, List<List<Map<String, Object>>> resultArray) {
         this.yearList = yearList;
         this.projectNumData = projectNumData;
-        this.expenditureNumData = expenditureNumData;
-        this.ARPProjectNumData = ARPProjectNumData;
         this.ARPExpenditureNumData = ARPExpenditureNumData;
         this.updateTime = updateTime;
         this.resultArray = resultArray;

@@ -143,9 +143,10 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
     @Override
     public PaperInfoDTO paperQuery(String startYear, String endYear) {
 
-        List<String> yearlist = this.buildYearlist(startYear, endYear);
+        List<String> newYearlist = this.buildYearlist(startYear, endYear);
 
-        List<String> newYearlist = yearlist.stream().map(str -> str+"年").collect(Collectors.toList());
+        /*List<String> newYearlist = yearlist.stream().map(str -> str).collect(Collectors
+                .toList());*/
 
         List<CasPxxJcptCdsysXwPxLwKxjFmjJbj> paperResultList =
                 casPxxJcptCdsysXwPxLwKxjFmjJbjManualMapper.queryPaper(startYear, endYear);

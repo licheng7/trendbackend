@@ -59,8 +59,10 @@ public class AreaPatentServiceImpl extends ConcurrentSupport implements AreaPate
             bizList.get("lj").add(null);
             bizList.get("xz").add(null);
         } else {
-            bizList.get("lj").add(resultMap.get("lj") == null ? null : resultMap.get("lj"));
-            bizList.get("xz").add(resultMap.get("pz") == null ? null : resultMap.get("xz"));
+            bizList.get("lj").add(resultMap == null ? null :
+                    (resultMap.get("lj") == null ? null : resultMap.get("lj")));
+            bizList.get("xz").add(resultMap == null ? null :
+                    (resultMap.get("xz") == null ? null : resultMap.get("xz")));
         }
     }
 
@@ -71,9 +73,12 @@ public class AreaPatentServiceImpl extends ConcurrentSupport implements AreaPate
             bizList.get("pz").add(null);
             bizList.get("sx").add(null);
         } else {
-            bizList.get("sq").add(resultMap.get("sq") == null ? null : resultMap.get("sq"));
-            bizList.get("pz").add(resultMap.get("pz") == null ? null : resultMap.get("pz"));
-            bizList.get("sx").add(resultMap.get("sx") == null ? null : resultMap.get("sx"));
+            bizList.get("sq").add(resultMap == null ? null : (resultMap.get("sq") == null ? null :
+                    resultMap.get("sq")));
+            bizList.get("pz").add(resultMap == null ? null : (resultMap.get("pz") == null ? null
+                    : resultMap.get("pz")));
+            bizList.get("sx").add(resultMap == null ? null : (resultMap.get("sx") == null ? null
+                    : resultMap.get("sx")));
         }
     }
 
@@ -145,10 +150,14 @@ public class AreaPatentServiceImpl extends ConcurrentSupport implements AreaPate
         List<Map<String, Object>> originalInvent2List = queryResult.get(task8.getTaskName());
         List<Map<String, Object>> pCTOriginalInvent2List = queryResult.get(task9.getTaskName());
 
-        Map<String, Object> originalInventProportion = originalInventList.get(0);
-        Map<String, Object> pCTOriginalInventProportion = pCTOriginalInventList.get(0);
-        Map<String, Object> originalInventProportionRemain = originalInvent2List.get(0);
-        Map<String, Object> pCTOriginalInventProportionRemain = pCTOriginalInvent2List.get(0);
+        Map<String, Object> originalInventProportion =
+                originalInventList == null ? null : originalInventList.get(0);
+        Map<String, Object> pCTOriginalInventProportion =
+                pCTOriginalInventList == null ? null : pCTOriginalInventList.get(0);
+        Map<String, Object> originalInventProportionRemain =
+                originalInvent2List == null ? null : originalInvent2List.get(0);
+        Map<String, Object> pCTOriginalInventProportionRemain =
+                pCTOriginalInvent2List == null ? null : pCTOriginalInvent2List.get(0);
 
         List<String> yearList = this.buildYearlist(query.getStartYear(), query.getEndYear());
 
@@ -172,21 +181,27 @@ public class AreaPatentServiceImpl extends ConcurrentSupport implements AreaPate
 
         Map<String, Object> originalInventProportionMap1 = Maps.newHashMap();
         originalInventProportionMap1.put("name", "所选申请");
-        originalInventProportionMap1.put("value", originalInventProportion.get("sq"));
+        originalInventProportionMap1.put("value", originalInventProportion == null ? 0 :
+                originalInventProportion.get("sq"));
         Map<String, Object> originalInventProportionMap2 = Maps.newHashMap();
         originalInventProportionMap2.put("name", "其他申请");
-        originalInventProportionMap2.put("value", ((Number) originalInventProportionRemain.get
-                ("sq")).intValue() - ((Number) originalInventProportion.get("sq")).intValue());
+        originalInventProportionMap2.put("value", (originalInventProportionRemain == null ? 0 :
+                ((Number) originalInventProportionRemain.get("sq")).intValue()) -
+                (originalInventProportion == null ? 0 :
+                        ((Number) originalInventProportion.get("sq")).intValue()));
         List<Map<String, Object>> inventproportion = Lists.newArrayList
                 (originalInventProportionMap1, originalInventProportionMap2);
 
         Map<String, Object> pCTInventProportionMap1 = Maps.newHashMap();
         pCTInventProportionMap1.put("name", "所选新增");
-        pCTInventProportionMap1.put("value", pCTOriginalInventProportion.get("xz"));
+        pCTInventProportionMap1.put("value", pCTOriginalInventProportion == null ? 0 :
+                pCTOriginalInventProportion.get("xz"));
         Map<String, Object> pCTInventProportionMap2 = Maps.newHashMap();
         pCTInventProportionMap2.put("name", "其他新增");
-        pCTInventProportionMap2.put("value", ((Number) pCTOriginalInventProportionRemain.get
-                ("xz")).intValue() - ((Number) pCTOriginalInventProportion.get("xz")).intValue());
+        pCTInventProportionMap2.put("value", (pCTOriginalInventProportionRemain == null ? 0 : (
+                (Number) pCTOriginalInventProportionRemain.get
+                ("xz")).intValue()) - (pCTOriginalInventProportion == null ? 0 : (Number)
+                pCTOriginalInventProportion.get("xz")).intValue());
         List<Map<String, Object>> pCTInventProportion = Lists.newArrayList
                 (pCTInventProportionMap1, pCTInventProportionMap2);
 

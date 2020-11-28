@@ -125,8 +125,6 @@ public class AreaProjectController extends BaseController {
         return new AreaProjectNsfcTrendResponse(
                 areaProjectNsfcTrendInfo.getYearList(),
                 areaProjectNsfcTrendInfo.getProjectNumData(),
-                areaProjectNsfcTrendInfo.getExpenditureNumData(),
-                areaProjectNsfcTrendInfo.getARPProjectNumData(),
                 areaProjectNsfcTrendInfo.getARPExpenditureNumData(),
                 areaProjectNsfcTrendInfo.getUpdateTime(),
                 areaProjectNsfcTrendInfo.getResultArray()

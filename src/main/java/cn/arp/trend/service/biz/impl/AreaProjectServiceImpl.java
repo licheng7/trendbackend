@@ -158,12 +158,12 @@ public class AreaProjectServiceImpl extends AbstructServiceHelper implements Are
                         .intValue() * -1)).collect(Collectors.toList());
 
         Map<String, Object> tasktotal = Maps.newHashMap();
-        tasktotal.put("all", proAll.get("xm"));
-        tasktotal.put("select", proSelect.get("xm"));
+        tasktotal.put("all", proAll == null ? 0 : proAll.get("xm"));
+        tasktotal.put("select", proSelect == null ? 0 : proSelect.get("xm"));
 
         Map<String, Object> expenditureTotal = Maps.newHashMap();
-        expenditureTotal.put("all", proAll.get("jf"));
-        expenditureTotal.put("select", proSelect.get("jf"));
+        expenditureTotal.put("all", proAll == null ? 0 : proAll.get("jf"));
+        expenditureTotal.put("select", proSelect == null ? 0 : proSelect.get("jf"));
 
         AreaProjectZdyfInfoDTO info = new AreaProjectZdyfInfoDTO();
         info.setUpdateTime(AbstructServiceHelper.UPDATETIME);
@@ -263,12 +263,12 @@ public class AreaProjectServiceImpl extends AbstructServiceHelper implements Are
                         .intValue() * -1)).collect(Collectors.toList());
 
         Map<String, Object> projectTotal = Maps.newHashMap();
-        projectTotal.put("all", proAll.get("xm"));
-        projectTotal.put("select", proSelect.get("xm"));
+        projectTotal.put("all", proAll == null ? 0 : proAll.get("xm"));
+        projectTotal.put("select", proSelect == null ? 0 : proSelect.get("xm"));
 
         Map<String, Object> expenditureTotal = Maps.newHashMap();
-        expenditureTotal.put("all", proAll.get("jf"));
-        expenditureTotal.put("select", proSelect.get("jf"));
+        expenditureTotal.put("all", proAll == null ? 0 : proAll.get("jf"));
+        expenditureTotal.put("select", proSelect == null ? 0 : proSelect.get("jf"));
 
         AreaProjectNsfcDistInfoDTO info = new AreaProjectNsfcDistInfoDTO();
         info.setUpdateTime(AbstructServiceHelper.UPDATETIME);

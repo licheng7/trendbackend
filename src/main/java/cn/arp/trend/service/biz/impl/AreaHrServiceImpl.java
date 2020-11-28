@@ -223,13 +223,13 @@ public class AreaHrServiceImpl extends ConcurrentSupport implements AreaHrServic
 
         Map<String, Object> aryValueValue1 = Maps.newHashMap();
         aryValueValue1.put("name", "在编人员人数");
-        aryValueValue1.put("value", resultMap.get("zb"));
+        aryValueValue1.put("value", resultMap == null ? 0 : resultMap.get("zb"));
         Map<String, Object> aryValueValue2 = Maps.newHashMap();
         aryValueValue2.put("name", "流动人员人数");
-        aryValueValue2.put("value", resultMap.get("ld"));
+        aryValueValue2.put("value", resultMap == null ? 0 : resultMap.get("ld"));
         Map<String, Object> aryValueValue3 = Maps.newHashMap();
         aryValueValue3.put("name", "退休人员人数");
-        aryValueValue3.put("value", resultMap.get("tx"));
+        aryValueValue3.put("value", resultMap == null ? 0 : resultMap.get("tx"));
         List<Map<String, Object>> aryValue = Lists.newArrayList(
                 aryValueValue1, aryValueValue2, aryValueValue3);
 
@@ -258,16 +258,16 @@ public class AreaHrServiceImpl extends ConcurrentSupport implements AreaHrServic
 
         Map<String, Object> aryValueValue1 = Maps.newHashMap();
         aryValueValue1.put("name", "科研人员人数");
-        aryValueValue1.put("value", resultMap.get("ky"));
+        aryValueValue1.put("value", resultMap == null ? 0 : resultMap.get("ky"));
         Map<String, Object> aryValueValue2 = Maps.newHashMap();
         aryValueValue2.put("name", "管理人员人数");
-        aryValueValue2.put("value", resultMap.get("gl"));
+        aryValueValue2.put("value", resultMap == null ? 0 : resultMap.get("gl"));
         Map<String, Object> aryValueValue3 = Maps.newHashMap();
         aryValueValue3.put("name", "支撑人员人数");
-        aryValueValue3.put("value", resultMap.get("zc"));
+        aryValueValue3.put("value", resultMap == null ? 0 : resultMap.get("zc"));
         Map<String, Object> aryValueValue4 = Maps.newHashMap();
         aryValueValue4.put("name", "其它人员人数");
-        aryValueValue4.put("value", resultMap.get("qt"));
+        aryValueValue4.put("value", resultMap == null ? 0 : resultMap.get("qt"));
         List<Map<String, Object>> aryValue = Lists.newArrayList(
                 aryValueValue1, aryValueValue2, aryValueValue3, aryValueValue4);
 
@@ -296,16 +296,16 @@ public class AreaHrServiceImpl extends ConcurrentSupport implements AreaHrServic
 
         Map<String, Object> aryValueValue1 = Maps.newHashMap();
         aryValueValue1.put("name", "高级人数");
-        aryValueValue1.put("value", resultMap.get("gj"));
+        aryValueValue1.put("value", resultMap == null ? 0 : resultMap.get("gj"));
         Map<String, Object> aryValueValue2 = Maps.newHashMap();
         aryValueValue2.put("name", "副高人数");
-        aryValueValue2.put("value", resultMap.get("fg"));
+        aryValueValue2.put("value", resultMap == null ? 0 : resultMap.get("fg"));
         Map<String, Object> aryValueValue3 = Maps.newHashMap();
         aryValueValue3.put("name", "中级人数");
-        aryValueValue3.put("value", resultMap.get("zj"));
+        aryValueValue3.put("value", resultMap == null ? 0 : resultMap.get("zj"));
         Map<String, Object> aryValueValue4 = Maps.newHashMap();
         aryValueValue4.put("name", "初级人数");
-        aryValueValue4.put("value", resultMap.get("cj"));
+        aryValueValue4.put("value", resultMap == null ? 0 : resultMap.get("cj"));
         List<Map<String, Object>> aryValue = Lists.newArrayList(
                 aryValueValue1, aryValueValue2, aryValueValue3, aryValueValue4);
 

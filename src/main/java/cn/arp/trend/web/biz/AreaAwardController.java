@@ -1,7 +1,6 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
-import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.DO.DetailAwardDetailQueryDO;
 import cn.arp.trend.data.model.DO.DetailAwardDistributionQueryDO;
 import cn.arp.trend.data.model.DO.DetailAwardTrendQueryDO;
@@ -39,7 +38,7 @@ import javax.annotation.Resource;
 @Api(value="AreaAward", tags={"对应领域部分detailAward.js"})
 @RestController
 @RequestMapping(value = "/area/award")
-@RequirePermission(dataset=true)
+//@RequirePermission(dataset=true)
 public class AreaAwardController extends BaseController {
 
     @Resource

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -91,6 +92,9 @@ public class DetailAssetServiceImpl implements DetailAssetService {
         List<Map<String, Object>> fieldDis;
 
         if(yearInt >= 2019) {
+            if(yearInt == Calendar.getInstance().get(Calendar.YEAR)) {
+                query.setYear(String.valueOf(yearInt - 1));
+            }
             detailOriginal = statArpFinIncomeManualMapper.queryAssetDetail1(query);
             fieldDis = statArpFinIncomeManualMapper.queryAssetDetail1(query);
         } else {
