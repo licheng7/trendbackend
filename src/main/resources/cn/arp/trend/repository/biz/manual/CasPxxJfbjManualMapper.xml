@@ -33,4 +33,44 @@
       <![CDATA[year<=#{endYear}]]>
     </where>
   </select>
+
+  <select id="queryNewFunds" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT name, year, amount
+    FROM v_cas_pxx_jfbj
+    <where>
+      <![CDATA[year>=#{startYear}]]>
+      AND
+      <![CDATA[year<=#{endYear}]]>
+    </where>
+    AND jsys="决算"
+    AND `name` in ("中国科学院","北京大学","清华大学","复旦大学","上海交通大学","南京大学","浙江大学","中国科学技术大学","哈尔滨工业大学","西安交通大学")
+    UNION
+    SELECT `name`, `year`, amount
+    FROM v_cas_pxx_jfbj
+    <where>
+      <![CDATA[year=#{ysYear}]]>
+    </where>
+    AND jsys="预算"
+    AND `name` in ("中国科学院","北京大学","清华大学","复旦大学","上海交通大学","南京大学","浙江大学","中国科学技术大学","哈尔滨工业大学","西安交通大学");
+  </select>
+
+  <select id="queryNewFinance" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT `name`, `year`, finance_fund
+    FROM v_cas_pxx_jfbj
+    <where>
+      <![CDATA[year>=#{startYear}]]>
+      AND
+      <![CDATA[year<=#{endYear}]]>
+    </where>
+    AND jsys="决算"
+    AND `name` in ("中国科学院","北京大学","清华大学","复旦大学","上海交通大学","南京大学","浙江大学","中国科学技术大学","哈尔滨工业大学","西安交通大学")
+    UNION
+    SELECT `name`, `year`, finance_fund
+    FROM v_cas_pxx_jfbj
+    <where>
+      <![CDATA[year=#{ysYear}]]>
+    </where>
+    AND jsys="预算"
+    AND `name` in ("中国科学院","北京大学","清华大学","复旦大学","上海交通大学","南京大学","浙江大学","中国科学技术大学","哈尔滨工业大学","西安交通大学");
+  </select>
 </mapper>
