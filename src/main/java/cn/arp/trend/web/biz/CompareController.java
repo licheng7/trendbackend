@@ -1,5 +1,6 @@
 package cn.arp.trend.web.biz;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -81,6 +82,19 @@ public class CompareController extends BaseController {
         return new FundsResponse(fundsInfo.getYear(), fundsInfo.getDetail(), fundsInfo.getUpdateTime());
     }
 
+    @ApiOperation(value= "科研投入-总经费(新)", notes= "科研投入-总经费(新)")
+    @ServiceExecuter(description = "科研投入-总经费(新)")
+    @RequestMapping(value = "/newfunds", method = RequestMethod.POST)
+    @Audit(desc="中科院和C9高校总经费对比(新)", value="Comparison.Funds")
+    public FundsResponse newfundsQuery() throws RestError {
+        Calendar cal = Calendar.getInstance();
+        Integer ysYear = cal.get(Calendar.YEAR);
+        Integer endYear = cal.get(Calendar.YEAR) - 1;
+        Integer startYear = ysYear - 10;
+        FundsInfoDTO fundsInfo = compareService.newfundsQuery(startYear.toString(), endYear.toString(), ysYear.toString());
+        return new FundsResponse(fundsInfo.getYear(), fundsInfo.getDetail(), fundsInfo.getUpdateTime());
+    }
+
     @ApiOperation(value= "科研投入-财政拨款", notes= "科研投入-财政拨款")
     @ServiceExecuter(description = "科研投入-财政拨款")
     @RequestMapping(value = "/finance", method = RequestMethod.POST)
@@ -91,6 +105,22 @@ public class CompareController extends BaseController {
         validData(bindingResult);
         FinanceInfoDTO financeInfo = compareService.financeQuery(request.getStartYear(), request
                 .getEndYear());
+        return new FinanceResponse(
+                financeInfo.getYear(),
+                financeInfo.getDetail(),
+                financeInfo.getUpdateTime());
+    }
+
+    @ApiOperation(value= "科研投入-财政拨款(新)", notes= "科研投入-财政拨款(新)")
+    @ServiceExecuter(description = "科研投入-财政拨款(新)")
+    @RequestMapping(value = "/newfinance", method = RequestMethod.POST)
+    @Audit(desc="中科院和C9高校财政拨款对比(新)", value="Comparison.Finance")
+    public FinanceResponse newfinanceQuery() throws RestError {
+        Calendar cal = Calendar.getInstance();
+        Integer ysYear = cal.get(Calendar.YEAR);
+        Integer endYear = cal.get(Calendar.YEAR) - 1;
+        Integer startYear = ysYear - 10;
+        FinanceInfoDTO financeInfo = compareService.newfinanceQuery(startYear.toString(), endYear.toString(), ysYear.toString());
         return new FinanceResponse(
                 financeInfo.getYear(),
                 financeInfo.getDetail(),
