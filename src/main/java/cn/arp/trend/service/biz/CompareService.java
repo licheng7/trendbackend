@@ -15,7 +15,11 @@ public interface CompareService {
 
     FundsInfoDTO fundsQuery(String startYear, String endYear);
 
+    FundsInfoDTO newfundsQuery(String startYear, String endYear, String ysYear);
+
     FinanceInfoDTO financeQuery(String startYear, String endYear);
+
+    FinanceInfoDTO newfinanceQuery(String startYear, String endYear, String ysYear);
 
     PaperInfoDTO paperQuery(String startYear, String endYear);
 
