@@ -108,19 +108,19 @@ public class DetailPatentServiceImpl extends AbstructServiceHelper implements De
             String nf = (String) map.get("nf");
             if(ljMap.containsKey(nf)) {
                 ljMap.put(nf, (ljMap.get(nf) == null ? 0L : ljMap.get(nf))
-                        + ((Number) map.get("lj")).longValue());
+                        + (map.get("lj") == null ? 0L : ((Number) map.get("lj")).longValue()));
             }
             if(xzMap.containsKey(nf)) {
                 xzMap.put(nf, (xzMap.get(nf) == null ? 0L : xzMap.get(nf))
-                        + ((Number) map.get("xz")).longValue());
+                        + (map.get("xz") == null ? 0L : ((Number) map.get("xz")).longValue()));
             }
             if(sxMap.containsKey(nf)) {
                 sxMap.put(nf, (sxMap.get(nf) == null ? 0L : sxMap.get(nf))
-                        + ((Number) map.get("sx")).longValue());
+                        + (map.get("sx") == null ? 0L : ((Number) map.get("sx")).longValue()));
             }
             if(yxMap.containsKey(nf)) {
                 yxMap.put(nf, (yxMap.get(nf) == null ? 0L : yxMap.get(nf))
-                        + ((Number) map.get("yx")).longValue());
+                        + (map.get("yx") == null ? 0L : ((Number) map.get("yx")).longValue()));
             }
         });
 
