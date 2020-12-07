@@ -603,9 +603,9 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.YEAR, 0);
+        calendar.add(Calendar.YEAR, -1);
         String endYearStr = simpleDateFormat.format(calendar.getTime());
-        calendar.add(Calendar.YEAR, -4);
+        calendar.add(Calendar.YEAR, -5);
         String startYearStr = simpleDateFormat.format(calendar.getTime());
 
         int startYearInt = Integer.valueOf(startYearStr);
