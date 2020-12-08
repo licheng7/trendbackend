@@ -1,10 +1,20 @@
 package cn.arp.trend.web.biz;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
+import cn.arp.trend.data.model.DO.ComeAnalyseQueryDO;
+import cn.arp.trend.data.model.DO.GoAnalyseQueryDO;
+import cn.arp.trend.data.model.DTO.*;
+import cn.arp.trend.data.model.converter.*;
+import cn.arp.trend.data.model.request.ComeAnalyseRequest;
+import cn.arp.trend.data.model.request.GoAnalyseRequest;
+import cn.arp.trend.data.model.response.*;
+import cn.arp.trend.error.RestError;
+import cn.arp.trend.service.biz.CollaborationService;
+import cn.arp.trend.tools.annotation.ServiceExecuter;
+import cn.arp.trend.web.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,34 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.arp.trend.auth.Audit;
-import cn.arp.trend.auth.RequirePermission;
-import cn.arp.trend.data.model.DO.ComeAnalyseQueryDO;
-import cn.arp.trend.data.model.DO.GoAnalyseQueryDO;
-import cn.arp.trend.data.model.DTO.ComeAnalyseInfoDTO;
-import cn.arp.trend.data.model.DTO.GoAnalyseInfoDTO;
-import cn.arp.trend.data.model.DTO.LinksInfoDTO;
-import cn.arp.trend.data.model.DTO.Rank2InfoDTO;
-import cn.arp.trend.data.model.DTO.RankInfoDTO;
-import cn.arp.trend.data.model.converter.ComeAnalyseInfoConverter;
-import cn.arp.trend.data.model.converter.ComeAnalyseRequestConverter;
-import cn.arp.trend.data.model.converter.GoAnalyseInfoConverter;
-import cn.arp.trend.data.model.converter.GoAnalyseRequestConverter;
-import cn.arp.trend.data.model.converter.RankInfoConverter;
-import cn.arp.trend.data.model.request.ComeAnalyseRequest;
-import cn.arp.trend.data.model.request.GoAnalyseRequest;
-import cn.arp.trend.data.model.response.ComeAnalyseResponse;
-import cn.arp.trend.data.model.response.CountryNumResponse;
-import cn.arp.trend.data.model.response.GoAnalyseResponse;
-import cn.arp.trend.data.model.response.LinksInfoReponse;
-import cn.arp.trend.data.model.response.Rank2InfoResponse;
-import cn.arp.trend.data.model.response.RankInfoResponse;
-import cn.arp.trend.error.RestError;
-import cn.arp.trend.service.biz.CollaborationService;
-import cn.arp.trend.tools.annotation.ServiceExecuter;
-import cn.arp.trend.web.BaseController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 对应Node代码中collaboration.js

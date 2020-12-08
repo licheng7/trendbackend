@@ -420,13 +420,22 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
         }
 
         List<MapResultDTO> platformList = Lists.newArrayList();
-        for(String name : totalPlatform.keySet()) {
+        /*for(String name : totalPlatform.keySet()) {
             if(name.equals("中科院") || name.equals("C9高校")) {
                 List<Double> countList = Lists.newArrayList();
                 Map<String, Double> map = totalPlatform.get(name);
                 map.entrySet().stream().forEach(obj -> countList.add(obj.getValue()));
                 platformList.add(new MapResultDTO<String, List<Double>>(
                         name.equals("中科院") ? "中国科学院" : name, countList));
+            }
+        }*/
+
+        for(String name : totalPlatform.keySet()) {
+            if(name.equals("中国科学院") || name.equals("C9高校")) {
+                List<Double> countList = Lists.newArrayList();
+                Map<String, Double> map = totalPlatform.get(name);
+                map.entrySet().stream().forEach(obj -> countList.add(obj.getValue()));
+                platformList.add(new MapResultDTO<String, List<Double>>(name, countList));
             }
         }
 

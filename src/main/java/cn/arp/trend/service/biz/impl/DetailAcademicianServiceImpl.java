@@ -75,7 +75,11 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
         List<Integer> allYearAry = this.fillArray(10, Integer.class, 0);
 
         List<Integer> yearAry = Lists.newArrayList();
-        for(int i=2010; i<2020; i++) {
+
+        int startYear = Integer.parseInt(query.getStartYear());
+        int endYear = Integer.parseInt(query.getEndYear());
+
+        for(int i = startYear; i < endYear; i ++) {
             yearAry.add(i);
         }
 

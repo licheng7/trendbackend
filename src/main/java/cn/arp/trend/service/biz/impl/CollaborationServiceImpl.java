@@ -383,7 +383,7 @@ public class CollaborationServiceImpl implements CollaborationService {
             }
         }
 
-        List<TempObjDTO> tempObjList = Lists.newArrayList();
+        List<List<TempObjDTO>> tempObjLists = Lists.newArrayList();
 
         for(String city : cityAndCountryObjMap.keySet()) {
             List<String> countylist = cityAndCountryObjMap.get(city);
@@ -396,9 +396,12 @@ public class CollaborationServiceImpl implements CollaborationService {
                     tempCountryMap.put(country, 1);
                 }
             }
+
+            List<TempObjDTO> tempObjList = Lists.newArrayList();
             for(String country : tempCountryMap.keySet()) {
                 tempObjList.add(new TempObjDTO(city, country, tempCountryMap.get(country)));
             }
+            tempObjLists.add(tempObjList);
         }
 
         Map<String, Integer> sortedComeCountryObjMap = Maps.newHashMap();
@@ -516,7 +519,7 @@ public class CollaborationServiceImpl implements CollaborationService {
         comeAnalyseInfo.setCountryNumObject(countryNumberObjectList2);
         comeAnalyseInfo.setTopTenCountryName(topTenCountryName);
         comeAnalyseInfo.setTopTenCountryList(topTenCountryList);
-        comeAnalyseInfo.setCityAndCountryMapList(tempObjList);
+        comeAnalyseInfo.setCityAndCountryMapList(tempObjLists);
         comeAnalyseInfo.setCityList(cityList);
 
         return comeAnalyseInfo;
@@ -658,7 +661,7 @@ public class CollaborationServiceImpl implements CollaborationService {
             }
         }
 
-        List<TempObjDTO> tempObjList = Lists.newArrayList();
+        List<List<TempObjDTO>> tempObjLists = Lists.newArrayList();
 
         for(String city : cityAndCountryObjMap.keySet()) {
             List<String> countylist = cityAndCountryObjMap.get(city);
@@ -671,9 +674,11 @@ public class CollaborationServiceImpl implements CollaborationService {
                     tempCountryMap.put(country, 1);
                 }
             }
+            List<TempObjDTO> tempObjList = Lists.newArrayList();
             for(String country : tempCountryMap.keySet()) {
                 tempObjList.add(new TempObjDTO(city, country, tempCountryMap.get(country)));
             }
+            tempObjLists.add(tempObjList);
         }
 
         Map<String, Integer> sortedGoCountryObjMap = Maps.newHashMap();
@@ -792,7 +797,7 @@ public class CollaborationServiceImpl implements CollaborationService {
         goAnalyseInfo.setCountryNumObject(countryNumberObjectList2);
         goAnalyseInfo.setTopTenCountryName(topTenCountryName);
         goAnalyseInfo.setTopTenCountryList(topTenCountryList);
-        goAnalyseInfo.setCityAndCountryMapList(tempObjList);
+        goAnalyseInfo.setCityAndCountryMapList(tempObjLists);
         goAnalyseInfo.setCityList(cityList);
 
         return goAnalyseInfo;
