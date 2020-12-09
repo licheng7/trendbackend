@@ -48,7 +48,7 @@ public class ComeAnalyseResponse implements Serializable{
 
     private List<Map<String, Object>> topTenCountryList;
 
-    private List<TempObjDTO> cityAndCountryMapList;
+    private List<List<TempObjDTO>> cityAndCountryMapList;
 
     private List<String> cityList;
 
@@ -164,11 +164,11 @@ public class ComeAnalyseResponse implements Serializable{
         this.topTenCountryList = topTenCountryList;
     }
 
-    public List<TempObjDTO> getCityAndCountryMapList() {
+    public List<List<TempObjDTO>> getCityAndCountryMapList() {
         return cityAndCountryMapList;
     }
 
-    public void setCityAndCountryMapList(List<TempObjDTO> cityAndCountryMapList) {
+    public void setCityAndCountryMapList(List<List<TempObjDTO>> cityAndCountryMapList) {
         this.cityAndCountryMapList = cityAndCountryMapList;
     }
 
