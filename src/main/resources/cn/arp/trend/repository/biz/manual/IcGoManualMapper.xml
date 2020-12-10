@@ -106,7 +106,7 @@
     from
       v_ic_go AS a, v_ref_org_type AS b
     <where>
-      a.jgmc=b.jgmc
+      a.jgbh=b.jgbh
       and a.country is not NULL
     </where>
     ORDER BY
@@ -115,11 +115,11 @@
 
   <select id="queryGoUnit" resultMap="UnitMap">
     select
-      a.jgmc AS jgmc, COUNT(*) AS num
+      b.jgmc AS jgmc, COUNT(*) AS num
     from
       v_ic_go AS a JOIN v_ref_org_type AS b
     ON
-      a.jgmc =b.jgmc
+      a.jgbh =b.jgbh
     GROUP BY
       jgmc
     ORDER BY
@@ -132,7 +132,7 @@
     from
       v_ic_go AS a JOIN v_ref_org_type AS b
     ON
-      a.jgmc =b.jgmc
+      a.jgbh =b.jgbh
     GROUP BY
       country
     ORDER BY
