@@ -115,7 +115,7 @@
 
   <select id="queryComeUnit" resultMap="UnitMap">
     select
-      b.jgmc AS jgmc, COUNT(*) AS num
+      B.jgmc AS jgmc, COUNT(*) AS num
     from
       v_ic_come AS a, v_ref_org_type AS B
     <where>
