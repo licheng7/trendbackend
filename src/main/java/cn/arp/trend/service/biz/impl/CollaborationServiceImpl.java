@@ -138,12 +138,14 @@ public class CollaborationServiceImpl implements CollaborationService {
     }
 
     @Override
-    public LinksInfoDTO linksQuery() {
+    public LinksInfoDTO linksQuery(String startYear, String endYear) {
         // 先初始化时间列表
         List<String> timeList = Lists.newArrayList();
         Map<String, GoToByTimeObjDTO> goToByTimeObjMap = Maps.newHashMap();
-        LocalDate startTime = LocalDate.parse("2012-01-01");
-        LocalDate endTime = LocalDate.parse("2016-12-31");
+        LocalDate startTime = LocalDate.of(Integer.parseInt(startYear), 1, 1);
+        LocalDate endTime = LocalDate.of(Integer.parseInt(endYear), 12, 31);
+        //LocalDate startTime = LocalDate.parse("2012-01-01");
+        //LocalDate endTime = LocalDate.parse("2016-12-31");
         while(startTime.isBefore(endTime)) {
             String time = startTime.format(DateTimeFormatter.ofPattern("yyyy-MM"));
             timeList.add(time);

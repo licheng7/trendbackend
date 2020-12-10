@@ -135,4 +135,71 @@
     ORDER BY hjnf
   </select>
 
+  <select id="queryCompareAward1" resultType="java.util.HashMap"
+          parameterType="java.util.ArrayList">
+    <foreach collection="orgList" item="item" index="index" separator=",">
+      SELECT
+        #{item} AS institute, ANY_VALUE(jxlb) AS jxlb, COUNT(*) AS num
+      FROM
+        v_cas_china_award_10year_final
+      <where>
+        first_wcdw_std = #{item} OR second_wcdw_std = #{item} OR third_wcdw_std = #{item}
+      </where>
+      <if test="index != (orgList.size() - 1)">
+        union all
+      </if>
+    </foreach>
+  </select>
+
+  <select id="queryCompareAward2" resultType="java.util.HashMap">
+    SELECT
+      "中国科学院" AS institute, ANY_VALUE(jxlb) AS jxlb, COUNT(*) AS num
+    FROM v_cas_china_award_10year_final
+    <where>
+      first_wcdw_std IN (SELECT jgmc FROM ref_org_type)
+      OR second_wcdw_std IN (SELECT jgmc FROM ref_org_type)
+      OR third_wcdw_std IN (SELECT jgmc FROM ref_org_type)
+    </where>
+    GROUP BY jxlb
+  </select>
+
+  <select id="queryCompareAward3" resultType="java.util.HashMap">
+    SELECT
+      "中国科学院" AS category, COUNT(*) AS num
+    FROM v_cas_qiushi_scientist_award AS a, v_ref_org_type AS b
+    <where>
+      gzdw_std=jgmc
+    </where>
+    UNION ALL
+    SELECT
+      "C9 高校" AS category, COUNT(*) AS num
+    FROM v_cas_qiushi_scientist_award
+    <where>
+      gzdw_std IN ("清华大学", "北京大学", "浙江大学", "上海交通大学", "复旦大学", "西安交通大学", "中国科学技术大学", "哈尔滨工业大学", "南京大学")
+    </where>
+    UNION ALL
+    SELECT
+      "总数" AS category, COUNT(*) AS num
+    FROM v_cas_qiushi_scientist_award
+  </select>
+
+  <select id="queryCompareAward4" resultType="java.util.HashMap">
+    SELECT
+      "中国科学院" AS category, COUNT(*) AS num
+    FROM v_cas_hlhl_award_winner AS a, v_ref_org_type AS b
+    <where>
+      gzdw_std=jgmc
+    </where>
+    UNION ALL
+    SELECT
+      "C9 高校" AS category, COUNT(*) AS num
+    FROM v_cas_hlhl_award_winner
+    <where>
+      gzdw_std IN ("清华大学","北京大学","浙江大学","上海交通大学","复旦大学","西安交 通大学","中国科学技术大学","哈尔滨工业大学" ,"南京大学")
+    </where>
+    UNION ALL
+    SELECT
+      "总数" AS category, COUNT(*) AS num
+    FROM v_cas_hlhl_award_winner
+  </select>
 </mapper>

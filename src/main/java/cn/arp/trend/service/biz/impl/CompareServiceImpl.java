@@ -65,6 +65,9 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
     @Resource
     private StatChinaAward10yearFinalCountManualMapper statChinaAward10yearFinalCountManualMapper;
 
+    @Resource
+    private CasChinaAward10YearFinalManualMapper casChinaAward10YearFinalManualMapper;
+
     @Override
     public FundsInfoDTO fundsQuery(String startYear, String endYear) {
 
@@ -605,7 +608,97 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
     }
 
     @Override
-    public ProjectInfoDTO projectQuery(ProjectQueryDO projectQuery) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public CompareAwardInfoDTO awardQuery() {
+        List<String> allOrgNameList = Lists.newArrayList(
+                "中国科学院", "清华大学", "北京大学", "浙江大学", "上海交通大学", "复旦大学",
+                "西安交通大学", "中国科学技术大学", "哈尔滨工业大学", "南京大学");
+        List<String> c9List = Lists.newArrayList(
+                "清华大学", "北京大学", "浙江大学", "上海交通大学", "复旦大学", "西安交通大学",
+                "中国科学技术大学", "哈尔滨工业大学", "南京大学");
+
+        List<Map<String, Object>> queryResult1 =
+                casChinaAward10YearFinalManualMapper.queryCompareAward1(c9List);
+
+        List<Map<String, Object>> queryResult2 =
+                casChinaAward10YearFinalManualMapper.queryCompareAward2();
+
+        List<Map<String, Object>> qsjcQueryResult =
+                casChinaAward10YearFinalManualMapper.queryCompareAward3();
+
+        List<Map<String, Object>> hlhlQueryResult =
+                casChinaAward10YearFinalManualMapper.queryCompareAward3();
+
+        Map<String, JxlbInfoDTO> jxlbResult = Maps.newHashMap();
+        allOrgNameList.stream().forEach(institute -> {
+            jxlbResult.put(institute, new JxlbInfoDTO(institute));
+        });
+
+        List<Map<String, Object>> unionJxlbResultList = Lists.newArrayList();
+        if(!queryResult1.isEmpty()) {
+            unionJxlbResultList.addAll(queryResult1);
+        }
+        if(!queryResult2.isEmpty()) {
+            unionJxlbResultList.addAll(queryResult2);
+        }
+
+        unionJxlbResultList.stream().forEach(map -> {
+            String institute = String.valueOf(map.get("institute"));
+            String jxlb = String.valueOf(map.get("jxlb"));
+            int num = ((Number) map.get("num")).intValue();
+            if(jxlbResult.containsKey(institute)) {
+                JxlbInfoDTO jxlbInfo = jxlbResult.get(institute);
+                if("国家技术发明奖".equals(jxlb)) {
+                    jxlbInfo.setJsfm(num);
+                } else if("国家自然科学奖".equals(jxlb)) {
+                    jxlbInfo.setZrkx(num);
+                } else if("国家科学技术进步奖".equals(jxlb)) {
+                    jxlbInfo.setJsjb(num);
+                }
+            }
+        });
+
+        List<Integer> zrkxList = Lists.newArrayList();
+        List<Integer> jsfmList = Lists.newArrayList();
+        List<Integer> jsjbList = Lists.newArrayList();
+
+        allOrgNameList.stream().forEach(orgName -> {
+            int zrkx = 0;
+            int jsfm = 0;
+            int jsjb = 0;
+            if(jxlbResult.containsKey(orgName)) {
+                JxlbInfoDTO jxlbInfoDTO = jxlbResult.get(orgName);
+                zrkx = jxlbInfoDTO.getZrkx();
+                jsfm = jxlbInfoDTO.getJsfm();
+                jsjb = jxlbInfoDTO.getJsjb();
+            }
+            zrkxList.add(zrkx);
+            jsfmList.add(jsfm);
+            jsjbList.add(jsjb);
+        });
+
+        List<Map<String, Object>> qsjcList = Lists.newArrayList();
+        qsjcQueryResult.stream().forEach(map -> {
+            Map<String, Object> resultObj = Maps.newHashMap();
+            resultObj.put("name", map.get("category"));
+            resultObj.put("value", map.get("num"));
+            qsjcList.add(resultObj);
+        });
+
+        List<Map<String, Object>> hlhlList = Lists.newArrayList();
+        hlhlQueryResult.stream().forEach(map -> {
+            Map<String, Object> resultObj = Maps.newHashMap();
+            resultObj.put("name", map.get("category"));
+            resultObj.put("value", map.get("num"));
+            hlhlList.add(resultObj);
+        });
+
+        return new CompareAwardInfoDTO(
+                allOrgNameList, zrkxList, jsfmList, jsjbList, qsjcList, hlhlList);
+    }
+
+    @Override
+    public ProjectInfoDTO projectQuery(ProjectQueryDO projectQuery)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         ProjectInfoDTO projectInfo = new ProjectInfoDTO();
         this.initProjectInfoDTO(projectInfo);

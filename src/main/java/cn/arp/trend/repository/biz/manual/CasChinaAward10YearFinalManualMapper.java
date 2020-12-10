@@ -14,4 +14,29 @@ public interface CasChinaAward10YearFinalManualMapper {
      * @return
      */
     List<Map<String, Object>> queryAward1(@Param("query") DetailAwardTrendQueryDO query);
+
+    /**
+     *
+     * @param orgList
+     * @return
+     */
+    List<Map<String, Object>> queryCompareAward1(@Param("orgList") List<String> orgList);
+
+    /**
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryCompareAward2();
+
+    /**
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryCompareAward3();
+
+    /**
+     *
+     * @return
+     */
+    List<Map<String, Object>> queryCompareAward4();
 }

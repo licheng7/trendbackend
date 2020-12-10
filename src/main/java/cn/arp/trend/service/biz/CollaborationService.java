@@ -19,7 +19,7 @@ public interface CollaborationService {
 
     Rank2InfoDTO rankQuery2();
 
-    LinksInfoDTO linksQuery();
+    LinksInfoDTO linksQuery(String startYear, String endYear);
 
     List<List<Map<String, Object>>> countryNumQuery();
 

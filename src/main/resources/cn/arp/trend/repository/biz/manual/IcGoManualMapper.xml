@@ -64,7 +64,7 @@
     SELECT
       DISTINCT country
     FROM
-      v_ic_come
+      v_ic_go
     <where>
       country is not null
     </where>
@@ -74,7 +74,7 @@
     SELECT
       DISTINCT nationality
     FROM
-      v_ic_come
+      v_ic_go
     <where>
       nationality is not null
     </where>
@@ -84,7 +84,7 @@
     SELECT
       DISTINCT form
     FROM
-      v_ic_come
+      v_ic_go
     <where>
       form is not null
     </where>
@@ -94,7 +94,7 @@
     SELECT
       DISTINCT ANY_VALUE(LEFT(birthday, 4)) as ageYear
     FROM
-      v_ic_come
+      v_ic_go
     <where>
       birthday is not null
     </where>
@@ -161,7 +161,7 @@
       ANY_VALUE(a.country) AS country,
       ANY_VALUE(a.nationality) AS nationality
     FROM
-      v_ic_come AS a
+      v_ic_go AS a
     WHERE
       a.country is not null
       AND a.nationality is not null

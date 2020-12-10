@@ -195,7 +195,22 @@ public class CompareController extends BaseController {
     @RequestMapping(value = "/nationalAward", method = RequestMethod.POST)
     @Audit(desc="中科院和C9高校国家奖对比", value="Comparison.Influence.NationalAward")
     public NationalAwardResponse nationalAwardQuery() {
-        NationalAwardInfoDTO developmentInfo = compareService.nationalAwardQuery();
-        return NationalAwardInfoConverter.INSTANCE.domain2dto(developmentInfo);
+        NationalAwardInfoDTO nationalAwardInfoDTO = compareService.nationalAwardQuery();
+        return NationalAwardInfoConverter.INSTANCE.domain2dto(nationalAwardInfoDTO);
     }
+
+    /*@ApiOperation(value= "获取中科院、C9高校等机构的获奖数据", notes= "获取中科院、C9高校等机构的获奖数据")
+    @ServiceExecuter(description = "获取中科院、C9高校等机构的获奖数据")
+    @RequestMapping(value = "/award", method = RequestMethod.POST)
+    @Audit(desc="获取中科院、C9高校等机构的获奖数据", value="Comparison.Influence.CompareAward")
+    public CompareAwardResponse awardQuery() {
+        CompareAwardInfoDTO compareAwardInfoDTO = compareService.awardQuery();
+        return new CompareAwardResponse(
+                compareAwardInfoDTO.getAllOrgNameList(),
+                compareAwardInfoDTO.getZrkxList(),
+                compareAwardInfoDTO.getJsfmList(),
+                compareAwardInfoDTO.getJsjbList(),
+                compareAwardInfoDTO.getQsjcList(),
+                compareAwardInfoDTO.getHlhlList());
+    }*/
 }

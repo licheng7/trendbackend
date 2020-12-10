@@ -8,6 +8,7 @@ import cn.arp.trend.data.model.DTO.*;
 import cn.arp.trend.data.model.converter.*;
 import cn.arp.trend.data.model.request.ComeAnalyseRequest;
 import cn.arp.trend.data.model.request.GoAnalyseRequest;
+import cn.arp.trend.data.model.request.LinksRequest;
 import cn.arp.trend.data.model.response.*;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.CollaborationService;
@@ -68,8 +69,11 @@ public class CollaborationController extends BaseController {
     @ServiceExecuter(description = "地图飞线(对应collaboration.js的/getLinks)")
     @RequestMapping(value = "/getLinks", method = RequestMethod.POST)
     @Audit(desc="出来访地图飞线", value="Comparison.Collaboration.MapLink")
-    public LinksInfoReponse linksQuery() {
-        LinksInfoDTO linksInfo = collaborationService.linksQuery();
+    public LinksInfoReponse linksQuery(@RequestBody @Validated LinksRequest request,
+            BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        LinksInfoDTO linksInfo = collaborationService.linksQuery(
+                request.getStartYear(), request.getEndYear());
         return new LinksInfoReponse(linksInfo.getTimeList(), linksInfo.getTimeListObj());
     }
 

@@ -31,5 +31,7 @@ public interface CompareService {
 
     NationalAwardInfoDTO nationalAwardQuery();
 
+    CompareAwardInfoDTO awardQuery();
+
     ProjectInfoDTO projectQuery(ProjectQueryDO projectQuery) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;
 }
