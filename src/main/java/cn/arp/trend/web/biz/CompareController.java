@@ -62,7 +62,7 @@ public class CompareController extends BaseController {
         Calendar cal = Calendar.getInstance();
         Integer ysYear = cal.get(Calendar.YEAR);
         Integer endYear = cal.get(Calendar.YEAR) - 1;
-        Integer startYear = ysYear - 10;
+        Integer startYear = Math.max(ysYear - 9, 2012);
         FundsInfoDTO fundsInfo = compareService.newfundsQuery(startYear.toString(), endYear.toString(), ysYear.toString());
         return new FundsResponse(fundsInfo.getYear(), fundsInfo.getDetail(), fundsInfo.getUpdateTime());
     }
@@ -91,7 +91,7 @@ public class CompareController extends BaseController {
         Calendar cal = Calendar.getInstance();
         Integer ysYear = cal.get(Calendar.YEAR);
         Integer endYear = cal.get(Calendar.YEAR) - 1;
-        Integer startYear = ysYear - 10;
+        Integer startYear = Math.max(ysYear -9, 2012);
         FinanceInfoDTO financeInfo = compareService.newfinanceQuery(startYear.toString(), endYear.toString(), ysYear.toString());
         return new FinanceResponse(
                 financeInfo.getYear(),
