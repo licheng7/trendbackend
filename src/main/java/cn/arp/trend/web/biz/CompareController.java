@@ -199,7 +199,7 @@ public class CompareController extends BaseController {
         return NationalAwardInfoConverter.INSTANCE.domain2dto(nationalAwardInfoDTO);
     }
 
-    /*@ApiOperation(value= "获取中科院、C9高校等机构的获奖数据", notes= "获取中科院、C9高校等机构的获奖数据")
+    @ApiOperation(value= "获取中科院、C9高校等机构的获奖数据", notes= "获取中科院、C9高校等机构的获奖数据")
     @ServiceExecuter(description = "获取中科院、C9高校等机构的获奖数据")
     @RequestMapping(value = "/award", method = RequestMethod.POST)
     @Audit(desc="获取中科院、C9高校等机构的获奖数据", value="Comparison.Influence.CompareAward")
@@ -212,5 +212,5 @@ public class CompareController extends BaseController {
                 compareAwardInfoDTO.getJsjbList(),
                 compareAwardInfoDTO.getQsjcList(),
                 compareAwardInfoDTO.getHlhlList());
-    }*/
+    }
 }

@@ -137,7 +137,7 @@
 
   <select id="queryCompareAward1" resultType="java.util.HashMap"
           parameterType="java.util.ArrayList">
-    <foreach collection="orgList" item="item" index="index" separator=",">
+    <foreach collection="orgList" item="item" index="index" separator="">
       SELECT
         #{item} AS institute, ANY_VALUE(jxlb) AS jxlb, COUNT(*) AS num
       FROM
@@ -145,6 +145,7 @@
       <where>
         first_wcdw_std = #{item} OR second_wcdw_std = #{item} OR third_wcdw_std = #{item}
       </where>
+      GROUP BY jxlb
       <if test="index != (orgList.size() - 1)">
         union all
       </if>

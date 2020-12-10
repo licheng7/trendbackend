@@ -1,5 +1,6 @@
 package cn.arp.trend.data.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -17,16 +18,22 @@ public class CompareAwardResponse implements Serializable {
 
     private static final long serialVersionUID = -3769269013722785177L;
 
+    @JsonProperty("institution")
     private List<String> allOrgNameList;
 
+    @JsonProperty("zrkx")
     private List<Integer> zrkxList;
 
+    @JsonProperty("jsfm")
     private List<Integer> jsfmList;
 
+    @JsonProperty("jsjb")
     private List<Integer> jsjbList;
 
+    @JsonProperty("qsjc")
     List<Map<String, Object>> qsjcList;
 
+    @JsonProperty("hlhl")
     List<Map<String, Object>> hlhlList;
 
     public List<String> getAllOrgNameList() {

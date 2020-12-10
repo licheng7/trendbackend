@@ -626,7 +626,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
                 casChinaAward10YearFinalManualMapper.queryCompareAward3();
 
         List<Map<String, Object>> hlhlQueryResult =
-                casChinaAward10YearFinalManualMapper.queryCompareAward3();
+                casChinaAward10YearFinalManualMapper.queryCompareAward4();
 
         Map<String, JxlbInfoDTO> jxlbResult = Maps.newHashMap();
         allOrgNameList.stream().forEach(institute -> {
