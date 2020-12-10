@@ -102,11 +102,11 @@
 
   <select id="queryRank" resultMap="RankMap">
     select
-      a.jgmc AS jgmc, country, ydyl, number_of_team, visit_date
+      b.jgmc AS jgmc, country, ydyl, number_of_team, visit_date
     from
       v_ic_come AS a,v_ref_org_type AS b
     <where>
-      a.jgmc=b.jgmc
+      a.jgbh=b.jgbh
       and a.country is not NULL
     </where>
     ORDER BY
@@ -115,11 +115,11 @@
 
   <select id="queryComeUnit" resultMap="UnitMap">
     select
-      a.jgmc AS jgmc, COUNT(*) AS num
+      B.jgmc AS jgmc, COUNT(*) AS num
     from
       v_ic_come AS a, v_ref_org_type AS B
     <where>
-      a.jgmc = B.jgmc
+      a.jgbh = B.jgbh
     </where>
     GROUP BY
       jgmc
@@ -133,7 +133,7 @@
     from
       v_ic_come AS a, v_ref_org_type AS B
     <where>
-      a.jgmc =B.jgmc AND a.country is not NULL
+      a.jgbh =B.jgbh AND a.country is not NULL
     </where>
     GROUP BY
       country
