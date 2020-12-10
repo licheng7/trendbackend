@@ -102,7 +102,7 @@
   
   <select id="queryRank" resultMap="RankMap">
     select
-      a.jgmc AS jgmc, country, ydyl, number_of_team, visit_date
+      b.jgmc AS jgmc, country, ydyl, number_of_team, visit_date
     from
       v_ic_go AS a, v_ref_org_type AS b
     <where>
