@@ -36,6 +36,10 @@ public class CompareRequest implements Serializable {
     @JsonProperty("affiliation")
     private List<String> affiliation;
 
+    @ApiParam("fields")
+    @JsonProperty("fields")
+    private List<String> fields;
+
     public List<String> getAffiliation() {
         return affiliation;
     }
@@ -58,5 +62,13 @@ public class CompareRequest implements Serializable {
 
     public void setEndYear(String endYear) {
         this.endYear = endYear;
+    }
+
+    public List<String> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<String> fields) {
+        this.fields = fields;
     }
 }

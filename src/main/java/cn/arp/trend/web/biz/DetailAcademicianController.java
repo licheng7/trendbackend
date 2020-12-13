@@ -55,6 +55,7 @@ public class DetailAcademicianController extends BaseController {
         validData(bindingResult);
         DACompareQueryDO query = new DACompareQueryDO();
         query.setAffiliation(request.getAffiliation());
+        query.setFields(request.getFields());
         query.setStartYear(request.getStartYear());
         query.setEndYear(request.getEndYear());
         List<Object> result = detailAcademicianService.compareQuery(query);

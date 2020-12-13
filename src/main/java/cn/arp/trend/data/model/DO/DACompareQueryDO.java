@@ -12,6 +12,8 @@ public class DACompareQueryDO {
 
     private List<String> affiliation;
 
+    private List<String> fields;
+
     private String startYear;
 
     private String endYear;
@@ -38,5 +40,13 @@ public class DACompareQueryDO {
 
     public void setEndYear(String endYear) {
         this.endYear = endYear;
+    }
+
+    public List<String> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<String> fields) {
+        this.fields = fields;
     }
 }

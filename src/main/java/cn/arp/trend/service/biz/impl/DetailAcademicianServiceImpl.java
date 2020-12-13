@@ -54,9 +54,13 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
     public List<Object> compareQuery(DACompareQueryDO query) {
 
         List<Map<String, Object>> originalData;
-        List<Map<String, Object>> allData = casAcademicianChinaManualMapper.queryCompareAll();
-        if(query.getAffiliation() != null) {
-            originalData = casAcademicianChinaManualMapper.queryCompareUnit(query);
+        List<Map<String, Object>> allData = casAcademicianChinaManualMapper.queryCompareAll()
+                .stream().filter(map -> this.resultFilter(map, query.getFields()))
+                .collect(Collectors.toList());
+        if(query.getAffiliation() != null && !query.getAffiliation().isEmpty()) {
+            originalData = casAcademicianChinaManualMapper.queryCompareUnit(query)
+                    .stream().filter(map -> this.resultFilter(map, query.getFields()))
+                    .collect(Collectors.toList());
         } else {
             originalData = allData;
         }
@@ -259,4 +263,14 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
         return list;
     }
 
+    private boolean resultFilter(Map<String, Object> map, List<String> fields) {
+        if(fields == null || fields.isEmpty()) {
+            return true;
+        }
+        StringBuffer sb = new StringBuffer();
+        sb.append(((String) map.get("category")).substring(0, 3));
+        sb.append("-");
+        sb.append((String) map.get("xuebu"));
+        return fields.contains(sb.toString());
+    }
 }
