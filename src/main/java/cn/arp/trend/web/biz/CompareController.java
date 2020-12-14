@@ -45,7 +45,7 @@ public class CompareController extends BaseController {
     @ApiOperation(value= "科研投入-总经费", notes= "科研投入-总经费")
     @ServiceExecuter(description = "科研投入-总经费")
     @RequestMapping(value = "/funds", method = RequestMethod.POST)
-    @Audit(desc="中科院和C9高校总经费对比", value="Comparison.Funds")
+    @Audit(desc="中科院和C9高校总经费对比", value="Comparison.OldFunds")
     public FundsResponse fundsQuery(@RequestBody @Validated FundsRequest request, BindingResult
             bindingResult) throws RestError {
         validData(bindingResult);
@@ -70,7 +70,7 @@ public class CompareController extends BaseController {
     @ApiOperation(value= "科研投入-财政拨款", notes= "科研投入-财政拨款")
     @ServiceExecuter(description = "科研投入-财政拨款")
     @RequestMapping(value = "/finance", method = RequestMethod.POST)
-    @Audit(desc="中科院和C9高校财政拨款对比", value="Comparison.Finance")
+    @Audit(desc="中科院和C9高校财政拨款对比", value="Comparison.OldFinance")
     public FinanceResponse financeQuery(@RequestBody @Validated FinanceRequest request,
                                         BindingResult
             bindingResult) throws RestError {
