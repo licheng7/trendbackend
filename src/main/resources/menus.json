@@ -16,7 +16,7 @@
 },
 {
   "url":"#/rd/influence",
-  "datasets":["Comparison.Influence.Appraisal", "Comparison.Influence.NationalAward"]
+  "datasets":["Comparison.Influence.Appraisal", "Comparison.Influence.CompareAward"]
 },
 {
   "url":"#/rd/InternationalShow",
