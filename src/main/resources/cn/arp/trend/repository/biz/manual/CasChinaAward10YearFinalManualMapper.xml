@@ -157,9 +157,9 @@
       "中国科学院" AS institute, ANY_VALUE(jxlb) AS jxlb, COUNT(*) AS num
     FROM v_cas_china_award_10year_final
     <where>
-      first_wcdw_std IN (SELECT jgmc FROM ref_org_type)
-      OR second_wcdw_std IN (SELECT jgmc FROM ref_org_type)
-      OR third_wcdw_std IN (SELECT jgmc FROM ref_org_type)
+      first_wcdw_std IN (SELECT jgmc FROM v_ref_org_type)
+      OR second_wcdw_std IN (SELECT jgmc FROM v_ref_org_type)
+      OR third_wcdw_std IN (SELECT jgmc FROM v_ref_org_type)
     </where>
     GROUP BY jxlb
   </select>
