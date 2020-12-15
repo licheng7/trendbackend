@@ -45,7 +45,6 @@ public class UpdateDataController extends BaseController {
     @ApiOperation(value= "宏观部分updateData.js对应的/", notes= "宏观部分updateData.js对应的/")
     @ServiceExecuter(description = "宏观部分updateData.js对应的/")
     @RequestMapping(value = "/frequency", method = RequestMethod.POST)
-    @Audit(desc="宏观部分updateData.js对应的")
     public FrequencyResponse frequencyQuery(
             @RequestBody @Validated FrequencyRequest request, BindingResult bindingResult)
             throws RestError {
