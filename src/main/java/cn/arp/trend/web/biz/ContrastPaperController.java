@@ -37,7 +37,7 @@ public class ContrastPaperController extends BaseController {
     public ContrastPaperByFieldResponse contrastByField(@RequestBody ContrastBaseRequest request) {
 
         Calendar cal = Calendar.getInstance();
-        Integer endYear = cal.get(Calendar.YEAR) - 0;
+        Integer endYear = cal.get(Calendar.YEAR) - -1;
         Integer startYear = endYear - 9;
         // Integer startNf = 1980;
 
@@ -122,7 +122,7 @@ public class ContrastPaperController extends BaseController {
     @Audit(desc="近十年各机构论文数量趋势对比，近十年各机构论文总数对比", value="InstitutionContrast.Paper")
     public ContrastPaperByFieldResponse contrastByUnit(@RequestBody ContrastBaseRequest request) {
         Calendar cal = Calendar.getInstance();
-        Integer endYear = cal.get(Calendar.YEAR) - 0;
+        Integer endYear = cal.get(Calendar.YEAR) - 1;
         Integer startYear = endYear - 9;
         // Integer startNf = 1980;
 

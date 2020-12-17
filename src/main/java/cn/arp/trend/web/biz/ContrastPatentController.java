@@ -37,7 +37,7 @@ public class ContrastPatentController extends BaseController {
     public ContrastPatentByFieldResponse contrastByField(@RequestBody ContrastBaseRequest request) {
 
         Calendar cal = Calendar.getInstance();
-        Integer endYear = cal.get(Calendar.YEAR) - 0;
+        Integer endYear = cal.get(Calendar.YEAR) - 1;
         Integer startYear = endYear - 9;
         // Integer startNf = 1980;
 
@@ -184,7 +184,7 @@ public class ContrastPatentController extends BaseController {
     @Audit(desc="近十年各机构中国发明专利、PCT专利趋势对比，近十年各机构中国发明专利、PCT专利总数对比", value="InstitutionContrast.Patent")
     public ContrastPatentByFieldResponse contrastByUnit(@RequestBody ContrastBaseRequest request) {
         Calendar cal = Calendar.getInstance();
-        Integer endYear = cal.get(Calendar.YEAR) - 0;
+        Integer endYear = cal.get(Calendar.YEAR) - 1;
         Integer startYear = endYear - 9;
         // Integer startNf = 1980;
 
