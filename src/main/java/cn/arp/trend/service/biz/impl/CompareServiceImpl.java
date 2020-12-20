@@ -17,10 +17,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -67,6 +64,9 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
 
     @Resource
     private CasChinaAward10YearFinalManualMapper casChinaAward10YearFinalManualMapper;
+
+    @Resource
+    private CasStatsScienceActivitiesManualMapper casStatsScienceActivitiesManualMapper;
 
     @Override
     public FundsInfoDTO fundsQuery(String startYear, String endYear) {
@@ -892,42 +892,22 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
     }
 
     @Override
-    ResearchFundsInfoDTO researchFunds(String startYear, String endYear) {
+    public List<HashMap<String, Object>> queryResearchFunds(String startYear, String endYear) {
 
         List<String> yearlist = this.buildYearlist(startYear, endYear);
 
-        List<CasPxxJfbj> casPxxJfbjList = casPxxJfbjManualMapper.queryresearchFunds(startYear, endYear);
+        List<CasStatsScienceActivities> casStatsScienceActivitiesList = casStatsScienceActivitiesManualMapper.queryResearchfunds(startYear, endYear);
 
-        List<String> nameList = casPxxJfbjList.stream().filter(obj -> obj.getName() != null).map
-                (CasPxxJfbj::getName).distinct().collect(Collectors.toList());
+        ArrayList<HashMap<String, Object>> detail = new ArrayList<HashMap<String, Object>>();
 
-        Map<String, Map<String, Double>> detail = this.initDetail(nameList, yearlist);
-
-        for(CasPxxJfbj casPxxJfbj : casPxxJfbjList) {
-            if(detail.containsKey(casPxxJfbj.getName())) {
-                Map<String, Double> _funds = detail.get(casPxxJfbj.getName());
-                if(_funds.containsKey(casPxxJfbj.getYear())) {
-                    _funds.put(casPxxJfbj.getYear(), casPxxJfbj.getFinanceFund());
-                }
-            }
+        for(CasStatsScienceActivities casStatsScienceActivities : casStatsScienceActivitiesList) {
+            HashMap<String, Object> one = new HashMap<String, Object>();
+            one.put("year", casStatsScienceActivities.getNf());
+            one.put("proportion", casStatsScienceActivities.getBz());
+            one.put("basis_number", casStatsScienceActivities.getJcyj());
+            one.put("spending_number", casStatsScienceActivities.getRd());
+            detail.add(one);
         }
-
-        List<Map<String, Object>> result = Lists.newArrayList();
-        detail.entrySet().stream().forEach(map -> {
-            Map<String, Object> bizMap = Maps.newHashMap();
-            bizMap.put("name", map.getKey().equals("中科院") ? "中国科学院" : map.getKey());
-            Map<String, Double> value = map.getValue();
-            List<String> list = Lists.newArrayList();
-            yearlist.stream().forEach(year -> {
-                list.add(value.get(year) == null ? null : String.valueOf(value.get(year)));
-            });
-            bizMap.put("value", list);
-            result.add(bizMap);
-        });
-
-        return new FinanceInfoDTO(yearlist, result, "2019年10月");
-
+        return detail;
     }
-
-
 }

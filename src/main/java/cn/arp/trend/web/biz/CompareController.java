@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 对应Node代码中compare.js
@@ -36,7 +38,7 @@ import java.util.List;
 @Api(value="compare",tags={"对应宏观部分compare.js"})
 @RestController
 @RequestMapping(value = "/compare")
-//@RequirePermission(dataset=true)
+@RequirePermission(dataset=true)
 public class CompareController extends BaseController {
 
     @Resource
@@ -219,13 +221,11 @@ public class CompareController extends BaseController {
     @RequestMapping(value = "/researchfunds", method = RequestMethod.POST)
     @Audit(desc="获取历年 R&D 经费支出、基础研究经费支出、R&D 经费支出占国内生产总值\n" +
             "比重", value="")
-    public ResearchFundsResponse researchFunds() throws RestError {
+    public List<HashMap<String, Object>> researchFunds() throws RestError {
         Calendar cal = Calendar.getInstance();
-        Integer startYear = cal.get(Calendar.YEAR) - 0;
-        Integer endYear = startYear - 8;
-
-        ResearchFundsInfoDTO researchFundsInfo = compareService.researchFunds(startYear.toString(), endYear.toString());
-
-        return researchFundsResponse;
+        Integer endYear = cal.get(Calendar.YEAR) - 0;
+        Integer startYear = endYear - 8;
+        List<HashMap<String, Object>> researchFundsInfo = compareService.queryResearchFunds(startYear.toString(), endYear.toString());
+        return researchFundsInfo;
     }
 }
