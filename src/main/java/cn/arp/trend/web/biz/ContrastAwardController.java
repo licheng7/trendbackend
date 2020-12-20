@@ -39,7 +39,7 @@ public class ContrastAwardController extends BaseController {
     public List<Object> contrastByField(@RequestBody ContrastBaseRequest request) {
 
         Calendar cal = Calendar.getInstance();
-        Integer endYear = cal.get(Calendar.YEAR) - 0;
+        Integer endYear = cal.get(Calendar.YEAR) - 1;
         Integer startYear = endYear - 9;
         Integer startNf = 1980;
 
@@ -90,7 +90,7 @@ public class ContrastAwardController extends BaseController {
     @Audit(desc="近十年各机构获奖数量趋势对比、近十年各机构获奖总数对比、近十年各机构获奖详情", value="InstitutionContrast.Award")
     public List<Object> contrastByUnit(@RequestBody ContrastBaseRequest request) {
         Calendar cal = Calendar.getInstance();
-        Integer endYear = cal.get(Calendar.YEAR) - 0;
+        Integer endYear = cal.get(Calendar.YEAR) - 1;
         Integer startYear = endYear - 9;
         Integer startNf = 1980;
 
