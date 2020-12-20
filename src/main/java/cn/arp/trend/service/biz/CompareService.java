@@ -34,4 +34,6 @@ public interface CompareService {
     CompareAwardInfoDTO awardQuery();
 
     ProjectInfoDTO projectQuery(ProjectQueryDO projectQuery) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;
+
+    ResearchFundsInfoDTO researchFunds(String startYear, String endYear);
 }

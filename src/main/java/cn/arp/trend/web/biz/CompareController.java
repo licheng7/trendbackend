@@ -36,7 +36,7 @@ import java.util.List;
 @Api(value="compare",tags={"对应宏观部分compare.js"})
 @RestController
 @RequestMapping(value = "/compare")
-@RequirePermission(dataset=true)
+//@RequirePermission(dataset=true)
 public class CompareController extends BaseController {
 
     @Resource
@@ -212,5 +212,20 @@ public class CompareController extends BaseController {
                 compareAwardInfoDTO.getJsjbList(),
                 compareAwardInfoDTO.getQsjcList(),
                 compareAwardInfoDTO.getHlhlList());
+    }
+
+    @ApiOperation(value= "历年经费支出和占比", notes= "历年经费支出和占比")
+    @ServiceExecuter(description = "历年经费支出和占比")
+    @RequestMapping(value = "/researchfunds", method = RequestMethod.POST)
+    @Audit(desc="获取历年 R&D 经费支出、基础研究经费支出、R&D 经费支出占国内生产总值\n" +
+            "比重", value="")
+    public ResearchFundsResponse researchFunds() throws RestError {
+        Calendar cal = Calendar.getInstance();
+        Integer startYear = cal.get(Calendar.YEAR) - 0;
+        Integer endYear = startYear - 8;
+
+        ResearchFundsInfoDTO researchFundsInfo = compareService.researchFunds(startYear.toString(), endYear.toString());
+
+        return researchFundsResponse;
     }
 }
