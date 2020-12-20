@@ -25,19 +25,22 @@
       SUM(xzglry) AS xzglry,
       SUM(gr) AS gr
     FROM
-    v_stat_arp_staff_duty
+      v_stat_arp_staff_duty AS a, v_ref_org_type AS b
     <where>
-      1 = 1
+      a.jgbh=b.jgbh
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
       <choose>
         <when test="query.affiliationId != null and query.affiliationId.size() > 0">
-          AND jgbh in (
+          AND a.jgbh in (
           <foreach collection="query.affiliationId" item="item" index="index" separator=",">
             #{item}
           </foreach>
           )
         </when>
+        <otherwise>
+          AND a.jgbh IS NOT NULL AND a.jgbh !=''
+        </otherwise>
       </choose>
     </where>
     GROUP BY nf
@@ -306,11 +309,12 @@
         (
           (
             SELECT
-              jgbh, jgmc, zs
+              t2.jgbh, t2.jgmc, zs
             FROM
-              v_stat_arp_staff_duty
+              v_stat_arp_staff_duty AS t1, v_ref_org_type AS t2
             <where>
               zs != 0
+              AND t1.jgbh = t2.jgbh
               AND nf = #{query.endYear}
             </where>
           ) AS a

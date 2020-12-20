@@ -26,7 +26,7 @@
   <sql id="sql_affiliation_un_otherwise">
     <choose>
       <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
-        AND JGBH in (
+        AND a.JGBH in (
         <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
           #{item}
         </foreach>
@@ -284,18 +284,18 @@
   <select id="queryAreaFinanceIncome" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.AreaFinanceQueryDO">
     SELECT
-      ANY_VALUE(nf) AS nf,
-      ANY_VALUE(jgbh) AS jgbh,
-      ANY_VALUE(jgmc) AS jgmc,
+      ANY_VALUE(a.nf) AS nf,
+      ANY_VALUE(a.jgbh) AS jgbh,
+      ANY_VALUE(a.jgmc) AS jgmc,
       ROUND(SUM(srhj)/10000,2) AS srhj,
       ROUND(SUM(czbz)/10000,2) AS czbz,
       ROUND(SUM(sysr)/10000,2) AS sysr,
       ROUND(SUM(jysr)/10000,2) AS jysr,
       ROUND(SUM(qtsr)/10000,2) AS qtsr
     FROM
-      v_stat_arp_fin_income
+      v_stat_arp_fin_income AS a, v_ref_org_type AS b
     <where>
-      1 = 1
+      a.jgbh=b.jgbh
       <include refid="sql_affiliation_un_otherwise"/>
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
@@ -306,17 +306,17 @@
   <select id="queryAreaFinanceOutcome" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.AreaFinanceQueryDO">
     SELECT
-      ANY_VALUE(nf) AS nf,
-      ANY_VALUE(jgbh) AS jgbh,
-      ANY_VALUE(jgmc) AS jgmc,
+      ANY_VALUE(a.nf) AS nf,
+      ANY_VALUE(a.jgbh) AS jgbh,
+      ANY_VALUE(a.jgmc) AS jgmc,
       ROUND(SUM(zchj)/10000,2) AS zchj,
       ROUND(SUM(ryzc)/10000,2) AS ryzc,
       ROUND(SUM(gyzc)/10000,2) AS gyzc,
       ROUND(SUM(jyzc)/10000,2) AS jyzc
     FROM
-      v_stat_arp_fin_expand
+      v_stat_arp_fin_expand AS a, v_ref_org_type AS b
     <where>
-      1 = 1
+      a.jgbh=b.jgbh
       <include refid="sql_affiliation_un_otherwise"/>
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>

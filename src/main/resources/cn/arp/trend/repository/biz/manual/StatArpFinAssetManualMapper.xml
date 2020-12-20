@@ -20,7 +20,7 @@
   <sql id="sql_affiliation_un_otherwise">
     <choose>
       <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
-        AND JGBH in (
+        AND a.JGBH in (
         <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
           #{item}
         </foreach>
@@ -87,16 +87,17 @@
   <select id="queryFinanceOverview" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.AreaFinanceQueryDO">
     SELECT
-      jgbh,
-      jgmc,
+      a.jgbh,
+      a.jgmc,
       ROUND(zzc/10000,2) AS zzc,
       ROUND(zc/10000,2) AS zc,
       ROUND(sr/10000,2) AS sr,
       ROUND(ye/10000,2) AS ye
     FROM
-      v_stat_arp_fin_asset
+      v_stat_arp_fin_asset AS a, v_ref_org_type AS b
     <where>
-      nf = #{query.endYear}
+      a.jgbh=b.jgbh
+      and nf = #{query.endYear}
       <include refid="sql_affiliation_un_otherwise"/>
     </where>
   </select>
@@ -106,9 +107,10 @@
     SELECT
       ROUND(SUM(sr)/10000,2) AS sr
     FROM
-      v_stat_arp_fin_asset
+      v_stat_arp_fin_asset AS a, v_ref_org_type AS b
     <where>
-      nf = #{query.endYear}
+      a.jgbh=b.jgbh
+      and nf = #{query.endYear}
       <include refid="sql_affiliation_un_otherwise"/>
     </where>
   </select>
@@ -118,9 +120,10 @@
     SELECT
       ROUND(SUM(sr)/10000,2) AS sr
     FROM
-      v_stat_arp_fin_asset
+      v_stat_arp_fin_asset AS a, v_ref_org_type AS b
     <where>
-      nf = #{query.endYear}
+      a.jgbh=b.jgbh
+      and nf = #{query.endYear}
     </where>
   </select>
 

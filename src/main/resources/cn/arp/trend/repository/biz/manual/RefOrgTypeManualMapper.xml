@@ -34,6 +34,21 @@
         </choose>
     </sql>
 
+    <sql id="sql_affiliation_b">
+      <choose>
+        <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
+          AND b.JGBH in (
+          <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND b.JGBH is not null
+        </otherwise>
+      </choose>
+    </sql>
+
     <sql id="subQueryAwardDistribution">
         SELECT
             jgmc
@@ -924,12 +939,12 @@
         a.jgmc=b.jgmc
         <choose>
             <when test="query.category != null and query.category != '全部资助类别' and query.category != ''">
-                AND AND zzlb = #{query.category}
+                AND zzlb = #{query.category}
             </when>
         </choose>
         AND <![CDATA[nf >= #{query.startYear}]]>
         AND <![CDATA[nf <= #{query.endYear}]]>
-        <include refid="sql_affiliation"/>
+        <include refid="sql_affiliation_b"/>
       </where>
       GROUP BY nf
       ORDER BY nf
@@ -940,17 +955,18 @@
         SELECT
           ANY_VALUE(nf) AS nf, SUM(xm) AS xm, ROUND(SUM(jf)/10000,2) AS jf
         FROM
-          v_stat_arp_project
+          v_stat_arp_project AS a, v_ref_org_type AS b
         <where>
-            1 = 1
+            a.jgbh=b.jgbh
+            AND lx=0
             <choose>
                 <when test="query.category != null and query.category != '全部资助类别' and query.category != ''">
-                    AND AND lb = #{query.category}
+                    AND lb = #{query.category}
                 </when>
             </choose>
             AND <![CDATA[nf >= #{query.startYear}]]>
             AND <![CDATA[nf <= #{query.endYear}]]>
-            <include refid="sql_affiliation"/>
+            <include refid="sql_affiliation_b"/>
         </where>
         GROUP BY nf
         ORDER BY nf

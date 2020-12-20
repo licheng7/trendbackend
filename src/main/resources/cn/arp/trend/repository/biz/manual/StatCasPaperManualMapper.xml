@@ -28,6 +28,21 @@
     </choose>
   </sql>
 
+  <sql id="sql_affiliation_b">
+    <choose>
+      <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
+        AND b.JGBH in (
+        <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+          #{item}
+        </foreach>
+        )
+      </when>
+      <otherwise>
+        AND b.JGBH is not null
+      </otherwise>
+    </choose>
+  </sql>
+
   <select id="queryByNf" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
       <include refid="Base_Column_List" />
@@ -118,11 +133,12 @@
     SELECT
       ANY_VALUE(nf) AS nf, SUM(lws) AS sci
     FROM
-      v_stat_cas_paper
+      v_stat_cas_paper AS a, v_ref_org_type AS b
     <where>
-      <![CDATA[nf >= #{query.startYear}]]>
+      a.jgbh=b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
-      <include refid="sql_affiliation"/>
+      <include refid="sql_affiliation_b"/>
     </where>
     GROUP BY nf
     ORDER BY nf
@@ -133,11 +149,12 @@
     SELECT
       ANY_VALUE(nf) AS nf, SUM(num) AS sci
     FROM
-      v_stat_arp_paper_sci
+      v_stat_arp_paper_sci AS a, v_ref_org_type AS b
     <where>
-      <![CDATA[nf >= #{query.startYear}]]>
+      a.jgbh=b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
-      <include refid="sql_affiliation"/>
+      <include refid="sql_affiliation_b"/>
     </where>
     GROUP BY nf
     ORDER BY nf
@@ -146,13 +163,14 @@
   <select id="queryAreaPaperSci3" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
     SELECT
-      ANY_VALUE(jgbh) AS jgbh, ANY_VALUE(jgmc) AS jgmc, SUM(lws) AS sci
+      ANY_VALUE(a.jgbh) AS jgbh, ANY_VALUE(a.jgmc) AS jgmc, SUM(a.lws) AS sci
     FROM
-      v_stat_cas_paper
+      v_stat_cas_paper AS a, v_ref_org_type AS b
     <where>
-      <![CDATA[nf >= #{query.startYear}]]>
+      a.jgbh=b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
-      <include refid="sql_affiliation"/>
+      <include refid="sql_affiliation_b"/>
     </where>
     GROUP BY jgbh
     ORDER BY sci DESC
@@ -163,11 +181,12 @@
     SELECT
       SUM(lws) AS sci
     FROM
-      v_stat_cas_paper
+      v_stat_cas_paper AS a, v_ref_org_type AS b
     <where>
-      <![CDATA[nf >= #{query.startYear}]]>
+      a.jgbh=b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
-      <include refid="sql_affiliation"/>
+      <include refid="sql_affiliation_b"/>
     </where>
   </select>
 

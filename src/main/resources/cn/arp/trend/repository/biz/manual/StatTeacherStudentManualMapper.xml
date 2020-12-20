@@ -251,21 +251,21 @@
       ANY_VALUE(nf) AS nf,
       SUM(bdrs) AS rs
     FROM
-      v_stat_teacher_student
+      v_stat_teacher_student AS a, v_ref_org_type AS b
     <where>
-      1 = 1
+      a.jgbh=b.jgbh
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
       <choose>
         <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
-          AND JGBH in (
+          AND b.JGBH in (
           <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
             #{item}
           </foreach>
           )
         </when>
         <otherwise>
-          AND JGBH is not null
+          AND b.JGBH is not null
         </otherwise>
       </choose>
     </where>
@@ -281,7 +281,8 @@
       v_ref_org_type AS b
     <where>
       a.jgbh = b.jgbh
-      AND <![CDATA[nf = #{query.startYear}]]>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
       <choose>
         <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
           AND a.JGBH in (
@@ -315,16 +316,17 @@
   <select id="queryEdu4D4" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
     SELECT
-      ANY_VALUE(jgbh) AS jgbh,
-      ANY_VALUE(jgmc) AS jgmc,
+      ANY_VALUE(b.jgbh) AS jgbh,
+      ANY_VALUE(b.jgmc) AS jgmc,
       SUM(bdrs) AS rs
     FROM
-      v_stat_teacher_student
+      v_stat_teacher_student AS a, v_ref_org_type AS b
     <where>
-      nf = #{query.endYear}
-      AND jgbh IS NOT NULL
+      a.jgbh=b.jgbh
+      AND nf = #{query.endYear}
+      AND b.jgbh IS NOT NULL
     </where>
-    GROUP BY jgbh
+    GROUP BY b.jgbh
     ORDER BY rs DESC
   </select>
 
@@ -334,21 +336,21 @@
       ANY_VALUE(nf) AS nf,
       SUM(sdrs) AS rs
     FROM
-      v_stat_teacher_student
+      v_stat_teacher_student AS a, v_ref_org_type AS b
     <where>
-      1 = 1
+      a.jgbh=b.jgbh
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
       <choose>
         <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
-          AND JGBH in (
+          AND b.JGBH in (
           <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
             #{item}
           </foreach>
           )
         </when>
         <otherwise>
-          AND JGBH is not null
+          AND b.JGBH is not null
         </otherwise>
       </choose>
     </where>
@@ -364,7 +366,8 @@
       v_ref_org_type AS b
     <where>
       a.jgbh = b.jgbh
-      AND <![CDATA[nf = #{query.startYear}]]>
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
       <choose>
         <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
           AND a.JGBH in (
@@ -398,14 +401,15 @@
   <select id="queryEdu4M4" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
     SELECT
-      ANY_VALUE(jgbh) AS jgbh,
-      ANY_VALUE(jgmc) AS jgmc,
+      ANY_VALUE(b.jgbh) AS jgbh,
+      ANY_VALUE(b.jgmc) AS jgmc,
       SUM(sdrs) AS rs
     FROM
-      v_stat_teacher_student
+      v_stat_teacher_student AS a, v_ref_org_type AS b
     <where>
-      nf = #{query.endYear}
-      AND jgbh IS NOT NULL
+      a.jgbh=b.jgbh
+      and nf = #{query.endYear}
+      AND b.jgbh IS NOT NULL
     </where>
     GROUP BY jgbh
     ORDER BY rs DESC

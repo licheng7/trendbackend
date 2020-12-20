@@ -30,6 +30,21 @@
     </choose>
   </sql>
 
+  <sql id="sql_affiliation_b">
+    <choose>
+      <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
+        AND b.JGBH in (
+        <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+          #{item}
+        </foreach>
+        )
+      </when>
+      <otherwise>
+        AND b.JGBH is not null
+      </otherwise>
+    </choose>
+  </sql>
+
   <select id="queryChildLevelDistribution" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.ChildLevelDistributionQueryDO">
     SELECT
@@ -79,14 +94,15 @@
   <select id="queryHrStaffDist1" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.AreaHrQueryDO">
     SELECT
-      ANY_VALUE(jgmc) AS jgmc, SUM(rs) AS rs
+      ANY_VALUE(a.jgmc) AS jgmc, SUM(a.rs) AS rs
     FROM
-    v_stat_arp_staff_education
+      v_stat_arp_staff_education AS a, v_ref_org_type AS b
     <where>
-      xl="博士研究生"
+      a.jgbh=b.jgbh
+      and xl="博士研究生"
       AND nf= #{query.endYear}
     </where>
-    GROUP BY jgmc
+    GROUP BY a.jgmc
     ORDER BY rs DESC
   </select>
 
@@ -95,10 +111,11 @@
     SELECT
       SUM(zb) AS zb, SUM(ld) AS ld, SUM(tx) AS tx
     FROM
-    v_stat_arp_staff
+      v_stat_arp_staff AS a, v_ref_org_type AS b
     <where>
-      nf= #{query.endYear}
-      <include refid="sql_affiliation"/>
+      a.jgbh=b.jgbh
+      and nf= #{query.endYear}
+      <include refid="sql_affiliation_b"/>
     </where>
   </select>
 
@@ -107,10 +124,11 @@
     SELECT
       SUM(ky) AS ky, SUM(gl) AS gl, SUM(zc) AS zc, SUM(qt) AS qt
     FROM
-    v_stat_arp_staff_post
+      v_stat_arp_staff_post AS a, v_ref_org_type AS b
     <where>
-      nf= #{query.endYear}
-      <include refid="sql_affiliation"/>
+      a.jgbh=b.jgbh
+      and nf= #{query.endYear}
+      <include refid="sql_affiliation_b"/>
     </where>
   </select>
 
@@ -119,10 +137,11 @@
     SELECT
       ANY_VALUE(nld) AS nld, SUM(rs) AS rs
     FROM
-    v_stat_arp_staff_age
+      v_stat_arp_staff_age AS a, v_ref_org_type AS b
     <where>
-      nf= #{query.endYear}
-      <include refid="sql_affiliation"/>
+      a.jgbh=b.jgbh
+      and nf= #{query.endYear}
+      <include refid="sql_affiliation_b"/>
     </where>
     GROUP BY nld
   </select>
@@ -132,10 +151,11 @@
     SELECT
       ANY_VALUE(xl) AS xl, SUM(rs) AS rs
     FROM
-    v_stat_arp_staff_education
+      v_stat_arp_staff_education AS a, v_ref_org_type AS b
     <where>
-      nf= #{query.endYear}
-      <include refid="sql_affiliation"/>
+      a.jgbh=b.jgbh
+      and nf= #{query.endYear}
+      <include refid="sql_affiliation_b"/>
     </where>
     GROUP BY xl
   </select>
@@ -145,10 +165,11 @@
     SELECT
       SUM(gj) AS gj, SUM(fg) AS fg, SUM(zj) AS zj, SUM(cj) AS cj
     FROM
-    v_stat_arp_staff_tech_level
+      v_stat_arp_staff_tech_level AS a, v_ref_org_type AS b
     <where>
-      nf= #{query.endYear}
-      <include refid="sql_affiliation"/>
+      a.jgbh=b.jgbh
+      and nf= #{query.endYear}
+      <include refid="sql_affiliation_b"/>
     </where>
   </select>
 </mapper>

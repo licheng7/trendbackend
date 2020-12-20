@@ -25,17 +25,33 @@
     </choose>
   </sql>
 
+  <sql id="sql_affiliation_b">
+    <choose>
+      <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
+        AND b.JGBH in (
+        <foreach collection="query.unitIdAry" item="item" index="index" separator=",">
+          #{item}
+        </foreach>
+        )
+      </when>
+      <otherwise>
+        AND b.JGBH is not null
+      </otherwise>
+    </choose>
+  </sql>
+
   <select id="queryEduStudent1" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
     SELECT
       ANY_VALUE(nf) AS nf,
       COUNT(xh) AS rs
     FROM
-    v_ref_edu_enrollment
+      v_ref_edu_enrollment AS a, v_ref_org_type AS b
     <where>
-      lx = "博士"
+      a.jgbh=b.jgbh
+      and lx = "博士"
       AND nf IS NOT NULL
-      <include refid="sql_affiliation"/>
+      <include refid="sql_affiliation_b"/>
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
     </where>
@@ -46,14 +62,15 @@
   <select id="queryEduStudent2" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.AreaEduQueryDO">
     SELECT
-    ANY_VALUE(nf) AS nf,
-    COUNT(xh) AS rs
+      ANY_VALUE(nf) AS nf,
+      COUNT(xh) AS rs
     FROM
-    v_ref_edu_graduation
+      v_ref_edu_graduation AS a, v_ref_org_type AS b
     <where>
-      lx = "博士生毕业"
+      a.jgbh=b.jgbh
+      and lx = "博士生毕业"
       AND nf IS NOT NULL
-      <include refid="sql_affiliation"/>
+      <include refid="sql_affiliation_b"/>
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
     </where>
@@ -67,11 +84,12 @@
       ANY_VALUE(nf) AS nf,
       COUNT(xh) AS rs
     FROM
-    v_ref_edu_enrollment
+      v_ref_edu_enrollment AS a, v_ref_org_type AS b
     <where>
-      lx = "硕士"
+      a.jgbh=b.jgbh
+      and lx = "硕士"
       AND nf IS NOT NULL
-      <include refid="sql_affiliation"/>
+      <include refid="sql_affiliation_b"/>
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
     </where>
@@ -85,11 +103,12 @@
       ANY_VALUE(nf) AS nf,
       COUNT(xh) AS rs
     FROM
-    v_ref_edu_graduation
+      v_ref_edu_graduation AS a, v_ref_org_type AS b
     <where>
-      lx = "硕士生毕业"
+      a.jgbh=b.jgbh
+      and lx = "硕士生毕业"
       AND nf IS NOT NULL
-      <include refid="sql_affiliation"/>
+      <include refid="sql_affiliation_b"/>
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
     </where>
