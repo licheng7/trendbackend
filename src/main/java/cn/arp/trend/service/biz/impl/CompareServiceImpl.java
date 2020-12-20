@@ -17,10 +17,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -67,6 +64,9 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
 
     @Resource
     private CasChinaAward10YearFinalManualMapper casChinaAward10YearFinalManualMapper;
+
+    @Resource
+    private CasStatsScienceActivitiesManualMapper casStatsScienceActivitiesManualMapper;
 
     @Override
     public FundsInfoDTO fundsQuery(String startYear, String endYear) {
@@ -887,6 +887,26 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
                 map.put(year, new MapResultDTO(year, defaultValue));
             }
             detail.put(name, map);
+        }
+        return detail;
+    }
+
+    @Override
+    public List<HashMap<String, Object>> queryResearchFunds(String startYear, String endYear) {
+
+        List<String> yearlist = this.buildYearlist(startYear, endYear);
+
+        List<CasStatsScienceActivities> casStatsScienceActivitiesList = casStatsScienceActivitiesManualMapper.queryResearchfunds(startYear, endYear);
+
+        ArrayList<HashMap<String, Object>> detail = new ArrayList<HashMap<String, Object>>();
+
+        for(CasStatsScienceActivities casStatsScienceActivities : casStatsScienceActivitiesList) {
+            HashMap<String, Object> one = new HashMap<String, Object>();
+            one.put("year", casStatsScienceActivities.getNf());
+            one.put("proportion", casStatsScienceActivities.getBz());
+            one.put("basis_number", casStatsScienceActivities.getJcyj());
+            one.put("spending_number", casStatsScienceActivities.getRd());
+            detail.add(one);
         }
         return detail;
     }

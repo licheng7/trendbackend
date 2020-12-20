@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 对应Node代码中compare.js
@@ -212,5 +214,18 @@ public class CompareController extends BaseController {
                 compareAwardInfoDTO.getJsjbList(),
                 compareAwardInfoDTO.getQsjcList(),
                 compareAwardInfoDTO.getHlhlList());
+    }
+
+    @ApiOperation(value= "历年经费支出和占比", notes= "历年经费支出和占比")
+    @ServiceExecuter(description = "历年经费支出和占比")
+    @RequestMapping(value = "/researchfunds", method = RequestMethod.POST)
+    @Audit(desc="获取历年 R&D 经费支出、基础研究经费支出、R&D 经费支出占国内生产总值\n" +
+            "比重", value="")
+    public List<HashMap<String, Object>> researchFunds() throws RestError {
+        Calendar cal = Calendar.getInstance();
+        Integer endYear = cal.get(Calendar.YEAR) - 0;
+        Integer startYear = endYear - 8;
+        List<HashMap<String, Object>> researchFundsInfo = compareService.queryResearchFunds(startYear.toString(), endYear.toString());
+        return researchFundsInfo;
     }
 }

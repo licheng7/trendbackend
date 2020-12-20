@@ -2,7 +2,9 @@ package cn.arp.trend.service.biz.impl;
 
 import cn.arp.trend.data.model.DO.*;
 import cn.arp.trend.data.model.DTO.*;
+import cn.arp.trend.data.model.response.MentorRadarResponse;
 import cn.arp.trend.repository.biz.manual.CasEduFTeacherInfoManualMapper;
+import cn.arp.trend.repository.biz.manual.MentorRadarManualMapper;
 import cn.arp.trend.repository.biz.manual.StatTeacherStudentManualMapper;
 import cn.arp.trend.service.biz.DetailMentorService;
 import cn.arp.trend.service.biz.common.AbstructServiceHelper;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,6 +34,9 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
 
     @Resource
     private StatTeacherStudentManualMapper statTeacherStudentManualMapper;
+
+    @Resource
+    private MentorRadarManualMapper mentorRadarManualMapper;
 
 
     @Override
@@ -422,5 +429,98 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
         ).collect(Collectors.toList());
 
         return new MentorDetailInfoDTO(data);
+    }
+
+    @Override
+    public List<MentorRadarResponse> radarDetail(List<String> affiliationIds) {
+
+        String arrayStr = "";
+        if(affiliationIds == null || affiliationIds.size() == 0) {
+            arrayStr = "IS NOT NULL";
+        } else
+        {
+            List<String> fieldIdsQuotes = new ArrayList<String>();
+            for(int i=0;i<affiliationIds.size();i++)
+            {
+                fieldIdsQuotes.add(" \"" + affiliationIds.get(i) + "\" ");
+            }
+            arrayStr = " in (" + String.join(",", fieldIdsQuotes) +  ") ";
+        }
+        Map<String, Object> parmas = new HashMap<String, Object>();
+        parmas.put("arrayStr", arrayStr);
+        List<Map<String, Object>> res = mentorRadarManualMapper.mentorRadarQuery(parmas);
+
+        List<MentorRadarResponse> mentorRadarResponseList = new ArrayList<MentorRadarResponse>();
+        for(Map<String, Object> map : res) {
+            MentorRadarResponse oneResponse = new MentorRadarResponse();
+            oneResponse.setUnit(map.get("jgmc").toString());
+            oneResponse.setJgbh(map.get("jgbh").toString());
+
+            List<Map> values = new ArrayList<>();
+
+            HashMap<String, Object> oneValue1 = new HashMap<String, Object>();
+            oneValue1.put("name", "人才比");
+            oneValue1.put("value", map.get("zb_rc"));
+            values.add(oneValue1);
+
+            HashMap<String, Object> oneValue2 = new HashMap<String, Object>();
+            oneValue2.put("name", "导师总数");
+            oneValue2.put("value", map.get("ds"));
+            values.add(oneValue2);
+
+            HashMap<String, Object> oneValue3 = new HashMap<String, Object>();
+            oneValue3.put("name", "平均百名学生管理人员数");
+            oneValue3.put("value", map.get("zb_glry"));
+            values.add(oneValue3);
+
+            HashMap<String, Object> oneValue4 = new HashMap<String, Object>();
+            oneValue4.put("name", "师生比");
+            oneValue4.put("value", map.get("ssb"));
+            values.add(oneValue4);
+
+            HashMap<String, Object> oneValue5 = new HashMap<String, Object>();
+            oneValue5.put("name", "省部级教育教学成果奖总数");
+            oneValue5.put("value", map.get("jyjx"));
+            values.add(oneValue5);
+
+            HashMap<String, Object> oneValue6 = new HashMap<String, Object>();
+            oneValue6.put("name", "授课主讲学时总数");
+            oneValue6.put("value", map.get("zjxs"));
+            values.add(oneValue6);
+
+            HashMap<String, Object> oneValue7 = new HashMap<String, Object>();
+            oneValue7.put("name", "授课教师数/导师总数");
+            oneValue7.put("value", map.get("zb_skjs"));
+            values.add(oneValue7);
+
+            HashMap<String, Object> oneValue8 = new HashMap<String, Object>();
+            oneValue8.put("name", "研究生优秀生源率");
+            oneValue8.put("value", map.get("zb_yxsy"));
+            values.add(oneValue8);
+
+            HashMap<String, Object> oneValue9 = new HashMap<String, Object>();
+            oneValue9.put("name", "学生论文总数/学生总数");
+            oneValue9.put("value", map.get("zb_xslw"));
+            values.add(oneValue9);
+
+            HashMap<String, Object> oneValue10 = new HashMap<String, Object>();
+            oneValue10.put("name", "学生论文检索数/学生总数（高质量论文情况）");
+            oneValue10.put("value", map.get("zb_xsgzllw"));
+            values.add(oneValue10);
+
+            HashMap<String, Object> oneValue11 = new HashMap<String, Object>();
+            oneValue11.put("name", "学生获奖/学生总数");
+            oneValue11.put("value", map.get("zb_xshj"));
+            values.add(oneValue11);
+
+            HashMap<String, Object> oneValue12 = new HashMap<String, Object>();
+            oneValue12.put("name", "科技获奖总数");
+            oneValue12.put("value", map.get("kjj"));
+            values.add(oneValue12);
+
+            oneResponse.setValue(values);
+            mentorRadarResponseList.add(oneResponse);
+        }
+        return mentorRadarResponseList;
     }
 }

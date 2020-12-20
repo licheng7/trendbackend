@@ -2,6 +2,8 @@ package cn.arp.trend.web.biz;
 
 import javax.annotation.Resource;
 
+import cn.arp.trend.data.model.request.*;
+import cn.arp.trend.data.model.response.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,26 +27,17 @@ import cn.arp.trend.data.model.DTO.MentorDetailInfoDTO;
 import cn.arp.trend.data.model.DTO.TrendAllInfoDTO;
 import cn.arp.trend.data.model.DTO.TrendDoctoralSupervisorInfoDTO;
 import cn.arp.trend.data.model.DTO.TrendMasterSupervisorInfoDTO;
-import cn.arp.trend.data.model.request.AllSupervisorRequest;
-import cn.arp.trend.data.model.request.DoctoralSupervisorRequest;
-import cn.arp.trend.data.model.request.MasterSupervisorRequest;
-import cn.arp.trend.data.model.request.MentorDetailRequest;
-import cn.arp.trend.data.model.request.TrendAllRequest;
-import cn.arp.trend.data.model.request.TrendDoctoralSupervisorRequest;
-import cn.arp.trend.data.model.request.TrendMasterSupervisorRequest;
-import cn.arp.trend.data.model.response.AllSupervisorResponse;
-import cn.arp.trend.data.model.response.DoctoralSupervisorResponse;
-import cn.arp.trend.data.model.response.MasterSupervisorResponse;
-import cn.arp.trend.data.model.response.MentorDetailResponse;
-import cn.arp.trend.data.model.response.TrendAllResponse;
-import cn.arp.trend.data.model.response.TrendDoctoralSupervisorResponse;
-import cn.arp.trend.data.model.response.TrendMasterSupervisorResponse;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.DetailMentorService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
 import cn.arp.trend.web.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -217,5 +210,23 @@ public class DetailMentorController extends BaseController {
                 request.getAffiliationId(), request.getFieldName());
         MentorDetailInfoDTO mentorDetailInfo = detailMentorService.detailQuery(query);
         return new MentorDetailResponse(mentorDetailInfo.getData());
+    }
+
+    /**
+     * 中间的详情列表
+     * @param request
+     * @param bindingResult
+     * @return
+     * @throws RestError
+     */
+    @ApiOperation(value= "获取雷达图所需的各个维度的数据", notes= "获取雷达图所需的各个维度的数据")
+    @ServiceExecuter(description = "获取雷达图所需的各个维度的数据")
+    @RequestMapping(value = "/radar", method = RequestMethod.POST)
+    @Audit(desc="获取雷达图所需的各个维度的数据", value="Education.Radar")
+    public List<MentorRadarResponse> radarQuery(
+            @RequestBody @Validated MentorRadarDetailRequest request, BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        List<MentorRadarResponse> mentorRadarResponseList = detailMentorService.radarDetail(request.getAffiliationId());
+        return mentorRadarResponseList;
     }
 }

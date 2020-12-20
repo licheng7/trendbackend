@@ -4,6 +4,9 @@ import cn.arp.trend.data.model.DO.ProjectQueryDO;
 import cn.arp.trend.data.model.DTO.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -34,4 +37,6 @@ public interface CompareService {
     CompareAwardInfoDTO awardQuery();
 
     ProjectInfoDTO projectQuery(ProjectQueryDO projectQuery) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;
+
+    List<HashMap<String, Object>> queryResearchFunds(String startYear, String endYear);
 }
