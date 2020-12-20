@@ -2,6 +2,10 @@ package cn.arp.trend.service.biz;
 
 import cn.arp.trend.data.model.DO.*;
 import cn.arp.trend.data.model.DTO.*;
+import cn.arp.trend.data.model.response.MentorRadarResponse;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IDEA
@@ -24,4 +28,6 @@ public interface DetailMentorService {
     TrendAllInfoDTO trendAllQuery(TrendAllQueryDO query);
 
     MentorDetailInfoDTO detailQuery(MentorDetailQueryDO query);
+
+    List<MentorRadarResponse> radarDetail(List<String> affiliationIds);
 }
