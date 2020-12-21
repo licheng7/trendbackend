@@ -435,10 +435,11 @@ public class DetailMentorServiceImpl extends AbstructServiceHelper implements De
     public List<MentorRadarResponse> radarDetail(List<String> affiliationIds) {
 
         String arrayStr = "";
-        if(affiliationIds == null || affiliationIds.size() == 0) {
+        if(affiliationIds == null) {
             arrayStr = "IS NOT NULL";
-        } else
-        {
+        } else if(affiliationIds.size() == 0) {
+            return new ArrayList<MentorRadarResponse>();
+        } else {
             List<String> fieldIdsQuotes = new ArrayList<String>();
             for(int i=0;i<affiliationIds.size();i++)
             {
