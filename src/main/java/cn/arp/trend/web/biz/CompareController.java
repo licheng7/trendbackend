@@ -220,7 +220,7 @@ public class CompareController extends BaseController {
     @ServiceExecuter(description = "历年经费支出和占比")
     @RequestMapping(value = "/researchfunds", method = RequestMethod.POST)
     @Audit(desc="获取历年 R&D 经费支出、基础研究经费支出、R&D 经费支出占国内生产总值\n" +
-            "比重", value="")
+            "比重", value="Comparison.Researchfunds")
     public List<HashMap<String, Object>> researchFunds() throws RestError {
         Calendar cal = Calendar.getInstance();
         Integer endYear = cal.get(Calendar.YEAR) - 0;

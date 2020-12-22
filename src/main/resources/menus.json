@@ -4,7 +4,7 @@
 },
 {
   "url":"#/es",
-  "datasets":["Education.MentorDistribution", "Education.DoctorMentorDistribution", "Education.MasterMentorDistribution", "Education.MentorTrend", "Education.DoctorMentorTrend", "Education.MasterMentorTrend", "Education.Detail"]
+  "datasets":["Education.MentorDistribution", "Education.DoctorMentorDistribution", "Education.MasterMentorDistribution", "Education.MentorTrend", "Education.DoctorMentorTrend", "Education.MasterMentorTrend", "Education.Detail", "Education.Radar"]
 },
 {
   "url":"#/rd/influence/bear",
@@ -80,11 +80,11 @@
 },
 {
   "url":"#/rp/funding",
-  "datasets":["Comparison.Finance"]
+  "datasets":["Comparison.Finance", "Comparison.Researchfunds"]
 },
 {
   "url":"#/rp/totalMoney",
-  "datasets":["Comparison.Funds"]
+  "datasets":["Comparison.Funds", "Comparison.Researchfunds"]
 },
 {
   "url":"#/rp",
