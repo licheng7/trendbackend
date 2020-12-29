@@ -281,8 +281,7 @@
       v_ref_org_type AS b
     <where>
       a.jgbh = b.jgbh
-      AND <![CDATA[nf >= #{query.startYear}]]>
-      AND <![CDATA[nf <= #{query.endYear}]]>
+      AND nf = #{query.endYear}
       <choose>
         <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
           AND a.JGBH in (
@@ -307,8 +306,7 @@
       v_ref_org_type AS b
     <where>
       a.jgbh = b.jgbh
-      AND <![CDATA[nf >= #{query.startYear}]]>
-      AND <![CDATA[nf <= #{query.endYear}]]>
+      AND nf = #{query.endYear}
       AND a.JGBH is not null
     </where>
   </select>
@@ -366,8 +364,7 @@
       v_ref_org_type AS b
     <where>
       a.jgbh = b.jgbh
-      AND <![CDATA[nf >= #{query.startYear}]]>
-      AND <![CDATA[nf <= #{query.endYear}]]>
+      AND nf = #{query.endYear}
       <choose>
         <when test="query.unitIdAry != null and query.unitIdAry.size() > 0">
           AND a.JGBH in (
@@ -392,8 +389,7 @@
       v_ref_org_type AS b
     <where>
       a.jgbh = b.jgbh
-      AND <![CDATA[nf >= #{query.startYear}]]>
-      AND <![CDATA[nf <= #{query.endYear}]]>
+      AND nf = #{query.endYear}
       AND a.JGBH is not null
     </where>
   </select>
