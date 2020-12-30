@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.request.contrast.ContrastBaseRequest;
 import cn.arp.trend.data.model.response.contrast.ContrastEducationByFieldResponse;
 import cn.arp.trend.service.biz.ContrastEducationService;
@@ -26,6 +27,7 @@ import java.util.*;
 @Api(value="contrastEducation",tags={"对应contrast/Education.js"})
 @RestController
 @RequestMapping(value = "/contrast/education")
+@RequirePermission(dataset=true)
 public class ContrastEducationController extends BaseController {
 
     @Resource

@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.DO.AreaPatentQueryDO;
 import cn.arp.trend.data.model.DTO.AreaPatentInfoDTO;
 import cn.arp.trend.data.model.request.AreaPatentRequest;
@@ -29,6 +30,7 @@ import javax.annotation.Resource;
 @Api(value="patent",tags={"对应领域部分patent.js"})
 @RestController
 @RequestMapping(value = "/area/patent")
+@RequirePermission(dataset=true)
 public class AreaPatentController extends BaseController {
 
     @Resource

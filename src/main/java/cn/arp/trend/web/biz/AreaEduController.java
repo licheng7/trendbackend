@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.DO.AreaEduQueryDO;
 import cn.arp.trend.data.model.DTO.AreaEduDInfoDTO;
 import cn.arp.trend.data.model.DTO.AreaEduMInfoDTO;
@@ -33,6 +34,7 @@ import javax.annotation.Resource;
 @Api(value="areaEdu",tags={"对应领域部分edu.js"})
 @RestController
 @RequestMapping(value = "/area/edu")
+@RequirePermission(dataset=true)
 public class AreaEduController extends BaseController {
 
     @Resource

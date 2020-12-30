@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.DO.AreaPaperQueryDO;
 import cn.arp.trend.data.model.DTO.AreaPaperSciInfoDTO;
 import cn.arp.trend.data.model.request.AreaPaperRequest;
@@ -29,6 +30,7 @@ import javax.annotation.Resource;
 @Api(value="paper",tags={"对应领域部分paper.js"})
 @RestController
 @RequestMapping(value = "/area/paper")
+@RequirePermission(dataset=true)
 public class AreaPaperController extends BaseController {
 
     @Resource

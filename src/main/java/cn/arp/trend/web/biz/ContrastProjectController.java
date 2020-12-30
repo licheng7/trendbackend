@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.request.contrast.ContrastBaseRequest;
 import cn.arp.trend.data.model.response.contrast.ContrastProjectByFieldResponse;
 import cn.arp.trend.service.biz.ContrastProjectService;
@@ -28,6 +29,7 @@ import java.util.List;
 @Api(value="contrastProject",tags={"对应contrast/Project.js"})
 @RestController
 @RequestMapping(value = "/contrast/project")
+@RequirePermission(dataset=true)
 public class ContrastProjectController extends BaseController {
 
     @Resource

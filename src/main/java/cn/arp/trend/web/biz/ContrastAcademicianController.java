@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.DO.DACompareQueryDO;
 import cn.arp.trend.data.model.DTO.ForeignInfoDTO;
 import cn.arp.trend.data.model.request.CompareRequest;
@@ -34,6 +35,7 @@ import java.util.*;
 @Api(value="contrastAcademician",tags={"对应contrast/Academician.js"})
 @RestController
 @RequestMapping(value = "/contrast/academician")
+@RequirePermission(dataset=true)
 public class ContrastAcademicianController extends BaseController {
 
     @Resource

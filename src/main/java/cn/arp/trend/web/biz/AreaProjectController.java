@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.DO.AreaProjectNsfcDistQueryDO;
 import cn.arp.trend.data.model.DO.AreaProjectNsfcTrendQueryDO;
 import cn.arp.trend.data.model.DO.AreaProjectQueryDO;
@@ -39,6 +40,7 @@ import javax.annotation.Resource;
 @Api(value="project",tags={"对应领域部分project.js"})
 @RestController
 @RequestMapping(value = "/area/project")
+@RequirePermission(dataset=true)
 public class AreaProjectController extends BaseController {
 
     @Resource

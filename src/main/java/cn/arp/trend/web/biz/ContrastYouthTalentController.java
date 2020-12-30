@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.request.contrast.ContrastBaseRequest;
 import cn.arp.trend.service.biz.ContrastYouthTalentService;
 import cn.arp.trend.tools.annotation.ServiceExecuter;
@@ -25,6 +26,7 @@ import java.util.*;
 @Api(value="contrastYouthTalent",tags={"对应contrast/YouthTalent.js"})
 @RestController
 @RequestMapping(value = "/contrast/youthtalent")
+@RequirePermission(dataset=true)
 public class ContrastYouthTalentController extends BaseController {
 
     @Resource

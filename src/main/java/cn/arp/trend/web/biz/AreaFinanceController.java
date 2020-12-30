@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.DO.AreaFinanceQueryDO;
 import cn.arp.trend.data.model.DTO.AreaFinanceInfoDTO;
 import cn.arp.trend.data.model.DTO.AreaFinanceOverviewInfoDTO;
@@ -36,6 +37,7 @@ import java.util.Map;
 @Api(value="financeEdu",tags={"对应领域部分finance.js"})
 @RestController
 @RequestMapping(value = "/area/finance")
+@RequirePermission(dataset=true)
 public class AreaFinanceController extends BaseController {
 
     @Resource
@@ -52,7 +54,7 @@ public class AreaFinanceController extends BaseController {
     @ApiOperation(value= "finance.js对应的/overview", notes= "finance.js对应的/overview")
     @ServiceExecuter(description = "finance.js对应的/overview")
     @RequestMapping(value = "/overview", method = RequestMethod.POST)
-    @Audit(desc="财务概览（支出、收入、存款月、资产", value="Area.FinanceOverview")
+    @Audit(desc="财务概览（支出、收入、存款月、资产）", value="Area.FinanceOverview")
     public AreaFinanceOverviewResponse overviewQuery(
             @RequestBody @Validated AreaFinanceRequest request, BindingResult bindingResult) throws RestError {
         validData(bindingResult);

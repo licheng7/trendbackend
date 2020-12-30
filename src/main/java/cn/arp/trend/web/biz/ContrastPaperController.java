@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.request.contrast.ContrastBaseRequest;
 import cn.arp.trend.data.model.response.contrast.ContrastPaperByFieldResponse;
 import cn.arp.trend.service.biz.ContrastPaperService;
@@ -25,6 +26,7 @@ import java.util.*;
 @Api(value="contrastPaper",tags={"对应contrast/Paper.js"})
 @RestController
 @RequestMapping(value = "/contrast/paper")
+@RequirePermission(dataset=true)
 public class ContrastPaperController extends BaseController {
 
     @Resource

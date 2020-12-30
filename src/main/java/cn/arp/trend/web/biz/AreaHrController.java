@@ -1,6 +1,7 @@
 package cn.arp.trend.web.biz;
 
 import cn.arp.trend.auth.Audit;
+import cn.arp.trend.auth.RequirePermission;
 import cn.arp.trend.data.model.DO.AreaHrQueryDO;
 import cn.arp.trend.data.model.DTO.*;
 import cn.arp.trend.data.model.request.AreaHrRequest;
@@ -29,6 +30,7 @@ import javax.annotation.Resource;
 @Api(value="hr",tags={"对应领域部分hr.js"})
 @RestController
 @RequestMapping(value = "/area/hr")
+@RequirePermission(dataset=true)
 public class AreaHrController extends BaseController {
 
     @Resource
