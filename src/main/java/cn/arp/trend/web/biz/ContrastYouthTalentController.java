@@ -73,12 +73,12 @@ public class ContrastYouthTalentController extends BaseController {
             yearList.add((long) j);
         }
 
+        HashMap<String, Object> result = new HashMap<String, Object>();
+
         if(resList1 == null || resList2 == null || resList3 == null || resList4 == null)
         {
-            return null;
+            return result;
         }
-
-        HashMap<String, Object> result = new HashMap<String, Object>();
 
         // project
         result.put("project", resList1);
