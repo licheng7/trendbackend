@@ -127,7 +127,12 @@ public class ContrastYouthTalentController extends BaseController {
             ArrayList<Double> arrayList = new ArrayList<Double>();
             for(int j = startYear ; j <= endYear ; j++)
             {
-                double ration = (0.0+helpStructAgeAry.get(fieldName)[j - startYear][0])/(0.0+helpStructAgeAry.get(fieldName)[j - startYear][1]);
+                double ration = 0.0d;
+                if(helpStructAgeAry.get(fieldName)[j - startYear][1] == 0.0d) {
+                    ration = 0.0d;
+                } else{
+                    ration = (0.0+helpStructAgeAry.get(fieldName)[j - startYear][0])/(0.0+helpStructAgeAry.get(fieldName)[j - startYear][1]);
+                }
                 BigDecimal b = new BigDecimal(ration);
                 double f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 arrayList.add(f1);
@@ -268,12 +273,12 @@ public class ContrastYouthTalentController extends BaseController {
             yearList.add((long) j);
         }
 
+        HashMap<String, Object> result = new HashMap<String, Object>();
+
         if(resList1 == null || resList2 == null || resList3 == null || resList4 == null)
         {
-            return null;
+            return result;
         }
-
-        HashMap<String, Object> result = new HashMap<String, Object>();
 
         // project
         result.put("project", resList1);
@@ -322,7 +327,12 @@ public class ContrastYouthTalentController extends BaseController {
             ArrayList<Double> arrayList = new ArrayList<Double>();
             for(int j = startYear ; j <= endYear ; j++)
             {
-                double ration = (0.0+helpStructAgeAry.get(fieldName)[j - startYear][0])/(0.0+helpStructAgeAry.get(fieldName)[j - startYear][1]);
+                double ration = 0.0d;
+                if(helpStructAgeAry.get(fieldName)[j - startYear][1] == 0.0d) {
+                    ration = 0.0d;
+                } else {
+                    ration = (0.0+helpStructAgeAry.get(fieldName)[j - startYear][0])/(0.0+helpStructAgeAry.get(fieldName)[j - startYear][1]);
+                }
                 BigDecimal b = new BigDecimal(ration);
                 double f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 arrayList.add(f1);

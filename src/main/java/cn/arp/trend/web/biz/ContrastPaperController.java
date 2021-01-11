@@ -39,7 +39,7 @@ public class ContrastPaperController extends BaseController {
     public ContrastPaperByFieldResponse contrastByField(@RequestBody ContrastBaseRequest request) {
 
         Calendar cal = Calendar.getInstance();
-        Integer endYear = cal.get(Calendar.YEAR) - -1;
+        Integer endYear = cal.get(Calendar.YEAR) - 1;
         Integer startYear = endYear - 9;
         // Integer startNf = 1980;
 
