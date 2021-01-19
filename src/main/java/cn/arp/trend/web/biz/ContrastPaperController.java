@@ -26,7 +26,7 @@ import java.util.*;
 @Api(value="contrastPaper",tags={"对应contrast/Paper.js"})
 @RestController
 @RequestMapping(value = "/contrast/paper")
-//@RequirePermission(dataset=true)
+@RequirePermission(dataset=true)
 public class ContrastPaperController extends BaseController {
 
     @Resource

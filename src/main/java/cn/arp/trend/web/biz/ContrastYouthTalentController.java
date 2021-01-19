@@ -26,7 +26,7 @@ import java.util.*;
 @Api(value="contrastYouthTalent",tags={"对应contrast/YouthTalent.js"})
 @RestController
 @RequestMapping(value = "/contrast/youthtalent")
-//@RequirePermission(dataset=true)
+@RequirePermission(dataset=true)
 public class ContrastYouthTalentController extends BaseController {
 
     @Resource
