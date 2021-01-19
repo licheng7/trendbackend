@@ -5,7 +5,7 @@
   <select id="contrastByField" resultType="java.util.HashMap">
     SELECT ANY_VALUE(research_field) AS research_field, ANY_VALUE(nf) AS nf, SUM(lws) AS lws
     FROM (
-    SELECT a.jgbh, a.jgmc, nf, lws, field_id, research_field
+    SELECT b.jgbh, b.jgmc, nf, lws, field_id, research_field
     FROM v_stat_cas_paper AS a
     INNER JOIN
     (
@@ -27,7 +27,7 @@
   <select id="contrastByUnit" resultType="java.util.HashMap">
     SELECT jgbh, jgmc, nf, lws
     FROM (
-    SELECT a.jgbh, a.jgmc, nf, lws
+    SELECT b.jgbh, b.jgmc, nf, lws
     FROM v_stat_cas_paper AS a
     INNER JOIN
     (
