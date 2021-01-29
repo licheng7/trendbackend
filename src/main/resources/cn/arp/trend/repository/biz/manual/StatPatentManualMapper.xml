@@ -30,7 +30,7 @@
       jgmc asc, nf asc
   </select>
 
-  <select id="queryZKYPCTPatent1" resultType="java.util.HashMap"
+  <!--<select id="queryZKYPCTPatent1" resultType="java.util.HashMap"
           parameterType="cn.arp.trend.data.model.DO.ZKYPCTPatentQueryDO">
     select
       *
@@ -66,5 +66,42 @@
     order by
       jgmc asc,
       nf asc
+  </select>-->
+  <select id="queryZKYPCTPatent1" resultType="java.util.HashMap"
+          parameterType="cn.arp.trend.data.model.DO.ZKYPCTPatentQueryDO">
+    select
+      a.id, b.jgbh, b.jgmc, nf, zllx, research_field AS ssly, lj, xz, sx, yx
+    FROM v_stat_patent AS a, v_ref_org_type AS b
+    <where>
+      a.jgbh = b.jgbh
+      AND <![CDATA[nf >= #{query.startYear}]]>
+      AND <![CDATA[nf <= #{query.endYear}]]>
+      and zllx="PCTPatent"
+      <choose>
+        <when test="query.fields != null and query.fields.size() > 0">
+          AND a.ssly in (
+          <foreach collection="query.fields" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+        <otherwise>
+          AND a.jgmc IS NOT NULL
+          and a.ssly!="" and a.ssly is not null and a.ssly!="NA"
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="query.affiliation != null and query.affiliation.size() > 0">
+          AND b.jgmc in (
+          <foreach collection="query.affiliation" item="item" index="index" separator=",">
+            #{item}
+          </foreach>
+          )
+        </when>
+      </choose>
+    </where>
+    order by
+      b.jgmc asc,
+      a.nf asc
   </select>
 </mapper>

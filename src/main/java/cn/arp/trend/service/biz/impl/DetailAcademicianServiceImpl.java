@@ -97,30 +97,32 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
         countTimeline.add(dangxuan);
         countTimeline.add(zhanbi);
 
-        originalData.stream().forEach(map -> {
-            int dxnf = map.get("dxnf") == null ? 0 : Integer.valueOf((String) map.get("dxnf"));
-            int csnf = map.get("csnf") == null ? 0 : Integer.valueOf((String) map.get("csnf"));
-            int age = map.get("age") == null ? 0 : ((Number) map.get("age")).intValue();
-            String category = map.get("category") == null ? "" : (String) map.get("category");
+        if(originalData != null && !originalData.isEmpty()) {
+            originalData.stream().forEach(map -> {
+                int dxnf = map.get("dxnf") == null ? 0 : Integer.valueOf((String) map.get("dxnf"));
+                int csnf = map.get("csnf") == null ? 0 : Integer.valueOf((String) map.get("csnf"));
+                int age = map.get("age") == null ? 0 : ((Number) map.get("age")).intValue();
+                String category = map.get("category") == null ? "" : (String) map.get("category");
 
-            if(age - stateAge >= 0) {
-                ageTime.set(age - stateAge, ageTime.get(age - stateAge) + 1);
-            }
-            if(dxnf - csnf - stateAge >= 0) {
-                electedAgeTime.set((dxnf - csnf - stateAge),
-                        electedAgeTime.get(dxnf - csnf - stateAge) + 1);
-            }
-            int countShow = yearAry.indexOf(dxnf);
-            if(countShow != -1) {
-                countTimeline.get(0).get("当选").set(countShow,
-                        countTimeline.get(0).get("当选").get(countShow) +1);
-            }
-            if(category.equals("中科院院士")) {
-                ZKYAry.add(map);
-            } else {
-                GCYAry.add(map);
-            }
-        });
+                if (age - stateAge >= 0) {
+                    ageTime.set(age - stateAge, ageTime.get(age - stateAge) + 1);
+                }
+                if (dxnf - csnf - stateAge >= 0) {
+                    electedAgeTime.set((dxnf - csnf - stateAge),
+                            electedAgeTime.get(dxnf - csnf - stateAge) + 1);
+                }
+                int countShow = yearAry.indexOf(dxnf);
+                if (countShow != -1) {
+                    countTimeline.get(0).get("当选").set(countShow,
+                            countTimeline.get(0).get("当选").get(countShow) + 1);
+                }
+                if (category.equals("中科院院士")) {
+                    ZKYAry.add(map);
+                } else {
+                    GCYAry.add(map);
+                }
+            });
+        }
 
         Map<String, List<Map<String, Object>>> originalDataGroupByInstitution =
                 originalData.stream().collect(Collectors.groupingBy(map -> (String) map.get("institution")));
