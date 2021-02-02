@@ -65,6 +65,7 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
             originalData = allData;
         }
 
+        final int maxAge = 200;
         final int stateAge = 35;
 
         List<String> unitAry = originalData.stream().map(map -> (String) map.get
@@ -74,8 +75,8 @@ public class DetailAcademicianServiceImpl implements DetailAcademicianService {
 
         List<String> distinctInstitutionList = unitAry.stream().distinct().collect(Collectors.toList());
 
-        List<Integer> ageTime = this.fillArray(105-stateAge, Integer.class, 0);
-        List<Integer> electedAgeTime = this.fillArray(105-stateAge, Integer.class, 0);
+        List<Integer> ageTime = this.fillArray(maxAge-stateAge, Integer.class, 0);
+        List<Integer> electedAgeTime = this.fillArray(maxAge-stateAge, Integer.class, 0);
         List<Integer> allYearAry = this.fillArray(10, Integer.class, 0);
 
         List<Integer> yearAry = Lists.newArrayList();
