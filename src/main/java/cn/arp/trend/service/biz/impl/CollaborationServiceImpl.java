@@ -37,9 +37,9 @@ public class CollaborationServiceImpl implements CollaborationService {
     private IcComeManualMapper icComeManualMapper;
 
     @Override
-    public RankInfoDTO rankQuery() {
-        List<Rank> icGoRankList = icGoManualMapper.queryRank();
-        List<Rank> icComeRankList = icComeManualMapper.queryRank();
+    public RankInfoDTO rankQuery(String startYear, String endYear) {
+        List<Rank> icGoRankList = icGoManualMapper.queryRank(startYear, endYear);
+        List<Rank> icComeRankList = icComeManualMapper.queryRank(startYear, endYear);
 
         List<String> goCountryList = icGoRankList.stream().map(obj -> obj.getCountry()).distinct().collect(Collectors.toList());
         int goCountryPeopleNum = icGoRankList.size();
@@ -68,11 +68,11 @@ public class CollaborationServiceImpl implements CollaborationService {
     }
 
     @Override
-    public Rank2InfoDTO rankQuery2() {
-        List<Unit> goUnitList = icGoManualMapper.queryGoUnit();
-        List<Country> goCountryList = icGoManualMapper.queryGoCountry();
-        List<Unit> comeUnitList = icComeManualMapper.queryComeUnit();
-        List<Country> comeCountryList = icComeManualMapper.queryComeCountry();
+    public Rank2InfoDTO rankQuery2(String startYear, String endYear) {
+        List<Unit> goUnitList = icGoManualMapper.queryGoUnit(startYear, endYear);
+        List<Country> goCountryList = icGoManualMapper.queryGoCountry(startYear, endYear);
+        List<Unit> comeUnitList = icComeManualMapper.queryComeUnit(startYear, endYear);
+        List<Country> comeCountryList = icComeManualMapper.queryComeCountry(startYear, endYear);
 
         List<GotoUnitDTO> gotoUnitList = Lists.newArrayList();
         for(Unit unit : goUnitList) {
@@ -181,7 +181,7 @@ public class CollaborationServiceImpl implements CollaborationService {
     }
 
     @Override
-    public List<List<Map<String, Object>>> countryNumQuery() {
+    public List<List<Map<String, Object>>> countryNumQuery(String startYear, String endYear) {
 
         List<String> distinctCountryList = icComeManualMapper.queryDistinctCountry();
 
@@ -193,8 +193,8 @@ public class CollaborationServiceImpl implements CollaborationService {
 
         List<String> ymList = Lists.newArrayList();
         Map<String, Map<String, Integer>> result = Maps.newHashMap();
-        LocalDate startTime = LocalDate.parse("2012-01-01");
-        LocalDate endTime = LocalDate.parse("2016-12-31");
+        LocalDate startTime = LocalDate.parse(startYear+"-01-01");
+        LocalDate endTime = LocalDate.parse(endYear+"-12-31");
         while (startTime.isBefore(endTime)) {
             String time = startTime.format(DateTimeFormatter.ofPattern("yyyy-MM"));
             Map<String, Integer> countryMap = Maps.newHashMap();

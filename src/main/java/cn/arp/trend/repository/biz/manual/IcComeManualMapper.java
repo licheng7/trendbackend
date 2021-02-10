@@ -42,19 +42,19 @@ public interface IcComeManualMapper {
      *
      * @return
      */
-    List<Rank> queryRank();
+    List<Rank> queryRank(@Param("startYear") String startYear, @Param("endYear") String endYear);
 
     /**
      *
      * @return
      */
-    List<Unit> queryComeUnit();
+    List<Unit> queryComeUnit(@Param("startYear") String startYear, @Param("endYear") String endYear);
 
     /**
      *
      * @return
      */
-    List<Country> queryComeCountry();
+    List<Country> queryComeCountry(@Param("startYear") String startYear, @Param("endYear") String endYear);
 
     /**
      *

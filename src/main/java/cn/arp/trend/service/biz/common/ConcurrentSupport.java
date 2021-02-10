@@ -245,7 +245,7 @@ public class ConcurrentSupport extends AbstructServiceHelper {
             try {
                 latch.await(15, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
-                throw new RuntimeException("执行analyzeServiceImpl.query()异常", e);
+                throw new RuntimeException("执行ConcurrentSupport.await()异常", e);
             }
         }
     }

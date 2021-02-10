@@ -67,9 +67,17 @@ public class ServiceAspect {
             sb.append(s + "\\n");
         }
         sb.append("\\n\\t");
-        sb.append("------------------------------------堆栈信息------------------------------------");
+        sb.append("------------------------------------堆栈信息getMessage()------------------------------------");
         sb.append("\\n\\t");
         sb.append(t.getMessage());
+        sb.append("\\n\\t");
+        sb.append("------------------------------------堆栈信息getCause().getStackTrace()------------------------------------");
+        sb.append("\\n\\t");
+        sb.append(t.getCause().getStackTrace());
+        sb.append("\\n\\t");
+        sb.append("------------------------------------堆栈信息getCause().getMessage()------------------------------------");
+        sb.append("\\n\\t");
+        sb.append(t.getCause().getMessage());
         return sb.toString();
     }
 

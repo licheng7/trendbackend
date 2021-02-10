@@ -15,13 +15,13 @@ import java.util.Map;
  **/
 public interface CollaborationService {
 
-    RankInfoDTO rankQuery();
+    RankInfoDTO rankQuery(String startYear, String endYear);
 
-    Rank2InfoDTO rankQuery2();
+    Rank2InfoDTO rankQuery2(String startYear, String endYear);
 
     LinksInfoDTO linksQuery(String startYear, String endYear);
 
-    List<List<Map<String, Object>>> countryNumQuery();
+    List<List<Map<String, Object>>> countryNumQuery(String startYear, String endYear);
 
     GoAnalyseInfoDTO goAnalyseQuery(GoAnalyseQueryDO goAnalyseQuery);
 

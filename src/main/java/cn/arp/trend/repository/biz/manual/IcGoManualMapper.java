@@ -42,19 +42,19 @@ public interface IcGoManualMapper {
      *
      * @return
      */
-    List<Rank> queryRank();
+    List<Rank> queryRank(@Param("startYear") String startYear, @Param("endYear") String endYear);
 
     /**
      *
      * @return
      */
-    List<Unit> queryGoUnit();
+    List<Unit> queryGoUnit(@Param("startYear") String startYear, @Param("endYear") String endYear);
 
     /**
      * 
      * @return
      */
-    List<Country> queryGoCountry();
+    List<Country> queryGoCountry(@Param("startYear") String startYear, @Param("endYear") String endYear);
 
     /**
      *

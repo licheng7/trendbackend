@@ -9,6 +9,7 @@ import cn.arp.trend.data.model.converter.*;
 import cn.arp.trend.data.model.request.ComeAnalyseRequest;
 import cn.arp.trend.data.model.request.GoAnalyseRequest;
 import cn.arp.trend.data.model.request.LinksRequest;
+import cn.arp.trend.data.model.request.RankRequest;
 import cn.arp.trend.data.model.response.*;
 import cn.arp.trend.error.RestError;
 import cn.arp.trend.service.biz.CollaborationService;
@@ -49,8 +50,11 @@ public class CollaborationController extends BaseController {
     @ServiceExecuter(description = "出来访统计信息(对应collaboration.js的/getRank)")
     @RequestMapping(value = "/getRank", method = RequestMethod.POST)
     @Audit(desc="出来访人次统计", value="Comparison.Collaboration.Statistics")
-    public RankInfoResponse rankQuery() {
-        RankInfoDTO rankInfo = collaborationService.rankQuery();
+    public RankInfoResponse rankQuery(@RequestBody @Validated RankRequest request,
+            BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        RankInfoDTO rankInfo = collaborationService.rankQuery(
+                request.getStartYear(), request.getEndYear());
         RankInfoResponse rankInfoResponse = RankInfoConverter.INSTANCE.domain2dto(rankInfo);
         return rankInfoResponse;
     }
@@ -59,8 +63,11 @@ public class CollaborationController extends BaseController {
     @ServiceExecuter(description = "单位排名、国家排名(对应collaboration.js的/getRank2)")
     @RequestMapping(value = "/getRank2", method = RequestMethod.POST)
     @Audit(desc="出来访单位排名、国家排名", value="Comparison.Collaboration.InstitutionCountryRank")
-    public Rank2InfoResponse rankQuery2() {
-        Rank2InfoDTO rank2Info = collaborationService.rankQuery2();
+    public Rank2InfoResponse rankQuery2(@RequestBody @Validated RankRequest request,
+            BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        Rank2InfoDTO rank2Info = collaborationService.rankQuery2(
+                request.getStartYear(), request.getEndYear());
         return new Rank2InfoResponse(rank2Info.getGotoUnitList(), rank2Info.getGotoCountryList());
     }
 
@@ -87,8 +94,12 @@ public class CollaborationController extends BaseController {
     @ServiceExecuter(description = "国家列表(对应collaboration.js的/getCountryNum)")
     @RequestMapping(value = "/getCountryNum", method = RequestMethod.POST)
     @Audit(desc="各国出来访人次统计", value="Comparison.Collaboration.CountryNumber")
-    public CountryNumResponse countryNumQuery() {
-        List<List<Map<String, Object>>> result = collaborationService.countryNumQuery();
+    public CountryNumResponse countryNumQuery(@RequestBody @Validated RankRequest request,
+          BindingResult bindingResult) throws RestError {
+        validData(bindingResult);
+        List<List<Map<String, Object>>> result = collaborationService.countryNumQuery(
+                request.getStartYear(), request.getEndYear()
+        );
         return new CountryNumResponse(result);
     }
 

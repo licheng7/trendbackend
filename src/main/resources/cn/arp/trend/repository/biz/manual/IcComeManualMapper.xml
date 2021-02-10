@@ -100,7 +100,7 @@
     </where>
   </select>
 
-  <select id="queryRank" resultMap="RankMap">
+  <select id="queryRank" parameterType="java.lang.String" resultMap="RankMap">
     select
       b.jgmc AS jgmc, country, ydyl, number_of_team, visit_date
     from
@@ -108,16 +108,23 @@
     <where>
       a.jgbh=b.jgbh
       and a.country is not NULL
+      AND <![CDATA[LEFT(visit_date,4) >= #{startYear}]]> AND
+      <![CDATA[LEFT(visit_date,4) <= #{endYear}]]>
     </where>
     ORDER BY
       visit_date
   </select>
 
-  <select id="queryComeUnit" resultMap="UnitMap">
+  <select id="queryComeUnit" parameterType="java.lang.String" resultMap="UnitMap">
     select
       B.jgmc AS jgmc, COUNT(*) AS num
     from
-      v_ic_come AS a, v_ref_org_type AS B
+      (
+        SELECT jgbh
+        FROM v_ic_come
+        WHERE <![CDATA[LEFT(visit_date,4) >= #{startYear}]]> AND
+        <![CDATA[LEFT(visit_date,4) <= #{endYear}]]>
+      ) AS a, v_ref_org_type AS B
     <where>
       a.jgbh = B.jgbh
     </where>
@@ -127,11 +134,17 @@
       num DESC
   </select>
 
-  <select id="queryComeCountry" resultMap="CountryMap">
+  <select id="queryComeCountry" parameterType="java.lang.String" resultMap="CountryMap">
     select
       a.country AS country, COUNT(*) AS num
     from
-      v_ic_come AS a, v_ref_org_type AS B
+      (
+        SELECT jgbh, country
+        FROM v_ic_come
+        WHERE <![CDATA[LEFT(visit_date,4) >= #{startYear}]]> AND
+        <![CDATA[LEFT(visit_date,4) <= #{endYear}]]>
+        AND country IS NOT NULL
+      ) AS a, v_ref_org_type AS B
     <where>
       a.jgbh =B.jgbh AND a.country is not NULL
     </where>
