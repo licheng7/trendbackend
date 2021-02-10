@@ -79,7 +79,7 @@
       and zllx="PCTPatent"
       <choose>
         <when test="query.fields != null and query.fields.size() > 0">
-          AND a.ssly in (
+          AND b.research_field in (
           <foreach collection="query.fields" item="item" index="index" separator=",">
             #{item}
           </foreach>
@@ -87,7 +87,7 @@
         </when>
         <otherwise>
           AND a.jgmc IS NOT NULL
-          and a.ssly!="" and a.ssly is not null and a.ssly!="NA"
+          and b.research_field!="" and b.research_field is not null and b.research_field!="NA"
         </otherwise>
       </choose>
       <choose>
