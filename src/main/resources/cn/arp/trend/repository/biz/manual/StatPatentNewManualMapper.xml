@@ -331,7 +331,7 @@
       v_stat_patent AS a, v_ref_org_type AS b
     <where>
       a.jgmc=b.jgmc AND zllx="PCTPatent"
-      <include refid="sql_affiliation"/>
+      <include refid="sql_affiliation_b"/>
       AND <![CDATA[nf >= #{query.startYear}]]>
       AND <![CDATA[nf <= #{query.endYear}]]>
     </where>
