@@ -697,7 +697,7 @@ public class CompareServiceImpl extends AbstructServiceHelper implements Compare
     }
 
     @Override
-    public ProjectInfoDTO projectQuery(ProjectQueryDO projectQuery)
+    public ProjectInfoDTO projectQuery(ProjectQuContrastProjectControllereryDO projectQuery)
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         ProjectInfoDTO projectInfo = new ProjectInfoDTO();
